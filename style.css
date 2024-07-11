@@ -1,4 +1,4 @@
-			:root { color-scheme: dark; }
+			:root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
 		a.buttonG { 
 			:root { color-scheme: dark; }padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
 			color: #00FF00; background-color: #000000; text-decoration: none; 
@@ -19,7 +19,7 @@
 		a.buttonW { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
 			color: #FFFFFF; background-color: #333333; text-decoration: none; 
 			}
-			
+
 		.bodyc { background-color:#000000;color: #FFFFFF; 
 		}
 
