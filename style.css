@@ -1,6 +1,6 @@
 			:root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
-		a.buttonG { 
-			:root { color-scheme: dark; }padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
+
+		a.buttonG { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
 			color: #00FF00; background-color: #000000; text-decoration: none; 
 			}
 			
@@ -23,7 +23,7 @@
 		/* Base styles */
 		body { font-size: 35px; background-color:#000000;color: #FFFFFF; }
 		/* Larger screens */
-		@media (min-width: 1200px) { body { font-size: 45px; } } 
+		@media (min-width: 1200px) { body { font-size: 45px; background-color:#000000;color: #FFFFFF; } } 
 		/* Smaller tablets and mobiles */
-		@media (max-width: 900px) { body { font-size: 30px; } }
+		@media (max-width: 900px) { body { font-size: 30px; background-color:#000000;color: #FFFFFF; } }
 		input.url {font-size: 30px;}
