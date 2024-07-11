@@ -1,23 +1,23 @@
 	:root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
 
 	a.buttonG { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #00FF00; background-color: #222222; text-decoration: none; 
+		color: #00FF00; background-color: #222222; text-decoration: none; margin-left:50px;
 		}
 		
 	a.buttonY { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #FFFF00; background-color: #333333; text-decoration: none; 
+		color: #FFFF00; background-color: #333333; text-decoration: none; margin-left:50px;
 		}
 		
 	a.buttonGY { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #AAFF00; background-color: #333333; text-decoration: none; 
+		color: #AAFF00; background-color: #333333; text-decoration: none; margin-left:50px;
 		}
 					
 	a.buttonR { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #FF0000; background-color: #333333; text-decoration: none; 
+		color: #FF0000; background-color: #333333; text-decoration: none; margin-left:50px;
 		}
 		
 	a.buttonW { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #FFFFFF; background-color: #333333; text-decoration: none; 
+		color: #FFFFFF; background-color: #333333; text-decoration: none; margin-left:50px;
 		}
 
 	/* Base styles */
