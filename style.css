@@ -1,26 +1,13 @@
 	:root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
-
-	a.buttonG {
-		color: #00FF00;
-		}
-		
-	a.buttonY {
-		color: #FFFF00;
-		}
-		
-	a.buttonGY {
-		color: #AAFF00;
-		}
-					
-	a.buttonR {
-		color: #FF0000;
-		}
-		
-	a.buttonW {
-		color: #FFFFFF;
-		}
-
-	a.buttonss { padding: 0.9vh 0.9vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
+	/* Button Colours */
+	a.buttonG { color: #00FF00; }
+	a.buttonY { color: #FFFF00; }
+	a.buttonGY { color: #AAFF00; }
+	a.buttonR { color: #FF0000; }
+	a.buttonW { color: #FFFFFF; }
+	/* Button styles */
+	a.buttonss { 
+		padding: 0.9vh 0.9vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
 		background-color: #202020; text-decoration: none; margin:2px; line-height: 2.2;
 	}
 
