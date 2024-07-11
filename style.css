@@ -1,23 +1,23 @@
 	:root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
 
 	a.buttonG { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #00FF00; background-color: #242424; text-decoration: none; margin:5px; margin-top:55px; margin-bottom:55px;
+		color: #00FF00; background-color: #242424; text-decoration: none; margin:2px; margin-top:55px; margin-bottom:55px;
 		}
 		
 	a.buttonY { padding: 1.6vh 1.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #FFFF00; background-color: #2e2e2e; text-decoration: none; margin:5px;
+		color: #FFFF00; background-color: #2e2e2e; text-decoration: none; margin:2px;
 		}
 		
 	a.buttonGY { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #AAFF00; background-color: #2e2e2e; text-decoration: none; margin:5px;
+		color: #AAFF00; background-color: #2e2e2e; text-decoration: none; margin:2px;
 		}
 					
 	a.buttonR { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #FF0000; background-color: #2e2e2e; text-decoration: none; margin:5px;
+		color: #FF0000; background-color: #2e2e2e; text-decoration: none; margin:2px;
 		}
 		
-	a.buttonW { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #FFFFFF; background-color: #2e2e2e; text-decoration: none; margin:5px;
+	a.buttonW { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1;
+		color: #FFFFFF; background-color: #2e2e2e; text-decoration: none; margin:2px;
 		}
 
 	/* Base styles */
