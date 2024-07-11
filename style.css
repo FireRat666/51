@@ -21,9 +21,9 @@
 			}
 
 		/* Base styles */
-		body { font-size: 35px; background-color:#000000;color: #FFFFFF; }
+		body { font-size: 35px; background-color:#000000; color: #FFFFFF; }
 		/* Larger screens */
-		@media (min-width: 1200px) { body { font-size: 45px; background-color:#000000;color: #FFFFFF; } } 
+		@media (min-width: 1200px) { body { font-size: 45px; background-color:#000000; color: #FFFFFF; } } 
 		/* Smaller tablets and mobiles */
-		@media (max-width: 900px) { body { font-size: 30px; background-color:#000000;color: #FFFFFF; } }
+		@media (max-width: 900px) { body { font-size: 30px; background-color:#000000; color: #FFFFFF; } }
 		input.url {font-size: 30px;}
