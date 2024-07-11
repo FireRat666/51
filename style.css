@@ -1,7 +1,7 @@
 	:root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
 
 	a.buttonG { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		color: #00FF00; background-color: #222222; text-decoration: none; margin:25px;
+		color: #00FF00; background-color: #2e2e2e; text-decoration: none; margin:25px;
 		}
 		
 	a.buttonY { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
