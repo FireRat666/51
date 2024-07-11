@@ -1,8 +1,6 @@
 <html lang="en">
 	<head>    
     <script>
-      if(window.isBanter) {console.log("Test Console Log Thing");};
-      
       class BanterCrap{
           constructor() {
         console.log("Constructor Loading.");
@@ -26,9 +24,6 @@
       };
 
       const banterstuff = new BanterCrap();
-          window.loadDoneCallback = ()=>{
-              movePlayer({x: 0, y: 0.01, z: 0});
-          };
     </script>
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
@@ -56,6 +51,9 @@
   // window.onload = (event) => { 
   // };
 
+  window.loadDoneCallback = ()=>{
+              // movePlayer({x: 0, y: 0.01, z: 0});
+          };
 	</script>
 </head>
 	<body id="body" class="fixed" style="background-color:#111111;color: #FFFFFF;">
