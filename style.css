@@ -1,8 +1,7 @@
 	:root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
 
 	a.buttonG {
-		color: #00FF00; background-color: #202020; text-decoration: none; 
-		margin-left:2px; margin-right:2px; margin-top:155px; margin-bottom:155px;
+		color: #00FF00;
 		}
 		
 	a.buttonY {
@@ -22,7 +21,7 @@
 		}
 
 	a.buttonss { padding: 0.9vh 0.9vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
-		background-color: #202020; text-decoration: none; margin:2px;
+		background-color: #202020; text-decoration: none; margin:2px; line-height: 2.2;
 	}
 
 	/* Base styles */
