@@ -20,11 +20,8 @@
 			color: #FFFFFF; background-color: #333333; text-decoration: none; 
 			}
 
-		.bodyc { background-color:#000000;color: #FFFFFF; 
-		}
-
 		/* Base styles */
-		body { font-size: 35px; }
+		body { font-size: 35px; background-color:#000000;color: #FFFFFF; }
 		/* Larger screens */
 		@media (min-width: 1200px) { body { font-size: 45px; } } 
 		/* Smaller tablets and mobiles */
