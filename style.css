@@ -19,6 +19,9 @@
 		a.buttonW { padding: 0.6vh 0.6vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
 			color: #FFFFFF; background-color: #333333; text-decoration: none; 
 			}
+			
+		.bodyc { background-color:#000000;color: #FFFFFF; 
+		}
 
 		/* Base styles */
 		body { font-size: 35px; }
