@@ -5,7 +5,12 @@
       class BanterCrap{
           constructor() {
             console.log("Constructor Loading.");
-            if(window.isBanter) { this.LoadAssetBundle(); this.setupHandControls();};
+            if(window.isBanter) { 
+              this.LoadAssetBundle();
+              setTimeout(() => { 
+                this.setupHandControls();
+              }, 10000); 
+            };
           }
           async LoadAssetBundle() {
         console.log("Asset Bundle Loading...");
