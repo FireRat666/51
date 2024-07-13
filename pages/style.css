@@ -4,7 +4,7 @@ a.buttonG { color: #00FF00; }
 a.buttonY { color: #FFFF00; }
 a.buttonGY { color: #AAFF00; }
 a.buttonR { color: #FF0000; }
-a.buttonW { color: #FFFFFF; }
+a.buttonW { color: #ffffff; }
 /* Button styles */
 a.buttonss { 
 	padding: 0.8vh 0.8vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
