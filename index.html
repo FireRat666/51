@@ -94,6 +94,39 @@ AFRAME.registerComponent('toggle-test2', {
     }
 });
 
+let testvariable1 = 0;
+// Say Names
+if(window.isBanter) {
+  const now = Date.now();
+  window.userJoinedCallback = async user => {
+    if(Date.now() - now > 30000) {
+      const name = (user.name ? user.name : user.id.substr(0, 6));
+      if (testvariable1 === 0) {
+        testvariable1++;
+        const welcome = await fetch('https://say-something.glitch.me/say/' + name + ", Shit, Hide!");
+      }
+      if (testvariable1 === 1) {
+        testvariable1++;
+        const welcome = await fetch('https://say-something.glitch.me/say/' + name + " Oh fuck it's working!");
+      }
+      if (testvariable1 === 2) {
+        testvariable1++;
+        const welcome = await fetch('https://say-something.glitch.me/say/' + name + " message blah blah!");
+      }
+      if (testvariable1 === 3) {
+        testvariable1 = 0;
+        const welcome = await fetch('https://say-something.glitch.me/say/' + name + ", one of us, one of us!");
+      }
+      console.log(testvariable1);
+      const url = await welcome.text();
+      const audio = new Audio("data:audio/mpeg;base64," + url);
+      audio.autoplay = true;
+      audio.play();
+      audio.volume = 0.08;
+    }
+  }
+}
+
     </script>
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
@@ -103,7 +136,7 @@ AFRAME.registerComponent('toggle-test2', {
 		<meta property="og:image" content="https://cdn.sidequestvr.com/file/636703/flower-tile-seamless-pattern.png">  
 		<script src="https://aframe.io/releases/1.4.0/aframe.min.js" sq-space="https://sidequestvr.com/space/2471"></script>
 		<title>FireR.at's Website/Space</title>
-		<script src="https://vidya.sdq.st/say-names.js" four-twenty="false" announce-events="true"></script>
+		<!-- <script src="https://vidya.sdq.st/say-names.js" four-twenty="false" announce-events="true"></script> -->
 		<script src="https://firer.at/scripts/tests.js"></script>
 		<link rel="stylesheet" href="/pages/style.css" />
 		<!-- Analytics and Cookie Stuff Start -->
