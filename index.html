@@ -94,30 +94,58 @@ AFRAME.registerComponent('toggle-test2', {
     }
 });
 
+const welcomeMessages = [
+  ", one of us, one of us!",
+  " message blah blah!",
+  " Oh fuck it's working!",
+  ", Shit, Hide!",
+  "has joined the space",
+  "arrived",
+  "is here",
+  "beamed in",
+  "just teleported in.",
+  "has glitched into the matrix!",
+  "is too late",
+  "has joined. Quick, Hide your avatars.",
+  "just dropped in from another dimension",
+  "has entered the simulation!",
+  "has logged into the mainframe!",
+  "is now part of our virtual mischief",
+  "just crossed the digital threshold",
+  "decided to join us in the simulation.",
+  "just stumbled into our virtual realm. Someone hold their hand, they look lost.",
+  "is wanted in several other spaces. Take cover and shoot!",
+  "is here for cuddles and milk and is all out of cuddles",
+  "is here to kiss snowy butt cheeks",
+  ", a real human actually joined the space. Now everyone act like a human"
+];
+
 let testvariable1 = 0;
 // Say Names
 if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 30000) {
+      let random1 = welcomeMessages[Math.floor(Math.random() * array.length)];
       const name = (user.name ? user.name : user.id.substr(0, 6));
-      if (testvariable1 === 0) {
-        testvariable1++;
-        const welcome = await fetch('https://say-something.glitch.me/say/' + name + ", Shit, Hide!");
-      }
-      if (testvariable1 === 1) {
-        testvariable1++;
-        const welcome = await fetch('https://say-something.glitch.me/say/' + name + " Oh fuck it's working!");
-      }
-      if (testvariable1 === 2) {
-        testvariable1++;
-        const welcome = await fetch('https://say-something.glitch.me/say/' + name + " message blah blah!");
-      }
-      if (testvariable1 === 3) {
-        testvariable1 = 0;
-        const welcome = await fetch('https://say-something.glitch.me/say/' + name + ", one of us, one of us!");
-      }
-      console.log(testvariable1);
+      const welcome = await fetch('https://say-something.glitch.me/say/' + name + random1);
+      // if (testvariable1 === 0) {
+      //   testvariable1++;
+      //   const welcome = await fetch('https://say-something.glitch.me/say/' + name + ", Shit, Hide!");
+      // }
+      // if (testvariable1 === 1) {
+      //   testvariable1++;
+      //   const welcome = await fetch('https://say-something.glitch.me/say/' + name + " Oh fuck it's working!");
+      // }
+      // if (testvariable1 === 2) {
+      //   testvariable1++;
+      //   const welcome = await fetch('https://say-something.glitch.me/say/' + name + " message blah blah!");
+      // }
+      // if (testvariable1 === 3) {
+      //   testvariable1 = 0;
+      //   const welcome = await fetch('https://say-something.glitch.me/say/' + name + ", one of us, one of us!");
+      // }
+      console.log(random1);
       const url = await welcome.text();
       const audio = new Audio("data:audio/mpeg;base64," + url);
       audio.autoplay = true;
