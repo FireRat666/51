@@ -12,7 +12,7 @@ a.buttonss {
 }
 
 /* Base styles */
-body { font-size: 35px; background-color:#000000; color: #FFFFFF; margin-left:100px; margin-right:100px; }
+body { font-size: 35px; background-color:#000000; color: #FFFFFF; margin-left:100px; margin-right:100px;}
 /* Larger screens */
 @media (min-width: 1200px) { body { font-size: 45px; background-color:#000000; color: #FFFFFF; } } 
 /* Smaller tablets and mobiles */
