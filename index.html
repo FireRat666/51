@@ -5,7 +5,7 @@
       class BanterCrap{
           constructor() {
             console.log("Constructor Loading.");
-            if(window.isBanter) { this.LoadAssetBundle();};
+            if(window.isBanter) { this.LoadAssetBundle(); this.setupHandControls();};
           }
           async LoadAssetBundle() {
         console.log("Asset Bundle Loading...");
@@ -22,9 +22,55 @@
           const assetBundle = await gameObject.AddComponent(new BS.BanterAssetBundle(windowsUrl, osxUrl, linuxUrl, androidUrl, iosUrl, vosUrl, isScene, legacyShaderFix));
               console.log("Asset Bundle Loaded");
           }
-      };
 
-      const banterstuff = new BanterCrap();
+
+
+      mute() {
+        console.log("mute button clicked")
+      }
+
+      testbut() {
+        console.log("mute button clicked")
+      }
+
+      setupHandControls() {
+        console.log("Setting up Test Hand Controls")
+        // This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
+        const handControlsContainer = document.createElement("a-entity");
+        handControlsContainer.setAttribute("scale", "0.08 0.08 0.08");
+        handControlsContainer.setAttribute("position", "0.05 0.006 -0.010");
+        handControlsContainer.setAttribute("sq-lefthand", "whoToShow: " + window.user.id);
+        [
+          {
+            image: "https://cdn.glitch.global/47f0acb4-4420-4f3f-bb01-dba17f8c0edb/Vol_Mute_Off.png?v=1711785430667",
+            position: "-1 0.2 0.4", 
+            callback: () => this.mute()
+          },
+          {
+            image: "https://cdn.glitch.global/47f0acb4-4420-4f3f-bb01-dba17f8c0edb/Vol_Up.png?v=1711785431096",
+            position: "-1 0.2 -0.4", 
+            callback: () => this.testbut()
+          }
+        ].forEach(item => {
+          const button = document.createElement("a-plane");
+          button.setAttribute("sq-interactable", "");
+          button.setAttribute("sq-collider", "");
+          button.setAttribute("scale", "0.4 0.4 0.4");
+          button.setAttribute("rotation", "0 -90 180");
+          button.setAttribute("src", item.image);
+          button.setAttribute("transparent", true);
+          button.setAttribute("position", item.position);
+          button.addEventListener("click", () => item.callback());
+          handControlsContainer.appendChild(button);
+        })
+        document.querySelector("a-scene").appendChild(handControlsContainer);
+        }
+
+
+    
+  };
+
+const banterstuff = new BanterCrap();
     </script>
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
