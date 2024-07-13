@@ -3,18 +3,18 @@
 	<head>    
     <script>
     class BanterCrap{
-        constructor() {
-          console.log("Constructor Loading.");
-          if(window.isBanter) { 
-            this.LoadAssetBundle();
-            setTimeout(() => { 
-              this.setupHandControls();
-            }, 10000); 
-          };
-        }
-        async LoadAssetBundle() {
-      console.log("Asset Bundle Loading...");
-      const windowsUrl = "https://firer.at/windows.banter";
+      constructor() {
+        console.log("Constructor Loading.");
+        if(window.isBanter) { 
+          this.LoadAssetBundle();
+          setTimeout(() => { 
+            this.setupHandControls();
+          }, 10000); 
+        };
+      }
+      async LoadAssetBundle() {
+        console.log("Asset Bundle Loading...");
+        const windowsUrl = "https://firer.at/windows.banter";
         const osxUrl = null; // Not implemented yet...
         const linuxUrl = null; // Not implemented yet...
         const androidUrl = "https://firer.at/android.banter";
@@ -26,7 +26,7 @@
             console.log("Asset Bundle Loading go...");
         const assetBundle = await gameObject.AddComponent(new BS.BanterAssetBundle(windowsUrl, osxUrl, linuxUrl, androidUrl, iosUrl, vosUrl, isScene, legacyShaderFix));
             console.log("Asset Bundle Loaded");
-        }
+      }
 
 
 
