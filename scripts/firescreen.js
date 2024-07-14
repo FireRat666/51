@@ -3,6 +3,7 @@ var fireScreenOn = 0;
 let buttoncolor = "";
 let volupcolor = "";
 let voldowncolor = "";
+let firstrunhandcontrols = true;
 // Create screen on space load 
 window.addEventListener('load', (event) => {
 	if(window.isBanter) {
@@ -63,8 +64,13 @@ function disableFireScreen() {
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_extras, p_castmode, p_website, p_buttoncolor, 
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor,
 	p_disableinteraction, p_buttonpos, p_handbuttons) {
-        if (p_handbuttons) {
+        if (p_handbuttons && firstrunhandcontrols) {
+            firstrunhandcontrols = false;
             console.log("Enabling the Hand Controls")
+            const handcontrols = document.createElement("script");
+            handcontrols.id = "fires-handcontrols";
+            handcontrols.setAttribute("src", "https://51.firer.at/scripts/handcontrols.js");
+            document.querySelector("a-scene").appendChild(handcontrols);
         }
 	//just to be sure we don't create multiple
 	// disableFireScreen();
