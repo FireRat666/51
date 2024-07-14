@@ -16,7 +16,8 @@ async function speak(text) {
   audio.autoplay = true;
   audio.play();
   audio.volume = 0.08;
-}
+};
+
 // This function upon a user joining will select a random welcome message and call the speak function to say it
 if(window.isBanter) {
   const now = Date.now();
@@ -26,7 +27,7 @@ if(window.isBanter) {
       const name = (user.name ? user.name : user.id.substr(0, 6));
       const message = name + " " + randommessage; 
       await speak(message);
-    }
+    };
   }
 };
 
@@ -38,15 +39,16 @@ function loop(interval, callback) {
     let timeSinceLast = nowInMs / 1000 - Math.floor( nowInMs / (interval * 1000)) * interval;
     if(timeSinceLast > interval - 1 && !readyToTrigger) {
         readyToTrigger = true;
-    }
+    };
     if(timeSinceLast < 1 && readyToTrigger) {
         readyToTrigger = false;
         callback();
-    }
+    };
   };
   setInterval(_loop, 800);
   _loop();
-}
+};
+
 // This function is for the events announcements
 let announceevents = true;
 if(window.isBanter && announceevents === true) {
@@ -58,7 +60,7 @@ if(window.isBanter && announceevents === true) {
       if(difference < 60 * 1000 && lastEventsId !== event[0].events_v2_id) {
         lastEventsId = event[0].events_v2_id;
         await speak("Oh Shit " + event[0].name + ", is starting now! Drop your shit and hussle");
-      }
-    }
+      };
+    };
   })
-}
+};
