@@ -494,10 +494,10 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {                         
 		const TheBrowser = this.el.parentElement;
-		thebuttoncolor = this.el.getAttribute("color");
-		if (thebuttoncolor != null) {
+		let thisbuttoncolor = this.el.getAttribute("color");
+		if (thisbuttoncolor != null) {
 			this.el.setAttribute("color", "#FFFFFF"); 
-			setTimeout(() => {  this.el.setAttribute("color", thebuttoncolor); }, 100);
+			setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
 		};
 		TheBrowser.setAttribute("sq-browser", { url: this.data.url, pixelsPerUnit: 1600, mipMaps: 1, mode: "local", });		
 		});		},		});
@@ -544,7 +544,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {  
 		var screenScale = this.el.parentElement;
-		thebuttoncolor = this.el.getAttribute("color");
+		let thisbuttoncolor = this.el.getAttribute("color");
 		let scaleX = screenScale.object3D.scale.x;
 		let scaleY = screenScale.object3D.scale.y;
 		switch (this.data.size) {
@@ -563,7 +563,7 @@ console.log("keepsoundlevel");
       if (scaleY <= 0) {scaleY = 0.05};
 		this.el.setAttribute("color","#AAAAAA");
 		screenScale.setAttribute("scale", scaleX + " " + scaleY + " 1");
-		setTimeout(() => {  this.el.setAttribute("color", thebuttoncolor); }, 100);
+		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
 		});		},		});
 		
   // Rotate either screen when buttons clicked by HBR
@@ -575,7 +575,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {
 		let browserRotation = this.el.parentElement;
-		thebuttoncolor = browserRotation.getAttribute("button-color");
+		let thisbuttoncolor = browserRotation.getAttribute("button-color");
 		let x = browserRotation.object3D.rotation.x;
 		let y = browserRotation.object3D.rotation.y;
 		let z = browserRotation.object3D.rotation.z;
@@ -589,7 +589,7 @@ console.log("keepsoundlevel");
 		}
 		this.el.setAttribute("color","#AAAAAA");
 		browserRotation.setAttribute("rotation", x + " " + y + " " + z);  
-		setTimeout(() => {  this.el.setAttribute("color", thebuttoncolor); }, 100); 
+		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100); 
 		});        },      });
 
 	// Toggle for hiding and showing the rotation buttons By Fire with help from HBR
@@ -597,7 +597,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {
 		const rotats = this.el;
-		thebuttoncolor = this.el.parentElement.getAttribute("button-color");
+		let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
 		const rotatebutton = rotats.parentElement.children[6];
 		var els = document.getElementsByClassName("tilt");
 		if (rotatebutton.getAttribute("visible")) {
@@ -606,7 +606,7 @@ console.log("keepsoundlevel");
 				el.setAttribute("visible","false");
 			});
 		} else {
-			  rotats.setAttribute("color", thebuttoncolor);
+			  rotats.setAttribute("color", thisbuttoncolor);
 			[].forEach.call(els, function (el) {
 				el.setAttribute("visible","true");
 			});
@@ -618,11 +618,11 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {
 		const hidebut = this.el;
-		thebuttoncolor = this.el.parentElement.getAttribute("button-color");
+		let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
 		const somebutton = hidebut.parentElement.children[2];
 		var buttons = document.getElementsByClassName("buttons");
 		if (somebutton.getAttribute("visible")) {
-			  hidebut.setAttribute("color", thebuttoncolor);
+			  hidebut.setAttribute("color", thisbuttoncolor);
 			[].forEach.call(buttons, function (el) {
 				el.setAttribute("visible","false");
 			});
@@ -641,7 +641,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {  
 		var screenVolume = this.el.parentElement;
-		thebuttoncolor = this.el.getAttribute("color");
+		let thisbuttoncolor = this.el.getAttribute("color");
 		let volume = parseFloat(screenVolume.getAttribute("volumelevel"));
 		volume += this.data.vvalue;
 		volume = volume.toFixed(2);
@@ -651,7 +651,7 @@ console.log("keepsoundlevel");
 	"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
 		this.el.setAttribute("color","#AAAAAA");
 		screenVolume.setAttribute("volumelevel", volume);
-		setTimeout(() => {  this.el.setAttribute("color", thebuttoncolor); }, 100);
+		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
 		});		},		});
 		
 	
@@ -662,7 +662,7 @@ console.log("keepsoundlevel");
   },
   init: function () {
     const browserElement = this.el.parentElement;
-	thebuttoncolor = this.el.getAttribute("color");
+	let thisbuttoncolor = this.el.getAttribute("color");
     this.el.addEventListener("click", () => {
       const actionType = this.data.action;
       this.el.setAttribute("color", "#AAAAAA");
@@ -670,7 +670,7 @@ console.log("keepsoundlevel");
         actionType: actionType
       }]);
       setTimeout(() => {
-        this.el.setAttribute("color", thebuttoncolor);
+        this.el.setAttribute("color", thisbuttoncolor);
       }, 100);
     });
   },
