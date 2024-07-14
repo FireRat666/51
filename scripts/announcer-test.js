@@ -87,20 +87,20 @@ window.loadDoneCallback = () => {
 const scene = BS.BanterScene.getInstance();
 
 scene.On("loaded", () => {
-    console.log("Just testing, this should run after scene load");
+    console.log("TEST TEST TEST, this should run after scene load");
 })
 
 scene.On("unity-loaded", () => {
+    let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
+    const username = (user.name ? user.name : user.id.substr(0, 6));
+    let themessage = randommessage + username; 
+    speak(themessage);
     console.log("Just testing, this should run after unity scene load");
 })
 
-if(window.isBanter) {
 
+if(window.isBanter) {
     setTimeout(() => { 
-        let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
-        const username = (user.name ? user.name : user.id.substr(0, 6));
-        let themessage = randommessage + username; 
-        speak(themessage);
         console.log("Just testing, this should run after 5 seconds once");
     }, 6000);
 };
