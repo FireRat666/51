@@ -59,16 +59,14 @@
 	  this.el.addEventListener("click", () => {                         
     const TheBrowser = this.el.parentElement;
 		let keyboardstate = this.el.getAttribute("forcekeyboard");
-		let keyboardbut = this.el;
-		const keyboardcolor = this.el.getAttribute("color");
 		if (keyboardstate == "true") {
       TheBrowser.browser.ToggleKeyboard(0)
-      keyboardbut.setAttribute("forcekeyboard", "false");
-      keyboardcolor.setAttribute("color","#FFFFFF");
+      this.el.setAttribute("forcekeyboard", "false");
+      this.el.setAttribute("color","#FFFFFF");
 		} else {
       TheBrowser.browser.ToggleKeyboard(1)
       this.el.setAttribute("forcekeyboard", "true");
-      keyboardcolor.setAttribute("color","#00FF00");
+      this.el.setAttribute("color","#00FF00");
 	  }		});  }, 	});
 
     </script>
