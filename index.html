@@ -29,119 +29,30 @@
             console.log("Asset Bundle Loaded");
       }
 
-async setSceneSettings() {
-// SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
-const settings = new BS.SceneSettings();
-settings.EnableDevTools = true;
-settings.EnableTeleport = true;
-settings.EnableForceGrab = false;
-settings.EnableSpiderMan = false;
-settings.EnablePortals = true;
-settings.EnableGuests = true;
-settings.EnableQuaternionPose = false;
-settings.EnableControllerExtras = false;
-settings.EnableFriendPositionJoin = false;
-settings.EnableDefaultTextures = true;
-settings.EnableAvatars = true;
-settings.MaxOccupancy = 30;
-settings.RefreshRate = 90;
-settings.ClippingPlane = new Vector2(0.02, 1500);
-settings.SpawnPoint = new Vector4(0, 0.1, 0, 90);
-await scene.SetSettings(settings);
-}
-
-
-  mute() {
-      if (handbuttonmutestate) {
-        handbuttonmutestate = false;
-        console.log("handbuttonmutestate Set to False");
-      } else {
-        handbuttonmutestate = true;
-        console.log("handbuttonmutestate Set to True");
-      };
-      document.querySelectorAll('.firescreenc')
-        .forEach((firescreenc) => {
-          if(handbuttonmutestate) {
-            firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-            "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false); ", }, ]);
-            console.log("Browser Muted Set to False")
-          } else {
-            firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-            "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
-            console.log("Browser Muted Set to True")
-          }
-        });
-    console.log("test mute button clicked")
-  }
-
-
-    volumecontrol(vvalue) {
-        document.querySelectorAll('.firescreenc')
-          .forEach((firescreenc) => {
-            let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
-            volume += parseFloat(vvalue);
-            volume = volume.toFixed(2);
-            console.log("Volume is: " + volume)
-            if (volume > 1) {volume = 1};
-            if (volume < 0) {volume = 0};
-            firescreenc.setAttribute("volumelevel", volume);
-            firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-              "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
-          });
-      console.log("testbut button clicked")
-    }
-
-
-    setupHandControls() {
-      console.log("Setting up Test Hand Controls")
-      // This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
-      const handControlsContainer = document.createElement("a-entity");
-      handControlsContainer.setAttribute("scale", "0.08 0.08 0.08");
-      handControlsContainer.setAttribute("position", "0.02 0.006 -0.010");
-      handControlsContainer.setAttribute("sq-lefthand", "whoToShow: " + user.id);
-      [
-        {
-          image: "https://firer.at/files/VolumeHigh.png",
-          position: "-1 0.2 -0.4", 
-          testthing: "0.05", 
-          colour: "#00FF00", 
-          callback: () => this.volumecontrol("0.05")
-        },
-        {
-          image: "https://firer.at/files/VolumeLow.png",
-          position: "-1 0.2 0", 
-          testthing: "-0.05", 
-          colour: "#00FF00", 
-          callback: () => this.volumecontrol("-0.05")
-        },
-        {
-          image: "https://firer.at/files/VolumeMute.png",
-          position: "-1 0.2 0.4", 
-          testthing: "-0.05", 
-          colour: "#00FF00", 
-          callback: () => this.mute()
-        }
-      ].forEach(item => {
-        const button = document.createElement("a-plane");
-        button.setAttribute("sq-interactable", "");
-        button.setAttribute("sq-collider", "");
-        button.setAttribute("scale", "0.4 0.4 0.4");
-        button.setAttribute("rotation", "0 -90 180");
-        button.setAttribute("src", item.image);
-        button.setAttribute("color", item.colour);
-        button.setAttribute("transparent", true);
-        button.setAttribute("position", item.position);
-        button.setAttribute("handthing", item.testthing);
-        button.addEventListener("click", () => item.callback());
-        handControlsContainer.appendChild(button);
-      })
-      document.querySelector("a-scene").appendChild(handControlsContainer);
+      async setSceneSettings() {
+      // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
+      const settings = new BS.SceneSettings();
+      settings.EnableDevTools = true;
+      settings.EnableTeleport = true;
+      settings.EnableForceGrab = false;
+      settings.EnableSpiderMan = false;
+      settings.EnablePortals = true;
+      settings.EnableGuests = true;
+      settings.EnableQuaternionPose = false;
+      settings.EnableControllerExtras = false;
+      settings.EnableFriendPositionJoin = false;
+      settings.EnableDefaultTextures = true;
+      settings.EnableAvatars = true;
+      settings.MaxOccupancy = 30;
+      settings.RefreshRate = 90;
+      settings.ClippingPlane = new Vector2(0.02, 1500);
+      settings.SpawnPoint = new Vector4(0, 0.1, 0, 90);
+      await scene.SetSettings(settings);
       }
 
   };
 
-let handbuttonmutestate = false;
-const banterstuff = new BanterCrap();
+  const banterstuff = new BanterCrap();
 
     </script>
 		<meta charset="UTF-8" />
