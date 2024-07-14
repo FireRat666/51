@@ -96,7 +96,7 @@ scene.On("unity-loaded", () => {
         const username = (user.name ? user.name : user.id.substr(0, 6));
         let themessage = randommessage + username; 
         speak(themessage);
-    }, 4000);
+    }, 5000);
     console.log("Just testing, this should run after unity scene load");
 })
 
