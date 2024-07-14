@@ -3,6 +3,9 @@ var fireScreenOn = 0;
 let buttoncolor = "";
 let volupcolor = "";
 let voldowncolor = "";
+let IconVolUpUrl = "";
+let IconVolDownUrl = "";
+let IconMuteUrl = "";
 let firstrunhandcontrols = true;
 // Create screen on space load 
 window.addEventListener('load', (event) => {
@@ -76,6 +79,9 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 	buttoncolor = p_buttoncolor;
 	volupcolor = p_volupcolor;
 	voldowncolor = p_voldowncolor;
+    IconVolUpUrl = p_iconvolupurl;
+    IconVolDownUrl = p_iconvoldownurl;
+    IconMuteUrl = p_iconmuteurl;
 	let firescreen = document.createElement("a-entity");
 	firescreen.id = "fires-browser";
 	firescreen.setAttribute("position", p_pos);
