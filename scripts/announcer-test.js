@@ -98,6 +98,7 @@ scene.On("unity-loaded", () => {
         speak(themessage);
     }, 8000);
     console.log("Just testing, this should run after unity scene load");
+    console.log("unity-loaded Test user Id: " + window.user.id);
 })
 
 
