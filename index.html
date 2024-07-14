@@ -51,18 +51,19 @@ await scene.SetSettings(settings);
 }
 
 
-
   mute() {
       document.querySelectorAll('.firescreenc')
         .forEach((firescreenc) => {
-          if(firescreenc.getAttribute("datamuted")=="true") {
+          if(handbuttonmutestate === true) {
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
             "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false); ", }, ]);
             console.log("Browser Muted Set to False")
+            handbuttonmutestate = false;
           } else {
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
             "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
             console.log("Browser Muted Set to True")
+            handbuttonmutestate = true;
           }
         });
     console.log("test mute button clicked")
@@ -134,6 +135,7 @@ await scene.SetSettings(settings);
 
   };
 
+let handbuttonmutestate = false;
 const banterstuff = new BanterCrap();
 
     </script>
