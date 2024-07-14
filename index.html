@@ -58,9 +58,11 @@ await scene.SetSettings(settings);
           if(firescreenc.getAttribute("datamuted")=="true") {
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
             "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false); ", }, ]);
+            console.log("Browser Muted Set to False")
           } else {
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
             "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
+            console.log("Browser Muted Set to True")
           }
         });
     console.log("test mute button clicked")
