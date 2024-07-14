@@ -52,22 +52,28 @@ await scene.SetSettings(settings);
 
 
 
-    mute() {
-      console.log("test mute button clicked")
-    }
+  mute() {
+      document.querySelectorAll('.firescreenc')
+        .forEach((firescreenc) => {
+          if(firescreenc.getAttribute("datamuted")=="true") {
+            firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
+            "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false); ", }, ]);
+          } else {
+            firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
+            "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
+          }
+        });
+    console.log("test mute button clicked")
+  }
 
 
-
-    testbut(vvalue) {
-      // let vvalue = parseFloat(this.el.getAttribute("handthing"));
-        console.log("vvalue: " + vvalue)
+    volumecontrol(vvalue) {
         document.querySelectorAll('.firescreenc')
           .forEach((firescreenc) => {
             let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
             volume += parseFloat(vvalue);
-            console.log("volume + vvalue is: " + volume)
             volume = volume.toFixed(2);
-            console.log("testbut volume is: " + volume)
+            console.log("Volume is: " + volume)
             if (volume > 1) {volume = 1};
             if (volume < 0) {volume = 0};
             firescreenc.setAttribute("volumelevel", volume);
@@ -88,17 +94,24 @@ await scene.SetSettings(settings);
       [
         {
           image: "https://firer.at/files/VolumeHigh.png",
-          position: "-1 0.2 0.4", 
+          position: "-1 0.2 -0.4", 
           testthing: "0.05", 
           colour: "#00FF00", 
-          callback: () => this.testbut("0.05")
+          callback: () => this.volumecontrol("0.05")
         },
         {
-          image: "https://firer.at/files/Arrow.png",
-          position: "-1 0.2 -0.4", 
+          image: "https://firer.at/files/VolumeLow.png",
+          position: "-1 0.2 0", 
           testthing: "-0.05", 
           colour: "#00FF00", 
-          callback: () => this.testbut("-0.05")
+          callback: () => this.volumecontrol("-0.05")
+        },
+        {
+          image: "https://firer.at/files/VolumeMute.png",
+          position: "-1 0.2 0.4", 
+          testthing: "-0.05", 
+          colour: "#00FF00", 
+          callback: () => this.mute()
         }
       ].forEach(item => {
         const button = document.createElement("a-plane");
