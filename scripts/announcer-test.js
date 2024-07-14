@@ -92,5 +92,5 @@ if(window.isBanter) {
         let themessage = randommessage + username; 
         speak(themessage);
         console.log("Just testing, this should run after 5 seconds once");
-    }, 5000);
+    }, 6000);
 };
