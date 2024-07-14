@@ -59,14 +59,11 @@ await scene.SetSettings(settings);
 
 
     testbut() {
-        schema: {
-          vvalue: { type: "number" }
-        };
-
+      let vvalue = parseFloat(this.el.getAttribute("handthing"));
         document.querySelectorAll('.firescreenc')
           .forEach((firescreenc) => {
             let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
-            volume += this.data.vvalue;
+            volume += vvalue;
             volume = volume.toFixed(2);
             console.log("testbut volume is: " + volume)
             if (volume > 1) {volume = 1};
@@ -95,13 +92,15 @@ await scene.SetSettings(settings);
         {
           image: "https://firer.at/files/VolumeHigh.png",
           position: "-1 0.2 0.4", 
-          testthing: "vvalue: 0.05", 
+          testthing: "0.05", 
+          colour: "#00FF00", 
           callback: () => this.testbut()
         },
         {
           image: "https://firer.at/files/Arrow.png",
           position: "-1 0.2 -0.4", 
-          testthing: "vvalue: -0.05", 
+          testthing: "-0.05", 
+          colour: "#00FF00", 
           callback: () => this.testbut()
         }
       ].forEach(item => {
@@ -111,6 +110,7 @@ await scene.SetSettings(settings);
         button.setAttribute("scale", "0.4 0.4 0.4");
         button.setAttribute("rotation", "0 -90 180");
         button.setAttribute("src", item.image);
+        button.setAttribute("color", item.colour);
         button.setAttribute("transparent", true);
         button.setAttribute("position", item.position);
         button.setAttribute("handthing", item.testthing);
