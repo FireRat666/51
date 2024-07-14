@@ -32,7 +32,6 @@
 async setSceneSettings() {
 // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
 const settings = new BS.SceneSettings();
-
 settings.EnableDevTools = true;
 settings.EnableTeleport = true;
 settings.EnableForceGrab = false;
@@ -57,9 +56,33 @@ await scene.SetSettings(settings);
       console.log("test mute button clicked")
     }
 
+
+
     testbut() {
+        schema: {
+          vvalue: { type: "number" },
+        };
+
+        document.querySelectorAll('.firescreenc')
+          .forEach((firescreenc) => {
+            let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
+            volume += this.data.vvalue;
+            volume = volume.toFixed(2);
+            console.log("testbut volume is: " + volume)
+            if (volume > 1) {volume = 1};
+            if (volume < 0) {volume = 0};
+            firescreenc.setAttribute("volumelevel", volume);
+            firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
+              "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
+          });
+
+      let buttoncolor = this.el.getAttribute("color");
+      this.el.setAttribute("color","#AAAAAA");
+      setTimeout(() => {  this.el.setAttribute("color", buttoncolor); }, 100);
+
       console.log("testbut button clicked")
     }
+
 
     setupHandControls() {
       console.log("Setting up Test Hand Controls")
@@ -72,13 +95,13 @@ await scene.SetSettings(settings);
         {
           image: "https://firer.at/files/VolumeHigh.png",
           position: "-1 0.2 0.4", 
-          testthing: "toggle-test1", 
-          callback: () => this.mute()
+          testthing: "vvalue: 0.05", 
+          callback: () => this.testbut()
         },
         {
           image: "https://firer.at/files/Arrow.png",
           position: "-1 0.2 -0.4", 
-          testthing: "toggle-test2", 
+          testthing: "vvalue: -0.05", 
           callback: () => this.testbut()
         }
       ].forEach(item => {
@@ -90,7 +113,7 @@ await scene.SetSettings(settings);
         button.setAttribute("src", item.image);
         button.setAttribute("transparent", true);
         button.setAttribute("position", item.position);
-        button.setAttribute(item.testthing, "");
+        button.setAttribute("handthing", item.testthing);
         button.addEventListener("click", () => item.callback());
         handControlsContainer.appendChild(button);
       })
@@ -100,22 +123,6 @@ await scene.SetSettings(settings);
   };
 
 const banterstuff = new BanterCrap();
-
-AFRAME.registerComponent('toggle-test1', {
-    init: function() {
-        this.el.addEventListener('click', ()=>{
-          console.log("toggle-test1 button clicked")
-        });
-    }
-});
-
-AFRAME.registerComponent('toggle-test2', {
-    init: function() {
-        this.el.addEventListener('click', ()=>{
-          console.log("toggle-test2 button clicked")
-        });
-    }
-});
 
     </script>
 		<meta charset="UTF-8" />
