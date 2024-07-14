@@ -47,7 +47,7 @@ function enableFireScreen() {
       const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
       const pIconVolDownUrl = getAttrOrDef(scripts[i], "icon-voldown-url", "https://firer.at/files/VolumeLow.png");
       const pIconDirectionUrl = getAttrOrDef(scripts[i], "icon-direction-url", "https://firer.at/files/Arrow.png");
-      const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; width: " + pWidth + "; height: " + pHeight + "; mode: local;";
+      const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
       createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pExtras, pCastMode, pWebsite, pButtonColor, 
 		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor,
 		pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight);
@@ -89,7 +89,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 	firescreen.setAttribute("position", p_pos);
 	firescreen.setAttribute("rotation", p_rot);
 	firescreen.setAttribute("scale", p_sca);
-	// firescreen.browser.width("width", p_width);
+	firescreen.browser.pageWidth = isSquare ? p_height : p_width;
 	// firescreen.setAttribute("height", p_height);
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
