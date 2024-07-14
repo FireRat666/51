@@ -7,6 +7,7 @@
         console.log("Constructor Loading.");
         if(window.isBanter) { 
           this.LoadAssetBundle();
+          this.setSceneSettings();
           setTimeout(() => { 
             this.setupHandControls();
           }, 10000); 
@@ -27,6 +28,28 @@
         const assetBundle = await gameObject.AddComponent(new BS.BanterAssetBundle(windowsUrl, osxUrl, linuxUrl, androidUrl, iosUrl, vosUrl, isScene, legacyShaderFix));
             console.log("Asset Bundle Loaded");
       }
+
+async setSceneSettings() {
+// SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
+const settings = new BS.SceneSettings();
+
+settings.EnableDevTools = true;
+settings.EnableTeleport = true;
+settings.EnableForceGrab = false;
+settings.EnableSpiderMan = false;
+settings.EnablePortals = true;
+settings.EnableGuests = true;
+settings.EnableQuaternionPose = false;
+settings.EnableControllerExtras = false;
+settings.EnableFriendPositionJoin = false;
+settings.EnableDefaultTextures = true;
+settings.EnableAvatars = true;
+settings.MaxOccupancy = 30;
+settings.RefreshRate = 90;
+settings.ClippingPlane = new Vector2(0.02, 1500);
+settings.SpawnPoint = new Vector4(0, 0.1, 0, 90);
+await scene.SetSettings(settings);
+}
 
 
 
@@ -130,8 +153,7 @@ AFRAME.registerComponent('toggle-test2', {
 
 	<body id="body" class="fixed bodyc">
     <div style="display: none;">
-    <a-scene id="ascene" sq-friendpositionjoinallowed="enabled: false" sq-portalsenabled="enabled: true" 
-      sq-refreshrate="rate:90" sq-spawnpoint="position: 0 0 0;" sq-maxoccupancy="number: 20" embedded>
+    <a-scene id="ascene" embedded>
 
       <!-- Screen for Movies/Screencast -->
       <script src="https://firer.at/test/firescreen.js" mipmaps="1" pixelsperunit="1600" castmode="1" backdrop="0" 

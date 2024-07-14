@@ -84,6 +84,16 @@ window.loadDoneCallback = () => {
     console.log("Just testing, this should run after load done");
 };
 
+const scene = BS.BanterScene.getInstance();
+
+scene.On("loaded", () => {
+    console.log("Just testing, this should run after scene load");
+})
+
+scene.On("unity-loaded", () => {
+    console.log("Just testing, this should run after unity scene load");
+})
+
 if(window.isBanter) {
 
     setTimeout(() => { 
