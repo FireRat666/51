@@ -15,7 +15,7 @@ if(window.isBanter) {
         let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
         const name = (user.name ? user.name : user.id.substr(0, 6));
         const welcome = await fetch('https://speak-something.glitch.me/say/' + name + randommessage);
-        console.log("saying: " + name + random1);
+        console.log("saying: " + name + randommessage);
         const url = await welcome.text();
         const audio = new Audio("data:audio/mpeg;base64," + url);
         audio.autoplay = true;
