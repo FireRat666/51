@@ -53,17 +53,22 @@ await scene.SetSettings(settings);
 
   mute() {
       document.querySelectorAll('.firescreenc')
+      if (handbuttonmutestate) {
+        handbuttonmutestate = false;
+        console.log("handbuttonmutestate Set to False");
+      } else {
+        handbuttonmutestate = true;
+        console.log("handbuttonmutestate Set to True");
+      };
         .forEach((firescreenc) => {
-          if(handbuttonmutestate === true) {
+          if(handbuttonmutestate) {
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
             "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false); ", }, ]);
             console.log("Browser Muted Set to False")
-            handbuttonmutestate = false;
           } else {
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
             "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
             console.log("Browser Muted Set to True")
-            handbuttonmutestate = true;
           }
         });
     console.log("test mute button clicked")
