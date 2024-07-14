@@ -74,7 +74,7 @@ if(window.isBanter && announceevents === true) {
 
 
 // Welcome message for user entering the space
-window.loadDoneCallback = ()=>{
+window.loadDoneCallback = () => {
     // if(window.isBanter) {
     //     const username = (user.name ? user.name : user.id.substr(0, 6));
     //     let themessage = "Oh no, you broke everything " + username + " now what will we do"; 
