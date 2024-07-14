@@ -47,10 +47,10 @@ function enableFireScreen() {
       const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
       const pIconVolDownUrl = getAttrOrDef(scripts[i], "icon-voldown-url", "https://firer.at/files/VolumeLow.png");
       const pIconDirectionUrl = getAttrOrDef(scripts[i], "icon-direction-url", "https://firer.at/files/Arrow.png");
-      const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; mode: local;";
+      const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; width: " + pWidth + "; height: " + pHeight + "; mode: local;";
       createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pExtras, pCastMode, pWebsite, pButtonColor, 
 		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor,
-		pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight);
+		pDisableInteraction, pButtonPos, pHandButtons);
     }
   };
 }
@@ -68,7 +68,7 @@ function disableFireScreen() {
 
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_extras, p_castmode, p_website, p_buttoncolor, 
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor,
-	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height) {
+	p_disableinteraction, p_buttonpos, p_handbuttons) {
         if (p_handbuttons == "true" && firstrunhandcontrols === true) {
             firstrunhandcontrols = false;
             console.log("Enabling the Hand Controls")
@@ -89,8 +89,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 	firescreen.setAttribute("position", p_pos);
 	firescreen.setAttribute("rotation", p_rot);
 	firescreen.setAttribute("scale", p_sca);
-	firescreen.setAttribute("width", p_width);
-	firescreen.setAttribute("height", p_height);
+	// firescreen.setAttribute("width", p_width);
+	// firescreen.setAttribute("height", p_height);
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
 	firescreen.setAttribute( "sq-browser", p_url);
