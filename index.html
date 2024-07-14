@@ -74,11 +74,6 @@ await scene.SetSettings(settings);
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
               "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
           });
-
-      let buttoncolor = this.el.getAttribute("color");
-      this.el.setAttribute("color","#AAAAAA");
-      setTimeout(() => {  this.el.setAttribute("color", buttoncolor); }, 100);
-
       console.log("testbut button clicked")
     }
 
