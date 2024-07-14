@@ -67,7 +67,7 @@ function disableFireScreen() {
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_extras, p_castmode, p_website, p_buttoncolor, 
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor,
 	p_disableinteraction, p_buttonpos, p_handbuttons) {
-        if (p_handbuttons && firstrunhandcontrols) {
+        if (p_handbuttons == "true" && firstrunhandcontrols === true) {
             firstrunhandcontrols = false;
             console.log("Enabling the Hand Controls")
             const handcontrols = document.createElement("script");
