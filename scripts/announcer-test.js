@@ -18,16 +18,6 @@ async function speak(text) {
   audio.volume = 0.08;
 };
 
-    console.log("Just testing, if this runs");
-    
-// if(window.isBanter) {
-//     const name = (user.name ? user.name : user.id.substr(0, 6));
-//     let message = "Hello, Welcome to the space " + name; 
-//     await speak(message);
-//     console.log("Just testing, this should just run once");
-
-// };
-
 // This function upon a user joining will select a random welcome message and call the speak function to say it
 if(window.isBanter) {
   const now = Date.now();
@@ -73,4 +63,20 @@ if(window.isBanter && announceevents === true) {
       };
     };
   })
+};
+
+
+    
+if(window.isBanter) {
+    window.loadDoneCallback = ()=>{
+        console.log("Just testing, this should run after load done");
+        
+    };
+
+    setTimeout(() => { 
+        const username = (user.name ? user.name : user.id.substr(0, 6));
+        let themessage = "Hello, Welcome to the space " + username; 
+        speak(themessage);
+        console.log("Just testing, this should run after 5 seconds once");
+    }, 5000);
 };
