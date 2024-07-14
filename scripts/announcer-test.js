@@ -18,13 +18,15 @@ async function speak(text) {
   audio.volume = 0.08;
 };
 
-if(window.isBanter) {
-    const name = (user.name ? user.name : user.id.substr(0, 6));
-    let message = "Hello, Welcome to the space " + name; 
-    await speak(message);
-    console.log("Just testing, this should just run once");
+    console.log("Just testing, if this runs");
+    
+// if(window.isBanter) {
+//     const name = (user.name ? user.name : user.id.substr(0, 6));
+//     let message = "Hello, Welcome to the space " + name; 
+//     await speak(message);
+//     console.log("Just testing, this should just run once");
 
-};
+// };
 
 // This function upon a user joining will select a random welcome message and call the speak function to say it
 if(window.isBanter) {
