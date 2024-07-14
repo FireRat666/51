@@ -66,12 +66,14 @@ if(window.isBanter && announceevents === true) {
 };
 
 
-    
-if(window.isBanter) {
-    window.loadDoneCallback = ()=>{
+// Welcome message for user entering the space
+window.loadDoneCallback = ()=>{
+    if(window.isBanter) {
         console.log("Just testing, this should run after load done");
-        
     };
+};
+
+if(window.isBanter) {
 
     setTimeout(() => { 
         const username = (user.name ? user.name : user.id.substr(0, 6));
