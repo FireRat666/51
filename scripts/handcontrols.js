@@ -79,7 +79,7 @@ class handButtonCrap{
 		handControlsContainer.setAttribute("sq-lefthand", "whoToShow: " + window.user.id);
 		[
 			{
-			image: "https://firer.at/files/VolumeHigh.png",
+			image: IconVolUpUrl,
 			position: "-1 0.2 -0.4",
 			colour: volupcolor, 
 			class: "firevolbutc", 
@@ -87,7 +87,7 @@ class handButtonCrap{
 			callback: () => this.volumecontrol("0.05")
 			},
 			{
-			image: "https://firer.at/files/VolumeLow.png",
+			image: IconVolDownUrl,
 			position: "-1 0.2 0",
 			colour: voldowncolor,
 			class: "firevolbutc",
@@ -95,7 +95,7 @@ class handButtonCrap{
 			callback: () => this.volumecontrol("-0.05")
 			},
 			{
-			image: "https://firer.at/files/VolumeMute.png",
+			image: IconMuteUrl,
 			position: "-1 0.2 0.4", 
 			colour: "#FFFFFF", 
 			class: "firemutebutc", 
