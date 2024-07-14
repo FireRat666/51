@@ -68,21 +68,21 @@ if(window.isBanter && announceevents === true) {
 
 // Welcome message for user entering the space
 window.loadDoneCallback = ()=>{
-    if(window.isBanter) {
-        const username = (user.name ? user.name : user.id.substr(0, 6));
-        let themessage = "Oh no, you broke everything " + username + " now what will we do"; 
-        speak(themessage);
-        console.log("Just testing, this should run after load done");
-    };
+    // if(window.isBanter) {
+    //     const username = (user.name ? user.name : user.id.substr(0, 6));
+    //     let themessage = "Oh no, you broke everything " + username + " now what will we do"; 
+    //     speak(themessage);
+    //     console.log("Just testing, this should run after load done");
+    // };
     console.log("Just testing, this should run after load done");
 };
 
-// if(window.isBanter) {
+if(window.isBanter) {
 
-//     setTimeout(() => { 
-//         const username = (user.name ? user.name : user.id.substr(0, 6));
-//         let themessage = "Hello, Welcome to the space " + username; 
-//         speak(themessage);
-//         console.log("Just testing, this should run after 5 seconds once");
-//     }, 5000);
-// };
+    setTimeout(() => { 
+        const username = (user.name ? user.name : user.id.substr(0, 6));
+        let themessage = "Hello, Welcome to the space " + username; 
+        speak(themessage);
+        console.log("Just testing, this should run after 5 seconds once");
+    }, 5000);
+};
