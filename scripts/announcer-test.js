@@ -103,7 +103,6 @@ scene.On("unity-loaded", () => {
 
 if(window.isBanter) {
     setTimeout(() => { 
-        console.log("Just testing, this should run after 5 seconds once");
         console.log("Test user Id: " + user.id);
     }, 8000);
 };
