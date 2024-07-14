@@ -241,6 +241,18 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 		firetogglerots.setAttribute("src", "https://firer.at/files/Rot.png");
 		firetogglerots.setAttribute("enablerot", "false");
 		firescreen.appendChild(firetogglerots);
+		// Hide/Show Keyboard Button
+		let firekeyboardtog = document.createElement("a-plane");
+		firekeyboardtog.setAttribute("position", "-0.6 -0.15 0");
+		firekeyboardtog.setAttribute("width", "0.1");
+		firekeyboardtog.setAttribute("height", "0.1");
+		firekeyboardtog.setAttribute("color", "#FFFFFF");
+		firekeyboardtog.setAttribute("material", "transparent: true");
+		firekeyboardtog.setAttribute("sq-collider");
+		firekeyboardtog.setAttribute("sq-interactable");
+		firekeyboardtog.setAttribute("src", "https://firer.at/files/Keyboard.png");
+		firekeyboardtog.setAttribute("forcekeyboard");
+		firescreen.appendChild(firekeyboardtog);
 		// Hide/Show Buttons Button
 		let firevisibletog = document.createElement("a-plane");
 		firevisibletog.setAttribute("position", "-0.6 0 0");
@@ -523,7 +535,22 @@ console.log("keepsoundlevel");
 			  ColliderScreen.setAttribute("visible","true");
 	  }		});  }, 	});
 
-		
+ // Toggle Button for Keyboard By Fire with help from HBR
+ AFRAME.registerComponent("forcekeyboard", {
+	init: function () {
+	  this.el.addEventListener("click", () => {                         
+    const TheBrowser = this.el.parentElement;
+		let keyboardstate = this.el.getAttribute("forcekeyboard");
+		if (keyboardstate == "true") {
+      TheBrowser.browser.ToggleKeyboard(0)
+      this.el.setAttribute("forcekeyboard", "false");
+      this.el.setAttribute("color","#FFFFFF");
+		} else {
+      TheBrowser.browser.ToggleKeyboard(1)
+      this.el.setAttribute("forcekeyboard", "true");
+      this.el.setAttribute("color","#00FF00");
+	  }		});  }, 	});
+
 // Toggle Sound for browser screen By Fire with help from HBR
 	AFRAME.registerComponent("toggle-mute", {
 	init: function () {

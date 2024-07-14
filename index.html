@@ -51,24 +51,6 @@
 
   const banterstuff = new BanterCrap();
 
-
-  
- // Toggle Button for Keyboard By Fire with help from HBR
- AFRAME.registerComponent("forcekeyboard", {
-	init: function () {
-	  this.el.addEventListener("click", () => {                         
-    const TheBrowser = this.el.parentElement;
-		let keyboardstate = this.el.getAttribute("forcekeyboard");
-		if (keyboardstate == "true") {
-      TheBrowser.browser.ToggleKeyboard(0)
-      this.el.setAttribute("forcekeyboard", "false");
-      this.el.setAttribute("color","#FFFFFF");
-		} else {
-      TheBrowser.browser.ToggleKeyboard(1)
-      this.el.setAttribute("forcekeyboard", "true");
-      this.el.setAttribute("color","#00FF00");
-	  }		});  }, 	});
-
     </script>
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
