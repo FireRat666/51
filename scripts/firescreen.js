@@ -452,7 +452,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 		fireextra03.setAttribute("sq-collider");
 		fireextra03.setAttribute("sq-interactable");
 		fireextra03.setAttribute("class", "buttons");
-		fireextra03.setAttribute("click-url", "url: https://bantervr.com/events");
+        fireextra03.setAttribute("forcekeyboard", "false");
+		// fireextra03.setAttribute("click-url", "url: https://bantervr.com/events");
 		firescreen.appendChild(fireextra03);
 		// Extra Button 03 Part 2
 		let fireextra03p2 = document.createElement("a-text");
