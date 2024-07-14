@@ -9,6 +9,7 @@ window.addEventListener('load', (event) => {
 		console.log("Window is Banter, Loading FireScreen");
 		setTimeout(() => { 
 			enableFireScreen();
+            const handbuttonstuff = new handButtonCrap();
 		}, 3000);
 	} else { console.log("Window is Not Banter, Not Starting Script");};
 });
@@ -477,7 +478,7 @@ class handButtonCrap{
 	  if(window.isBanter) { 
 		setTimeout(() => { 
 		  this.setupHandControls();
-		}, 15000); 
+		}, 5000); 
 	  };
 	}
 // firemutebutc
@@ -600,7 +601,6 @@ class handButtonCrap{
 };
 
 let handbuttonmutestate = true;
-const handbuttonstuff = new handButtonCrap();
 
 
 ////////////////////////////////////////////////////////////////
