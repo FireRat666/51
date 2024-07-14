@@ -96,7 +96,7 @@ scene.On("unity-loaded", () => {
         const username = (user.name ? user.name : user.id.substr(0, 6));
         let themessage = randommessage + username; 
         speak(themessage);
-    }, 6000);
+    }, 7000);
     console.log("Just testing, this should run after unity scene load");
 })
 
@@ -105,5 +105,5 @@ if(window.isBanter) {
     setTimeout(() => { 
         console.log("Just testing, this should run after 5 seconds once");
         console.log("Test user Id: " + user.id);
-    }, 7000);
+    }, 8000);
 };
