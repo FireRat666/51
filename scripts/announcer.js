@@ -74,13 +74,35 @@ if(window.isBanter && announceevents === true) {
 
 
 // Welcome message for user entering the space
-if(window.isBanter) {
+window.loadDoneCallback = () => {
+    // if(window.isBanter) {
+    //     const username = (user.name ? user.name : user.id.substr(0, 6));
+    //     let themessage = "Oh no, you broke everything " + username + " now what will we do"; 
+    //     speak(themessage);
+    //     console.log("Just testing, this should run after load done");
+    // };
+    console.log("Just testing, this should run after load done");
+};
 
+const scene = BS.BanterScene.getInstance();
+
+scene.On("loaded", () => {
+    console.log("TEST TEST TEST, this should run after scene load");
+})
+
+scene.On("unity-loaded", () => {
     setTimeout(() => { 
         let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
         const username = (user.name ? user.name : user.id.substr(0, 6));
         let themessage = randommessage + username; 
         speak(themessage);
-        console.log("Just testing, this should run after 5 seconds once");
     }, 7000);
+    console.log("Just testing, this should run after unity scene load");
+})
+
+
+if(window.isBanter) {
+    setTimeout(() => { 
+        console.log("Test user Id: " + user.id);
+    }, 8000);
 };
