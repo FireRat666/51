@@ -58,8 +58,9 @@ await scene.SetSettings(settings);
 
 
 
-    testbut() {
-      let vvalue = parseFloat(this.el.getAttribute("handthing"));
+    testbut(vvalue) {
+      // let vvalue = parseFloat(this.el.getAttribute("handthing"));
+        console.log("vvalue: " + vvalue)
         document.querySelectorAll('.firescreenc')
           .forEach((firescreenc) => {
             let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
@@ -94,14 +95,14 @@ await scene.SetSettings(settings);
           position: "-1 0.2 0.4", 
           testthing: "0.05", 
           colour: "#00FF00", 
-          callback: () => this.testbut()
+          callback: () => this.testbut("0.05")
         },
         {
           image: "https://firer.at/files/Arrow.png",
           position: "-1 0.2 -0.4", 
           testthing: "-0.05", 
           colour: "#00FF00", 
-          callback: () => this.testbut()
+          callback: () => this.testbut("-0.05")
         }
       ].forEach(item => {
         const button = document.createElement("a-plane");
