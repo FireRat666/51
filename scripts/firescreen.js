@@ -494,7 +494,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {                         
 		const TheBrowser = this.el.parentElement;
-		let thebuttoncolor = this.el.getAttribute("color");
+		thebuttoncolor = this.el.getAttribute("color");
 		if (thebuttoncolor != null) {
 			this.el.setAttribute("color", "#FFFFFF"); 
 			setTimeout(() => {  this.el.setAttribute("color", thebuttoncolor); }, 100);
@@ -544,7 +544,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {  
 		var screenScale = this.el.parentElement;
-		let thebuttoncolor = this.el.getAttribute("color");
+		thebuttoncolor = this.el.getAttribute("color");
 		let scaleX = screenScale.object3D.scale.x;
 		let scaleY = screenScale.object3D.scale.y;
 		switch (this.data.size) {
@@ -575,7 +575,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {
 		let browserRotation = this.el.parentElement;
-		let thebuttoncolor = browserRotation.getAttribute("button-color");
+		thebuttoncolor = browserRotation.getAttribute("button-color");
 		let x = browserRotation.object3D.rotation.x;
 		let y = browserRotation.object3D.rotation.y;
 		let z = browserRotation.object3D.rotation.z;
@@ -597,7 +597,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {
 		const rotats = this.el;
-		let thebuttoncolor = this.el.parentElement.getAttribute("button-color");
+		thebuttoncolor = this.el.parentElement.getAttribute("button-color");
 		const rotatebutton = rotats.parentElement.children[6];
 		var els = document.getElementsByClassName("tilt");
 		if (rotatebutton.getAttribute("visible")) {
@@ -618,7 +618,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {
 		const hidebut = this.el;
-		let thebuttoncolor = this.el.parentElement.getAttribute("button-color");
+		thebuttoncolor = this.el.parentElement.getAttribute("button-color");
 		const somebutton = hidebut.parentElement.children[2];
 		var buttons = document.getElementsByClassName("buttons");
 		if (somebutton.getAttribute("visible")) {
@@ -641,7 +641,7 @@ console.log("keepsoundlevel");
 	init: function () {
 	  this.el.addEventListener("click", () => {  
 		var screenVolume = this.el.parentElement;
-		let thebuttoncolor = this.el.getAttribute("color");
+		thebuttoncolor = this.el.getAttribute("color");
 		let volume = parseFloat(screenVolume.getAttribute("volumelevel"));
 		volume += this.data.vvalue;
 		volume = volume.toFixed(2);
@@ -662,7 +662,7 @@ console.log("keepsoundlevel");
   },
   init: function () {
     const browserElement = this.el.parentElement;
-	let thebuttoncolor = this.el.getAttribute("color");
+	thebuttoncolor = this.el.getAttribute("color");
     this.el.addEventListener("click", () => {
       const actionType = this.data.action;
       this.el.setAttribute("color", "#AAAAAA");
