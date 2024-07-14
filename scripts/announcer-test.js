@@ -1,16 +1,23 @@
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
 const welcomeMessages = [
-  ", What the hell, you broke everything, it was just working, what did you do?!",
-  " welcome message blah blah!",
-  " has joined, what will they do now?",
-  " was pushed into a portal, quick call the police",
-  ", be careful of DedZed the fish overlord"
-];
+    ", What the hell, you broke everything, it was just working, what did you do?!",
+    " welcome message blah blah!",
+    " has joined, what will they do now?",
+    " was pushed into a portal, quick call the police",
+    ", be careful of DedZed the fish overlord"
+  ];
+
+  const joinMessages = [
+    ", What the hell, you broke everything, it was just working, what did you do?!",
+    "Hello, Welcome to the space ",
+    "What are you doing here ",
+    "Enjoy your stay "
+  ];
 
 // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
   console.log("saying:", text);
-  const welcome = await fetch('https://say-something.glitch.me/say/' + text);
+  const welcome = await fetch('https://speak-something.glitch.me/say/' + text);
   const url = await welcome.text();
   let audio = new Audio("data:audio/mpeg;base64," + url);
   audio.autoplay = true;
@@ -80,8 +87,9 @@ window.loadDoneCallback = ()=>{
 if(window.isBanter) {
 
     setTimeout(() => { 
+        let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
         const username = (user.name ? user.name : user.id.substr(0, 6));
-        let themessage = "Hello, Welcome to the space " + username; 
+        let themessage = randommessage + username; 
         speak(themessage);
         console.log("Just testing, this should run after 5 seconds once");
     }, 5000);
