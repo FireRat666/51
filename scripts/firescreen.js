@@ -27,10 +27,10 @@ function enableFireScreen() {
       const pWebsite = getAttrOrDef(scripts[i], "website", "https://firer.at/pages/games.html");
       const pMipmaps = getAttrOrDef(scripts[i], "mipmaps", "1");
       const pPixelsperunit = getAttrOrDef(scripts[i], "pixelsperunit", "1600");
-      const pBackdrop = getAttrOrDef(scripts[i], "backdrop", "1");
-      const pExtras = getAttrOrDef(scripts[i], "extras", "0");
-      const pCastMode = getAttrOrDef(scripts[i], "castmode", "0");
-      const pDisableInteraction = getAttrOrDef(scripts[i], "disable-interaction", "0");
+      const pBackdrop = getAttrOrDef(scripts[i], "backdrop", "true");
+      const pExtras = getAttrOrDef(scripts[i], "extras", "false");
+      const pCastMode = getAttrOrDef(scripts[i], "castmode", "false");
+      const pDisableInteraction = getAttrOrDef(scripts[i], "disable-interaction", "false");
       const pButtonColor = getAttrOrDef(scripts[i], "button-color", "#00FF00");
       const pBackDropColor = getAttrOrDef(scripts[i], "backdrop-color", "#000000");
       const pVolUpColor = getAttrOrDef(scripts[i], "volup-color", "null");
@@ -77,14 +77,14 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
 	firescreen.setAttribute( "sq-browser", p_url);
-	if (p_disableinteraction === "0") {
+	if (p_disableinteraction === "false") {
 		firescreen.setAttribute("sq-browser-interaction");
 		firescreen.setAttribute("enable-interaction");
 	}
 	firescreen.setAttribute("class", "firescreenc");
 	firescreen.setAttribute("name", "firescreenc");
   
-	if (p_castmode == "0") {
+	if (p_castmode == "false") {
 		firescreen.setAttribute( "sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
 	};
 	// document.querySelector("a-scene").appendChild(firescreen);
@@ -101,7 +101,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 	firecollider.setAttribute("sq-grabbable");
 	firecollider.setAttribute("visible", "false");
 	firescreen.appendChild(firecollider);
-	if (p_backdrop == "1") {
+	if (p_backdrop == "true") {
 		// Backdrop for contrast
 		let firebackdrop = document.createElement("a-box");
 		firebackdrop.setAttribute("opacity", "0.9");
@@ -113,7 +113,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 		firescreen.appendChild(firebackdrop);
 	};
 
-	if (p_castmode == "0") {
+	if (p_castmode == "false") {
 		// lock/unlock button to toggle the screen collider 
 		let firelockbutton = document.createElement("a-plane");
 		firelockbutton.setAttribute("position", "0 0.38 0");
@@ -379,7 +379,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 	firevoldown.setAttribute("volume-level", "vvalue: -0.05");
 	firescreen.appendChild(firevoldown);
 
-	if (p_extras == "1") {
+	if (p_extras == "true") {
 		// Extra Button 01 Part 1
 		let fireextra01 = document.createElement("a-plane");
 		fireextra01.id = "extra-button-1";
