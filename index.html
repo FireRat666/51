@@ -52,7 +52,6 @@ await scene.SetSettings(settings);
 
 
   mute() {
-      document.querySelectorAll('.firescreenc')
       if (handbuttonmutestate) {
         handbuttonmutestate = false;
         console.log("handbuttonmutestate Set to False");
@@ -60,6 +59,7 @@ await scene.SetSettings(settings);
         handbuttonmutestate = true;
         console.log("handbuttonmutestate Set to True");
       };
+      document.querySelectorAll('.firescreenc')
         .forEach((firescreenc) => {
           if(handbuttonmutestate) {
             firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
