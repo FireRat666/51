@@ -30,7 +30,7 @@ function enableFireScreen() {
       const pBackdrop = getAttrOrDef(scripts[i], "backdrop", "true");
       const pExtras = getAttrOrDef(scripts[i], "extras", "false");
       const pCastMode = getAttrOrDef(scripts[i], "castmode", "false");
-      const p_HandButtons = getAttrOrDef(scripts[i], "hand-controls", "false");
+      const pHandButtons = getAttrOrDef(scripts[i], "hand-controls", "false");
       const pDisableInteraction = getAttrOrDef(scripts[i], "disable-interaction", "false");
       const pButtonColor = getAttrOrDef(scripts[i], "button-color", "#00FF00");
       const pBackDropColor = getAttrOrDef(scripts[i], "backdrop-color", "#000000");
@@ -44,7 +44,7 @@ function enableFireScreen() {
       const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; mode: local;";
       createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pExtras, pCastMode, pWebsite, pButtonColor, 
 		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor,
-		pDisableInteraction, pButtonPos, p_HandButtons);
+		pDisableInteraction, pButtonPos, pHandButtons);
     }
   };
 }
