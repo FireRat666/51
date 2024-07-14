@@ -72,10 +72,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
             handcontrols.setAttribute("src", "https://51.firer.at/scripts/handcontrols.js");
             document.querySelector("a-scene").appendChild(handcontrols);
         }
-	//just to be sure we don't create multiple
-	// disableFireScreen();
-	// Reset firescree variable maybe
-	// firescreen = "null";
+        
 	buttoncolor = p_buttoncolor;
 	volupcolor = p_volupcolor;
 	voldowncolor = p_voldowncolor;
