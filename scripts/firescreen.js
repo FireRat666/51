@@ -19,7 +19,7 @@ function enableFireScreen() {
   const scripts = document.getElementsByTagName("script");
   for (let i = 0; i < scripts.length; i++) {
     if (getAttrOrDef(scripts[i], "src", "") ===
-      "https://51.firer.at/test/firescreen.js" ) { // CHANGE THIS URL IF COPYING THIS SCRIPT
+      "https://51.firer.at/scripts/firescreen.js" ) { // CHANGE THIS URL IF COPYING THIS SCRIPT
       const pPos = getV3FromStr(getAttrOrDef(scripts[i], "position", "1 2 -1"));
       const pRot = getV3FromStr(getAttrOrDef(scripts[i], "rotation", "0 0 0"));
       const pSca = getV3FromStr(getAttrOrDef(scripts[i], "scale", "1 1 1"));
