@@ -47,10 +47,17 @@ function enableFireScreen() {
       const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
       const pIconVolDownUrl = getAttrOrDef(scripts[i], "icon-voldown-url", "https://firer.at/files/VolumeLow.png");
       const pIconDirectionUrl = getAttrOrDef(scripts[i], "icon-direction-url", "https://firer.at/files/Arrow.png");
+      const pCustomButton01Url = getAttrOrDef(scripts[i], "custom-button01-url", "false");
+      const pCustomButton01Text = getAttrOrDef(scripts[i], "custom-button01-text", "Custom Button 01");
+      const pCustomButton02Url = getAttrOrDef(scripts[i], "custom-button02-url", "false");
+      const pCustomButton02Text = getAttrOrDef(scripts[i], "custom-button02-text", "Custom Button 02");
+      const pCustomButton03Url = getAttrOrDef(scripts[i], "custom-button03-url", "false");
+      const pCustomButton03Text = getAttrOrDef(scripts[i], "custom-button03-text", "Custom Button 03");
       const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
       createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pExtras, pCastMode, pWebsite, pButtonColor, 
 		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor,
-		pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight);
+		pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text, 
+		pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text);
     }
   };
 }
@@ -68,7 +75,8 @@ function disableFireScreen() {
 
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_extras, p_castmode, p_website, p_buttoncolor, 
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor,
-	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height) {
+	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text, 
+	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
         if (p_handbuttons == "true" && firstrunhandcontrols === true) {
             firstrunhandcontrols = false;
             console.log("Enabling the Hand Controls")
@@ -410,8 +418,10 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 	firevoldown.setAttribute("volume-level", "vvalue: -0.05");
 	firescreen.appendChild(firevoldown);
 
-	if (p_extras == "true") {
-		// Extra Button 01 Part 1
+
+	
+	if (p_custombutton01url != "false") {
+		// Custom Button 01 Part 1
 		let fireextra01 = document.createElement("a-plane");
 		fireextra01.id = "extra-button-1";
 		fireextra01.setAttribute("position", "0.68 0.3 0");
@@ -422,16 +432,20 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 		fireextra01.setAttribute("sq-collider");
 		fireextra01.setAttribute("sq-interactable");
 		fireextra01.setAttribute("class", "buttons");
-		fireextra01.setAttribute("click-url", "url: https://jackbox.tv/");
+		fireextra01.setAttribute("click-url", "url:" + p_custombutton01url);
 		firescreen.appendChild(fireextra01);
-		// Extra Button 01 Part 2
+		// Custom Button 01 Part 2
 		let fireextra01p2 = document.createElement("a-text");
-		fireextra01p2.setAttribute("value", "Jackbox.tv");
+		fireextra01p2.setAttribute("value", p_custombutton01text);
 		fireextra01p2.setAttribute("position", "0 0 0.01");
 		fireextra01p2.setAttribute("scale", "0.11 0.11 0.11");
 		fireextra01p2.setAttribute("color", "#FFFFFF");
 		fireextra01p2.setAttribute("align", "center");
 		fireextra01.appendChild(fireextra01p2);
+
+	};
+
+	if (p_custombutton02url != "false") {
 		// Extra Button 02 Part 1
 		let fireextra02 = document.createElement("a-plane");
 		fireextra02.id = "extra-button-2";
@@ -443,16 +457,18 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 		fireextra02.setAttribute("sq-collider");
 		fireextra02.setAttribute("sq-interactable");
 		fireextra02.setAttribute("class", "buttons");
-		fireextra02.setAttribute("click-url", "url: https://papas.tv/");
+		fireextra02.setAttribute("click-url", "url:" + p_custombutton02url);
 		firescreen.appendChild(fireextra02);
 		// Extra Button 02 Part 2
 		let fireextra02p2 = document.createElement("a-text");
-		fireextra02p2.setAttribute("value", "Papas.tv");
+		fireextra02p2.setAttribute("value", p_custombutton02text);
 		fireextra02p2.setAttribute("position", "0 0 0.01");
 		fireextra02p2.setAttribute("scale", "0.11 0.11 0.11");
 		fireextra02p2.setAttribute("color", "#FFFFFF");
 		fireextra02p2.setAttribute("align", "center");
 		fireextra02.appendChild(fireextra02p2);
+	};
+	if (p_custombutton03url != "false") {
 		// Extra Button 03 Part 1
 		let fireextra03 = document.createElement("a-plane");
 		fireextra03.id = "extra-button-3";
@@ -465,11 +481,11 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ex
 		fireextra03.setAttribute("sq-interactable");
 		fireextra03.setAttribute("class", "buttons");
         // fireextra03.setAttribute("forcekeyboard", "false");
-		fireextra03.setAttribute("click-url", "url: https://bantervr.com/events");
+		fireextra03.setAttribute("click-url", "url:" + p_custombutton03url);
 		firescreen.appendChild(fireextra03);
 		// Extra Button 03 Part 2
 		let fireextra03p2 = document.createElement("a-text");
-		fireextra03p2.setAttribute("value", "Banter Events");
+		fireextra03p2.setAttribute("value", p_custombutton03text);
 		fireextra03p2.setAttribute("position", "0 0 0.01");
 		fireextra03p2.setAttribute("scale", "0.11 0.11 0.11");
 		fireextra03p2.setAttribute("color", "#FFFFFF");

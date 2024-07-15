@@ -1,3 +1,5 @@
+let username = "";
+
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
 const welcomeMessages = [
     ", What the hell, you broke everything, it was just working, what did you do?!",
@@ -7,10 +9,15 @@ const welcomeMessages = [
     ", be careful of DedZed the fish overlord"
   ];
 
+  const joinMessages = [
+    username + ", What the hell, you broke everything, it was just working, what did you do? ",
+    "Hello, Welcome to the space " + username,
+    "What are you doing here " + username,
+    "Hello " + username + username + username + username + " Failure detected, shutting down",
+    "Enjoy your stay " + username
+  ];
 
 // Main Speak Function, Thank you Elin and everyone
-let username = "";
-
 async function speak(m) {
   console.log("saying:" + m);
   var msg = new SpeechSynthesisUtterance();
@@ -85,36 +92,16 @@ if(window.isBanter && announceevents === true) {
 
 
 // Welcome message for user entering the space
-window.loadDoneCallback = () => {
-    // if(window.isBanter) {
-    //     const username = (user.name ? user.name : user.id.substr(0, 6));
-    //     let themessage = "Oh no, you broke everything " + username + " now what will we do"; 
-    //     speak(themessage);
-    //     console.log("Just testing, this should run after load done");
-    // };
-    console.log("Just testing, this should run after load done");
-};
-
 const scene = BS.BanterScene.getInstance();
-
-scene.On("loaded", () => {
-    console.log("TEST TEST TEST, this should run after scene load");
-})
 
 scene.On("unity-loaded", () => {
     setTimeout(() => { 
 
       username = (user.name ? user.name : user.id.substr(0, 6));
       
-      const joinMessages = [
-        username + ", What the hell, you broke everything, it was just working, what did you do? ",
-        "Hello, Welcome to the space " + username,
-        "What are you doing here " + username,
-        "Hello " + username + username + username + username + " Failure detected, shutting down",
-        "Enjoy your stay " + username
-      ];
+      const theMessages = joinMessages;
   
-      let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
+      let randommessage = theMessages[Math.floor(Math.random() * theMessages.length)];
       // let themessage = randommessage; 
       speak(randommessage);
     }, 8000);
@@ -122,9 +109,23 @@ scene.On("unity-loaded", () => {
     console.log("unity-loaded Test user Id: " + window.user.id);
 })
 
+// Test on load stuff
+window.loadDoneCallback = () => {
+  // if(window.isBanter) {
+  //     const username = (user.name ? user.name : user.id.substr(0, 6));
+  //     let themessage = "Oh no, you broke everything " + username + " now what will we do"; 
+  //     speak(themessage);
+  //     console.log("Just testing, this should run after load done");
+  // };
+  console.log("Just testing, this should run after load done");
+};
 
 if(window.isBanter) {
     setTimeout(() => { 
         console.log("Test user Id: " + window.user.id);
     }, 10000);
 };
+
+scene.On("loaded", () => {
+  console.log("TEST TEST TEST, this should run after scene load");
+})
