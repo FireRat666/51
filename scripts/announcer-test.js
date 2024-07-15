@@ -26,7 +26,6 @@ async function speak(m) {
   speechSynthesis.speak(msg);
 }
 
-
 // async function speak(text) {
 //   console.log("saying:", text);
 //   const welcome = await fetch('https://speak-something.glitch.me/say/' + text);
@@ -36,6 +35,7 @@ async function speak(m) {
 //   audio.play();
 //   audio.volume = 0.08;
 // };
+
 
 // This function upon a user joining will select a random welcome message and call the speak function to say it
 if(window.isBanter) {
@@ -92,7 +92,7 @@ scene.On("unity-loaded", () => {
     setTimeout(() => { 
 
       username = (user.name ? user.name : user.id.substr(0, 6));
-      
+
       const joinMessages = [
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
         "Hello, Welcome to the space " + username,
@@ -105,18 +105,12 @@ scene.On("unity-loaded", () => {
       // let themessage = randommessage; 
       speak(randommessage);
     }, 8000);
-    console.log("Just testing, this should run after unity scene load");
+    console.log("This should run after unity scene load");
     console.log("unity-loaded Test user Id: " + window.user.id);
 })
 
 // Test on load stuff
 window.loadDoneCallback = () => {
-  // if(window.isBanter) {
-  //     const username = (user.name ? user.name : user.id.substr(0, 6));
-  //     let themessage = "Oh no, you broke everything " + username + " now what will we do"; 
-  //     speak(themessage);
-  //     console.log("Just testing, this should run after load done");
-  // };
   console.log("Just testing, this should run after load done");
 };
 
