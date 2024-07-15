@@ -530,7 +530,8 @@ function setBrowserWidths() {
 				let browserpageHeight = theBrowser.getAttribute("Height");
 				theBrowser.browser.pageWidth=browserpageWidth;
 				theBrowser.browser.pageHeight=browserpageHeight;
-				console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight)
+				console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
+				thisloopnumber++
 			};
 		
 		}, 1000);
