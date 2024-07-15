@@ -99,8 +99,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firescreen.setAttribute("scale", p_sca);
 	// firescreen.browser.pageWidth = p_width;
 	// firescreen.browser.pageHeight = p_height;
-	firescreen.browser.pageWidth=p_width;
-	firescreen.browser.pageHeight=p_height;
+	// firescreen.browser.pageWidth=p_width;
+	// firescreen.browser.pageHeight=p_height;
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
 	firescreen.setAttribute( "sq-browser", p_url);
