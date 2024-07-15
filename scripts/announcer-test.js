@@ -18,10 +18,11 @@ const welcomeMessages = [
 
 
 async function speak(m) {
-  console.log("saying:", m);
+  console.log("saying:" + m);
   var msg = new SpeechSynthesisUtterance();
   var voices = window.speechSynthesis.getVoices();
   msg.voice = voices[2];
+  console.log("Message Voice:" + voices[2]);
   msg.voiceURI = "native";
   msg.volume = 0.2;
   msg.rate = 1;
