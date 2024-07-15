@@ -15,7 +15,7 @@ async function speak(m) {
   console.log("saying:" + m);
   var msg = new SpeechSynthesisUtterance();
   var voices = window.speechSynthesis.getVoices();
-  msg.voice = voices[1];
+  msg.voice = voices[0];
   msg.voiceURI = "native";
   msg.volume = 0.2;
   msg.rate = 1;
