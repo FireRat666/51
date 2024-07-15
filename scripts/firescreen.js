@@ -34,7 +34,6 @@ function enableFireScreen() {
       const pWidth = getAttrOrDef(scripts[i], "width", "1024");
       const pHeight = getAttrOrDef(scripts[i], "height", "576");
       const pBackdrop = getAttrOrDef(scripts[i], "backdrop", "true");
-      const pExtras = getAttrOrDef(scripts[i], "extras", "false");
       const pCastMode = getAttrOrDef(scripts[i], "castmode", "false");
       const pHandButtons = getAttrOrDef(scripts[i], "hand-controls", "false");
       const pDisableInteraction = getAttrOrDef(scripts[i], "disable-interaction", "false");
@@ -54,7 +53,7 @@ function enableFireScreen() {
       const pCustomButton03Url = getAttrOrDef(scripts[i], "custom-button03-url", "false");
       const pCustomButton03Text = getAttrOrDef(scripts[i], "custom-button03-text", "Custom Button 03");
       const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
-      createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pExtras, pCastMode, pWebsite, pButtonColor, 
+      createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pCastMode, pWebsite, pButtonColor, 
 		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor,
 		pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text, 
 		pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text);
@@ -73,7 +72,7 @@ function disableFireScreen() {
 	keepsoundlevel();
 };
 
-function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_extras, p_castmode, p_website, p_buttoncolor, 
+function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_castmode, p_website, p_buttoncolor, 
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor,
 	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text, 
 	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
