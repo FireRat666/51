@@ -7,12 +7,6 @@ const welcomeMessages = [
     ", be careful of DedZed the fish overlord"
   ];
 
-  const joinMessages = [
-    username + ", What the hell, you broke everything, it was just working, what did you do? ",
-    "Hello, Welcome to the space " + username,
-    "What are you doing here " + username,
-    "Enjoy your stay " + username
-  ];
 
 // Main Speak Function, Thank you Elin and everyone
 let username = "";
@@ -110,6 +104,14 @@ scene.On("loaded", () => {
 
 scene.On("unity-loaded", () => {
     setTimeout(() => { 
+      
+  const joinMessages = [
+    username + ", What the hell, you broke everything, it was just working, what did you do? ",
+    "Hello, Welcome to the space " + username,
+    "What are you doing here " + username,
+    "Enjoy your stay " + username
+  ];
+  
       username = (user.name ? user.name : user.id.substr(0, 6));
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
       let themessage = randommessage; 
