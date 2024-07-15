@@ -436,7 +436,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		// Custom Button 01 Part 2
 		let fireextra01p2 = document.createElement("a-text");
 		fireextra01p2.setAttribute("value", p_custombutton01text);
-		fireextra01p2.setAttribute("position", "0 0 0.01");
+		fireextra01p2.setAttribute("position", "0 0 0.005");
 		fireextra01p2.setAttribute("scale", "0.11 0.11 0.11");
 		fireextra01p2.setAttribute("color", "#FFFFFF");
 		fireextra01p2.setAttribute("align", "center");
@@ -461,7 +461,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		// Extra Button 02 Part 2
 		let fireextra02p2 = document.createElement("a-text");
 		fireextra02p2.setAttribute("value", p_custombutton02text);
-		fireextra02p2.setAttribute("position", "0 0 0.01");
+		fireextra02p2.setAttribute("position", "0 0 0.005");
 		fireextra02p2.setAttribute("scale", "0.11 0.11 0.11");
 		fireextra02p2.setAttribute("color", "#FFFFFF");
 		fireextra02p2.setAttribute("align", "center");
@@ -485,7 +485,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		// Extra Button 03 Part 2
 		let fireextra03p2 = document.createElement("a-text");
 		fireextra03p2.setAttribute("value", p_custombutton03text);
-		fireextra03p2.setAttribute("position", "0 0 0.01");
+		fireextra03p2.setAttribute("position", "0 0 0.005");
 		fireextra03p2.setAttribute("scale", "0.11 0.11 0.11");
 		fireextra03p2.setAttribute("color", "#FFFFFF");
 		fireextra03p2.setAttribute("align", "center");
