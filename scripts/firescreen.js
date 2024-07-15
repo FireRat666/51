@@ -520,6 +520,7 @@ console.log("keepsoundlevel");
 
 let widthalreadyset = false;
 function setBrowserWidths() {
+	console.log("setBrowserWidths called")
 	if (widthalreadyset === false) {
 		widthalreadyset = true;
 		let thisloopnumber = 0;
@@ -533,7 +534,7 @@ function setBrowserWidths() {
 			console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
 			
 		};
-	};
+	} else { console.log("setBrowserWidths already set")}
 }
 
 
