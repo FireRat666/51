@@ -7,6 +7,7 @@ let IconVolUpUrl = "";
 let IconVolDownUrl = "";
 let IconMuteUrl = "";
 let firstrunhandcontrols = true;
+let numberofbrowsers = 0;
 // Create screen on space load 
 window.addEventListener('load', (event) => {
 	if(window.isBanter) {
@@ -18,7 +19,7 @@ window.addEventListener('load', (event) => {
 });
 
 function enableFireScreen() {
-  console.log("Enabling Fire Screen");
+  console.log("Enabling Fire Screen(s)");
   // window.enableControllerExtras(); // CAN REMOVE THIS LINE
   const scripts = document.getElementsByTagName("script");
   for (let i = 0; i < scripts.length; i++) {
@@ -84,7 +85,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
             handcontrols.setAttribute("src", "https://51.firer.at/scripts/handcontrols.js");
             document.querySelector("a-scene").appendChild(handcontrols);
         }
-        
+	numberofbrowsers++    
 	thebuttoncolor = p_buttoncolor;
 	volupcolor = p_volupcolor;
 	voldowncolor = p_voldowncolor;
@@ -92,14 +93,14 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
     IconVolDownUrl = p_iconvoldownurl;
     IconMuteUrl = p_iconmuteurl;
 	let firescreen = document.createElement("a-entity");
-	firescreen.id = "fires-browser";
+	firescreen.id = "fires-browser" + numberofbrowsers;
 	firescreen.setAttribute("position", p_pos);
 	firescreen.setAttribute("rotation", p_rot);
 	firescreen.setAttribute("scale", p_sca);
 	// firescreen.browser.pageWidth = p_width;
 	// firescreen.browser.pageHeight = p_height;
-	firescreen.setAttribute("pageWidth", p_width);
-	firescreen.setAttribute("pageHeight", p_height);
+	firescreen.browser.pageWidth=p_width;
+	firescreen.browser.pageHeight=p_height;
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
 	firescreen.setAttribute( "sq-browser", p_url);
@@ -493,7 +494,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	}; 
 	document.querySelector("a-scene").appendChild(firescreen);
 	setTimeout(() => { keepsoundlevel(); }, 1000);
-	console.log("Fire screen Enabled");
+	console.log(numberofbrowsers + " Fire screen(s) Enabled");
 };
 
 // Sets the default sound level probably
