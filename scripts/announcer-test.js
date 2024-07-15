@@ -104,18 +104,19 @@ scene.On("loaded", () => {
 
 scene.On("unity-loaded", () => {
     setTimeout(() => { 
-      
-  const joinMessages = [
-    username + ", What the hell, you broke everything, it was just working, what did you do? ",
-    "Hello, Welcome to the space " + username,
-    "What are you doing here " + username,
-    "Enjoy your stay " + username
-  ];
-  
+
       username = (user.name ? user.name : user.id.substr(0, 6));
+      
+      const joinMessages = [
+        username + ", What the hell, you broke everything, it was just working, what did you do? ",
+        "Hello, Welcome to the space " + username,
+        "What are you doing here " + username,
+        "Enjoy your stay " + username
+      ];
+  
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
-      let themessage = randommessage; 
-      speak(themessage);
+      // let themessage = randommessage; 
+      speak(randommessage);
     }, 8000);
     console.log("Just testing, this should run after unity scene load");
     console.log("unity-loaded Test user Id: " + window.user.id);
