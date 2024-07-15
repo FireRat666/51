@@ -97,8 +97,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firescreen.setAttribute("position", p_pos);
 	firescreen.setAttribute("rotation", p_rot);
 	firescreen.setAttribute("scale", p_sca);
-	// firescreen.browser.pageWidth = p_width;
-	// firescreen.browser.pageHeight = p_height;
+	firescreen.setAttribute("pageWidth", p_width);
+	firescreen.setAttribute("pageHeight", p_height);
 	// firescreen.browser.pageWidth=p_width;
 	// firescreen.browser.pageHeight=p_height;
 	firescreen.setAttribute("volumelevel", p_volume);
@@ -515,6 +515,34 @@ console.log("keepsoundlevel");
 
 
 ////////////////////////////////////////////////////////////////
+
+
+let widthalreadyset = false;
+function setBrowserWidths() {
+	if (widthalreadyset === false) {
+		widthalreadyset = true;
+		setTimeout(() => { 
+			let thisloopnumber = 1;
+			while (thisloopnumber < numberofbrowsers) {
+				let theBrowser = document.getElementById("fires-browser" + thisloopnumber);
+				let browserpageWidth = theBrowser.getAttribute("pageWidth");
+				let browserpageHeight = theBrowser.getAttribute("Height");
+				theBrowser.browser.pageWidth=browserpageWidth;
+				theBrowser.browser.pageHeight=browserpageHeight;
+				console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight)
+			};
+		
+		}, 1000);
+
+	};
+}
+
+
+
+
+
+
+
 
 
 // Everyone who helped make this possible, HBR, Vanquisher, DedZed, Sebek and FireRat, And thank you to everyone who helped test it
