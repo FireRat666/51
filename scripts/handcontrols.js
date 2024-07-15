@@ -34,9 +34,17 @@ class handButtonCrap{
 			let thisbuttoncolor = TheBrowser.getAttribute("button-color");
 			console.log("The button Colours are: " + thisbuttoncolor);
 			if(handbuttonmutestate) {
-				firemutebutc.setAttribute("color","#FFFFFF");
+				if (thisbuttoncolor === null) {
+					firemutebutc.setAttribute("color","#FFFFFF");
+				} else {
+					firemutebutc.setAttribute("color", thisbuttoncolor);
+				};
 			} else {
-				firemutebutc.setAttribute("color","#FF0000");
+				if (thisbuttoncolor === "#FF0000") {
+					firemutebutc.setAttribute("color","#FFFF00");
+				} else { 
+					firemutebutc.setAttribute("color","#FF0000");
+				};
 			}
 		});
 	console.log("test mute button clicked")
