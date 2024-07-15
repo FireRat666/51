@@ -53,20 +53,6 @@
   const banterstuff = new BanterCrap();
 
 
-  function say(m) {
-  var msg = new SpeechSynthesisUtterance();
-  var voices = window.speechSynthesis.getVoices();
-  msg.voice = voices[10];
-  msg.voiceURI = "native";
-  msg.volume = 0.2;
-  msg.rate = 1;
-  msg.pitch = 0.8;
-  msg.text = m;
-  msg.lang = 'en-US';
-  speechSynthesis.speak(msg);
-}
-
-
     </script>
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
