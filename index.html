@@ -52,13 +52,6 @@
 
   const banterstuff = new BanterCrap();
 
-  const voiceschanged = () => {
-  console.log(`Voices #: ${speechSynthesis.getVoices().length}`)
-  speechSynthesis.getVoices().forEach((voice) => {
-    console.log(voice.name, voice.lang)
-  })
-}
-speechSynthesis.onvoiceschanged = voiceschanged
 
     </script>
 		<meta charset="UTF-8" />
