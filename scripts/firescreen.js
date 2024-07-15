@@ -42,7 +42,7 @@ function enableFireScreen() {
       const pBackDropColor = getAttrOrDef(scripts[i], "backdrop-color", "#000000");
       const pVolUpColor = getAttrOrDef(scripts[i], "volup-color", "null");
       const pVolDownColor = getAttrOrDef(scripts[i], "voldown-color", "null");
-      const pMuteColor = getAttrOrDef(scripts[i], "mute-color", "null");
+      const pMuteColor = getAttrOrDef(scripts[i], "mute-color", "#FFFFFF");
       const pButtonPos = getAttrOrDef(scripts[i], "button-position", "0 0 0");
       const pIconMuteUrl = getAttrOrDef(scripts[i], "icon-mute-url", "https://firer.at/files/VolumeMute.png");
       const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
@@ -104,11 +104,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	// firescreen.browser.pageHeight=p_height;
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
-	if (p_mutecolor === "false") {
-		firescreen.setAttribute("mute-color", p_buttoncolor);
-	} else {
-		firescreen.setAttribute("mute-color", p_mutecolor);
-	};
+	firescreen.setAttribute("mute-color", p_mutecolor);
 	firescreen.setAttribute( "sq-browser", p_url);
 	if (p_disableinteraction === "false") {
 		firescreen.setAttribute("sq-browser-interaction");
@@ -372,11 +368,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firemutebut.setAttribute("position", mutebutpos);
 	firemutebut.setAttribute("width", "0.1");
 	firemutebut.setAttribute("height", "0.1");
-	if (p_mutecolor === "false") {
-		firemutebut.setAttribute("color", p_buttoncolor);
-	} else {
-		firemutebut.setAttribute("color", p_mutecolor);
-	};
+	firemutebut.setAttribute("color", p_mutecolor);
 	firemutebut.setAttribute("material", "transparent: true");
 	firemutebut.setAttribute("sq-collider");
 	firemutebut.setAttribute("sq-interactable");
