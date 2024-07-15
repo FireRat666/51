@@ -8,7 +8,7 @@ const welcomeMessages = [
   ];
 
   const joinMessages = [
-    ", What the hell, you broke everything, it was just working, what did you do?!",
+    ", What the hell, you broke everything, it was just working, what did you do? ",
     "Hello, Welcome to the space ",
     "What are you doing here ",
     "Enjoy your stay "
