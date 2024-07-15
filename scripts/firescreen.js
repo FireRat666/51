@@ -527,7 +527,7 @@ function setBrowserWidths() {
 			while (thisloopnumber < numberofbrowsers) {
 				let theBrowser = document.getElementById("fires-browser" + thisloopnumber);
 				let browserpageWidth = theBrowser.getAttribute("pageWidth");
-				let browserpageHeight = theBrowser.getAttribute("Height");
+				let browserpageHeight = theBrowser.getAttribute("pageHeight");
 				theBrowser.browser.pageWidth=browserpageWidth;
 				theBrowser.browser.pageHeight=browserpageHeight;
 				console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
