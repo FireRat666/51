@@ -8,14 +8,14 @@ const welcomeMessages = [
   ];
 
   const joinMessages = [
-    ", What the hell, you broke everything, it was just working, what did you do? ",
-    "Hello, Welcome to the space ",
-    "What are you doing here ",
-    "Enjoy your stay "
+    username + ", What the hell, you broke everything, it was just working, what did you do? ",
+    "Hello, Welcome to the space " + username,
+    "What are you doing here " + username,
+    "Enjoy your stay " + username
   ];
 
 // Main Speak Function, Thank you Elin and everyone
-
+let username = "";
 
 async function speak(m) {
   console.log("saying:" + m);
@@ -49,8 +49,8 @@ if(window.isBanter) {
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 10000) {
       let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-      const name = (user.name ? user.name : user.id.substr(0, 6));
-      const message = name + " " + randommessage; 
+      username = (user.name ? user.name : user.id.substr(0, 6));
+      const message = username + " " + randommessage; 
       await speak(message);
     };
   }
@@ -110,10 +110,10 @@ scene.On("loaded", () => {
 
 scene.On("unity-loaded", () => {
     setTimeout(() => { 
-        let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
-        const username = (user.name ? user.name : user.id.substr(0, 6));
-        let themessage = randommessage + username; 
-        speak(themessage);
+      username = (user.name ? user.name : user.id.substr(0, 6));
+      let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
+      let themessage = randommessage; 
+      speak(themessage);
     }, 8000);
     console.log("Just testing, this should run after unity scene load");
     console.log("unity-loaded Test user Id: " + window.user.id);
