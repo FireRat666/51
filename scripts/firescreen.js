@@ -523,15 +523,16 @@ function setBrowserWidths() {
 	if (widthalreadyset === false) {
 		widthalreadyset = true;
 		setTimeout(() => { 
-			let thisloopnumber = 1;
+			let thisloopnumber = 0;
 			while (thisloopnumber < numberofbrowsers) {
+				thisloopnumber++
 				let theBrowser = document.getElementById("fires-browser" + thisloopnumber);
 				let browserpageWidth = theBrowser.getAttribute("pageWidth");
 				let browserpageHeight = theBrowser.getAttribute("pageHeight");
 				theBrowser.browser.pageWidth=browserpageWidth;
 				theBrowser.browser.pageHeight=browserpageHeight;
 				console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
-				thisloopnumber++
+				
 			};
 		
 		}, 1000);
