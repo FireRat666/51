@@ -42,6 +42,7 @@ function enableFireScreen() {
       const pBackDropColor = getAttrOrDef(scripts[i], "backdrop-color", "#000000");
       const pVolUpColor = getAttrOrDef(scripts[i], "volup-color", "null");
       const pVolDownColor = getAttrOrDef(scripts[i], "voldown-color", "null");
+      const pMuteColor = getAttrOrDef(scripts[i], "mute-color", "null");
       const pButtonPos = getAttrOrDef(scripts[i], "button-position", "0 0 0");
       const pIconMuteUrl = getAttrOrDef(scripts[i], "icon-mute-url", "https://firer.at/files/VolumeMute.png");
       const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
@@ -55,7 +56,7 @@ function enableFireScreen() {
       const pCustomButton03Text = getAttrOrDef(scripts[i], "custom-button03-text", "Custom Button 03");
       const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
       createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pCastMode, pWebsite, pButtonColor, 
-		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor,
+		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor, pMuteColor,
 		pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text, 
 		pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text);
     }
@@ -74,7 +75,7 @@ function disableFireScreen() {
 };
 
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_castmode, p_website, p_buttoncolor, 
-	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor,
+	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
 	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text, 
 	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
         if (p_handbuttons == "true" && firstrunhandcontrols === true) {
@@ -103,6 +104,11 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	// firescreen.browser.pageHeight=p_height;
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
+	if (p_mutecolor === "false") {
+		firescreen.setAttribute("mute-color", p_buttoncolor);
+	} else {
+		firescreen.setAttribute("mute-color", p_mutecolor);
+	};
 	firescreen.setAttribute( "sq-browser", p_url);
 	if (p_disableinteraction === "false") {
 		firescreen.setAttribute("sq-browser-interaction");
@@ -366,7 +372,11 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firemutebut.setAttribute("position", mutebutpos);
 	firemutebut.setAttribute("width", "0.1");
 	firemutebut.setAttribute("height", "0.1");
-	firemutebut.setAttribute("color", "#FFFFFF");
+	if (p_mutecolor === "false") {
+		firemutebut.setAttribute("color", p_buttoncolor);
+	} else {
+		firemutebut.setAttribute("color", p_mutecolor);
+	};
 	firemutebut.setAttribute("material", "transparent: true");
 	firemutebut.setAttribute("sq-collider");
 	firemutebut.setAttribute("sq-interactable");
@@ -608,14 +618,18 @@ function setBrowserWidths() {
 		this.el.addEventListener("click", () => {
 		const TheBrowser = this.el.parentElement;
 		const MuteButton = this.el;
-		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
+		let thisbuttoncolor = TheBrowser.getAttribute("mute-color");
 		if(TheBrowser.getAttribute("datamuted")=="true") {
-			MuteButton.setAttribute("color","#FFFFFF");
+			MuteButton.setAttribute("color", thisbuttoncolor);
 			TheBrowser.setAttribute("datamuted", "false");
 			TheBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 				"document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false);", }, ]);
 		} else {
-			MuteButton.setAttribute("color", thisbuttoncolor);
+			if (thisbuttoncolor === "#FF0000") {
+				MuteButton.setAttribute("color", "#FFFF00");
+			} else {
+				MuteButton.setAttribute("color", "#FF0000");
+			}
 			TheBrowser.setAttribute("datamuted", "true")
 			TheBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 				  "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true);",

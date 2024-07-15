@@ -31,7 +31,7 @@ class handButtonCrap{
 		document.querySelectorAll('.firemutebutc')
 		.forEach((firemutebutc) => {                 
 			const TheBrowser = firemutebutc.parentElement;
-			let thisbuttoncolor = TheBrowser.getAttribute("button-color");
+			let thisbuttoncolor = TheBrowser.getAttribute("mute-color");
 			console.log("The button Colours are: " + thisbuttoncolor);
 			if(handbuttonmutestate) {
 				if (thisbuttoncolor === null) {
