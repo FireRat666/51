@@ -29,7 +29,10 @@ class handButtonCrap{
 			}
 		});
 		document.querySelectorAll('.firemutebutc')
-		.forEach((firemutebutc) => {
+		.forEach((firemutebutc) => {                 
+			const TheBrowser = firemutebutc.parentElement;
+			let thisbuttoncolor = TheBrowser.getAttribute("button-color");
+			console.log("The button Colours are: " + thisbuttoncolor);
 			if(handbuttonmutestate) {
 				firemutebutc.setAttribute("color","#FFFFFF");
 			} else {

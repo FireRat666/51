@@ -568,31 +568,38 @@ function setBrowserWidths() {
  // Toggle Button for locking and unlocking either screen By Fire with help from HBR
   AFRAME.registerComponent("lockbutton", {
 	init: function () {
-	  this.el.addEventListener("click", () => {
+	  this.el.addEventListener("click", () => {                         
+		const TheBrowser = this.el.parentElement;
 		const lockToggle = this.el;
 		const ColliderScreen = lockToggle.parentElement.children[0];
+		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
 		if (ColliderScreen.getAttribute("visible")) {
-			  lockToggle.setAttribute("color","#FF0000");
-			  ColliderScreen.setAttribute("visible","false");
+			if (thisbuttoncolor === "#FF0000") {
+				lockToggle.setAttribute("color","#FFFF00");
+			} else { 
+				lockToggle.setAttribute("color","#FF0000");
+			};
+			ColliderScreen.setAttribute("visible","false");
 		} else {
-			  lockToggle.setAttribute("color","#00FF00");
-			  ColliderScreen.setAttribute("visible","true");
+			lockToggle.setAttribute("color", thisbuttoncolor);
+			ColliderScreen.setAttribute("visible","true");
 	  }		});  }, 	});
 
  // Toggle Button for Keyboard By Fire with help from HBR
  AFRAME.registerComponent("forcekeyboard", {
 	init: function () {
 	  this.el.addEventListener("click", () => {                         
-    const TheBrowser = this.el.parentElement;
+    	const TheBrowser = this.el.parentElement;
 		let keyboardstate = this.el.getAttribute("forcekeyboard");
+		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
 		if (keyboardstate == "true") {
-      TheBrowser.browser.ToggleKeyboard(0)
-      this.el.setAttribute("forcekeyboard", "false");
-      this.el.setAttribute("color","#FFFFFF");
+			TheBrowser.browser.ToggleKeyboard(0)
+			this.el.setAttribute("forcekeyboard", "false");
+			this.el.setAttribute("color","#FFFFFF");
 		} else {
       TheBrowser.browser.ToggleKeyboard(1)
       this.el.setAttribute("forcekeyboard", "true");
-      this.el.setAttribute("color","#00FF00");
+      this.el.setAttribute("color", thisbuttoncolor);
 	  }		});  }, 	});
 
 // Toggle Sound for browser screen By Fire with help from HBR
@@ -601,13 +608,14 @@ function setBrowserWidths() {
 		this.el.addEventListener("click", () => {
 		const TheBrowser = this.el.parentElement;
 		const MuteButton = this.el;
+		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
 		if(TheBrowser.getAttribute("datamuted")=="true") {
 			MuteButton.setAttribute("color","#FFFFFF");
 			TheBrowser.setAttribute("datamuted", "false");
 			TheBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 				"document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false);", }, ]);
 		} else {
-			MuteButton.setAttribute("color","#FF0000");
+			MuteButton.setAttribute("color", thisbuttoncolor);
 			TheBrowser.setAttribute("datamuted", "true")
 			TheBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 				  "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true);",
