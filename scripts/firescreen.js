@@ -34,7 +34,7 @@ window.addEventListener('load', (event) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    alert("DOM ready!");
+	console.log("DOM ready!");
   });
 
 function enableFireScreen() {
