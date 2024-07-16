@@ -11,8 +11,8 @@ let numberofbrowsers = 0;
 // Create screen on space load 
 
 console.log("This is a test console log");
-const spacescenevar = BS.BanterScene.getInstance();
-spacescenevar.On("unity-loaded", () => {
+const scene = BS.BanterScene.getInstance();
+scene.On("unity-loaded", () => {
     console.log("This should run after unity scene loaded.");
 	if(window.isBanter) {
 		console.log("Window is Banter, Loading FireScreen");
