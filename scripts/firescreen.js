@@ -10,7 +10,8 @@ let firstrunhandcontrols = true;
 let numberofbrowsers = 0;
 // Create screen on space load 
 
-scene.On("unity-loaded", () => {
+const spacescenevar = BS.BanterScene.getInstance();
+spacescenevar.On("unity-loaded", () => {
     console.log("This should run after unity scene loaded.");
 	if(window.isBanter) {
 		console.log("Window is Banter, Loading FireScreen");
