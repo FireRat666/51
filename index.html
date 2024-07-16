@@ -27,6 +27,8 @@
       }
 
       async setSceneSettings() {
+        // To get a reference to the scene from anywhere
+        const scene = BS.BanterScene.getInstance();
       // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
       const settings = new BS.SceneSettings();
       settings.EnableDevTools = true;
