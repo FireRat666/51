@@ -33,6 +33,10 @@ window.addEventListener('load', (event) => {
 	} else { console.log("Window is Not Banter, Not Starting Script");};
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    alert("DOM ready!");
+  });
+
 function enableFireScreen() {
   console.log("Enabling Fire Screen(s)");
   // window.enableControllerExtras(); // CAN REMOVE THIS LINE
