@@ -33,9 +33,9 @@ window.addEventListener('load', (event) => {
 	} else { console.log("Window is Not Banter, Not Starting Script");};
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-	console.log("DOM ready!");
-  });
+// document.addEventListener("DOMContentLoaded", () => {
+// 	console.log("DOM ready!");
+//   });
 
 function enableFireScreen() {
   console.log("Enabling Fire Screen(s)");
