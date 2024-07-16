@@ -9,13 +9,19 @@ let IconMuteUrl = "";
 let firstrunhandcontrols = true;
 let numberofbrowsers = 0;
 // Create screen on space load 
-window.addEventListener('load', (event) => {
+
+scene.On("unity-loaded", () => {
+    console.log("This should run after unity scene loaded.");
 	if(window.isBanter) {
 		console.log("Window is Banter, Loading FireScreen");
 		setTimeout(() => { 
 			enableFireScreen();
 		}, 3000);
 	} else { console.log("Window is Not Banter, Not Starting Script");};
+});
+
+
+window.addEventListener('load', (event) => {
 });
 
 function enableFireScreen() {
