@@ -11,7 +11,11 @@ let numberofbrowsers = 0;
 // Create screen on space load 
 
 console.log("This is a test console log");
+if (scene) {
+	console.log("Scence is already declared maybe?");
+} else {
 const scene = BS.BanterScene.getInstance();
+}
 scene.On("unity-loaded", () => {
     console.log("This should run after unity scene loaded.");
 	if(window.isBanter) {
