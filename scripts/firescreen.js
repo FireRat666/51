@@ -1,6 +1,10 @@
 // Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek and FireRat, And thank you to everyone who helped test it
 var fireScreenOn = 0;
-let thebuttoncolor = "";
+if (thebuttoncolor) {
+	console.log("thebuttoncolor is already declared maybe?");
+} else {
+	let thebuttoncolor = "";
+}
 let volupcolor = "";
 let voldowncolor = "";
 let IconVolUpUrl = "";
