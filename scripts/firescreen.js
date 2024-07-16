@@ -10,6 +10,7 @@ let firstrunhandcontrols = true;
 let numberofbrowsers = 0;
 // Create screen on space load 
 
+console.log("This is a test console log");
 const spacescenevar = BS.BanterScene.getInstance();
 spacescenevar.On("unity-loaded", () => {
     console.log("This should run after unity scene loaded.");
@@ -19,7 +20,7 @@ spacescenevar.On("unity-loaded", () => {
 			enableFireScreen();
 		}, 3000);
 	} else { console.log("Window is Not Banter, Not Starting Script");};
-});
+})
 
 
 // window.addEventListener('load', (event) => {
