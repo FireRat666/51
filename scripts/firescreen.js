@@ -21,8 +21,8 @@ scene.On("unity-loaded", () => {
 });
 
 
-window.addEventListener('load', (event) => {
-});
+// window.addEventListener('load', (event) => {
+// });
 
 function enableFireScreen() {
   console.log("Enabling Fire Screen(s)");
