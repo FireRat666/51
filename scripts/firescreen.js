@@ -37,7 +37,7 @@ function enableFireScreen() {
       const pVolume = getAttrOrDef(scripts[i], "volumelevel", "0.25");
       const pWebsite = getAttrOrDef(scripts[i], "website", "https://firer.at/pages/games.html");
       const pMipmaps = getAttrOrDef(scripts[i], "mipmaps", "1");
-      const pPixelsperunit = getAttrOrDef(scripts[i], "pixelsperunit", "1600");
+      const pPixelsperunit = getAttrOrDef(scripts[i], "pixelsperunit", "1200");
       const pWidth = getAttrOrDef(scripts[i], "width", "1024");
       const pHeight = getAttrOrDef(scripts[i], "height", "576");
       const pBackdrop = getAttrOrDef(scripts[i], "backdrop", "true");
