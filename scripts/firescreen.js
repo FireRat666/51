@@ -22,17 +22,20 @@ const scene = BS.BanterScene.getInstance();
 }
 scene.On("unity-loaded", () => {
     console.log("This should run after unity scene loaded.");
+})
+
+scene.On("loaded", () => {
+    console.log("This should when the scene has settled and all objects are enumerated");
+  })
+
+window.addEventListener('load', (event) => {
 	if(window.isBanter) {
 		console.log("Window is Banter, Loading FireScreen");
 		setTimeout(() => { 
 			enableFireScreen();
 		}, 3000);
 	} else { console.log("Window is Not Banter, Not Starting Script");};
-})
-
-
-// window.addEventListener('load', (event) => {
-// });
+});
 
 function enableFireScreen() {
   console.log("Enabling Fire Screen(s)");
