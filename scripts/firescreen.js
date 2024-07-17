@@ -9,6 +9,15 @@ let IconMuteUrl = "";
 let firstrunhandcontrols = true;
 let numberofbrowsers = 0;
 // Create screen on space load 
+window.onload = (event) => {
+    console.log('The page has fully loaded');
+	if(window.isBanter) {
+		console.log("Window is Banter, Loading FireScreen");
+		setTimeout(() => { 
+			enableFireScreen();
+		}, 3000);
+	} else { console.log("Window is Not Banter, Not Starting Script");};
+};
 
 // console.log("This is a test console log");
 // if (scene) {
@@ -24,14 +33,6 @@ let numberofbrowsers = 0;
 //     console.log("This should when the scene has settled and all objects are enumerated");
 //   })
 
-window.addEventListener('load', (event) => {
-	if(window.isBanter) {
-		console.log("Window is Banter, Loading FireScreen");
-		setTimeout(() => { 
-			enableFireScreen();
-		}, 3000);
-	} else { console.log("Window is Not Banter, Not Starting Script");};
-});
 
 // document.addEventListener("DOMContentLoaded", () => {
 // 	console.log("DOM ready!");
