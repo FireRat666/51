@@ -514,7 +514,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		fireextra03.appendChild(fireextra03p2);
 	}; 
 	document.querySelector("a-scene").appendChild(firescreen);
-	setTimeout(() => { keepsoundlevel();setBrowserWidths(); }, 1000);
+	setTimeout(() => { keepsoundlevel();setBrowserWidths(); }, 1500);
 	console.log(numberofbrowsers + " Fire screen(s) Enabled");
 	
 };
