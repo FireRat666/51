@@ -7,7 +7,7 @@
         console.log("Constructor Loading.");
         if(window.isBanter) { 
           this.LoadAssetBundle();
-          this.setSceneSettings();
+          // this.setSceneSettings();
         };
       }
       async LoadAssetBundle() {
@@ -26,28 +26,28 @@
             console.log("Asset Bundle Loaded");
       }
 
-      async setSceneSettings() {
-        // To get a reference to the scene from anywhere
-        const scene = BS.BanterScene.getInstance();
-      // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
-      const settings = new BS.SceneSettings();
-      settings.EnableDevTools = true;
-      settings.EnableTeleport = true;
-      settings.EnableForceGrab = false;
-      settings.EnableSpiderMan = false;
-      settings.EnablePortals = true;
-      settings.EnableGuests = true;
-      settings.EnableQuaternionPose = false;
-      settings.EnableControllerExtras = false;
-      settings.EnableFriendPositionJoin = false;
-      settings.EnableDefaultTextures = true;
-      settings.EnableAvatars = true;
-      settings.MaxOccupancy = 30;
-      settings.RefreshRate = 90;
-      // settings.ClippingPlane = new Vector2(0.02, 1500);
-      // settings.SpawnPoint = new Vector4(0, 0.1, 0, 90);
-      await scene.SetSettings(settings);
-      }
+      // async setSceneSettings() {
+      //   // To get a reference to the scene from anywhere
+      //   const scene = BS.BanterScene.getInstance();
+      // // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
+      // const settings = new BS.SceneSettings();
+      // settings.EnableDevTools = true;
+      // settings.EnableTeleport = true;
+      // settings.EnableForceGrab = false;
+      // settings.EnableSpiderMan = false;
+      // settings.EnablePortals = true;
+      // settings.EnableGuests = true;
+      // settings.EnableQuaternionPose = false;
+      // settings.EnableControllerExtras = false;
+      // settings.EnableFriendPositionJoin = false;
+      // settings.EnableDefaultTextures = true;
+      // settings.EnableAvatars = true;
+      // settings.MaxOccupancy = 30;
+      // settings.RefreshRate = 90;
+      // // settings.ClippingPlane = new Vector2(0.02, 1500);
+      // // settings.SpawnPoint = new Vector4(0, 0.1, 0, 90);
+      // await scene.SetSettings(settings);
+      // }
 
   };
 
