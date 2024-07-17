@@ -801,6 +801,6 @@ window.onload = (event) => {
 //   })
 
 
-// document.addEventListener("DOMContentLoaded", () => {
-// 	console.log("DOM ready!");
-//   });
+document.addEventListener("DOMContentLoaded", () => {
+	console.log("DOM ready!");
+  });
