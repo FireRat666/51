@@ -8,35 +8,6 @@ let IconVolDownUrl = "";
 let IconMuteUrl = "";
 let firstrunhandcontrols = true;
 let numberofbrowsers = 0;
-// Create screen on space load 
-window.onload = (event) => {
-    console.log('The page has fully loaded');
-	if(window.isBanter) {
-		console.log("Window is Banter, Loading FireScreen");
-		setTimeout(() => { 
-			enableFireScreen();
-		}, 3000);
-	} else { console.log("Window is Not Banter, Not Starting Script");};
-};
-
-// console.log("This is a test console log");
-// if (scene) {
-// 	console.log("Scence is already declared maybe?");
-// } else {
-// const scene = BS.BanterScene.getInstance();
-// }
-// scene.On("unity-loaded", () => {
-//     console.log("This should run after unity scene loaded.");
-// })
-
-// scene.On("loaded", () => {
-//     console.log("This should when the scene has settled and all objects are enumerated");
-//   })
-
-
-// document.addEventListener("DOMContentLoaded", () => {
-// 	console.log("DOM ready!");
-//   });
 
 function enableFireScreen() {
   console.log("Enabling Fire Screen(s)");
@@ -799,3 +770,37 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
     return pDefault;
   }
 }
+
+
+
+
+
+// Create screen on space load 
+window.onload = (event) => {
+    console.log('The page has fully loaded');
+	if(window.isBanter) {
+		console.log("Window is Banter, Loading FireScreen");
+		setTimeout(() => { 
+			enableFireScreen();
+		}, 3000);
+	} else { console.log("Window is Not Banter, Not Starting Script");};
+};
+
+// console.log("This is a test console log");
+// if (scene) {
+// 	console.log("Scence is already declared maybe?");
+// } else {
+// const scene = BS.BanterScene.getInstance();
+// }
+// scene.On("unity-loaded", () => {
+//     console.log("This should run after unity scene loaded.");
+// })
+
+// scene.On("loaded", () => {
+//     console.log("This should when the scene has settled and all objects are enumerated");
+//   })
+
+
+// document.addEventListener("DOMContentLoaded", () => {
+// 	console.log("DOM ready!");
+//   });
