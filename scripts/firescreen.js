@@ -820,10 +820,10 @@ function testspaceloadstuff() {
 		const scene = BS.BanterScene.getInstance();
 		scene.On("unity-loaded", () => {
 			setTimeout(() => { 
-				console.log("enableFireScreen");
-				enableFireScreen();
 				if (firstbrowserrun === true) {
-					console.log("firstbrowserrun is still true")
+					firstbrowserrun = false;
+					console.log("enableFireScreen");
+					enableFireScreen();
 				} else { console.log("firstbrowserrun is Now false") };
 			}, 3000);
 			console.log("TEST This should run after unity scene loaded.");
@@ -831,7 +831,6 @@ function testspaceloadstuff() {
 			console.log("TEST This should run after unity scene loaded. 3");
 		});
 		console.log("End of testspaceloadstuff?");
-		firstbrowserrun = false;
 	} else { console.log("firstbrowserrun is false")}
 
 }
