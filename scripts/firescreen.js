@@ -392,8 +392,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	// Volume Down Button
 	let voldownbutpos = "0.35 0.38 0";
 	let firevoldown = document.createElement("a-plane");
-	const voldownArray = p_buttonpos.split(" ");
-	const voldownposArray = voldownbutpos.split(" ");
+	let voldownArray = p_buttonpos.split(" ");
+	let voldownposArray = voldownbutpos.split(" ");
 	voldownbutpos = (Number(voldownArray[0]) + Number(voldownposArray[0])) + " " + (Number(voldownArray[1]) + Number(voldownposArray[1])) + " " + (Number(voldownArray[2]) + Number(voldownposArray[2]));
 	firevoldown.setAttribute("position", voldownbutpos);
 	firevoldown.setAttribute("width", "0.1");
@@ -797,7 +797,7 @@ window.onload = (event) => {
 if (1 === 1) {
 	console.log("This is a test console log");
 	if (scene) {
-		console.log("Scence is already declared maybe?");
+		console.log("Scene is already declared maybe?");
 		scene.On("unity-loaded", () => {
 			console.log("TEST This should run after unity scene loaded.");
 			console.log("TEST This should run after unity scene loaded. 2");
