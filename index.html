@@ -80,6 +80,18 @@
 		<!-- Analytics and Cookie Stuff END -->
 		
 		<script>
+        if(window.isBanter) {
+          console.log("Window is Banter, Not adding cookie chimp scripts")
+
+        } else {
+            console.log("Adding Cookie Chimp Script")
+            const cookiechimpscript = document.createElement("script");
+            cookiechimpscript.id = "cookiechimpscript";
+            cookiechimpscript.setAttribute("src", "https://cookiechimp.com/widget/mV3trJ.js");
+            document.querySelector("head").appendChild(cookiechimpscript);
+        }
+
+
     // window.loadDoneCallback = ()=>{
 		// 	console.log("loadDoneCallback!");
     //         };
