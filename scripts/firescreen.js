@@ -813,20 +813,23 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // 		// })
 // 	}
 // }
-
+var firstbrowserrun = true;
 function testspaceloadstuff() {
-	console.log("declaring ascene maybe?");
-	const scene = BS.BanterScene.getInstance();
-	scene.On("unity-loaded", () => {
-		setTimeout(() => { 
-			console.log("enableFireScreen");
-			enableFireScreen();
-		}, 3000);
-		console.log("TEST This should run after unity scene loaded.");
-		console.log("TEST This should run after unity scene loaded. 2");
-		console.log("TEST This should run after unity scene loaded. 3");
-	});
-	console.log("End of testspaceloadstuff?");
+	if (firstbrowserrun) {
+		console.log("declaring ascene maybe?");
+		const scene = BS.BanterScene.getInstance();
+		scene.On("unity-loaded", () => {
+			setTimeout(() => { 
+				console.log("enableFireScreen");
+				enableFireScreen();
+			}, 3000);
+			console.log("TEST This should run after unity scene loaded.");
+			console.log("TEST This should run after unity scene loaded. 2");
+			console.log("TEST This should run after unity scene loaded. 3");
+		});
+		console.log("End of testspaceloadstuff?");
+
+	} else { console.log("firstbrowserrun is false")}
 
 }
 
