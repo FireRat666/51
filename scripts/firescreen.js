@@ -494,7 +494,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 // Sets the default sound level probably
 var volinterval = null;
 function keepsoundlevel() {
-console.log("keepsoundlevel");
+console.log("FireScreen: keepsoundlevel loop called");
   if (fireScreenOn) {
   // Loop to keep sound level set, runs every second
     volinterval = setInterval(function() {
