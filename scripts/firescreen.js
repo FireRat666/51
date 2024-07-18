@@ -511,7 +511,7 @@ console.log("keepsoundlevel");
 ////////////////////////////////////////////////////////////////
 
 
-let widthalreadyset = false;
+const widthalreadyset = false;
 function setBrowserWidths() {
 	console.log("setBrowserWidths called")
 	if (widthalreadyset === false) {
