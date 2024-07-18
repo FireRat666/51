@@ -775,50 +775,53 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 
 
 // Create screen on space load 
-window.onload = (event) => {
-    console.log('The page has fully loaded, Next check if window is banter');
-	if(window.isBanter) {
-		console.log("Window is Banter, Loading FireScreen");
-		setTimeout(() => { 
-			enableFireScreen();
-		}, 3000);
-	} else { console.log("Window is Not Banter, Not Starting Script");};
-};
+// window.onload = (event) => {
+//     console.log('The page has fully loaded, Next check if window is banter');
+// 	if(window.isBanter) {
+// 		console.log("Window is Banter, Loading FireScreen");
+// 		setTimeout(() => { 
+// 			enableFireScreen();
+// 		}, 3000);
+// 	} else { console.log("Window is Not Banter, Not Starting Script");};
+// };
 
 
-    window.loadDoneCallback = ()=>{
-		console.log("loadDoneCallback ready!");
-		console.log("loadDoneCallback ready ready!");
-		console.log("loadDoneCallback ready ready ready!");
-            };
+    // window.loadDoneCallback = ()=>{
+	// 	console.log("loadDoneCallback ready!");
+	// 	console.log("loadDoneCallback ready ready!");
+	// 	console.log("loadDoneCallback ready ready ready!");
+    //         };
 
 
-if (1 === 1) {
-	console.log("This is a test console log");
-	testspaceloadstuff()
-	console.log("Testspaceloadstuff");
-	if (scene) {
-		console.log("Scene is already declared maybe?");
-		// scene.On("unity-loaded", () => {
-		// 	console.log("TEST This should run after unity scene loaded.");
-		// 	console.log("TEST This should run after unity scene loaded. 2");
-		// 	console.log("TEST This should run after unity scene loaded. 3");
-		// })
-	} else {
-		// console.log("declaring ascene maybe?");
-		// const ascene = BS.BanterScene.getInstance();
-		// ascene.On("unity-loaded", () => {
-		// 	console.log("TEST This should run after unity scene loaded.");
-		// 	console.log("TEST This should run after unity scene loaded. 2");
-		// 	console.log("TEST This should run after unity scene loaded. 3");
-		// })
-	}
-}
+// if (1 === 1) {
+// 	console.log("This is a test console log");
+// 	console.log("Testspaceloadstuff");
+// 	if (scene) {
+// 		console.log("Scene is already declared maybe?");
+// 		// scene.On("unity-loaded", () => {
+// 		// 	console.log("TEST This should run after unity scene loaded.");
+// 		// 	console.log("TEST This should run after unity scene loaded. 2");
+// 		// 	console.log("TEST This should run after unity scene loaded. 3");
+// 		// })
+// 	} else {
+// 		// console.log("declaring ascene maybe?");
+// 		// const ascene = BS.BanterScene.getInstance();
+// 		// ascene.On("unity-loaded", () => {
+// 		// 	console.log("TEST This should run after unity scene loaded.");
+// 		// 	console.log("TEST This should run after unity scene loaded. 2");
+// 		// 	console.log("TEST This should run after unity scene loaded. 3");
+// 		// })
+// 	}
+// }
 
 function testspaceloadstuff() {
 	console.log("declaring ascene maybe?");
-	const ascene = BS.BanterScene.getInstance();
-	ascene.On("unity-loaded", () => {
+	const scene = BS.BanterScene.getInstance();
+	scene.On("unity-loaded", () => {
+		setTimeout(() => { 
+			console.log("enableFireScreen");
+			enableFireScreen();
+		}, 3000);
 		console.log("TEST This should run after unity scene loaded.");
 		console.log("TEST This should run after unity scene loaded. 2");
 		console.log("TEST This should run after unity scene loaded. 3");
@@ -826,6 +829,8 @@ function testspaceloadstuff() {
 	console.log("End of testspaceloadstuff?");
 
 }
+
+testspaceloadstuff()
 // scene.On("loaded", () => {
 //     console.log("This should when the scene has settled and all objects are enumerated");
 //   })
