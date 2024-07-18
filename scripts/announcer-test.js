@@ -41,7 +41,7 @@ async function speak(m) {
 if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
-    if(Date.now() - now > 10000) {
+    if(Date.now() - now > 15000) {
       let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
       username = (user.name ? user.name : user.id.substr(0, 6));
       const message = username + " " + randommessage; 
@@ -87,10 +87,9 @@ if(window.isBanter && announceevents === true) {
 
 // Welcome message for user entering the space
 function announcerloadtest() {
-  console.log("ANNOUNCER: Load Test, Set Scene Constant");
-  const scene1 = BS.BanterScene.getInstance();
-  console.log("ANNOUNCER: Load Test, Scene Constant Set");
-  scene1.On("unity-loaded", () => {
+  const announcerscene = BS.BanterScene.getInstance();
+  console.log("ANNOUNCER: waiting... for unity scene");
+  announcerscene.On("unity-loaded", () => {
     setTimeout(() => { 
 
       username = (user.name ? user.name : user.id.substr(0, 6));
