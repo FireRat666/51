@@ -503,9 +503,8 @@ setTimeout(() => {
 var volinterval = null;
 var soundlevelfirstrun = true;
 function keepsoundlevel() {
-console.log("FireScreen: keepsoundlevel loop called");
   if (fireScreenOn && soundlevelfirstrun) {
-	console.log("FireScreen: keepsoundlevel loop First Run");
+	console.log("FireScreen: keepsoundlevel loop");
 	soundlevelfirstrun = false;
   // Loop to keep sound level set, runs every second
     volinterval = setInterval(function() {
@@ -517,7 +516,7 @@ console.log("FireScreen: keepsoundlevel loop called");
 			"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
 		}, 1000);
       });
-    }, 5000); } else if (fireScreenOn) { console.log("FireScreen: keepsoundlevel stuff"); } else { clearInterval(volinterval); }
+    }, 5000); } else if (fireScreenOn) { } else { clearInterval(volinterval); }
 };
 
 
