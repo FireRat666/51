@@ -799,13 +799,13 @@ var firstbrowserrun = true;
 function firescreenloadstuff() {
 		const firescene = BS.BanterScene.getInstance();
 		firescene.On("unity-loaded", () => {
+			console.log("FireScreen: This should run after unity scene loaded.");
 			setTimeout(() => { 
 				if (firstbrowserrun) {
 					firstbrowserrun = false;
 					enableFireScreen();
 				};
 			}, 1000);
-			console.log("FireScreen: This should run after unity scene loaded.");
 		});
 }
 
