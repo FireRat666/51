@@ -113,16 +113,16 @@ function announcerloadtest() {
   })
 
 
-  scene.On("loaded", () => {
-    console.log("TEST TEST TEST, this should run after scene load");
-  })
+//   scene.On("loaded", () => {
+//     console.log("TEST TEST TEST, this should run after scene load");
+//   })
 
-}
+// }
 
-// Test on load stuff
-window.loadDoneCallback = () => {
-  console.log("Just testing, this should run after load done");
-};
+// // Test on load stuff
+// window.loadDoneCallback = () => {
+//   console.log("Just testing, this should run after load done");
+// };
 
 if(window.isBanter) {
     setTimeout(() => { 
