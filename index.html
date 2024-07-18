@@ -27,8 +27,10 @@
       }
 
       async setSceneSettings() {
+        console.log("index.html setSceneSettings Loading...");
         // To get a reference to the scene from anywhere
         const scene = BS.BanterScene.getInstance();
+        console.log("index.html set scene constant");
       // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
       const settings = new BS.SceneSettings();
       settings.EnableDevTools = true;
@@ -47,6 +49,7 @@
       // settings.ClippingPlane = new Vector2(0.02, 1500);
       // settings.SpawnPoint = new Vector4(0, 0.1, 0, 90);
       await scene.SetSettings(settings);
+      console.log("index.html finish setting settings for scene");
       }
 
   };
