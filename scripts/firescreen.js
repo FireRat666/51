@@ -513,7 +513,6 @@ console.log("keepsoundlevel");
 
 var widthalreadyset = false;
 function setBrowserWidths() {
-	console.log("setBrowserWidths called")
 	if (widthalreadyset === false) {
 		widthalreadyset = true;
 		let thisloopnumber = 0;
@@ -527,7 +526,7 @@ function setBrowserWidths() {
 			console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
 			
 		};
-	} else { console.log("setBrowserWidths already set")}
+	};
 }
 
 
@@ -777,7 +776,7 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 
 // Create screen on space load 
 window.onload = (event) => {
-    console.log('The page has fully loaded');
+    console.log('The page has fully loaded, Next check if window is banter');
 	if(window.isBanter) {
 		console.log("Window is Banter, Loading FireScreen");
 		setTimeout(() => { 
@@ -796,22 +795,35 @@ window.onload = (event) => {
 
 if (1 === 1) {
 	console.log("This is a test console log");
+	testspaceloadstuff()
+	console.log("Testspaceloadstuff");
 	if (scene) {
 		console.log("Scene is already declared maybe?");
-		scene.On("unity-loaded", () => {
-			console.log("TEST This should run after unity scene loaded.");
-			console.log("TEST This should run after unity scene loaded. 2");
-			console.log("TEST This should run after unity scene loaded. 3");
-		})
+		// scene.On("unity-loaded", () => {
+		// 	console.log("TEST This should run after unity scene loaded.");
+		// 	console.log("TEST This should run after unity scene loaded. 2");
+		// 	console.log("TEST This should run after unity scene loaded. 3");
+		// })
 	} else {
-		console.log("declaring ascene maybe?");
-		const ascene = BS.BanterScene.getInstance();
-		ascene.On("unity-loaded", () => {
-			console.log("TEST This should run after unity scene loaded.");
-			console.log("TEST This should run after unity scene loaded. 2");
-			console.log("TEST This should run after unity scene loaded. 3");
-		})
+		// console.log("declaring ascene maybe?");
+		// const ascene = BS.BanterScene.getInstance();
+		// ascene.On("unity-loaded", () => {
+		// 	console.log("TEST This should run after unity scene loaded.");
+		// 	console.log("TEST This should run after unity scene loaded. 2");
+		// 	console.log("TEST This should run after unity scene loaded. 3");
+		// })
 	}
+}
+
+function testspaceloadstuff() {
+	console.log("declaring ascene maybe?");
+	const ascene = BS.BanterScene.getInstance();
+	ascene.On("unity-loaded", () => {
+		console.log("TEST This should run after unity scene loaded.");
+		console.log("TEST This should run after unity scene loaded. 2");
+		console.log("TEST This should run after unity scene loaded. 3");
+	})
+
 }
 // scene.On("loaded", () => {
 //     console.log("This should when the scene has settled and all objects are enumerated");
