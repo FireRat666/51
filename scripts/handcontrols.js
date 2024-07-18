@@ -45,8 +45,8 @@ class handButtonCrap{
 	}
 
 	volumecontrol(vvalue) {
-		document.querySelectorAll('.firescreenc')
 		let thisloopnumber = 0;
+		document.querySelectorAll('.firescreenc')
 		.forEach((firescreenc) => {
 			thisloopnumber++
 			let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
