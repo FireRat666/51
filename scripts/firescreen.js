@@ -814,25 +814,27 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // 	}
 // }
 var firstbrowserrun = true;
-// function testspaceloadstuff() {
-// 	if (firstbrowserrun === true) {
-// 		firstbrowserrun = false;
-// 		console.log("declaring ascene maybe?");
-// 		const scene = BS.BanterScene.getInstance();
-// 		scene.On("unity-loaded", () => {
-// 			setTimeout(() => { 
-// 				console.log("enableFireScreen");
-// 				enableFireScreen();
-// 			}, 3000);
-// 			console.log("TEST This should run after unity scene loaded.");
-// 			console.log("TEST This should run after unity scene loaded. 2");
-// 			console.log("TEST This should run after unity scene loaded. 3");
-// 		});
-// 		console.log("End of testspaceloadstuff?");
+function testspaceloadstuff() {
+	if (firstbrowserrun === true) {
+		console.log("declaring ascene maybe?");
+		const scene = BS.BanterScene.getInstance();
+		scene.On("unity-loaded", () => {
+			setTimeout(() => { 
+				if (firstbrowserrun === true) {
+					console.log("firstbrowserrun is still true")
+					console.log("enableFireScreen");
+					enableFireScreen(console.log("firstbrowserrun is Now false"));
+				} else { }
+			}, 3000);
+			console.log("TEST This should run after unity scene loaded.");
+			console.log("TEST This should run after unity scene loaded. 2");
+			console.log("TEST This should run after unity scene loaded. 3");
+		});
+		console.log("End of testspaceloadstuff?");
+		firstbrowserrun = false;
+	} else { console.log("firstbrowserrun is false")}
 
-// 	} else { console.log("firstbrowserrun is false")}
-
-// }
+}
 
 // testspaceloadstuff()
 // scene.On("loaded", () => {
