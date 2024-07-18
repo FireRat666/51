@@ -105,24 +105,12 @@ function announcerloadtest() {
       ];
   
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
-      // let themessage = randommessage; 
       speak(randommessage);
     }, 8000);
     console.log("ANNOUNCER: This should run after unity scene load 2");
     // console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
   })
 };
-
-//   scene.On("loaded", () => {
-//     console.log("TEST TEST TEST, this should run after scene load");
-//   })
-
-// }
-
-// // Test on load stuff
-// window.loadDoneCallback = () => {
-//   console.log("Just testing, this should run after load done");
-// };
 
 if(window.isBanter) {
     setTimeout(() => { 
