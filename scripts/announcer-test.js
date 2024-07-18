@@ -88,9 +88,9 @@ if(window.isBanter && announceevents === true) {
 // Welcome message for user entering the space
 function announcerloadtest() {
   console.log("ANNOUNCER: Load Test, Set Scene Constant");
-  const scene = BS.BanterScene.getInstance();
+  const scene1 = BS.BanterScene.getInstance();
   console.log("ANNOUNCER: Load Test, Scene Constant Set");
-  scene.On("unity-loaded", () => {
+  scene1.On("unity-loaded", () => {
     console.log("ANNOUNCER: This should run after unity scene load 1");
     setTimeout(() => { 
 

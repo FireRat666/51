@@ -817,8 +817,8 @@ var firstbrowserrun = true;
 function testspaceloadstuff() {
 	if (firstbrowserrun === true) {
 		console.log("declaring ascene maybe?");
-		const scene = BS.BanterScene.getInstance();
-		scene.On("unity-loaded", () => {
+		const scene2 = BS.BanterScene.getInstance();
+		scene2.On("unity-loaded", () => {
 			setTimeout(() => { 
 				if (firstbrowserrun === true) {
 					firstbrowserrun = false;
