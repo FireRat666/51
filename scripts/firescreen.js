@@ -785,7 +785,7 @@ function firescreenloadstuff() {
 					firstbrowserrun = false;
 					console.log("enableFireScreen");
 					enableFireScreen();
-				} else { console.log("FireScreens Already Enabling") };
+				} else { console.log("FireScreens Already Loading.") };
 			}, 1000);
 			console.log("TEST This should run after unity scene loaded.");
 		});
