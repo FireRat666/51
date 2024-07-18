@@ -816,6 +816,7 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 var firstbrowserrun = true;
 function testspaceloadstuff() {
 	if (firstbrowserrun) {
+		firstbrowserrun = false;
 		console.log("declaring ascene maybe?");
 		const scene = BS.BanterScene.getInstance();
 		scene.On("unity-loaded", () => {
