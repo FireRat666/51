@@ -508,14 +508,22 @@ function keepsoundlevel() {
 	soundlevelfirstrun = false;
   // Loop to keep sound level set, runs every second
     volinterval = setInterval(function() {
-    document.querySelectorAll('.firescreenc')
-      .forEach((firescreenc) => {
-		setTimeout(() => { 
-			let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
-			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
+		let thisloopnumber = 0;
+		while (thisloopnumber < numberofbrowsers) {
+			thisloopnumber++
+			let theBrowser = document.getElementById("fires-browser" + thisloopnumber);
+			let volume = parseFloat(theBrowser.getAttribute("volumelevel"));
+			theBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 			"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
-		}, 1000);
-      });
+			// document.querySelectorAll('.firescreenc')
+			//   .forEach((firescreenc) => {
+			// 	setTimeout(() => { 
+			// 		let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
+			// 		firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
+			// 		"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
+			// 	}, 1000);
+			//   });
+		}
     }, 5000); } else if (fireScreenOn) { } else { clearInterval(volinterval); }
 };
 
