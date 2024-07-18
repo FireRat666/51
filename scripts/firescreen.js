@@ -794,16 +794,17 @@ window.onload = (event) => {
             };
 
 
-// console.log("This is a test console log");
-// if (scene) {
-// 	console.log("Scence is already declared maybe?");
-// } else {
-// const scene = BS.BanterScene.getInstance();
-// }
-// scene.On("unity-loaded", () => {
-//     console.log("This should run after unity scene loaded.");
-// })
-
+if (1 === 1) {
+	console.log("This is a test console log");
+	if (scene) {
+		console.log("Scence is already declared maybe?");
+	} else {
+		const ascene = BS.BanterScene.getInstance();
+		ascene.On("unity-loaded", () => {
+			console.log("This should run after unity scene loaded.");
+		})
+	}
+}
 // scene.On("loaded", () => {
 //     console.log("This should when the scene has settled and all objects are enumerated");
 //   })
