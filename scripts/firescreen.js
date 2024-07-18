@@ -786,6 +786,12 @@ window.onload = (event) => {
 	} else { console.log("Window is Not Banter, Not Starting Script");};
 };
 
+
+    window.loadDoneCallback = ()=>{
+			console.log("loadDoneCallback ready!");
+            };
+
+
 // console.log("This is a test console log");
 // if (scene) {
 // 	console.log("Scence is already declared maybe?");
@@ -801,6 +807,6 @@ window.onload = (event) => {
 //   })
 
 
-document.addEventListener("DOMContentLoaded", () => {
-	console.log("DOM ready!");
-  });
+// document.addEventListener("DOMContentLoaded", () => {
+// 	console.log("DOM ready!");
+//   });
