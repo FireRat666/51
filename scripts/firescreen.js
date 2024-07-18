@@ -493,12 +493,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 };
 
 
-setTimeout(() => { 
-	if (firstbrowserrun) {
-		firstbrowserrun = false;
-		enableFireScreen();
-	};
-}, 1000);
 // Sets the default sound level probably
 var volinterval = null;
 var soundlevelfirstrun = true;
