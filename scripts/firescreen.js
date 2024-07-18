@@ -777,7 +777,6 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // Create screen After Unity load 
 var firstbrowserrun = true;
 function firescreenloadstuff() {
-		console.log("testspaceloadstuff");
 		const firescene = BS.BanterScene.getInstance();
 		firescene.On("unity-loaded", () => {
 			setTimeout(() => { 
@@ -789,7 +788,7 @@ function firescreenloadstuff() {
 			}, 1000);
 			console.log("TEST This should run after unity scene loaded.");
 		});
-		console.log("End of testspaceloadstuff?");
+		console.log("firescreenloadstuff called");
 }
 
 firescreenloadstuff()
