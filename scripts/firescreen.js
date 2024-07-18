@@ -836,7 +836,7 @@ function testspaceloadstuff() {
 
 }
 
-// testspaceloadstuff()
+testspaceloadstuff()
 // scene.On("loaded", () => {
 //     console.log("This should when the scene has settled and all objects are enumerated");
 //   })
