@@ -780,7 +780,7 @@ function firescreenloadstuff() {
 		const firescene = BS.BanterScene.getInstance();
 		firescene.On("unity-loaded", () => {
 			setTimeout(() => { 
-				if (firstbrowserrun === true) {
+				if (firstbrowserrun) {
 					firstbrowserrun = false;
 					console.log("enableFireScreen");
 					enableFireScreen();
