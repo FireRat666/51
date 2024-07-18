@@ -1,13 +1,13 @@
 // Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek and FireRat, And thank you to everyone who helped test it
 var fireScreenOn = 0;
-let thebuttoncolor = "";
-let volupcolor = "";
-let voldowncolor = "";
-let IconVolUpUrl = "";
-let IconVolDownUrl = "";
-let IconMuteUrl = "";
-let firstrunhandcontrols = true;
-let numberofbrowsers = 0;
+var thebuttoncolor = "";
+var volupcolor = "";
+var voldowncolor = "";
+var IconVolUpUrl = "";
+var IconVolDownUrl = "";
+var IconMuteUrl = "";
+var firstrunhandcontrols = true;
+var numberofbrowsers = 0;
 
 function enableFireScreen() {
   console.log("Enabling Fire Screen(s)");
