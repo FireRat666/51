@@ -1,5 +1,4 @@
 // Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek and FireRat, And thank you to everyone who helped test it
-// import * as THREE from 'https://threejs.org/build/three.js';
 var fireScreenOn = 0;
 var thebuttoncolor = "";
 var volupcolor = "";
@@ -92,8 +91,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firescreen.setAttribute("scale", p_sca);
 	firescreen.setAttribute("pageWidth", p_width);
 	firescreen.setAttribute("pageHeight", p_height);
-	// firescreen.browser.pageWidth=p_width;
-	// firescreen.browser.pageHeight=p_height;
 	firescreen.setAttribute("volumelevel", p_volume);
 	firescreen.setAttribute("button-color", p_buttoncolor);
 	firescreen.setAttribute("mute-color", p_mutecolor);
@@ -108,9 +105,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	if (p_castmode == "false") {
 		firescreen.setAttribute( "sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
 	};
-	// document.querySelector("a-scene").appendChild(firescreen);
 	fireScreenOn = 1;
-	// setPublicSpaceProp('firescreenon', '1');
 		
 	// for the collider to allow it to be moved
 	let firecollider = document.createElement("a-plane");
@@ -474,7 +469,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		fireextra03.setAttribute("sq-collider");
 		fireextra03.setAttribute("sq-interactable");
 		fireextra03.setAttribute("class", "buttons");
-        // fireextra03.setAttribute("forcekeyboard", "false");
 		fireextra03.setAttribute("click-url", "url:" + p_custombutton03url);
 		firescreen.appendChild(fireextra03);
 		// Extra Button 03 Part 2
@@ -783,8 +777,6 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
     return pDefault;
   }
 }
-
-
 
 
 
