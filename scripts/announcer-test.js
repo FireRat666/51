@@ -12,29 +12,29 @@ const welcomeMessages = [
   
 
 // Main Speak Function, Thank you Elin and everyone
-async function speak(m) {
-  console.log("saying:" + m);
-  var msg = new SpeechSynthesisUtterance();
-  var voices = window.speechSynthesis.getVoices();
-  msg.voice = voices[2];
-  msg.voiceURI = "native";
-  msg.volume = 0.2;
-  msg.rate = 1;
-  msg.pitch = 0.8;
-  msg.text = m;
-  msg.lang = 'en-US';
-  speechSynthesis.speak(msg);
-}
+// async function speak(m) {
+//   console.log("saying:" + m);
+//   var msg = new SpeechSynthesisUtterance();
+//   var voices = window.speechSynthesis.getVoices();
+//   msg.voice = voices[2];
+//   msg.voiceURI = "native";
+//   msg.volume = 0.2;
+//   msg.rate = 1;
+//   msg.pitch = 0.8;
+//   msg.text = m;
+//   msg.lang = 'en-US';
+//   speechSynthesis.speak(msg);
+// }
 
-// async function speak(text) {
-//   console.log("saying:", text);
-//   const welcome = await fetch('https://speak-something.glitch.me/say/' + text);
-//   const url = await welcome.text();
-//   let audio = new Audio("data:audio/mpeg;base64," + url);
-//   audio.autoplay = true;
-//   audio.play();
-//   audio.volume = 0.08;
-// };
+async function speak(text) {
+  console.log("saying:", text);
+  const welcome = await fetch('https://speak-something.glitch.me/say/' + text);
+  const url = await welcome.text();
+  let audio = new Audio("data:audio/mpeg;base64," + url);
+  audio.autoplay = true;
+  audio.play();
+  audio.volume = 0.08;
+};
 
 
 // This function upon a user joining will select a random welcome message and call the speak function to say it
