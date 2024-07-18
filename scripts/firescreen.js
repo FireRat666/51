@@ -799,12 +799,17 @@ if (1 === 1) {
 	if (scene) {
 		console.log("Scence is already declared maybe?");
 		scene.On("unity-loaded", () => {
-			console.log("This should run after unity scene loaded.");
+			console.log("TEST This should run after unity scene loaded.");
+			console.log("TEST This should run after unity scene loaded. 2");
+			console.log("TEST This should run after unity scene loaded. 3");
 		})
 	} else {
+		console.log("declaring ascene maybe?");
 		const ascene = BS.BanterScene.getInstance();
 		ascene.On("unity-loaded", () => {
-			console.log("This should run after unity scene loaded.");
+			console.log("TEST This should run after unity scene loaded.");
+			console.log("TEST This should run after unity scene loaded. 2");
+			console.log("TEST This should run after unity scene loaded. 3");
 		})
 	}
 }
