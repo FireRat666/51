@@ -111,7 +111,7 @@ function announcerloadtest() {
     console.log("ANNOUNCER: This should run after unity scene load 2");
     console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
   })
-
+};
 
 //   scene.On("loaded", () => {
 //     console.log("TEST TEST TEST, this should run after scene load");
