@@ -823,8 +823,8 @@ function testspaceloadstuff() {
 				if (firstbrowserrun === true) {
 					console.log("firstbrowserrun is still true")
 					console.log("enableFireScreen");
-					enableFireScreen(console.log("firstbrowserrun is Now false"));
-				} else { }
+					enableFireScreen();
+				} else { console.log("firstbrowserrun is Now false") }
 			}, 3000);
 			console.log("TEST This should run after unity scene loaded.");
 			console.log("TEST This should run after unity scene loaded. 2");
