@@ -504,7 +504,7 @@ console.log("keepsoundlevel");
         firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
           "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
       });
-    }, 2000); } else { clearInterval(volinterval); }
+    }, 5000); } else { clearInterval(volinterval); }
 };
 
 
