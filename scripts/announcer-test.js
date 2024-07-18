@@ -86,9 +86,12 @@ if(window.isBanter && announceevents === true) {
 
 
 // Welcome message for user entering the space
-const scene = BS.BanterScene.getInstance();
-
-scene.On("unity-loaded", () => {
+function announcerloadtest() {
+  console.log("ANNOUNCER: Load Test, Set Scene Constant");
+  const scene = BS.BanterScene.getInstance();
+  console.log("ANNOUNCER: Load Test, Scene Constant Set");
+  scene.On("unity-loaded", () => {
+    console.log("ANNOUNCER: This should run after unity scene load 1");
     setTimeout(() => { 
 
       username = (user.name ? user.name : user.id.substr(0, 6));
@@ -105,9 +108,16 @@ scene.On("unity-loaded", () => {
       // let themessage = randommessage; 
       speak(randommessage);
     }, 8000);
-    console.log("This should run after unity scene load");
-    console.log("unity-loaded Test user Id: " + window.user.id);
-})
+    console.log("ANNOUNCER: This should run after unity scene load 2");
+    console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
+  })
+
+
+  scene.On("loaded", () => {
+    console.log("TEST TEST TEST, this should run after scene load");
+  })
+
+}
 
 // Test on load stuff
 window.loadDoneCallback = () => {
@@ -120,6 +130,4 @@ if(window.isBanter) {
     }, 10000);
 };
 
-scene.On("loaded", () => {
-  console.log("TEST TEST TEST, this should run after scene load");
-})
+announcerloadtest();

@@ -78,7 +78,7 @@ if(window.isBanter && announceevents === true) {
       const difference = Math.abs(new Date(event[0].start_time) - new Date());
       if(difference < 60 * 1000 && lastEventsId !== event[0].events_v2_id) {
         lastEventsId = event[0].events_v2_id;
-        await speak("Oh No " + event[0].name + ", is starting now! Drop your shit and hussle");
+        await speak("Oh Shit " + event[0].name + ", is starting now! Drop your shit and hussle");
       };
     };
   })
@@ -96,20 +96,20 @@ scene.On("unity-loaded", () => {
       const joinMessages = [
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
         "Hello, Welcome to the space " + username,
-        "Oh it's you " + username + " Welcome to the jungle",
-        "Hello " + username + username + username + username + username + " Failure detected, shutting down",
-        "Enjoy your stay " + username + " I hope you find it pleasant"
+        "What are you doing here " + username,
+        "Hello " + username + username + username + username + " Failure detected, shutting down",
+        "Enjoy your stay " + username
       ];
   
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
       // let themessage = randommessage; 
       speak(randommessage);
-    }, 9000);
-    console.log("This should run after unity scene load");
-    console.log("unity-loaded Test user Id: " + window.user.id);
+    }, 8000);
+    console.log("ANNOUNCER: This should run after unity scene load");
+    console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
 })
 
-// // Test on load stuff
+// Test on load stuff
 // window.loadDoneCallback = () => {
 //   console.log("Just testing, this should run after load done");
 // };
