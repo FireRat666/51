@@ -774,73 +774,22 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 
 
 
-// Create screen on space load 
-// window.onload = (event) => {
-//     console.log('The page has fully loaded, Next check if window is banter');
-// 	if(window.isBanter) {
-// 		console.log("Window is Banter, Loading FireScreen");
-// 		setTimeout(() => { 
-// 			enableFireScreen();
-// 		}, 3000);
-// 	} else { console.log("Window is Not Banter, Not Starting Script");};
-// };
-
-
-    // window.loadDoneCallback = ()=>{
-	// 	console.log("loadDoneCallback ready!");
-	// 	console.log("loadDoneCallback ready ready!");
-	// 	console.log("loadDoneCallback ready ready ready!");
-    //         };
-
-
-// if (1 === 1) {
-// 	console.log("This is a test console log");
-// 	console.log("Testspaceloadstuff");
-// 	if (scene) {
-// 		console.log("Scene is already declared maybe?");
-// 		// scene.On("unity-loaded", () => {
-// 		// 	console.log("TEST This should run after unity scene loaded.");
-// 		// 	console.log("TEST This should run after unity scene loaded. 2");
-// 		// 	console.log("TEST This should run after unity scene loaded. 3");
-// 		// })
-// 	} else {
-// 		// console.log("declaring ascene maybe?");
-// 		// const ascene = BS.BanterScene.getInstance();
-// 		// ascene.On("unity-loaded", () => {
-// 		// 	console.log("TEST This should run after unity scene loaded.");
-// 		// 	console.log("TEST This should run after unity scene loaded. 2");
-// 		// 	console.log("TEST This should run after unity scene loaded. 3");
-// 		// })
-// 	}
-// }
+// Create screen After Unity load 
 var firstbrowserrun = true;
-function testspaceloadstuff() {
-	if (firstbrowserrun === true) {
-		console.log("declaring ascene maybe?");
-		const scene2 = BS.BanterScene.getInstance();
-		scene2.On("unity-loaded", () => {
+function firescreenloadstuff() {
+		console.log("testspaceloadstuff");
+		const firescene = BS.BanterScene.getInstance();
+		firescene.On("unity-loaded", () => {
 			setTimeout(() => { 
 				if (firstbrowserrun === true) {
 					firstbrowserrun = false;
 					console.log("enableFireScreen");
 					enableFireScreen();
-				} else { console.log("firstbrowserrun is Now false") };
-			}, 3000);
+				} else { console.log("FireScreens Already Enabling") };
+			}, 1000);
 			console.log("TEST This should run after unity scene loaded.");
-			console.log("TEST This should run after unity scene loaded. 2");
-			console.log("TEST This should run after unity scene loaded. 3");
 		});
 		console.log("End of testspaceloadstuff?");
-	} else { console.log("firstbrowserrun is false")}
-
 }
 
-testspaceloadstuff()
-// scene.On("loaded", () => {
-//     console.log("This should when the scene has settled and all objects are enumerated");
-//   })
-
-
-// document.addEventListener("DOMContentLoaded", () => {
-// 	console.log("DOM ready!");
-//   });
+firescreenloadstuff()
