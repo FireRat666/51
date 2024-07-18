@@ -109,7 +109,7 @@ function announcerloadtest() {
       speak(randommessage);
     }, 8000);
     console.log("ANNOUNCER: This should run after unity scene load 2");
-    console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
+    // console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
   })
 };
 
