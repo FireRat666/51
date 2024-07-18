@@ -822,7 +822,8 @@ function testspaceloadstuff() {
 		console.log("TEST This should run after unity scene loaded.");
 		console.log("TEST This should run after unity scene loaded. 2");
 		console.log("TEST This should run after unity scene loaded. 3");
-	})
+	});
+	console.log("End of testspaceloadstuff?");
 
 }
 // scene.On("loaded", () => {
