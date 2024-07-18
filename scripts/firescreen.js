@@ -492,6 +492,13 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	
 };
 
+
+setTimeout(() => { 
+	if (firstbrowserrun) {
+		firstbrowserrun = false;
+		enableFireScreen();
+	};
+}, 1000);
 // Sets the default sound level probably
 var volinterval = null;
 var soundlevelfirstrun = true;
@@ -504,9 +511,11 @@ console.log("FireScreen: keepsoundlevel loop called");
     volinterval = setInterval(function() {
     document.querySelectorAll('.firescreenc')
       .forEach((firescreenc) => {
-        let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
-        firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-          "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
+		setTimeout(() => { 
+			let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
+			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
+			"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
+		}, 1000);
       });
     }, 5000); } else if (fireScreenOn) { console.log("FireScreen: keepsoundlevel stuff"); } else { clearInterval(volinterval); }
 };
