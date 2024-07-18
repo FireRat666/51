@@ -577,11 +577,16 @@ function setBrowserWidths() {
 			if (thisbuttoncolor === "#FF0000") {
 				lockToggle.setAttribute("color","#FFFF00");
 			} else { 
-				lockToggle.setAttribute("color","#FF0000");
+				lockToggle.setAttribute("color", thisbuttoncolor);
 			};
 			ColliderScreen.setAttribute("visible","false");
 		} else {
-			lockToggle.setAttribute("color", thisbuttoncolor);
+			if (thisbuttoncolor === "#00FF00") {
+				lockToggle.setAttribute("color","#FFFF00");
+			} else { 
+				lockToggle.setAttribute("color","#00FF00");
+				// lockToggle.setAttribute("color", thisbuttoncolor);
+			};
 			ColliderScreen.setAttribute("visible","true");
 	  }		});  }, 	});
 
