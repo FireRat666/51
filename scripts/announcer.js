@@ -41,7 +41,7 @@ async function speak(m) {
 if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
-    if(Date.now() - now > 10000) {
+    if(Date.now() - now > 15000) {
       let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
       username = (user.name ? user.name : user.id.substr(0, 6));
       const message = username + " " + randommessage; 
@@ -86,9 +86,10 @@ if(window.isBanter && announceevents === true) {
 
 
 // Welcome message for user entering the space
-const scene = BS.BanterScene.getInstance();
-
-scene.On("unity-loaded", () => {
+function announcerloadtest() {
+  const announcerscene = BS.BanterScene.getInstance();
+  console.log("ANNOUNCER: waiting... for unity scene");
+  announcerscene.On("unity-loaded", () => {
     setTimeout(() => { 
 
       username = (user.name ? user.name : user.id.substr(0, 6));
@@ -97,29 +98,22 @@ scene.On("unity-loaded", () => {
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
         "Hello, Welcome to the space " + username,
         "What are you doing here " + username,
-        "Hello " + username + username + username + username + " Failure detected, shutting down",
+        "Hello " + username + " " + username + " " + username + " " + username + " Failure detected, shutting down",
         "Enjoy your stay " + username
       ];
   
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
-      // let themessage = randommessage; 
       speak(randommessage);
     }, 8000);
     console.log("ANNOUNCER: This should run after unity scene load");
-    console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
-})
+    // console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
+  })
+};
 
-// Test on load stuff
-// window.loadDoneCallback = () => {
-//   console.log("Just testing, this should run after load done");
-// };
+if(window.isBanter) {
+    setTimeout(() => { 
+        console.log("ANNOUNCER: You user Id is: " + window.user.id);
+    }, 10000);
+};
 
-// if(window.isBanter) {
-//     setTimeout(() => { 
-//         console.log("Test user Id: " + window.user.id);
-//     }, 10000);
-// };
-
-// scene.On("loaded", () => {
-//   console.log("TEST TEST TEST, this should run after scene load");
-// })
+announcerloadtest();
