@@ -815,7 +815,7 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // }
 var firstbrowserrun = true;
 function testspaceloadstuff() {
-	if (firstbrowserrun) {
+	if (firstbrowserrun === true) {
 		firstbrowserrun = false;
 		console.log("declaring ascene maybe?");
 		const scene = BS.BanterScene.getInstance();
