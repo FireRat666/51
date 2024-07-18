@@ -11,28 +11,23 @@ class handButtonCrap{
 	mute() {
 		if (handbuttonmutestate) {
 		handbuttonmutestate = false;
-		console.log("handbuttonmutestate Set to False");
 		} else {
 		handbuttonmutestate = true;
-		console.log("handbuttonmutestate Set to True");
 		};
 		document.querySelectorAll('.firescreenc')
 		.forEach((firescreenc) => {
 			if(handbuttonmutestate) {
 			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 			"document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false); ", }, ]);
-			console.log("Browser Muted Set to False")
 			} else {
 			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 			"document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
-			console.log("Browser Muted Set to True")
 			}
 		});
 		document.querySelectorAll('.firemutebutc')
 		.forEach((firemutebutc) => {                 
 			const TheBrowser = firemutebutc.parentElement;
 			let thisbuttoncolor = TheBrowser.getAttribute("mute-color");
-			console.log("The button Colours are: " + thisbuttoncolor);
 			if(handbuttonmutestate) {
 				if (thisbuttoncolor === null) {
 					firemutebutc.setAttribute("color","#FFFFFF");
@@ -47,16 +42,17 @@ class handButtonCrap{
 				};
 			}
 		});
-	console.log("test mute button clicked")
 	}
 
 	volumecontrol(vvalue) {
 		document.querySelectorAll('.firescreenc')
+		let thisloopnumber = 0;
 		.forEach((firescreenc) => {
+			thisloopnumber++
 			let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
 			volume += parseFloat(vvalue);
 			volume = volume.toFixed(2);
-			console.log("Volume is: " + volume)
+			console.log("Fire Browser: " + thisloopnumber + "'s Volume is: " + volume)
 			if (volume > 1) {volume = 1};
 			if (volume < 0) {volume = 0};
 			firescreenc.setAttribute("volumelevel", volume);
@@ -69,16 +65,13 @@ class handButtonCrap{
 			let butcolour = firevolbut.getAttribute("color");
 			firevolbut.setAttribute("color", "#FFFFFF"); 
 			setTimeout(() => {  firevolbut.setAttribute("color", butcolour); }, 100);
-			console.log("vvalue is > 0 Colour is: " + butcolour);
 		} else {
 			let firevolbut = document.getElementById("firevoldownbut");
 			let butcolour = firevolbut.getAttribute("color");
 			firevolbut.setAttribute("color", "#FFFFFF"); 
 			setTimeout(() => {  firevolbut.setAttribute("color", butcolour); }, 100);
-			console.log("vvalue is < 0 Colour is: " + butcolour)
 		}
 
-	console.log("testbut button clicked")
 	}
 
 	setupHandControls() {
