@@ -788,7 +788,9 @@ window.onload = (event) => {
 
 
     window.loadDoneCallback = ()=>{
-			console.log("loadDoneCallback ready!");
+		console.log("loadDoneCallback ready!");
+		console.log("loadDoneCallback ready ready!");
+		console.log("loadDoneCallback ready ready ready!");
             };
 
 
