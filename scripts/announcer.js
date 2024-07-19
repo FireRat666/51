@@ -78,7 +78,7 @@ if(window.isBanter && announceevents === true) {
       const difference = Math.abs(new Date(event[0].start_time) - new Date());
       if(difference < 60 * 1000 && lastEventsId !== event[0].events_v2_id) {
         lastEventsId = event[0].events_v2_id;
-        await speak("Oh Shit " + event[0].name + ", is starting now! Drop your shit and hussle");
+        await speak("Oh No " + event[0].name + ", is starting now! Drop your shit and hussle");
       };
     };
   })
@@ -99,7 +99,7 @@ function announcerloadtest() {
         "Hello, Welcome to the space " + username,
         "What are you doing here " + username,
         "Hello " + username + " " + username + " " + username + " " + username + " Failure detected, shutting down",
-        "Enjoy your stay " + username
+        "Enjoy your stay " + username + " I hope you find it pleasant"
       ];
   
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
