@@ -1,4 +1,6 @@
-// Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek and FireRat, And thank you to everyone who helped test it
+// Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
+// FireScreen Tablet for Screen Casts with volume controls or for a portable browser
+// VERSION: 1.0 Beta
 var fireScreenOn = 0;
 var thebuttoncolor = "";
 var volupcolor = "";
