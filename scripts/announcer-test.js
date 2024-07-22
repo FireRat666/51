@@ -140,7 +140,7 @@ function announcerloadtest() {
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
         "Hello, Welcome to the space " + username,
         "What are you doing here " + username,
-        "Your King " + username + " has joined the space.",
+        "Welcome your Highness " + username,
         "Hello " + username + " " + username + " " + username + " " + username + " Failure detected, shutting down",
         "Enjoy your stay " + username
       ];
