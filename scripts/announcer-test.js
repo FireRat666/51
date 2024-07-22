@@ -76,9 +76,10 @@ if(window.isBanter) {
     // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
     timevariable = hours + "" + minutes + "" + second;
     let testuppervar = 11;
+    let testuppervar2 = 12;
     // console.log("The Time Variable Currently is: " + timevariable);
     let psudorandomvar = PRNGF(timevariable, testuppervar);
-    let psudorandomvar2 = PRNGF(timevariable, (testuppervar + 1));
+    let psudorandomvar2 = PRNGF(timevariable, (testuppervar2));
     console.log("tprnv:" + psudorandomvar);
     console.log("tprnv2:" + (psudorandomvar2 - 1));
     // if (something === false) {
