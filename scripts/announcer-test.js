@@ -76,7 +76,7 @@ if(window.isBanter) {
     // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
     timevariable = hours + "" + minutes + "" + second;
     // console.log("The Time Variable Currently is: " + timevariable);
-    let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+    let psudorandomvar = PRNGF(timevariable, 100);
     console.log("prnv:" + psudorandomvar);
     // if (something === false) {
     //   clearInterval(timerint);
