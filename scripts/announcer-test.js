@@ -1,21 +1,6 @@
+// This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
 let username = "";
 let timevariable = 0;
-
-// This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
-const welcomeMessages = [
-  ", What the hell, you broke everything, it was just working, what did you do?!",
-  " welcome message blah blah!",
-  " has joined, what will they do now?",
-  " was pushed into a portal, quick call the police",
-  ", be careful of DedZed the fish overlord",
-  ", What the hell, you broke everything, it was just working, what did you do?!",
-  " welcome message blah blah!",
-  " has joined, what will they do now?",
-  " was pushed into a portal, quick call the police",
-  ", be careful of DedZed the fish overlord"
-  ];
-
-  
 
 // Main Speak Function, Thank you Elin and everyone
 async function speak(m) {
@@ -54,11 +39,22 @@ if(window.isBanter) {
       var second = Math.floor((now2 % (1000 * 60)) / 10000);
       timevariable = hours + "" + minutes + "" + second;
       let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+      const welcomeMessages = [
+        username + ", What the hell, you broke everything, it was just working, what did you do?!",
+        username + " welcome message blah blah!",
+        username + " has joined, what will they do now?",
+        "Your King " + username + " has joined the space.",
+        "Your Queen " + username + " has joined the space.",
+        "Bow to your King " + username,
+        "Bow to your Queen " + username,
+        username + " was pushed into a portal, quick call the police",
+        username + ", be careful of DedZed the fish overlord"
+        ];
       let randommessage = welcomeMessages[psudorandomvar];
       console.log("prnv:" + psudorandomvar)
       // let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
       username = (user.name ? user.name : user.id.substr(0, 6));
-      const message = username + " " + randommessage; 
+      const message = randommessage; 
       await speak(message);
       console.log("The Time Variable Currently is: " + timevariable);
     };
@@ -144,6 +140,7 @@ function announcerloadtest() {
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
         "Hello, Welcome to the space " + username,
         "What are you doing here " + username,
+        "Your King " + username + " has joined the space.",
         "Hello " + username + " " + username + " " + username + " " + username + " Failure detected, shutting down",
         "Enjoy your stay " + username
       ];
