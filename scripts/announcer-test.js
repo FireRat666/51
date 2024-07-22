@@ -33,12 +33,6 @@ if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 20000) {
-      var now2 = new Date().getTime();
-      var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
-      var second = Math.floor((now2 % (1000 * 60)) / 10000);
-      timevariable = hours + "" + minutes + "" + second;
-      let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
       const welcomeMessages = [
         username + ", What the hell, you broke everything, it was just working, what did you do?!",
         username + " welcome message blah blah!",
@@ -50,6 +44,12 @@ if(window.isBanter) {
         username + " was pushed into a portal, quick call the police",
         username + ", be careful of DedZed the fish overlord"
         ];
+      var now2 = new Date().getTime();
+      var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
+      var second = Math.floor((now2 % (1000 * 60)) / 10000);
+      timevariable = hours + "" + minutes + "" + second;
+      let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
       let randommessage = welcomeMessages[psudorandomvar];
       console.log("prnv:" + psudorandomvar)
       // let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
