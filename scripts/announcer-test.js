@@ -48,8 +48,14 @@ if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 15000) {
-      const prng = s => (typeof s!=='undefined'&&((l=s%2147483647)<=0&&(l+=2147483646)),((l=l*16807%2147483647)-1)/2147483646);
-      let randommessage = welcomeMessages[Math.floor(prng(timevariable) * welcomeMessages.length)];
+      var now2 = new Date().getTime();
+      var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
+      var second = Math.floor((now2 % (1000 * 60)) / 10000);
+      timevariable = hours + "" + minutes + "" + second;
+      let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+      let randommessage = welcomeMessages[psudorandomvar];
+      console.log("prnv:" + psudorandomvar)
       // let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
       username = (user.name ? user.name : user.id.substr(0, 6));
       const message = username + " " + randommessage; 
@@ -60,26 +66,26 @@ if(window.isBanter) {
 };
 
 
-  // Update the count down every 1 second
-  var timerint = setInterval(function() {
-    // Get today's date and time
-    var now = new Date().getTime();
-    // Time calculations for days, hours, minutes and seconds
-    // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
-    var second = Math.floor((now % (1000 * 60)) / 10000);
-    // var seconds = Math.floor((now % (1000 * 60)) / 1000);
-    // timevariable = minutes + "" + hours + "" + minutes + "" + (minutes + second) + "" + second;
-    // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
-    timevariable = hours + "" + minutes + "" + second;
-    // console.log("The Time Variable Currently is: " + timevariable);
-    let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
-    console.log("prnv:" + psudorandomvar)
-    // if (something === false) {
-    //   clearInterval(timerint);
-    // };
-  }, 5000);
+  // // Update the count down every 1 second
+  // var timerint = setInterval(function() {
+  //   // Get today's date and time
+  //   var now = new Date().getTime();
+  //   // Time calculations for days, hours, minutes and seconds
+  //   // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  //   var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //   var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
+  //   var second = Math.floor((now % (1000 * 60)) / 10000);
+  //   // var seconds = Math.floor((now % (1000 * 60)) / 1000);
+  //   // timevariable = minutes + "" + hours + "" + minutes + "" + (minutes + second) + "" + second;
+  //   // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
+  //   timevariable = hours + "" + minutes + "" + second;
+  //   // console.log("The Time Variable Currently is: " + timevariable);
+  //   let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+  //   console.log("prnv:" + psudorandomvar)
+  //   // if (something === false) {
+  //   //   clearInterval(timerint);
+  //   // };
+  // }, 5000);
 
   // Function which takes a seed and an upper value then returns a psuedo random number
   function PRNGF(seed, modulo) {
