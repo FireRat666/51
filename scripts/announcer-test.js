@@ -156,10 +156,10 @@ function announcerloadtest() {
   })
 };
 
-if(window.isBanter) {
-    setTimeout(() => { 
-        console.log("ANNOUNCER: You user Id is: " + window.user.id);
-    }, 10000);
-};
+// if(window.isBanter) {
+//     setTimeout(() => { 
+//         console.log("ANNOUNCER: You user Id is: " + window.user.id);
+//     }, 10000);
+// };
 
 announcerloadtest();
