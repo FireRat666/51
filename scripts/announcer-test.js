@@ -1,12 +1,18 @@
 let username = "";
+let timevariable = 0;
 
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
 const welcomeMessages = [
-    ", What the hell, you broke everything, it was just working, what did you do?!",
-    " welcome message blah blah!",
-    " has joined, what will they do now?",
-    " was pushed into a portal, quick call the police",
-    ", be careful of DedZed the fish overlord"
+  ", What the hell, you broke everything, it was just working, what did you do?!",
+  " welcome message blah blah!",
+  " has joined, what will they do now?",
+  " was pushed into a portal, quick call the police",
+  ", be careful of DedZed the fish overlord",
+  ", What the hell, you broke everything, it was just working, what did you do?!",
+  " welcome message blah blah!",
+  " has joined, what will they do now?",
+  " was pushed into a portal, quick call the police",
+  ", be careful of DedZed the fish overlord"
   ];
 
   
@@ -42,13 +48,47 @@ if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 15000) {
-      let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+      const prng = s => (typeof s!=='undefined'&&((l=s%2147483647)<=0&&(l+=2147483646)),((l=l*16807%2147483647)-1)/2147483646);
+      let randommessage = welcomeMessages[Math.floor(prng(timevariable) * welcomeMessages.length)];
+      // let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
       username = (user.name ? user.name : user.id.substr(0, 6));
       const message = username + " " + randommessage; 
       await speak(message);
+      console.log("The Time Variable Currently is: " + timevariable);
     };
   }
 };
+
+
+  // Update the count down every 1 second
+  var timerint = setInterval(function() {
+    // Get today's date and time
+    var now = new Date().getTime();
+    // Time calculations for days, hours, minutes and seconds
+    // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
+    var second = Math.floor((now % (1000 * 60)) / 10000);
+    // var seconds = Math.floor((now % (1000 * 60)) / 1000);
+    // timevariable = minutes + "" + hours + "" + minutes + "" + (minutes + second) + "" + second;
+    // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
+    timevariable = hours + "" + minutes + "" + second;
+    // console.log("The Time Variable Currently is: " + timevariable);
+    let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+    console.log("prnv:" + psudorandomvar)
+    // if (something === false) {
+    //   clearInterval(timerint);
+    // };
+  }, 5000);
+
+  // Function which takes a seed and an upper value then returns a psuedo random number
+  function PRNGF(seed, modulo) {
+    str = `${(2**31-1&Math.imul(48271,seed))/2**31}`
+    .split('')
+    .slice(-10)
+    .join('') % modulo
+    return str
+}
 
 // here lies a loop function
 function loop(interval, callback) {
