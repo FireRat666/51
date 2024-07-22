@@ -33,6 +33,7 @@ if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 20000) {
+      username = (user.name ? user.name : user.id.substr(0, 6));
       const welcomeMessages = [
         username + ", What the hell, you broke everything, it was just working, what did you do?!",
         username + " welcome message blah blah!",
@@ -53,7 +54,6 @@ if(window.isBanter) {
       let randommessage = welcomeMessages[psudorandomvar];
       console.log("prnv:" + psudorandomvar)
       // let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-      username = (user.name ? user.name : user.id.substr(0, 6));
       const message = randommessage; 
       await speak(message);
       console.log("The Time Variable Currently is: " + timevariable);
