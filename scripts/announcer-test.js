@@ -32,7 +32,7 @@ async function speak(m) {
 if(window.isBanter) {
   const now = Date.now();
   window.userJoinedCallback = async user => {
-    if(Date.now() - now > 15000) {
+    if(Date.now() - now > 20000) {
       var now2 = new Date().getTime();
       var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
