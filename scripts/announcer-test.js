@@ -62,26 +62,26 @@ if(window.isBanter) {
 };
 
 
-  // // Update the count down every 1 second
-  // var timerint = setInterval(function() {
-  //   // Get today's date and time
-  //   var now = new Date().getTime();
-  //   // Time calculations for days, hours, minutes and seconds
-  //   // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  //   var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
-  //   var second = Math.floor((now % (1000 * 60)) / 10000);
-  //   // var seconds = Math.floor((now % (1000 * 60)) / 1000);
-  //   // timevariable = minutes + "" + hours + "" + minutes + "" + (minutes + second) + "" + second;
-  //   // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
-  //   timevariable = hours + "" + minutes + "" + second;
-  //   // console.log("The Time Variable Currently is: " + timevariable);
-  //   let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
-  //   console.log("prnv:" + psudorandomvar)
-  //   // if (something === false) {
-  //   //   clearInterval(timerint);
-  //   // };
-  // }, 5000);
+  // Update the count down every 1 second
+  var timerint = setInterval(function() {
+    // Get today's date and time
+    var now = new Date().getTime();
+    // Time calculations for days, hours, minutes and seconds
+    // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
+    var second = Math.floor((now % (1000 * 60)) / 10000);
+    // var seconds = Math.floor((now % (1000 * 60)) / 1000);
+    // timevariable = minutes + "" + hours + "" + minutes + "" + (minutes + second) + "" + second;
+    // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
+    timevariable = hours + "" + minutes + "" + second;
+    // console.log("The Time Variable Currently is: " + timevariable);
+    let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+    console.log("prnv:" + psudorandomvar);
+    // if (something === false) {
+    //   clearInterval(timerint);
+    // };
+  }, 5000);
 
   // Function which takes a seed and an upper value then returns a psuedo random number
   function PRNGF(seed, modulo) {
@@ -149,14 +149,7 @@ function announcerloadtest() {
       speak(randommessage);
     }, 8000);
     console.log("ANNOUNCER: This should run after unity scene load");
-    // console.log("ANNOUNCER: unity-loaded Test user Id: " + window.user.id);
   })
 };
-
-// if(window.isBanter) {
-//     setTimeout(() => { 
-//         console.log("ANNOUNCER: You user Id is: " + window.user.id);
-//     }, 10000);
-// };
 
 announcerloadtest();
