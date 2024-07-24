@@ -35,8 +35,8 @@ if(window.isBanter) {
     if(Date.now() - now > 20000) {
       username = (user.name ? user.name : user.id.substr(0, 6));
       const welcomeMessages = [
-        username + ", What the hell, you broke everything, it was just working, what did you do?!",
         username + " welcome message blah blah!",
+        username + ", What the hell, you broke everything, it was just working, what did you do?!",
         username + " has joined, what will they do now?",
         "Your King " + username + " has joined the space.",
         "Your Queen " + username + " has joined the space.",
