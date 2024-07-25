@@ -51,6 +51,7 @@ if(window.isBanter) {
         "Your Queen " + username + " has joined the space.",
         "Bow to your King " + username,
         "Bow to your Queen " + username,
+        username  + " Has Joined the space, And wants to know if you are hungry girl",
         username + " was pushed into a portal, quick call the police",
         username + ", be careful of DedZed the fish overlord"
         ];
