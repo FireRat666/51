@@ -44,6 +44,7 @@ if(window.isBanter) {
     if(Date.now() - now > 20000) {
       username = (user.name ? user.name : user.id.substr(0, 6));
       if (username = "Gravxton") {username = "Graviton Fucking Hell "}
+      if (username = "Vanquish3r") {username = "Vanquisher the Vanquished"}
       const welcomeMessages = [
         username + " welcome message blah blah!",
         username + " Joined your party",
