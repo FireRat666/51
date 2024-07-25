@@ -43,6 +43,7 @@ if(window.isBanter) {
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 20000) {
       username = (user.name ? user.name : user.id.substr(0, 6));
+      if (username = "Gravxton") {username = "Gravaton Fucking Hell "}
       const welcomeMessages = [
         username + " welcome message blah blah!",
         username + " Joined your party",
@@ -64,6 +65,7 @@ if(window.isBanter) {
         "Oh No! " + username + " needs a recharge, grab the defib",
         "Your King " + username + " has joined the space.",
         "Your Queen " + username + " has joined the space.",
+        "Your Magesty " + username + " has joined the space.",
         "Bow to your King " + username,
         "Bow to your Queen " + username,
         "Here we go again, " + username + " has joined the space.",
@@ -95,7 +97,7 @@ if(window.isBanter) {
     str = `${(2**31-1&Math.imul(48271,seed))/2**31}`
     .split('')
     .slice(-10)
-    .join('') % (modulo + 1) // Add one to the modulo to fix the issue
+    .join('') % (modulo) // Add one to the modulo to fix the issue
     return str
 }
 
