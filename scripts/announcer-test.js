@@ -179,7 +179,6 @@ function announcerloadtest() {
     }
   })
 
-  
 // // Welcome message for user entering the space
 // function announcerloadtest() {
 //   const announcerscene = BS.BanterScene.getInstance();
