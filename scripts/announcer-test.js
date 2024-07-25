@@ -43,9 +43,12 @@ if(window.isBanter) {
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 15000) {
       username = (user.name ? user.name : user.id.substr(0, 6));
-      theusersid = user.id
-      if (username === "Gravxton") {username = "Graviton Fucking Hell "}
-      if (username === "Vanquish3r") {username = "Vanquisher"}
+      theusersid = user.id;
+      if (username === "Gravxton") {username = "Graviton Fucking Hell "};
+      if (username === "Vanquish3r") {username = "Vanquisher"};
+      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {
+        username = "The Fishiest Overlord of them all";
+      };
       const welcomeMessages = [
         username + " welcome message blah blah!",
         username + " Joined your party",
@@ -146,6 +149,11 @@ function announcerloadtest() {
     setTimeout(() => { 
 
       username = (user.name ? user.name : user.id.substr(0, 6));
+
+      theusersid = user.id;
+      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {
+        username = "The Fishiest Overlord of them all"
+      };
 
       const joinMessages = [
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
