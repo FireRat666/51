@@ -45,11 +45,11 @@ if(window.isBanter) {
     if(Date.now() - now > 15000) {
       username = (user.name ? user.name : user.id.substr(0, 6));
       theusersid = user.id;
+
       if (username === "Gravxton") {username = "Graviton Fucking Hell"};
       if (username === "Vanquish3r") {username = "Vanquisher"};
-      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {
-        username = "The Fishiest Overlord of them all";
-      };
+      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {username = "The Fishiest Overlord of them all"};
+
       const welcomeMessages = [
         username + " welcome message blah blah!",
         username + " Joined your party",
@@ -81,14 +81,15 @@ if(window.isBanter) {
         username + " was pushed into a portal, quick call the police",
         username + ", be careful of DedZed the fish overlord"
         ];
-      var now2 = new Date().getTime();
-      var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
-      var second = Math.floor((now2 % (1000 * 60)) / 10000);
-      timevariable = hours + "" + minutes + "" + second;
-      let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+      // var now2 = new Date().getTime();
+      // var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      // var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
+      // var second = Math.floor((now2 % (1000 * 60)) / 10000);
+      // timevariable = hours + "" + minutes + "" + second;
+      // let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
+      let psudorandomvar = GETPRNGF(welcomeMessages.length);
       let randommessage = welcomeMessages[psudorandomvar];
-      console.log("prnv:" + psudorandomvar)
+      console.log("prnv:" + psudorandomvar);
       // let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
       const message = randommessage; 
       await speak(message);
@@ -100,6 +101,16 @@ if(window.isBanter) {
   }
 };
 
+// This function uses the current time as an input for the psuedo random number generator
+function GETPRNGF(modulo) {
+  var now2 = new Date().getTime();
+  var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
+  var second = Math.floor((now2 % (1000 * 60)) / 10000);
+  timevariable = hours + "" + minutes + "" + second;
+  let psudorandomvar = PRNGF(timevariable, modulo);
+  return psudorandomvar
+}
   // Function which takes a seed and an upper value then returns a psuedo random number
   // THIS FUNCTION SEEMS TO NEVER RETURN THE HIGHEST NUMBER IN THE ARRAY
   function PRNGF(seed, modulo) {
