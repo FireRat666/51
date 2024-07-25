@@ -47,8 +47,9 @@ if(window.isBanter) {
       theusersid = user.id;
 
       if (username === "Gravxton") {username = "Graviton Fucking Hell"};
-      if (username === "Vanquish3r") {username = "Vanquisher"};
-      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {username = "The Fishiest Overlord of them all"};
+      if (username === "Vanquish3r") {username = "Vanquisher"};4c67af8ae899ea5b8dd6da25566ff3f3
+      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {username = "The Fishiest Overlord of them all"}; // Dedzed
+      if (theusersid === "4c67af8ae899ea5b8dd6da25566ff3f3") {username = "Boob Works"}; // BobWorks
 
       const welcomeMessages = [
         username + " welcome message blah blah!",
@@ -62,17 +63,21 @@ if(window.isBanter) {
         username + " has joined, what will they do now?",
         username + " might be an alien, watch them carefully",
         username + " just stumbled over their charger",
+        username + " Arrived, Everyone go say hi",
         "Oh No! " + username + " has spawned into reality",
         "Oh No! " + username + " Left their toilet seat up",
         "Oh No! " + username + " is about to run out of battery",
         "Oh No! " + username + " Has forgotten their own name",
         "Oh No! " + username + " is running out of gas",
+        "Oh No! " + username + " just farted into reality",
+        "Knock Knock " + username + " is here",
         "Nobody tell " + username + " Their still in their pyjamas",
         "Oh No! Hide your sheep " + username + " has joined the space",
         "Oh No! " + username + " needs a recharge, grab the defib",
         "Your King " + username + " has joined the space.",
         "Your Queen " + username + " has joined the space.",
         "Your Magesty " + username + " has joined the space.",
+        "About time " + username + " has joined the space.",
         "The rumours are true " + username + " has joined the space",
         "Bow to your King " + username,
         "Bow to your Queen " + username,
