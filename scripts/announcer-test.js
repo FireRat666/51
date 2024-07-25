@@ -93,7 +93,7 @@ if(window.isBanter) {
       const message = randommessage; 
       await speak(message);
       console.log("The Time Variable Currently is: " + timevariable);
-      console.log("USERID: " + theusersid);
+      console.log("USERNAME: " + user.name + "USERID: " + theusersid);
     } else {
       console.log("ANNOUNCER: Early User Joined Callback event");
     }
