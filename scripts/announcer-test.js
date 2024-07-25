@@ -145,7 +145,7 @@ if(window.isBanter && announceevents === true) {
 };
 
 // Welcome message for user entering the space
-function announcerloadtest() {
+function announcerload() {
   if(window.isBanter) {
     setTimeout(() => { 
 
@@ -181,13 +181,14 @@ function announcerloadtest() {
 };
 
 
+function announcerloadtest() {
   const announcerscene = BS.BanterScene.getInstance();
   announcerscene.On("user-joined", e => {
     if (e.detail.isLocal) {
       console.log("This should run once, once user joined event is loaded")
     }
-  })
-
+  });
+}
 // // Welcome message for user entering the space
 // function announcerloadtest() {
 //   const announcerscene = BS.BanterScene.getInstance();
@@ -213,6 +214,7 @@ function announcerloadtest() {
 //   })
 // };
 
+announcerload();
 announcerloadtest();
 
 // TEST STUFF
