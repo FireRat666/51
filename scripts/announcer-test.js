@@ -1,6 +1,7 @@
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
 let username = "";
 let timevariable = 0;
+let theusersid = "";
 
 // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
@@ -44,7 +45,7 @@ if(window.isBanter) {
     if(Date.now() - now > 15000) {
       username = (user.name ? user.name : user.id.substr(0, 6));
       theusersid = user.id;
-      if (username === "Gravxton") {username = "Graviton Fucking Hell "};
+      if (username === "Gravxton") {username = "Graviton Fucking Hell"};
       if (username === "Vanquish3r") {username = "Vanquisher"};
       if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {
         username = "The Fishiest Overlord of them all";
