@@ -47,7 +47,7 @@ if(window.isBanter) {
       theusersid = user.id;
 
       if (username === "Gravxton") {username = "Graviton Fucking Hell"};
-      if (username === "Vanquish3r") {username = "Vanquisher"};4c67af8ae899ea5b8dd6da25566ff3f3
+      if (username === "Vanquish3r") {username = "Vanquisher"};
       if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {username = "The Fishiest Overlord of them all"}; // Dedzed
       if (theusersid === "4c67af8ae899ea5b8dd6da25566ff3f3") {username = "Boob Works"}; // BobWorks
 
