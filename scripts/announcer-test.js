@@ -133,7 +133,7 @@ function announcerloadtest() {
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
       speak(randommessage);
     }, 8000);
-    console.log("ANNOUNCER: Load Test");
+    console.log("ANNOUNCER: Loading, Delaying to get User.id");
   };
 };
 
