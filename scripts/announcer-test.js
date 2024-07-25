@@ -81,16 +81,9 @@ if(window.isBanter) {
         username + " was pushed into a portal, quick call the police",
         username + ", be careful of DedZed the fish overlord"
         ];
-      // var now2 = new Date().getTime();
-      // var hours = Math.floor((now2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      // var minutes = Math.floor((now2 % (1000 * 60 * 60)) / (1000 * 60));
-      // var second = Math.floor((now2 % (1000 * 60)) / 10000);
-      // timevariable = hours + "" + minutes + "" + second;
-      // let psudorandomvar = PRNGF(timevariable, welcomeMessages.length);
       let psudorandomvar = GETPRNGF(welcomeMessages.length);
       let randommessage = welcomeMessages[psudorandomvar];
       console.log("prnv:" + psudorandomvar);
-      // let randommessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
       const message = randommessage; 
       await speak(message);
       console.log("The Time Variable Currently is: " + timevariable);
@@ -195,6 +188,7 @@ function announcerload() {
 function announcerloadtest() {
   const announcerscene = BS.BanterScene.getInstance();
   announcerscene.On("user-joined", e => {
+    console.log("ANNOUNCER: Test user joined event")
     if (e.detail.isLocal) {
       console.log("This should run once, once user joined event is loaded")
     }
