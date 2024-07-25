@@ -117,7 +117,7 @@ function GETPRNGF(modulo) {
     str = `${(2**31-1&Math.imul(48271,seed))/2**31}`
     .split('')
     .slice(-10)
-    .join('') % (modulo) // Add one to the modulo to fix the issue
+    .join('') % (modulo)
     return str
 }
 
