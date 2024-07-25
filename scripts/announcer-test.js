@@ -20,8 +20,8 @@ let timevariable = 0;
 async function speak(text) {
   console.log("saying:", text);
   const welcome = await fetch('https://tts-api.netlify.app/?text=' + text);
-  const url = await welcome.text();
-  let audio = new Audio("data:audio/mp3;" + url);
+  // const url = await welcome.text();
+  let audio = new Audio(welcome);
   audio.autoplay = true;
   audio.play();
   audio.volume = 0.08;
