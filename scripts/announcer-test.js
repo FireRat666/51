@@ -91,7 +91,7 @@ if(window.isBanter) {
       console.log("The Time Variable Currently is: " + timevariable);
       console.log("USERID: " + theusersid);
     } else {
-      console.log("ANNOUNCER: User Joined Callback event");
+      console.log("ANNOUNCER: Early User Joined Callback event");
     }
   }
 };
@@ -170,6 +170,14 @@ function announcerloadtest() {
     console.log("ANNOUNCER: Loading, Delaying to get User.id");
   };
 };
+
+
+  const announcerscene = BS.BanterScene.getInstance();
+  announcerscene.On("user-joined", e => {
+    if (e.detail.isLocal) {
+      console.log("This should run once, once user joined event is loaded")
+    }
+  })
 
 // // Welcome message for user entering the space
 // function announcerloadtest() {
