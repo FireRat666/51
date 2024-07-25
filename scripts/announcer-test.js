@@ -53,6 +53,8 @@ if(window.isBanter) {
         username + " just showed up, Everyone act normal",
         username + ", What the hell, you broke everything, it was just working, what did you do?!",
         username + " has joined, what will they do now?",
+        username + " might be an alien, watch them carefully",
+        username + " just stumbled over their charger",
         "Oh No! " + username + " has spawned into reality",
         "Oh No! " + username + " Left their toilet seat up",
         "Oh No! " + username + " is about to run out of battery",
@@ -64,7 +66,8 @@ if(window.isBanter) {
         "Your Queen " + username + " has joined the space.",
         "Bow to your King " + username,
         "Bow to your Queen " + username,
-        username  + " Has Joined the space, And wants to know if you are hungry girl",
+        "Here we go again, " + username + " has joined the space.",
+        username + " Has Joined the space, And wants to know if you are hungry girl",
         username + " was pushed into a portal, quick call the police",
         username + ", be careful of DedZed the fish overlord"
         ];
