@@ -58,6 +58,7 @@ if(window.isBanter) {
         "Oh No! " + username + " is about to run out of battery",
         "Oh No! " + username + " Has forgotten their own name",
         "Oh No! " + username + " is running out of gas",
+        "Oh No! Hide your sheep " + username + " has joined the space",
         "Oh No! " + username + " needs a recharge, grab the defib",
         "Your King " + username + " has joined the space.",
         "Your Queen " + username + " has joined the space.",
