@@ -66,7 +66,9 @@ if(window.isBanter) {
       const message = randommessage; 
       await speak(message);
       console.log("The Time Variable Currently is: " + timevariable);
-    };
+    } else {
+      console.log("ANNOUNCER: User Joined Callback event");
+    }
   }
 };
 
