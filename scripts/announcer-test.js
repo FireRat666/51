@@ -71,7 +71,7 @@ if(window.isBanter) {
 };
 
   // Function which takes a seed and an upper value then returns a psuedo random number
-  // THIS FUNCTION SEEMS UNLIKELY TO RETURN THE HIGHEST NUMBER IN THE ARRAY
+  // THIS FUNCTION SEEMS TO NEVER RETURN THE HIGHEST NUMBER IN THE ARRAY
   function PRNGF(seed, modulo) {
     str = `${(2**31-1&Math.imul(48271,seed))/2**31}`
     .split('')
@@ -116,9 +116,7 @@ if(window.isBanter && announceevents === true) {
 
 // Welcome message for user entering the space
 function announcerloadtest() {
-  const announcerscene = BS.BanterScene.getInstance();
-  console.log("ANNOUNCER: waiting... for unity scene");
-  announcerscene.On("unity-loaded", () => {
+  if(window.isBanter) {
     setTimeout(() => { 
 
       username = (user.name ? user.name : user.id.substr(0, 6));
@@ -135,9 +133,34 @@ function announcerloadtest() {
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
       speak(randommessage);
     }, 8000);
-    console.log("ANNOUNCER: This should run after unity scene load");
-  })
+    console.log("ANNOUNCER: Load Test");
+  };
 };
+
+// // Welcome message for user entering the space
+// function announcerloadtest() {
+//   const announcerscene = BS.BanterScene.getInstance();
+//   console.log("ANNOUNCER: waiting... for unity scene");
+//   announcerscene.On("unity-loaded", () => {
+//     setTimeout(() => { 
+
+//       username = (user.name ? user.name : user.id.substr(0, 6));
+
+//       const joinMessages = [
+//         username + ", What the hell, you broke everything, it was just working, what did you do? ",
+//         "Hello, Welcome to the space " + username,
+//         "What are you doing here " + username,
+//         "Welcome your Highness " + username,
+//         "Hello " + username + " " + username + " " + username + " " + username + " Failure detected, shutting down",
+//         "Enjoy your stay " + username
+//       ];
+  
+//       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
+//       speak(randommessage);
+//     }, 8000);
+//     console.log("ANNOUNCER: This should run after unity scene load");
+//   })
+// };
 
 announcerloadtest();
 
