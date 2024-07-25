@@ -43,6 +43,7 @@ if(window.isBanter) {
   window.userJoinedCallback = async user => {
     if(Date.now() - now > 20000) {
       username = (user.name ? user.name : user.id.substr(0, 6));
+      theusersid = user.id
       if (username === "Gravxton") {username = "Graviton Fucking Hell "}
       if (username === "Vanquish3r") {username = "Vanquisher"}
       const welcomeMessages = [
@@ -86,7 +87,7 @@ if(window.isBanter) {
       const message = randommessage; 
       await speak(message);
       console.log("The Time Variable Currently is: " + timevariable);
-      console.log("USERID: " + user.id);
+      console.log("USERID: " + theusersid);
     } else {
       console.log("ANNOUNCER: User Joined Callback event");
     }
