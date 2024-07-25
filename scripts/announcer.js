@@ -3,6 +3,15 @@ let username = "";
 let timevariable = 0;
 
 // Main Speak Function, Thank you Elin and everyone
+async function speak(text) {
+  console.log("saying:", text);
+  let audio = new Audio('https://speak.firer.at/?text=' + text);
+  audio.autoplay = true;
+  audio.play();
+  audio.volume = 0.08;
+};
+
+//// OLD Custom Speak Function
 // async function speak(m) {
 //   console.log("saying:" + m);
 //   var msg = new SpeechSynthesisUtterance();
@@ -17,16 +26,16 @@ let timevariable = 0;
 //   speechSynthesis.speak(msg);
 // }
 
-async function speak(text) {
-  console.log("saying:", text);
-  const welcome = await fetch('https://speak-something.glitch.me/say/' + text);
-  const url = await welcome.text();
-  let audio = new Audio("data:audio/mpeg;base64," + url);
-  audio.autoplay = true;
-  audio.play();
-  audio.volume = 0.08;
-};
-
+//// OLD Original Speak Function
+// async function speak(text) {
+//   console.log("saying:", text);
+//   const welcome = await fetch('https://speak-something.glitch.me/say/' + text);
+//   const url = await welcome.text();
+//   let audio = new Audio("data:audio/mpeg;base64," + url);
+//   audio.autoplay = true;
+//   audio.play();
+//   audio.volume = 0.08;
+// };
 
 // This function upon a user joining will select a random welcome message and call the speak function to say it
 if(window.isBanter) {
@@ -61,38 +70,13 @@ if(window.isBanter) {
   }
 };
 
-
-  // // Update the count down every 1 second
-  // var timerint = setInterval(function() {
-  //   // Get today's date and time
-  //   var now = new Date().getTime();
-  //   // Time calculations for days, hours, minutes and seconds
-  //   // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  //   var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
-  //   var second = Math.floor((now % (1000 * 60)) / 10000);
-  //   // var seconds = Math.floor((now % (1000 * 60)) / 1000);
-  //   // timevariable = minutes + "" + hours + "" + minutes + "" + (minutes + second) + "" + second;
-  //   // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
-  //   timevariable = hours + "" + minutes + "" + second;
-  //   let testuppervar = 13;
-  //   let testuppervar2 = 14;
-  //   // console.log("The Time Variable Currently is: " + timevariable);
-  //   let psudorandomvar = PRNGF(timevariable, testuppervar);
-  //   let psudorandomvar2 = PRNGF(timevariable, (testuppervar2));
-  //   console.log("tprnv1:" + psudorandomvar);
-  //   console.log("tprnv2:" + (psudorandomvar2));
-  //   // if (something === false) {
-  //   //   clearInterval(timerint);
-  //   // };
-  // }, 5000);
-
   // Function which takes a seed and an upper value then returns a psuedo random number
+  // THIS FUNCTION SEEMS UNLIKELY TO RETURN THE HIGHEST NUMBER IN THE ARRAY
   function PRNGF(seed, modulo) {
     str = `${(2**31-1&Math.imul(48271,seed))/2**31}`
     .split('')
     .slice(-10)
-    .join('') % modulo
+    .join('') % (modulo + 1) // Add one to the modulo to fix the issue
     return str
 }
 
@@ -130,7 +114,6 @@ if(window.isBanter && announceevents === true) {
   })
 };
 
-
 // Welcome message for user entering the space
 function announcerloadtest() {
   const announcerscene = BS.BanterScene.getInstance();
@@ -157,3 +140,30 @@ function announcerloadtest() {
 };
 
 announcerloadtest();
+
+// TEST STUFF
+
+  // // Update the count down every 1 second
+  // var timerint = setInterval(function() {
+  //   // Get today's date and time
+  //   var now = new Date().getTime();
+  //   // Time calculations for days, hours, minutes and seconds
+  //   // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  //   var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //   var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
+  //   var second = Math.floor((now % (1000 * 60)) / 10000);
+  //   // var seconds = Math.floor((now % (1000 * 60)) / 1000);
+  //   // timevariable = minutes + "" + hours + "" + minutes + "" + (minutes + second) + "" + second;
+  //   // timevariable = minutes + (second * 2) + "" + hours + "" + minutes + (minutes + second) + "" + second + "" + second;
+  //   timevariable = hours + "" + minutes + "" + second;
+  //   let testuppervar = 13;
+  //   let testuppervar2 = 14;
+  //   // console.log("The Time Variable Currently is: " + timevariable);
+  //   let psudorandomvar = PRNGF(timevariable, testuppervar);
+  //   let psudorandomvar2 = PRNGF(timevariable, (testuppervar2));
+  //   console.log("tprnv1:" + psudorandomvar);
+  //   console.log("tprnv2:" + (psudorandomvar2));
+  //   // if (something === false) {
+  //   //   clearInterval(timerint);
+  //   // };
+  // }, 5000);
