@@ -45,6 +45,12 @@ if(window.isBanter) {
       username = (user.name ? user.name : user.id.substr(0, 6));
       const welcomeMessages = [
         username + " welcome message blah blah!",
+        username + " Joined your party",
+        username + " has spawned into reality",
+        username + " just showed up, Hold my Head Set",
+        username + " just showed up, Don't let them leave",
+        username + " just showed up, Quick call the police",
+        username + " just showed up, Everyone act normal",
         username + ", What the hell, you broke everything, it was just working, what did you do?!",
         username + " has joined, what will they do now?",
         "Your King " + username + " has joined the space.",
@@ -128,6 +134,9 @@ function announcerloadtest() {
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
         "Hello, Welcome to the space " + username,
         "What are you doing here " + username,
+        "Welcome to [Space Name]! We're never letting you go. Quick, lock the doors!",
+        "Welcome to [Space Name] Zoo! Please, don't feed the animals. ",
+        "Welcome aboard! " + username + " We’re so excited to have you with us",
         "Welcome your Highness " + username,
         "Hello " + username + " " + username + " " + username + " " + username + " Failure detected, shutting down",
         "Enjoy your stay " + username
