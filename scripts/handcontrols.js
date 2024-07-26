@@ -1,11 +1,17 @@
 class handButtonCrap{
 	constructor() {
-	  console.log("HAND-CONTROLS: Delay Loading to avoid error");
-	  if(window.isBanter) { 
+		console.log("HAND-CONTROLS: Delay Loading to avoid error");
+		if(window.isBanter) { 
 		setTimeout(() => { 
-		  this.setupHandControls();
+			this.setupHandControls();
 		}, 5000); 
-	  };
+		};
+	  
+  		announcerscene.On("user-joined", e => {
+			if (e.detail.isLocal) {
+				console.log("HAND-CONTROLS: Local User Joined");
+			}
+		});
 	}
 
 	mute() {
