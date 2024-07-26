@@ -67,11 +67,11 @@ if(window.isBanter && announceevents === true) {
 };
 
 const announcerscene = BS.BanterScene.getInstance();
-var now = 9999999999999; // Set Now to a Really Big Number, so if user-joined is called before unity-loaded, it wont spam user joined messages for users that were already in the space
+var timenow = 9999999999999; // Set Now to a Really Big Number, so if user-joined is called before unity-loaded, it wont spam user joined messages for users that were already in the space
 // Welcome message for user entering the space
 function announcerloadtest() {
   announcerscene.On("unity-loaded", () => {
-    now = Date.now(); // Sets Now to after unity scene load is done
+    timenow = Date.now(); // Sets Now to after unity scene load is done
   });
   announcerscene.On("user-joined", e => {
     username = e.detail.name;
@@ -113,7 +113,7 @@ function announcerloadtest() {
       console.log("ANNOUNCER: Local-UID: " + e.detail.uid)
 
     } else {
-      if(Date.now() - now > 10000) {
+      if(Date.now() - timenow > 10000) {
         const welcomeMessages = [
           username + " welcome message blah blah!",
           username + " Joined your party",
