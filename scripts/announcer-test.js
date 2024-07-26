@@ -197,6 +197,7 @@ function announcerloadtest() {
     console.log("ANNOUNCER: Test user joined event")
     if (e.detail.isLocal) {
       console.log("This should run once, once user joined event is loaded")
+      console.log("ANNOUNCER: " + e.detail.uid)
 
       username = (user.name ? user.name : user.id.substr(0, 6));
 
