@@ -1,6 +1,6 @@
 // Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
 // FireScreen Tablet for Screen Casts with volume controls or for a portable browser
-// VERSION: 1.0 Beta 2
+// VERSION: 1.0 Beta 2.1
 var fireScreenOn = 0;
 var thebuttoncolor = "";
 var volupcolor = "";
@@ -79,6 +79,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
 	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text, 
 	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
+		// Setup Hand Controls only on the first run if enabled
         if (p_handbuttons == "true" && firstrunhandcontrols === true) {
             firstrunhandcontrols = false;
             console.log("FIRESCREEN: Enabling Hand Controls")
@@ -86,7 +87,25 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
             handcontrols.id = "fires-handcontrols";
             handcontrols.setAttribute("src", "https://51.firer.at/scripts/handcontrols.js");
             document.querySelector("a-scene").appendChild(handcontrols);
-        }
+        };
+		
+		// Setup the Announcer only on the first run if enabled
+		if (p_announcer && announcerfirstrun) {
+			announcerfirstrun = false;
+			console.log("FIRESCREEN: Enabling the Announcer Script")
+			const announcerscript = document.createElement("script");
+			announcerscript.id = "fires-announcer";
+			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
+			document.querySelector("a-scene").appendChild(announcerscript);
+		} else if (p_announce && announcerfirstrun) {
+			announcerfirstrun = false;
+			console.log("FIRESCREEN: Enabling the Announcer Script")
+			const announcerscript = document.createElement("script");
+			announcerscript.id = "fires-announcer";
+			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
+			document.querySelector("a-scene").appendChild(announcerscript);
+		};
+
 	numberofbrowsers++    
 	thebuttoncolor = p_buttoncolor;
 	volupcolor = p_volupcolor;
@@ -493,22 +512,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	document.querySelector("a-scene").appendChild(firescreen);
 	setTimeout(() => { setBrowserWidths(); keepsoundlevel(); }, 1500);
 	console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
-	// The announcer stuff
-	if (p_announcer && announcerfirstrun) {
-		announcerfirstrun = false;
-		console.log("FIRESCREEN: Enabling the Announcer Script")
-		const announcerscript = document.createElement("script");
-		announcerscript.id = "fires-announcer";
-		announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
-		document.querySelector("a-scene").appendChild(announcerscript);
-	} else if (p_announce && announcerfirstrun) {
-		announcerfirstrun = false;
-		console.log("FIRESCREEN: Enabling the Announcer Script")
-		const announcerscript = document.createElement("script");
-		announcerscript.id = "fires-announcer";
-		announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
-		document.querySelector("a-scene").appendChild(announcerscript);
-	};
 	
 };
 
