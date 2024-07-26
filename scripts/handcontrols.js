@@ -1,3 +1,4 @@
+const handscene = BS.BanterScene.getInstance();
 class handButtonCrap{
 	
 	constructor() {
@@ -11,7 +12,7 @@ class handButtonCrap{
 		}, 5000); 
 		};
 	  
-		firescene.On("user-joined", e => {
+		handscene.On("user-joined", e => {
 			if (e.detail.isLocal) {
 				console.log("HAND-CONTROLS: Local User Joined");
 				if (handcontrolsdisabled) {
