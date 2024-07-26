@@ -491,7 +491,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	document.querySelector("a-scene").appendChild(firescreen);
 	setTimeout(() => { setBrowserWidths(); keepsoundlevel(); }, 1500);
 	console.log(numberofbrowsers + " Fire screen(s) Enabled");
-
+	// The announcer stuff
 	if (p_announcer === "true" && announcerenabled === false) {
 		announcerenabled = true;
 		console.log("Enabling the Announcer Script")
