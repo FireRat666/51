@@ -67,7 +67,7 @@ if(window.isBanter && announceevents === true) {
 };
 
 const announcerscene = BS.BanterScene.getInstance();
-const now = Date.now();
+var now = Date.now();
 // Welcome message for user entering the space
 function announcerloadtest() {
   announcerscene.On("user-joined", e => {
