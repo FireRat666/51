@@ -1,18 +1,24 @@
-const handbutscene = BS.BanterScene.getInstance();
-
 class handButtonCrap{
 	
 	constructor() {
+		handcontrolsdisabled = true;
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 		if(window.isBanter) { 
 		setTimeout(() => { 
-			this.setupHandControls();
+			if (handcontrolsdisabled) {
+				handcontrolsdisabled = false;
+				this.setupHandControls();
+			}
 		}, 5000); 
 		};
 	  
-		handbutscene.On("user-joined", e => {
+		firescene.On("user-joined", e => {
 			if (e.detail.isLocal) {
 				console.log("HAND-CONTROLS: Local User Joined");
+				if (handcontrolsdisabled) {
+					handcontrolsdisabled = false;
+					this.setupHandControls();
+				}
 			}
 		});
 	}
