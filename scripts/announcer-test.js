@@ -70,6 +70,7 @@ const announcerscene = BS.BanterScene.getInstance();
 var now = Date.now();
 // Welcome message for user entering the space
 function announcerloadtest() {
+  now = Date.now(); // Sets Now to after unity scene load is done
   announcerscene.On("user-joined", e => {
     console.log("ANNOUNCER: Test user joined event")
     if (e.detail.isLocal) {
@@ -160,18 +161,18 @@ function announcerloadtest() {
   });
 }
 
-// Stuff
-function announceronload() {
-  announcerscene.On("unity-loaded", () => {
-    now = Date.now(); // Sets Now to after unity scene load is done
-    // setTimeout(() => { 
+// // Stuff
+// function announceronload() {
+//   announcerscene.On("unity-loaded", () => {
+//     now = Date.now(); // Sets Now to after unity scene load is done
+//     // setTimeout(() => { 
 
-    // }, 8000);
-  })
-};
+//     // }, 8000);
+//   })
+// };
 
+// announceronload();
 announcerloadtest();
-announceronload();
 
 // // Welcome message for user entering the space
 // function announcerloadtest() {
