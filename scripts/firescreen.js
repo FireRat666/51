@@ -805,18 +805,24 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // Create screen After Unity load 
 var firstbrowserrun = true;
 function firescreenloadstuff() {
-	console.log("firescreenloadstuff");
-		const firescene = BS.BanterScene.getInstance();
-		firescene.On("unity-loaded", () => {
-			console.log("FIRESCREEN: unity-loaded");
-			// console.log("FireScreen: This should run after unity scene loaded.");
-			setTimeout(() => { 
-				if (firstbrowserrun) {
-					firstbrowserrun = false;
-					enableFireScreen();
-				};
-			}, 1000);
-		});
+	console.log("FIRESCREEN: Waiting");
+	const firescene = BS.BanterScene.getInstance();
+	.On("unity-loaded", () => {
+		console.log("FIRESCREEN: unity-loaded");
+		// console.log("FireScreen: This should run after unity scene loaded.");
+		setTimeout(() => { 
+			if (firstbrowserrun) {
+				firstbrowserrun = false;
+				enableFireScreen();
+			} else {
+				console.log("FIRESCREEN: Should already be enabled/loading");
+			};
+		}, 1000);
+	});
+	
+	firescene.On("loaded", () => {
+		console.log("FIRESCREEN: scene loaded");
+		})
 }
 
 firescreenloadstuff()
