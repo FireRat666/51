@@ -9,7 +9,7 @@ var IconVolUpUrl = "";
 var IconVolDownUrl = "";
 var IconMuteUrl = "";
 var numberofbrowsers = 0;
-var announcerenabled = false;
+var announcerfirstrun = true;
 var firstrunhandcontrols = true;
 var handcontrolsdisabled = true;
 
@@ -494,15 +494,15 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	setTimeout(() => { setBrowserWidths(); keepsoundlevel(); }, 1500);
 	console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 	// The announcer stuff
-	if (p_announcer === "true" && announcerenabled === false) {
-		announcerenabled = true;
+	if (p_announcer && announcerfirstrun) {
+		announcerfirstrun = false;
 		console.log("FIRESCREEN: Enabling the Announcer Script")
 		const announcerscript = document.createElement("script");
 		announcerscript.id = "fires-announcer";
 		announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
 		document.querySelector("a-scene").appendChild(announcerscript);
-	} else if (p_announce === "true" && announcerenabled === false) {
-		announcerenabled = true;
+	} else if (p_announce && announcerfirstrun) {
+		announcerfirstrun = false;
 		console.log("FIRESCREEN: Enabling the Announcer Script")
 		const announcerscript = document.createElement("script");
 		announcerscript.id = "fires-announcer";
