@@ -1,4 +1,7 @@
+const handbutscene = BS.BanterScene.getInstance();
+
 class handButtonCrap{
+	
 	constructor() {
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 		if(window.isBanter) { 
@@ -7,7 +10,7 @@ class handButtonCrap{
 		}, 5000); 
 		};
 	  
-  		announcerscene.On("user-joined", e => {
+		handbutscene.On("user-joined", e => {
 			if (e.detail.isLocal) {
 				console.log("HAND-CONTROLS: Local User Joined");
 			}
