@@ -66,7 +66,7 @@ function disableFireScreen() {
 		if (firescreen) {
 			// Browser is on, remove it
 			firescreen.parentElement.removeChild(firescreen);
-			console.log("Fire screen Disabled"); 
+			console.log("FIRESCREEN: Fire screen Disabled"); 
 		}
 	}
 	fireScreenOn = 0;
@@ -494,7 +494,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	// The announcer stuff
 	if (p_announcer === "true" && announcerenabled === false) {
 		announcerenabled = true;
-		console.log("Enabling the Announcer Script")
+		console.log("FIRESCREEN: Enabling the Announcer Script")
 		const announcerscript = document.createElement("script");
 		announcerscript.id = "fires-announcer";
 		announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
@@ -509,7 +509,7 @@ var volinterval = null;
 var soundlevelfirstrun = true;
 function keepsoundlevel() {
   if (fireScreenOn && soundlevelfirstrun) {
-	console.log("FireScreen: keepsoundlevel loop");
+	console.log("FIRESCREEN: keepsoundlevel loop");
 	soundlevelfirstrun = false;
   // Loop to keep sound level set, runs every second
     volinterval = setInterval(function() {
