@@ -1,6 +1,6 @@
 class handButtonCrap{
 	constructor() {
-	  console.log("Hand Button Constructor Loading.");
+	  console.log("HAND-CONTROLS: Constructor Loading.");
 	  if(window.isBanter) { 
 		setTimeout(() => { 
 		  this.setupHandControls();
@@ -52,7 +52,7 @@ class handButtonCrap{
 			let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
 			volume += parseFloat(vvalue);
 			volume = volume.toFixed(2);
-			console.log("Fire Browser: " + thisloopnumber + "'s Volume is: " + volume)
+			console.log("HAND-CONTROLS: FireScreen " + thisloopnumber + "'s Volume is: " + volume)
 			if (volume > 1) {volume = 1};
 			if (volume < 0) {volume = 0};
 			firescreenc.setAttribute("volumelevel", volume);
@@ -75,7 +75,7 @@ class handButtonCrap{
 	}
 
 	setupHandControls() {
-		console.log("Setting up Hand Controls for the firescreen(s)")
+		console.log("HAND-CONTROLS: Setting up Hand Controls")
 		// This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
 		const handControlsContainer = document.createElement("a-entity");
 		handControlsContainer.setAttribute("scale", "0.1 0.1 0.1");
