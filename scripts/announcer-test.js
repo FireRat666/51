@@ -74,8 +74,7 @@ function announcerloadtest() {
   announcerscene.On("user-joined", e => {
     console.log("ANNOUNCER: Test user joined event")
     if (e.detail.isLocal) {
-      console.log("This should run once, once user joined event is loaded")
-      console.log("ANNOUNCER: " + e.detail.uid)
+      console.log("ANNOUNCER: Local-UID: " + e.detail.uid)
 
       username = e.detail.name;
 
@@ -151,15 +150,15 @@ function announcerloadtest() {
           ];
         let psudorandomvar = GETPRNGF(welcomeMessages.length);
         let randommessage = welcomeMessages[psudorandomvar];
-        console.log("prnv:" + psudorandomvar);
         const message = randommessage; 
         speak(message);
-        console.log("The Time Variable Currently is: " + timevariable);
-        console.log("USERNAME: " + e.detail.name + " USERID: " + theusersid);
+        console.log("USERNAME: " + e.detail.name + " USERID: " + theusersid + " PRVAR: " + psudorandomvar);
       };
     };
   });
 }
+
+announcerloadtest();
 
 // // Stuff
 // function announceronload() {
@@ -172,7 +171,6 @@ function announcerloadtest() {
 // };
 
 // announceronload();
-announcerloadtest();
 
 // // Welcome message for user entering the space
 // function announcerloadtest() {
