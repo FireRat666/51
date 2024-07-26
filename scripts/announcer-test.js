@@ -72,14 +72,20 @@ var now = Date.now();
 function announcerloadtest() {
   now = Date.now(); // Sets Now to after unity scene load is done
   announcerscene.On("user-joined", e => {
-    console.log("ANNOUNCER: Test user joined event")
+    username = e.detail.name;
+    theusersid = e.detail.uid;
     if (e.detail.isLocal) {
       console.log("ANNOUNCER: Local-UID: " + e.detail.uid)
 
-      username = e.detail.name;
-
-      theusersid = e.detail.uid;
-      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {username = "The Fishiest Overlord of them all"};
+      if (username === "Gravxton") {username = "Graviton What The Hell"};
+      if (theusersid === "7e778ab53e504bed1d995bf9148b98c2") {username = "Vanquisher"}; // Vanquisher
+      if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {username = "The Fishiest Overlord of them all"}; // Dedzed
+      if (theusersid === "4c67af8ae899ea5b8dd6da25566ff3f3") {username = "Boob Works"}; // BobWorks 
+      if (theusersid === "f14cd0a7c028d9e8f1756d76ff450c73") {username = "The Slayer"}; // Divine
+      if (theusersid === "c81d8333f83208a6124370282b992a45") {username = "echo phase"}; // Echo Mental
+      if (theusersid === "2cd40305e0a4b04bf0242ad0d9fa352d") {username = "Zeph e e e e e"}; // Zephii
+      if (theusersid === "f7d3e8a05224e3954bdc6f4b4ec47708") {username = "Nist X"}; // Nystx
+      if (theusersid === "f87c37aad5d82ac9faea3a2cae55934d") {username = "Discordia Kitty"}; // Discord Kitty
 
       const joinMessages = [
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
@@ -103,10 +109,6 @@ function announcerloadtest() {
     } else {
       if(Date.now() - now > 8000) {
 
-        username = e.detail.name;
-
-        theusersid = e.detail.uid;
-  
         if (username === "Gravxton") {username = "Graviton What The Hell"};
         if (theusersid === "7e778ab53e504bed1d995bf9148b98c2") {username = "Vanquisher"}; // Vanquisher
         if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {username = "The Fishiest Overlord of them all"}; // Dedzed
@@ -153,8 +155,8 @@ function announcerloadtest() {
           username + ", be careful of DedZed the fish overlord"
           ];
         let psudorandomvar = GETPRNGF(welcomeMessages.length);
-        let randommessage = welcomeMessages[psudorandomvar];
-        const message = randommessage; 
+        // let randommessage = welcomeMessages[psudorandomvar];
+        const message = welcomeMessages[psudorandomvar]; 
         speak(message);
         console.log("USERNAME: " + e.detail.name + " USERID: " + theusersid + " PRVAR: " + psudorandomvar);
       };
