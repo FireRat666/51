@@ -1,6 +1,6 @@
 class handButtonCrap{
 	constructor() {
-	  console.log("HAND-CONTROLS: Constructor Loading.");
+	  console.log("HAND-CONTROLS: Delay Loading to avoid error");
 	  if(window.isBanter) { 
 		setTimeout(() => { 
 		  this.setupHandControls();
