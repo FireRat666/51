@@ -4,14 +4,14 @@
     <script>
     class BanterCrap{
       constructor() {
-        console.log("Constructor Loading.");
+        console.log("index.html Constructor Loading.");
         if(window.isBanter) { 
           this.LoadAssetBundle();
           this.setSceneSettings();
         };
       }
       async LoadAssetBundle() {
-        console.log("Asset Bundle Loading...");
+        console.log("index.html Asset Bundle Loading...");
         const windowsUrl = "https://51.firer.at/windows.banter";
         const osxUrl = null; // Not implemented yet...
         const linuxUrl = null; // Not implemented yet...
@@ -21,9 +21,9 @@
         const isScene = true;
         const legacyShaderFix = false;
         const gameObject = new BS.GameObject("MyAssetBundle"); 
-            console.log("Asset Bundle Loading go...");
+            console.log("index.html Asset Bundle Loading go...");
         const assetBundle = await gameObject.AddComponent(new BS.BanterAssetBundle(windowsUrl, osxUrl, linuxUrl, androidUrl, iosUrl, vosUrl, isScene, legacyShaderFix));
-            console.log("Asset Bundle Loaded");
+            console.log("index.html Asset Bundle Loaded");
       }
 
       async setSceneSettings() {
@@ -73,7 +73,7 @@
 		<!-- Analytics and Cookie Stuff Start -->
 		<!-- <script src="https://cookiechimp.com/widget/mV3trJ.js"></script> -->
 		<script>
-      if(window.isBanter) { console.log("Window is Banter, Not adding cookie chimp scripts");
+      if(window.isBanter) { console.log("index.html Window is Banter, Not adding cookie chimp scripts");
       } else {
           console.log("Adding Cookie Chimp Script")
           const cookiechimpscript = document.createElement("script");
