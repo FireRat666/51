@@ -533,10 +533,7 @@ function keepsoundlevel() {
     }, 5000); } else if (fireScreenOn) { } else { clearInterval(volinterval); }
 };
 
-
-////////////////////////////////////////////////////////////////
-
-
+// Set the width and height of the screen(s)
 var widthalreadyset = false;
 function setBrowserWidths() {
 	if (widthalreadyset === false) {
@@ -550,24 +547,15 @@ function setBrowserWidths() {
 			theBrowser.browser.pageWidth=browserpageWidth;
 			theBrowser.browser.pageHeight=browserpageHeight;
 			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
-			
 		};
 	};
 }
 
 
-
-
-
-
-
-
-
-// Everyone who helped make this possible, HBR, Vanquisher, DedZed, Sebek and FireRat, And thank you to everyone who helped test it
 // Enables Interaction for all the browser windows by HBR
 
-	  AFRAME.registerComponent("enable-interaction", { init: async function() { await window.AframeInjection.waitFor(this.el, "browser");
-			this.el.browser.ToggleInteraction(true) 			} });
+	AFRAME.registerComponent("enable-interaction", { init: async function() { await window.AframeInjection.waitFor(this.el, "browser");
+		this.el.browser.ToggleInteraction(true) 			} });
 			
 // Listens for button clicks to open the urls on either Screen by HBR
   AFRAME.registerComponent("click-url", {
