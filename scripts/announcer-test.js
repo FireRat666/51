@@ -86,6 +86,7 @@ function announcerloadtest() {
       if (theusersid === "2cd40305e0a4b04bf0242ad0d9fa352d") {username = "Zeph e e e e e"}; // Zephii
       if (theusersid === "f7d3e8a05224e3954bdc6f4b4ec47708") {username = "Nist X"}; // Nystx
       if (theusersid === "f87c37aad5d82ac9faea3a2cae55934d") {username = "Discordia Kitty"}; // Discord Kitty
+      if (theusersid === "d20dc72cdbb562479089c6c5263815a8") {username = "A Banter Ghost"}; // Ghost Droid
 
       const joinMessages = [
         username + ", What the hell, you broke everything, it was just working, what did you do? ",
@@ -118,7 +119,9 @@ function announcerloadtest() {
         if (theusersid === "2cd40305e0a4b04bf0242ad0d9fa352d") {username = "Zeph e e e e e"}; // Zephii
         if (theusersid === "f7d3e8a05224e3954bdc6f4b4ec47708") {username = "Nist X"}; // Nystx
         if (theusersid === "f87c37aad5d82ac9faea3a2cae55934d") {username = "Discordia Kitty"}; // Discord Kitty
+        if (theusersid === "d20dc72cdbb562479089c6c5263815a8") {username = "A Banter Ghost"}; // Ghost Droid
   
+        // d20dc72cdbb562479089c6c5263815a8 
         const welcomeMessages = [
           username + " welcome message blah blah!",
           username + " Joined your party",
