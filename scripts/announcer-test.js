@@ -199,9 +199,10 @@ function announcerloadtest() {
       console.log("This should run once, once user joined event is loaded")
       console.log("ANNOUNCER: " + e.detail.uid)
 
-      username = (user.name ? user.name : user.id.substr(0, 6));
+      username = e.detail.name;
+      // username = (user.name ? user.name : user.id.substr(0, 6));
 
-      theusersid = user.id;
+      theusersid = e.detail.uid;
       if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {
         username = "The Fishiest Overlord of them all"
       };
