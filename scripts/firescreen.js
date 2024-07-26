@@ -13,7 +13,7 @@ var numberofbrowsers = 0;
 var announcerenabled = false;
 
 function enableFireScreen() {
-  console.log("Enabling Fire Screen(s)");
+  console.log("FIRESCREEN: Enabling Screen(s)");
   // window.enableControllerExtras(); // CAN REMOVE THIS LINE
   const scripts = document.getElementsByTagName("script");
   for (let i = 0; i < scripts.length; i++) {
@@ -79,7 +79,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
         if (p_handbuttons == "true" && firstrunhandcontrols === true) {
             firstrunhandcontrols = false;
-            console.log("Enabling the Hand Controls")
+            console.log("FIRESCREEN: Enabling Hand Controls")
             const handcontrols = document.createElement("script");
             handcontrols.id = "fires-handcontrols";
             handcontrols.setAttribute("src", "https://51.firer.at/scripts/handcontrols.js");
@@ -490,7 +490,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	}; 
 	document.querySelector("a-scene").appendChild(firescreen);
 	setTimeout(() => { setBrowserWidths(); keepsoundlevel(); }, 1500);
-	console.log(numberofbrowsers + " Fire screen(s) Enabled");
+	console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 	// The announcer stuff
 	if (p_announcer === "true" && announcerenabled === false) {
 		announcerenabled = true;
@@ -548,7 +548,7 @@ function setBrowserWidths() {
 			let browserpageHeight = theBrowser.getAttribute("pageHeight");
 			theBrowser.browser.pageWidth=browserpageWidth;
 			theBrowser.browser.pageHeight=browserpageHeight;
-			console.log("The browser " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
+			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
 			
 		};
 	};
