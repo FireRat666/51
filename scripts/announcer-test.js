@@ -151,7 +151,7 @@ function announcerloadtest() {
           ];
 
         let psudorandomvar = GETPRNGF(welcomeMessages.length);
-        const message = welcomeMessages[psudorandomvar]; 
+        const message = welcomeMessages[GETPRNGF(welcomeMessages.length)]; 
         speak(message);
         console.log("USERNAME: " + e.detail.name + " USERID: " + theusersid + " PRVAR: " + psudorandomvar);
       };
