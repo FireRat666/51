@@ -805,8 +805,10 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // Create screen After Unity load 
 var firstbrowserrun = true;
 function firescreenloadstuff() {
+	console.log("firescreenloadstuff");
 		const firescene = BS.BanterScene.getInstance();
 		firescene.On("unity-loaded", () => {
+			console.log("FIRESCREEN: unity-loaded");
 			// console.log("FireScreen: This should run after unity scene loaded.");
 			setTimeout(() => { 
 				if (firstbrowserrun) {
