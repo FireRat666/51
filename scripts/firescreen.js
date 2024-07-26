@@ -8,9 +8,10 @@ var voldowncolor = "";
 var IconVolUpUrl = "";
 var IconVolDownUrl = "";
 var IconMuteUrl = "";
-var firstrunhandcontrols = true;
 var numberofbrowsers = 0;
 var announcerenabled = false;
+var firstrunhandcontrols = true;
+var handcontrolsdisabled = true;
 
 function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");

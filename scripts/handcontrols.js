@@ -1,7 +1,6 @@
 class handButtonCrap{
 	
 	constructor() {
-		handcontrolsdisabled = true;
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 		if(window.isBanter) { 
 		setTimeout(() => { 
