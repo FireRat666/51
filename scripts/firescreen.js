@@ -557,6 +557,10 @@ function setBrowserWidths() {
 			let browserpageHeight = theBrowser.getAttribute("pageHeight");
 			theBrowser.browser.pageWidth=browserpageWidth;
 			theBrowser.browser.pageHeight=browserpageHeight;
+			
+			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.rotation]); // Test Watch Properties
+			console.log(`FIRESCREEN: Position: ${JSON.stringify(theBrowser.transform.position)} Rotation: ${JSON.stringify(theBrowser.transform.rotation)}`);
+
 			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
 		};
 	};
