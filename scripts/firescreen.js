@@ -108,8 +108,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 
 	numberofbrowsers++    
 	thebuttoncolor = p_buttoncolor;
-	volupcolor = p_volupcolor;
-	voldowncolor = p_voldowncolor;
+	// volupcolor = p_volupcolor;
+	// voldowncolor = p_voldowncolor;
     IconVolUpUrl = p_iconvolupurl;
     IconVolDownUrl = p_iconvoldownurl;
     IconMuteUrl = p_iconmuteurl;
@@ -467,6 +467,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firevolup.setAttribute("height", "0.1");
 	if (p_volupcolor === "null") {
 		firevolup.setAttribute("color", thebuttoncolor);
+		volupcolor = "#00FF00";
 	} else {
 		firevolup.setAttribute("color", p_volupcolor);
 	}
@@ -488,6 +489,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firevoldown.setAttribute("height", "0.1");
 	if (p_voldowncolor === "null") {
 		firevoldown.setAttribute("color", thebuttoncolor);
+		p_voldowncolor = "#FFFF00";
 	} else {
 		firevoldown.setAttribute("color", p_voldowncolor);
 	}
