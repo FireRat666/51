@@ -796,7 +796,7 @@ function setBrowserWidths() {
 		// browserRotation.transform.rotation = new BS.Vector3(x, y, z); 
 		// browserRotation.transform.rotation = new BS.Quaternion(x, y, z, w); 
 		browserRotation.transform.eulerAngles = new BS.Vector3(x, y, z); 
-		console.log("SET X:" + x + " Y:" + y + " Z:" + z + " W:" + w);
+		console.log("SET X:" + x + " Y:" + y + " Z:" + z);
 		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100); 
 		});        },      });
 
