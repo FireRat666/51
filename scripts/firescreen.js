@@ -628,7 +628,7 @@ function setBrowserWidths() {
 			theBrowser.browser.pageWidth=browserpageWidth;
 			theBrowser.browser.pageHeight=browserpageHeight;
 			
-			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.rotation]); // Test Watch Properties
+			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.eulerAngles]); // Test Watch Properties
 			// console.log(`FIRESCREEN: Position: ${JSON.stringify(theBrowser.transform.position)} Rotation: ${JSON.stringify(theBrowser.transform.rotation)}`);
 
 			
@@ -772,11 +772,11 @@ function setBrowserWidths() {
 		// let x = browserRotation.object3D.rotation.x;
 		// let y = browserRotation.object3D.rotation.y;
 		// let z = browserRotation.object3D.rotation.z;
-		let x = browserRotation.transform.rotation.x;
-		let y = browserRotation.transform.rotation.y;
-		let z = browserRotation.transform.rotation.z;
-		let w = browserRotation.transform.rotation.w;
-		console.log("X:" + x + " Y:" + y + " Z:" + z + " W:" + w);
+		let x = browserRotation.transform.eulerAngles.x;
+		let y = browserRotation.transform.eulerAngles.y;
+		let z = browserRotation.transform.eulerAngles.z;
+		// let w = browserRotation.transform.rotation.w;
+		console.log("X:" + x + " Y:" + y + " Z:" + z);
 		switch (this.data.axis) {
 			case "x":
 				x += this.data.amount;
@@ -794,7 +794,8 @@ function setBrowserWidths() {
 		this.el.setAttribute("color","#AAAAAA");
 		// browserRotation.setAttribute("rotation", x + " " + y + " " + z); 
 		// browserRotation.transform.rotation = new BS.Vector3(x, y, z); 
-		browserRotation.transform.rotation = new BS.Quaternion(x, y, z, w); 
+		// browserRotation.transform.rotation = new BS.Quaternion(x, y, z, w); 
+		browserRotation.transform.eulerAngles = new BS.Vector3(x, y, z); 
 		console.log("SET X:" + x + " Y:" + y + " Z:" + z + " W:" + w);
 		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100); 
 		});        },      });
