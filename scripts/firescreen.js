@@ -260,7 +260,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		
 		// Rotate Left Button test
 		let firerotlefttest = document.createElement("a-plane");
-		firerotlefttest.setAttribute("position", "-0.5 -0.42 0");
+		firerotlefttest.setAttribute("position", "-0.5 -0.45 0");
 		firerotlefttest.setAttribute("width", "0.1");
 		firerotlefttest.setAttribute("height", "0.1");
 		firerotlefttest.setAttribute("color", thebuttoncolor);
@@ -274,7 +274,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firescreen.appendChild(firerotlefttest);
 		// Rotate Right Button test
 		let firerotrighttest = document.createElement("a-plane");
-		firerotrighttest.setAttribute("position", "0.5 -0.42 0");
+		firerotrighttest.setAttribute("position", "0.5 -0.45 0");
 		firerotrighttest.setAttribute("width", "0.1");
 		firerotrighttest.setAttribute("height", "0.1");
 		firerotrighttest.setAttribute("color", thebuttoncolor);
@@ -288,7 +288,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firescreen.appendChild(firerotrighttest);
 		// Tilt Forwards Button test
 		let firetiltforwardtest = document.createElement("a-plane");
-		firetiltforwardtest.setAttribute("position", "-0.4 -0.42 0");
+		firetiltforwardtest.setAttribute("position", "-0.4 -0.45 0");
 		firetiltforwardtest.setAttribute("width", "0.1");
 		firetiltforwardtest.setAttribute("height", "0.1");
 		firetiltforwardtest.setAttribute("color", thebuttoncolor);
@@ -302,7 +302,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firescreen.appendChild(firetiltforwardtest);
 		// Tilt Backwards Button test
 		let firetiltbackwardtest = document.createElement("a-plane");
-		firetiltbackwardtest.setAttribute("position", "0.4 -0.42 0");
+		firetiltbackwardtest.setAttribute("position", "0.4 -0.45 0");
 		firetiltbackwardtest.setAttribute("width", "0.1");
 		firetiltbackwardtest.setAttribute("height", "0.1");
 		firetiltbackwardtest.setAttribute("color", thebuttoncolor);
