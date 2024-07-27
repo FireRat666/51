@@ -208,7 +208,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firerotleft.setAttribute("sq-collider");
 		firerotleft.setAttribute("sq-interactable");
 		firerotleft.setAttribute("class", "tilt buttons");
-		firerotleft.setAttribute("src", "https://firer.at/files/RL.png");
+		firerotleft.setAttribute("src", "https://firer.at/files/icons/+Y.png");
 		firerotleft.setAttribute("visible", "false");
 		firerotleft.setAttribute("rotate", "axis: y; amount: 0.1");
 		firescreen.appendChild(firerotleft);
@@ -222,7 +222,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firerotright.setAttribute("sq-collider");
 		firerotright.setAttribute("sq-interactable");
 		firerotright.setAttribute("class", "tilt buttons");
-		firerotright.setAttribute("src", "https://firer.at/files/RR.png");
+		firerotright.setAttribute("src", "https://firer.at/files/icons/-Y.png");
 		firerotright.setAttribute("visible", "false");
 		firerotright.setAttribute("rotate", "axis: y; amount: -0.1");
 		firescreen.appendChild(firerotright);
@@ -236,7 +236,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firetiltforward.setAttribute("sq-collider");
 		firetiltforward.setAttribute("sq-interactable");
 		firetiltforward.setAttribute("class", "tilt buttons");
-		firetiltforward.setAttribute("src", "https://firer.at/files/TF.png");
+		firetiltforward.setAttribute("src", "https://firer.at/files/icons/-X.png");
 		firetiltforward.setAttribute("visible", "false");
 		firetiltforward.setAttribute("rotate", "axis: x; amount: -0.1");
 		firescreen.appendChild(firetiltforward);
@@ -250,7 +250,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firetiltbackward.setAttribute("sq-collider");
 		firetiltbackward.setAttribute("sq-interactable");
 		firetiltbackward.setAttribute("class", "tilt buttons");
-		firetiltbackward.setAttribute("src", "https://firer.at/files/TB.png");
+		firetiltbackward.setAttribute("src", "https://firer.at/files/icons/+X.png");
 		firetiltbackward.setAttribute("visible", "false");
 		firetiltbackward.setAttribute("rotate", "axis: x; amount: 0.1");
 		firescreen.appendChild(firetiltbackward);
@@ -268,7 +268,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firerotlefttest.setAttribute("sq-collider");
 		firerotlefttest.setAttribute("sq-interactable");
 		firerotlefttest.setAttribute("class", "tilt buttons");
-		firerotlefttest.setAttribute("src", "https://firer.at/files/RL.png");
+		firerotlefttest.setAttribute("src", "https://firer.at/files/icons/+Z.png");
 		firerotlefttest.setAttribute("visible", "false");
 		firerotlefttest.setAttribute("rotate", "axis: z; amount: 0.1");
 		firescreen.appendChild(firerotlefttest);
@@ -282,7 +282,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firerotrighttest.setAttribute("sq-collider");
 		firerotrighttest.setAttribute("sq-interactable");
 		firerotrighttest.setAttribute("class", "tilt buttons");
-		firerotrighttest.setAttribute("src", "https://firer.at/files/RR.png");
+		firerotrighttest.setAttribute("src", "https://firer.at/files/icons/-Z.png");
 		firerotrighttest.setAttribute("visible", "false");
 		firerotrighttest.setAttribute("rotate", "axis: z; amount: -0.1");
 		firescreen.appendChild(firerotrighttest);
@@ -296,7 +296,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firetiltforwardtest.setAttribute("sq-collider");
 		firetiltforwardtest.setAttribute("sq-interactable");
 		firetiltforwardtest.setAttribute("class", "tilt buttons");
-		firetiltforwardtest.setAttribute("src", "https://firer.at/files/TF.png");
+		firetiltforwardtest.setAttribute("src", "https://firer.at/files/icons/-W.png");
 		firetiltforwardtest.setAttribute("visible", "false");
 		firetiltforwardtest.setAttribute("rotate", "axis: w; amount: -0.1");
 		firescreen.appendChild(firetiltforwardtest);
@@ -310,7 +310,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firetiltbackwardtest.setAttribute("sq-collider");
 		firetiltbackwardtest.setAttribute("sq-interactable");
 		firetiltbackwardtest.setAttribute("class", "tilt buttons");
-		firetiltbackwardtest.setAttribute("src", "https://firer.at/files/TB.png");
+		firetiltbackwardtest.setAttribute("src", "https://firer.at/files/icons/+W.png");
 		firetiltbackwardtest.setAttribute("visible", "false");
 		firetiltbackwardtest.setAttribute("rotate", "axis: w; amount: 0.1");
 		firescreen.appendChild(firetiltbackwardtest);
