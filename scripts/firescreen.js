@@ -540,6 +540,14 @@ function keepsoundlevel() {
 			// 		"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
 			// 	}, 1000);
 			//   });
+
+			
+			let x = theBrowser.transform.rotation.x;
+			let y = theBrowser.transform.rotation.y;
+			let z = theBrowser.transform.rotation.z;
+			console.log("FIRESCREEN: " + thisloopnumber + " X:" + x + " Y:" + y + " Z:" + z);
+
+
 		}
     }, 5000); } else if (fireScreenOn) { } else { clearInterval(volinterval); }
 };
