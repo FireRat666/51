@@ -254,6 +254,67 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firetiltbackward.setAttribute("visible", "false");
 		firetiltbackward.setAttribute("rotate", "axis: x; amount: 0.1");
 		firescreen.appendChild(firetiltbackward);
+
+		// TEST
+
+		
+		// Rotate Left Button test
+		let firerotlefttest = document.createElement("a-plane");
+		firerotlefttest.setAttribute("position", "-0.5 -0.42 0");
+		firerotlefttest.setAttribute("width", "0.1");
+		firerotlefttest.setAttribute("height", "0.1");
+		firerotlefttest.setAttribute("color", thebuttoncolor);
+		firerotlefttest.setAttribute("material", "transparent: true");
+		firerotlefttest.setAttribute("sq-collider");
+		firerotlefttest.setAttribute("sq-interactable");
+		firerotlefttest.setAttribute("class", "tilt buttons");
+		firerotlefttest.setAttribute("src", "https://firer.at/files/RL.png");
+		firerotlefttest.setAttribute("visible", "false");
+		firerotlefttest.setAttribute("rotate", "axis: z; amount: 0.1");
+		firescreen.appendChild(firerotlefttest);
+		// Rotate Right Button test
+		let firerotrighttest = document.createElement("a-plane");
+		firerotrighttest.setAttribute("position", "0.5 -0.42 0");
+		firerotrighttest.setAttribute("width", "0.1");
+		firerotrighttest.setAttribute("height", "0.1");
+		firerotrighttest.setAttribute("color", thebuttoncolor);
+		firerotrighttest.setAttribute("material", "transparent: true");
+		firerotrighttest.setAttribute("sq-collider");
+		firerotrighttest.setAttribute("sq-interactable");
+		firerotrighttest.setAttribute("class", "tilt buttons");
+		firerotrighttest.setAttribute("src", "https://firer.at/files/RR.png");
+		firerotrighttest.setAttribute("visible", "false");
+		firerotrighttest.setAttribute("rotate", "axis: z; amount: -0.1");
+		firescreen.appendChild(firerotrighttest);
+		// Tilt Forwards Button test
+		let firetiltforwardtest = document.createElement("a-plane");
+		firetiltforwardtest.setAttribute("position", "-0.4 -0.42 0");
+		firetiltforwardtest.setAttribute("width", "0.1");
+		firetiltforwardtest.setAttribute("height", "0.1");
+		firetiltforwardtest.setAttribute("color", thebuttoncolor);
+		firetiltforwardtest.setAttribute("material", "transparent: true");
+		firetiltforwardtest.setAttribute("sq-collider");
+		firetiltforwardtest.setAttribute("sq-interactable");
+		firetiltforwardtest.setAttribute("class", "tilt buttons");
+		firetiltforwardtest.setAttribute("src", "https://firer.at/files/TF.png");
+		firetiltforwardtest.setAttribute("visible", "false");
+		firetiltforwardtest.setAttribute("rotate", "axis: w; amount: -0.1");
+		firescreen.appendChild(firetiltforwardtest);
+		// Tilt Backwards Button test
+		let firetiltbackwardtest = document.createElement("a-plane");
+		firetiltbackwardtest.setAttribute("position", "0.4 -0.42 0");
+		firetiltbackwardtest.setAttribute("width", "0.1");
+		firetiltbackwardtest.setAttribute("height", "0.1");
+		firetiltbackwardtest.setAttribute("color", thebuttoncolor);
+		firetiltbackwardtest.setAttribute("material", "transparent: true");
+		firetiltbackwardtest.setAttribute("sq-collider");
+		firetiltbackwardtest.setAttribute("sq-interactable");
+		firetiltbackwardtest.setAttribute("class", "tilt buttons");
+		firetiltbackwardtest.setAttribute("src", "https://firer.at/files/TB.png");
+		firetiltbackwardtest.setAttribute("visible", "false");
+		firetiltbackwardtest.setAttribute("rotate", "axis: w; amount: 0.1");
+		firescreen.appendChild(firetiltbackwardtest);
+
 		// Toggle Rotations Button
 		let firetogglerots = document.createElement("a-plane");
 		firetogglerots.setAttribute("position", "-0.6 -0.3 0");
