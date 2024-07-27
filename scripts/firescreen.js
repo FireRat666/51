@@ -542,9 +542,9 @@ function keepsoundlevel() {
 			//   });
 
 			
-			let x = theBrowser.transform.rotation.x;
-			let y = theBrowser.transform.rotation.y;
-			let z = theBrowser.transform.rotation.z;
+			let x = theBrowser.transform.localRotation.x;
+			let y = theBrowser.transform.localRotation.y;
+			let z = theBrowser.transform.localRotation.z;
 			console.log("FIRESCREEN: " + thisloopnumber + " X:" + x + " Y:" + y + " Z:" + z);
 
 
@@ -566,7 +566,7 @@ function setBrowserWidths() {
 			theBrowser.browser.pageWidth=browserpageWidth;
 			theBrowser.browser.pageHeight=browserpageHeight;
 			
-			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.rotation]); // Test Watch Properties
+			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.localRotation]); // Test Watch Properties
 			// console.log(`FIRESCREEN: Position: ${JSON.stringify(theBrowser.transform.position)} Rotation: ${JSON.stringify(theBrowser.transform.rotation)}`);
 
 			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
@@ -703,9 +703,9 @@ function setBrowserWidths() {
 		// let x = browserRotation.object3D.rotation.x;
 		// let y = browserRotation.object3D.rotation.y;
 		// let z = browserRotation.object3D.rotation.z;
-		let x = browserRotation.transform.rotation.x;
-		let y = browserRotation.transform.rotation.y;
-		let z = browserRotation.transform.rotation.z;
+		let x = browserRotation.transform.localRotation.x;
+		let y = browserRotation.transform.localRotation.y;
+		let z = browserRotation.transform.localRotation.z;
 		console.log("X:" + x + " Y:" + y + " Z:" + z);
 		switch (this.data.axis) {
 		  case "x":
