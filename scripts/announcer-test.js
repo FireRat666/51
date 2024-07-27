@@ -101,7 +101,7 @@ function announcerloadtest() {
         "Welcome " + username + " we Hope you brought your sense of humor!",
         "Glad you could join us " + username + " now let’s have some fun!",
         "Fasten your seatbelt " + username + " it’s going to be a wild ride.",
-        "Hi there! It’s great to meet you " + username + " , wait a sec I am not sentient",
+        "Hi there! It’s great to meet you " + username + ", wait a sec I am not sentient",
         "Welcome " + username + " We’re a little weird, a little wacky, but we’re pretty sure you’ll fit right in.",
         "Welcome your Highness " + username,
         "Hello " + username + " " + username + " " + username + " " + username + " Failure detected, shutting down",
