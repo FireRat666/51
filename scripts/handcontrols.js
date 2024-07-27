@@ -91,19 +91,21 @@ class handButtonCrap{
 	}
 
 	lockplayerfunc() {
+		let firelockbut = document.getElementById("firelockpbut");
 		if (playerislocked) {
 			playerislocked = false;
 			unlockPlayer();
+			firelockbut.setAttribute("color", thebuttoncolor); 
 		} else {
 			playerislocked = true;
 			lockPlayer();
+			if (thebuttoncolor === "#00FF00") {
+				firelockbut.setAttribute("color", "#FFFF00"); 
+			} else {
+			firelockbut.setAttribute("color", "#00FF00"); 
+			}
 		};
-		
-		let firelockbut = document.getElementById("firelockpbut");
-		let butcolour = firelockbut.getAttribute("color");
-		firelockbut.setAttribute("color", "#FFFFFF"); 
-		setTimeout(() => {  firelockbut.setAttribute("color", butcolour); }, 100);
-	}
+	};
 
 	setupHandControls() {
 		console.log("HAND-CONTROLS: Setting up Hand Controls")
