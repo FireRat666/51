@@ -559,7 +559,7 @@ function setBrowserWidths() {
 			theBrowser.browser.pageHeight=browserpageHeight;
 			
 			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.rotation]); // Test Watch Properties
-			console.log(`FIRESCREEN: Position: ${JSON.stringify(theBrowser.transform.position)} Rotation: ${JSON.stringify(theBrowser.transform.rotation)}`);
+			// console.log(`FIRESCREEN: Position: ${JSON.stringify(theBrowser.transform.position)} Rotation: ${JSON.stringify(theBrowser.transform.rotation)}`);
 
 			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
 		};
@@ -692,9 +692,12 @@ function setBrowserWidths() {
 	  this.el.addEventListener("click", () => {
 		let browserRotation = this.el.parentElement;
 		let thisbuttoncolor = browserRotation.getAttribute("button-color");
-		let x = browserRotation.object3D.rotation.x;
-		let y = browserRotation.object3D.rotation.y;
-		let z = browserRotation.object3D.rotation.z;
+		// let x = browserRotation.object3D.rotation.x;
+		// let y = browserRotation.object3D.rotation.y;
+		// let z = browserRotation.object3D.rotation.z;
+		let x = browserRotation.transform.rotation.x;
+		let y = browserRotation.transform.rotation.y;
+		let z = browserRotation.transform.rotation.z;
 		switch (this.data.axis) {
 		  case "x":
 			x += this.data.amount;
