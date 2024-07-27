@@ -97,7 +97,12 @@ class handButtonCrap{
 		} else {
 			playerislocked = true;
 			lockPlayer();
-		}
+		};
+		
+		let firelockbut = document.getElementById("firelockpbut");
+		let butcolour = firelockbut.getAttribute("color");
+		firelockbut.setAttribute("color", "#FFFFFF"); 
+		setTimeout(() => {  firelockbut.setAttribute("color", butcolour); }, 100);
 	}
 
 	setupHandControls() {
@@ -125,9 +130,9 @@ class handButtonCrap{
 			callback: () => this.volumecontrol("-0.05")
 			},
 			{
-			image: "https://firer.at/files/Arrow.png",
+			image: "https://firer.at/files/lock.png",
 			position: "-1 -0.4 0",
-			colour: "#FFFFFF",
+			colour: thebuttoncolor,
 			class: "firelockpbutc",
 			id: "firelockpbut", 
 			callback: () => this.lockplayerfunc()
