@@ -139,7 +139,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	// for the collider to allow it to be moved
 	let firecollider = document.createElement("a-plane");
 	firecollider.setAttribute("opacity", "0");
-	firecollider.setAttribute("position", "0 0 0");
+	firecollider.setAttribute("position", "0 0 -0.005");
 	firecollider.setAttribute("scale", "1.0 0.55 0.05");
 	firecollider.setAttribute("color", "#ff0000");
 	firecollider.setAttribute("sq-boxcollider");
