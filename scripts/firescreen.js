@@ -707,7 +707,7 @@ function setBrowserWidths() {
 		let y = browserRotation.transform.rotation.y;
 		let z = browserRotation.transform.rotation.z;
 		let w = browserRotation.transform.rotation.w;
-		console.log("X:" + x + " Y:" + y + " Z:" + z);
+		console.log("X:" + x + " Y:" + y + " Z:" + z + " W:" + w);
 		switch (this.data.axis) {
 			case "x":
 				x += this.data.amount;
@@ -725,8 +725,8 @@ function setBrowserWidths() {
 		this.el.setAttribute("color","#AAAAAA");
 		// browserRotation.setAttribute("rotation", x + " " + y + " " + z); 
 		// browserRotation.transform.rotation = new BS.Vector3(x, y, z); 
-		browserRotation.transform.rotation = new BS.Quaternion(0, 0, z, w); 
-		console.log("SET X:" + x + " Y:" + y + " Z:" + z);
+		browserRotation.transform.rotation = new BS.Quaternion(x, y, z, w); 
+		console.log("SET X:" + x + " Y:" + y + " Z:" + z + " W:" + w);
 		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100); 
 		});        },      });
 
