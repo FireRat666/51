@@ -542,10 +542,10 @@ function keepsoundlevel() {
 			//   });
 
 			
-			let x = theBrowser.transform.localRotation.x;
-			let y = theBrowser.transform.localRotation.y;
-			let z = theBrowser.transform.localRotation.z;
-			console.log("FIRESCREEN: " + thisloopnumber + " X:" + x + " Y:" + y + " Z:" + z);
+			// let x = theBrowser.transform.localRotation.x;
+			// let y = theBrowser.transform.localRotation.y;
+			// let z = theBrowser.transform.localRotation.z;
+			// console.log("FIRESCREEN: " + thisloopnumber + " X:" + x + " Y:" + y + " Z:" + z);
 
 
 		}
