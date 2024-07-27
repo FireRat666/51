@@ -337,6 +337,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firekeyboardtog.setAttribute("material", "transparent: true");
 		firekeyboardtog.setAttribute("sq-collider");
 		firekeyboardtog.setAttribute("sq-interactable");
+		firekeyboardtog.setAttribute("class", "buttons");
 		firekeyboardtog.setAttribute("src", "https://firer.at/files/Keyboard.png");
 		firekeyboardtog.setAttribute("forcekeyboard", "false");
 		firescreen.appendChild(firekeyboardtog);
