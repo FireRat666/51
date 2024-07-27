@@ -698,6 +698,7 @@ function setBrowserWidths() {
 		let x = browserRotation.transform.rotation.x;
 		let y = browserRotation.transform.rotation.y;
 		let z = browserRotation.transform.rotation.z;
+		console.log("X:" + x + " Y:" + y + " Z:" + z);
 		switch (this.data.axis) {
 		  case "x":
 			x += this.data.amount;
