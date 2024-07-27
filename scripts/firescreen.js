@@ -635,7 +635,7 @@ function setBrowserWidths() {
 			let x = theBrowser.object3D.rotation.x;
 			let y = theBrowser.object3D.rotation.y;
 			let z = theBrowser.object3D.rotation.z;
-			theBrowser.transform.lerpRotation = true;
+			// theBrowser.transform.lerpRotation = true;
 			theBrowser.transform.eulerAngles = new BS.Vector3(x, y, z); 
 
 			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
