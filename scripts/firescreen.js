@@ -453,7 +453,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firemutebut.setAttribute("class", "buttons");
 	firemutebut.setAttribute("src", p_iconmuteurl);
 	firemutebut.setAttribute("toggle-mute");
-	firemutebut.setAttribute("class", "firemutebutc");
+	firemutebut.setAttribute("class", "firemutebutc buttons");
 	firescreen.appendChild(firemutebut);
 	// Volume Up Button
 	let volupbutpos = "0.5 0.38 0";
