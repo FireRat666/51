@@ -210,7 +210,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firerotleft.setAttribute("class", "tilt buttons");
 		firerotleft.setAttribute("src", "https://firer.at/files/RL.png");
 		firerotleft.setAttribute("visible", "false");
-		firerotleft.setAttribute("rotate", "axis: y; amount: -10");
+		firerotleft.setAttribute("rotate", "axis: y; amount: -0.01");
 		firescreen.appendChild(firerotleft);
 		// Rotate Right Button
 		let firerotright = document.createElement("a-plane");
@@ -224,7 +224,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firerotright.setAttribute("class", "tilt buttons");
 		firerotright.setAttribute("src", "https://firer.at/files/RR.png");
 		firerotright.setAttribute("visible", "false");
-		firerotright.setAttribute("rotate", "axis: y; amount: 10");
+		firerotright.setAttribute("rotate", "axis: y; amount: 0.01");
 		firescreen.appendChild(firerotright);
 		// Tilt Forwards Button
 		let firetiltforward = document.createElement("a-plane");
@@ -238,7 +238,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firetiltforward.setAttribute("class", "tilt buttons");
 		firetiltforward.setAttribute("src", "https://firer.at/files/TF.png");
 		firetiltforward.setAttribute("visible", "false");
-		firetiltforward.setAttribute("rotate", "axis: x; amount: 5");
+		firetiltforward.setAttribute("rotate", "axis: x; amount: 0.01");
 		firescreen.appendChild(firetiltforward);
 		// Tilt Backwards Button
 		let firetiltbackward = document.createElement("a-plane");
@@ -252,7 +252,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firetiltbackward.setAttribute("class", "tilt buttons");
 		firetiltbackward.setAttribute("src", "https://firer.at/files/TB.png");
 		firetiltbackward.setAttribute("visible", "false");
-		firetiltbackward.setAttribute("rotate", "axis: x; amount: -5");
+		firetiltbackward.setAttribute("rotate", "axis: x; amount: -0.01");
 		firescreen.appendChild(firetiltbackward);
 		// Toggle Rotations Button
 		let firetogglerots = document.createElement("a-plane");
@@ -566,7 +566,7 @@ function setBrowserWidths() {
 			theBrowser.browser.pageWidth=browserpageWidth;
 			theBrowser.browser.pageHeight=browserpageHeight;
 			
-			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.localRotation]); // Test Watch Properties
+			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.rotation]); // Test Watch Properties
 			// console.log(`FIRESCREEN: Position: ${JSON.stringify(theBrowser.transform.position)} Rotation: ${JSON.stringify(theBrowser.transform.rotation)}`);
 
 			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
@@ -703,9 +703,9 @@ function setBrowserWidths() {
 		// let x = browserRotation.object3D.rotation.x;
 		// let y = browserRotation.object3D.rotation.y;
 		// let z = browserRotation.object3D.rotation.z;
-		let x = browserRotation.transform.localRotation.x;
-		let y = browserRotation.transform.localRotation.y;
-		let z = browserRotation.transform.localRotation.z;
+		let x = browserRotation.transform.rotation.x;
+		let y = browserRotation.transform.rotation.y;
+		let z = browserRotation.transform.rotation.z;
 		console.log("X:" + x + " Y:" + y + " Z:" + z);
 		switch (this.data.axis) {
 		  case "x":
