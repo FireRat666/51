@@ -716,7 +716,8 @@ function setBrowserWidths() {
 			break;
 		}
 		this.el.setAttribute("color","#AAAAAA");
-		browserRotation.setAttribute("rotation", x + " " + y + " " + z);  
+		// browserRotation.setAttribute("rotation", x + " " + y + " " + z); 
+		browserRotation.transform.rotation = new BS.Vector3(x, y, z); 
 		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100); 
 		});        },      });
 
