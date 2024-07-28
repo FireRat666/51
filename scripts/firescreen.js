@@ -97,6 +97,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			announcerscript.id = "fires-announcer";
 			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer.js");
 			document.querySelector("a-scene").appendChild(announcerscript);
+			announcefirstrun = false;
+			timenow = Date.now(); 
 		} else if (p_announce === "true" && announcerfirstrun === true ) {
 			announcerfirstrun = false;
 			console.log("FIRESCREEN: Enabling the Announcer Script")
@@ -104,6 +106,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			announcerscript.id = "fires-announcer";
 			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer.js");
 			document.querySelector("a-scene").appendChild(announcerscript);
+			announcefirstrun = false;
+			timenow = Date.now(); 
 		};
 
 	numberofbrowsers++    
