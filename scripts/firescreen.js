@@ -95,14 +95,14 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			console.log("FIRESCREEN: Enabling the Announcer Script")
 			const announcerscript = document.createElement("script");
 			announcerscript.id = "fires-announcer";
-			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
+			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer.js");
 			document.querySelector("a-scene").appendChild(announcerscript);
 		} else if (p_announce === "true" && announcerfirstrun === true ) {
 			announcerfirstrun = false;
 			console.log("FIRESCREEN: Enabling the Announcer Script")
 			const announcerscript = document.createElement("script");
 			announcerscript.id = "fires-announcer";
-			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer-test.js");
+			announcerscript.setAttribute("src", "https://51.firer.at/scripts/announcer.js");
 			document.querySelector("a-scene").appendChild(announcerscript);
 		};
 
