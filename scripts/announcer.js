@@ -110,7 +110,9 @@ function announcerloadtest() {
     if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {theusersname = "Pancake Man"}; //  "WaffleMan"
     if (theusersid === "3dbca1090fad5dff35543697ca007066") {theusersname = "Sebek"}; //  "Sebek"
     if (theusersid === "f3da86e3752aa16d8f574777cc5ed842") {theusersname = "Irish Jesus"}; //  "Scottish.Jesus"
+    if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = "Static Threat"}; //  "staticthreat"
 
+    // 89c3abbe6d16e057035cc35ad7492cf7
     if (e.detail.isLocal) {
       announcefirstrun = false;
       timenow = Date.now(); // Sets Now to after first user has joined
@@ -156,6 +158,7 @@ function announcerloadtest() {
           "Oh No! " + theusersname + " Has forgotten their own name",
           "Oh No! " + theusersname + " is running out of gas",
           "Oh No! " + theusersname + " just farted into reality",
+          "Oh No! " + theusersname + " Locked their keys in their car",
           "Knock Knock " + theusersname + " is here",
           "Nobody tell " + theusersname + " Their still in their pyjamas",
           "Oh No! Hide your sheep " + theusersname + " has joined the space",
