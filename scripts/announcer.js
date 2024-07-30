@@ -6,7 +6,7 @@ let announcefirstrun = true;
 
 // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
-  console.log("saying:", text);
+  console.log("ANNOUNCER: saying:", text);
   let audio = new Audio('https://speak.firer.at/?text=' + text);
   audio.autoplay = true;
   audio.play();
@@ -185,12 +185,19 @@ function announcerloadtest() {
         if (theusersid === "3dbca1090fad5dff35543697ca007066") {message = "Bow to your King Seb eck the Mirror Creator"}; //  "Sebek"
 
         speak(message);
-        console.log("USERNAME: " + e.detail.name + " USERID: " + theusersid + " PRVAR: " + psudorandomvar);
+        console.log("ANNOUNCER: USER: " + e.detail.name + " UID: " + theusersid + " PRVAR: " + psudorandomvar);
       } else if (announcefirstrun) {
         announcefirstrun = false;
         timenow = Date.now(); // Sets Now to after a user has joined if first run is still true
       };
     };
+  });
+  
+  announcerscene.On("user-left", e => {
+    theusersname = e.detail.name;
+    theusersid = e.detail.uid;
+    console.log("ANNOUNCER: USER: " + e.detail.name + " LEFT UID: " + theusersid);
+
   });
 }
 
