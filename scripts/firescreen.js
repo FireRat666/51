@@ -37,8 +37,8 @@ function enableFireScreen() {
       const pDisableInteraction = getAttrOrDef(scripts[i], "disable-interaction", "false");
       const pAnnouncer = getAttrOrDef(scripts[i], "announcer", "false");
       const pAnnounce = getAttrOrDef(scripts[i], "announce", "false");
-	  const pAnnounce420 = getAttrOrDef(thescripts[i], "announce-420", "false");
-	  const pAnnounceEvents = getAttrOrDefAgain(thescripts[i], "announce-events", "true");
+	  const pAnnounce420 = getAttrOrDef(scripts[i], "announce-420", "false");
+	  const pAnnounceEvents = getAttrOrDef(scripts[i], "announce-events", "true");
       const pButtonColor = getAttrOrDef(scripts[i], "button-color", "#00FF00");
       const pBackDropColor = getAttrOrDef(scripts[i], "backdrop-color", "#000000");
       const pVolUpColor = getAttrOrDef(scripts[i], "volup-color", "null");
