@@ -1,9 +1,10 @@
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
+let scriptsource = "https://51.firer.at/scripts/announcer.js";
 let theusersname = "";
 let timevariable = 0;
 let theusersid = "";
 let announcefirstrun = true;
-let scriptsource = "https://51.firer.at/scripts/announcer.js";
+let announce420 = "false";
 
 // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
@@ -66,31 +67,6 @@ if(window.isBanter && announceevents === true) {
       };
     };
   })
-};
-
-// This function is for the 420 events announcements
-let announce420 = "false";
-if(announce420 === "true") {
-  let keepAlive;
-  function connect() {
-    const ws = new WebSocket('wss://calicocut.glitch.me');
-    ws.onmessage = (msg) => {
-      speak(msg.data);
-    };
-    ws.onopen = (msg) => {
-      console.log("connected to 420 announcer.");
-    };
-    ws.onerror = (msg) => {
-      console.log("error", msg);
-    };
-    ws.onclose = (e) => {
-      console.log('Disconnected!');
-      clearInterval(keepAlive);
-      setTimeout(()=>connect(), 3000);
-    };
-    keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
-  }
-  connect();
 };
 
 
@@ -254,4 +230,29 @@ function getAttrOrDefAgain (pScript, pAttr, pDefault) {
   } else {
     return pDefault;
   }
+};
+
+
+// This function is for the 420 events announcements
+if(announce420 === "true") {
+  let keepAlive;
+  function connect() {
+    const ws = new WebSocket('wss://calicocut.glitch.me');
+    ws.onmessage = (msg) => {
+      speak(msg.data);
+    };
+    ws.onopen = (msg) => {
+      console.log("connected to 420 announcer.");
+    };
+    ws.onerror = (msg) => {
+      console.log("error", msg);
+    };
+    ws.onclose = (e) => {
+      console.log('Disconnected!');
+      clearInterval(keepAlive);
+      setTimeout(()=>connect(), 3000);
+    };
+    keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
+  }
+  connect();
 };
