@@ -236,7 +236,7 @@ function announcerloadtest() {
   for (let i = 0; i < scripts.length; i++) {
     if (getAttrOrDefAgain(thescripts[i], "src", "") === scriptsource ) { 
         // const pAnnounce420 = getAttrOrDef(thescripts[i], "announce-420", "false");
-        const pAnnounceEvents = getAtgetAttrOrDefAgaintrOrDef(thescripts[i], "announce-events", "true");
+        const pAnnounceEvents = getAttrOrDefAgain(thescripts[i], "announce-events", "true");
         announceevents = pAnnounceEvents;
         announce420 = getAttrOrDefAgain(thescripts[i], "announce-420", "false");
       };
