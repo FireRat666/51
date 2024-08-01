@@ -3,6 +3,7 @@ let theusersname = "";
 let timevariable = 0;
 let theusersid = "";
 let announcefirstrun = true;
+let scriptsource = "https://51.firer.at/scripts/announcer.js";
 
 // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
@@ -67,10 +68,38 @@ if(window.isBanter && announceevents === true) {
   })
 };
 
+// This function is for the 420 events announcements
+let announce420 = "false";
+if(announce420 === "true") {
+  let keepAlive;
+  function connect() {
+    const ws = new WebSocket('wss://calicocut.glitch.me');
+    ws.onmessage = (msg) => {
+      speak(msg.data);
+    };
+    ws.onopen = (msg) => {
+      console.log("connected to 420 announcer.");
+    };
+    ws.onerror = (msg) => {
+      console.log("error", msg);
+    };
+    ws.onclose = (e) => {
+      console.log('Disconnected!');
+      clearInterval(keepAlive);
+      setTimeout(()=>connect(), 3000);
+    };
+    keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
+  }
+  connect();
+};
+
+
+const thescripts = document.getElementsByTagName("script");
 const announcerscene = BS.BanterScene.getInstance();
 var timenow = 9999999999999; // Set Now to a Really Big Number, so if user-joined is called before unity-loaded, it wont spam user joined messages for users that were already in the space
 // Welcome message for user entering the space
 function announcerloadtest() {
+
   announcerscene.On("unity-loaded", () => {
     announcefirstrun = false;
     timenow = Date.now(); // Sets Now to after unity scene load is done
@@ -202,6 +231,28 @@ function announcerloadtest() {
     console.log("ANNOUNCER: USER: " + e.detail.name + " LEFT UID: " + theusersid);
 
   });
+
+  for (let i = 0; i < scripts.length; i++) {
+    if (getAttrOrDef(thescripts[i], "src", "") === scriptsource ) { 
+        // const pAnnounce420 = getAttrOrDef(thescripts[i], "announce-420", "false");
+        const pAnnounceEvents = getAttrOrDef(thescripts[i], "announce-events", "true");
+        announceevents = pAnnounceEvents;
+        announce420 = getAttrOrDef(thescripts[i], "announce-420", "false");
+      };
+    };
+
 }
 
 announcerloadtest();
+
+function getV3FromStr(strVector3) {
+  return new THREE.Vector3().fromArray(strVector3.split(" ").map(parseFloat));
+};
+
+function getAttrOrDef(pScript, pAttr, pDefault) {
+  if (pScript.hasAttribute(pAttr)) {
+    return pScript.getAttribute(pAttr);
+  } else {
+    return pDefault;
+  }
+};
