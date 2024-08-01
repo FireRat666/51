@@ -142,8 +142,9 @@ function announcerloadtest() {
     if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = "Static Threat"}; //  "staticthreat"
     if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = "anka"}; //  "anka"
     // if (theusersid === "452267f713cf815aab6f8e6a2548ff93") {theusersname = "Ben"}; //  "Ben"
+    // if (theusersid === "d1bdc33ac0fcfc061728b2e11c740ac7") {theusersname = "Mika"}; //  "Mika"
 
-    // 452267f713cf815aab6f8e6a2548ff93  
+    // d1bdc33ac0fcfc061728b2e11c740ac7   
     if (e.detail.isLocal) {
       announcefirstrun = false;
       timenow = Date.now(); // Sets Now to after first user has joined
