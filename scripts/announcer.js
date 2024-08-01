@@ -233,11 +233,11 @@ function announcerloadtest() {
   });
 
   for (let i = 0; i < scripts.length; i++) {
-    if (getAttrOrDef(thescripts[i], "src", "") === scriptsource ) { 
+    if (getAttrOrDefAgain(thescripts[i], "src", "") === scriptsource ) { 
         // const pAnnounce420 = getAttrOrDef(thescripts[i], "announce-420", "false");
-        const pAnnounceEvents = getAttrOrDef(thescripts[i], "announce-events", "true");
+        const pAnnounceEvents = getAtgetAttrOrDefAgaintrOrDef(thescripts[i], "announce-events", "true");
         announceevents = pAnnounceEvents;
-        announce420 = getAttrOrDef(thescripts[i], "announce-420", "false");
+        announce420 = getAttrOrDefAgain(thescripts[i], "announce-420", "false");
       };
     };
 
@@ -245,11 +245,7 @@ function announcerloadtest() {
 
 announcerloadtest();
 
-function getV3FromStr(strVector3) {
-  return new THREE.Vector3().fromArray(strVector3.split(" ").map(parseFloat));
-};
-
-function getAttrOrDef(pScript, pAttr, pDefault) {
+function getAttrOrDefAgain (pScript, pAttr, pDefault) {
   if (pScript.hasAttribute(pAttr)) {
     return pScript.getAttribute(pAttr);
   } else {
