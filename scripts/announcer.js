@@ -232,6 +232,7 @@ function announcerloadtest() {
 
   });
 
+  const scripts = document.getElementsByTagName("script");
   for (let i = 0; i < scripts.length; i++) {
     if (getAttrOrDefAgain(thescripts[i], "src", "") === scriptsource ) { 
         // const pAnnounce420 = getAttrOrDef(thescripts[i], "announce-420", "false");
