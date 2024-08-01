@@ -4,6 +4,7 @@ let theusersname = "";
 let timevariable = 0;
 let theusersid = "";
 let announcefirstrun = true;
+let announceevents = "true";
 let announce420 = "false";
 
 // Main Speak Function, Thank you Elin and everyone
@@ -54,19 +55,48 @@ function loop(interval, callback) {
 };
 
 // This function is for the events announcements
-let announceevents = true;
-if(window.isBanter && announceevents === true) {
-  let lastEventsId = 0;
-  loop(20, async () => {
-    let event = await (await fetch("https://api.sidequestvr.com/v2/events?limit=1")).json();
-    if(event.length) {
-      const difference = Math.abs(new Date(event[0].start_time) - new Date());
-      if(difference < 60 * 1000 && lastEventsId !== event[0].events_v2_id) {
-        lastEventsId = event[0].events_v2_id;
-        await speak("Oh Shit " + event[0].name + ", is starting now! Drop your shit and hussle");
+function loadevents() {
+  if(window.isBanter && announceevents === "true") {
+    console.log("ANNOUNCER: Event Announcer Enabled");
+    let lastEventsId = 0;
+    loop(20, async () => {
+      let event = await (await fetch("https://api.sidequestvr.com/v2/events?limit=1")).json();
+      if(event.length) {
+        const difference = Math.abs(new Date(event[0].start_time) - new Date());
+        if(difference < 60 * 1000 && lastEventsId !== event[0].events_v2_id) {
+          lastEventsId = event[0].events_v2_id;
+          await speak("Oh Shit " + event[0].name + ", is starting now! Drop your shit and hussle");
+        };
       };
-    };
-  })
+    })
+  };
+};
+
+
+// This function is for the 420 events announcements
+function load420() {
+  if(window.isBanter && announce420 === "true") {
+    let keepAlive;
+    function connect() {
+      const ws = new WebSocket('wss://calicocut.glitch.me');
+      ws.onmessage = (msg) => {
+        speak(msg.data);
+      };
+      ws.onopen = (msg) => {
+        console.log("ANNOUNCER: connected to 420 announcer.");
+      };
+      ws.onerror = (msg) => {
+        console.log("ANNOUNCER: error", msg);
+      };
+      ws.onclose = (e) => {
+        console.log('ANNOUNCER: Disconnected 420!');
+        clearInterval(keepAlive);
+        setTimeout(()=>connect(), 3000);
+      };
+      keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
+    }
+    connect();
+  };
 };
 
 
@@ -219,10 +249,10 @@ function announcerloadtest() {
         announce420 = getAttrOrDefAgain(thescripts[i], "announce-420", "false");
       };
     };
+    load420();
+    loadevents();
 
-}
-
-announcerloadtest();
+};
 
 function getAttrOrDefAgain (pScript, pAttr, pDefault) {
   if (pScript.hasAttribute(pAttr)) {
@@ -232,27 +262,4 @@ function getAttrOrDefAgain (pScript, pAttr, pDefault) {
   }
 };
 
-
-// This function is for the 420 events announcements
-if(announce420 === "true") {
-  let keepAlive;
-  function connect() {
-    const ws = new WebSocket('wss://calicocut.glitch.me');
-    ws.onmessage = (msg) => {
-      speak(msg.data);
-    };
-    ws.onopen = (msg) => {
-      console.log("connected to 420 announcer.");
-    };
-    ws.onerror = (msg) => {
-      console.log("error", msg);
-    };
-    ws.onclose = (e) => {
-      console.log('Disconnected!');
-      clearInterval(keepAlive);
-      setTimeout(()=>connect(), 3000);
-    };
-    keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
-  }
-  connect();
-};
+announcerloadtest();
