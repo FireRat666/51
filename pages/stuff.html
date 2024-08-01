@@ -34,7 +34,8 @@
         <form id="form" method="get">
             <input type="url" id="text" value="https://" class="url" size="40" placeholder="XXXX" onchange="document.getElementById('form').action = this.value;" />
             <input type="button" id="btn" value="Go" class="url" 
-                    onclick="window.open('https:\/\/firer.at\/redirects\/'+document.getElementById('text').value+'.html');" />
+                onclick="window.location.href='https:\/\/firer.at\/redirects\/'+document.getElementById('text').value+'.html';" />
+                <!-- onclick="window.open('https:\/\/firer.at\/redirects\/'+document.getElementById('text').value+'.html');" /> -->
         </form>
 		</details>
 	</p>
