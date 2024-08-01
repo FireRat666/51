@@ -141,8 +141,9 @@ function announcerloadtest() {
     if (theusersid === "f3da86e3752aa16d8f574777cc5ed842") {theusersname = "Irish Jesus"}; //  "Scottish.Jesus"
     if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = "Static Threat"}; //  "staticthreat"
     if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = "anka"}; //  "anka"
+    // if (theusersid === "452267f713cf815aab6f8e6a2548ff93") {theusersname = "Ben"}; //  "Ben"
 
-    // 447d5ce016676fa2b39795efa6fcf8da 
+    // 452267f713cf815aab6f8e6a2548ff93  
     if (e.detail.isLocal) {
       announcefirstrun = false;
       timenow = Date.now(); // Sets Now to after first user has joined
