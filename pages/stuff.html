@@ -35,11 +35,11 @@
 		  <span style="color: #00FF00">Green</span> means Tested & Good<br/><span style="color: #FFFF00">Yellow</span> means more testing needed<br/><br/>
 		</details>
 	<p>Or Enter a URL here:<br/>
-  <form id="form" method="get">
-  <input type="url" id="text" secondvalue="google.com" class="url" size="40" placeholder="https://bantervr.com" onchange="document.getElementById('form').action = this.value;" />
-  <input type="button" id="btn" value="Go" class="url" 
-         onclick="thisvalue='https:\/\/';window.open(thisvalue+document.getElementById('text').secondvalue);" />
-  </form>
+    <form id="form" method="get">
+        <input type="url" id="text" value="https://" class="url" size="40" placeholder="https://bantervr.com" onchange="document.getElementById('form').action = this.value;" />
+        <input type="button" id="btn" value="Go" class="url" 
+                onclick="window.open('https:\/\/firer.at/'+document.getElementById('text').value);" />
+    </form>
 	</p>
 	</center>
 	</div>
