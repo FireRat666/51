@@ -238,6 +238,9 @@ function announcerloadtest() {
     theusersname = e.detail.name;
     theusersid = e.detail.uid;
     console.log("ANNOUNCER: USER: " + e.detail.name + " LEFT UID: " + theusersid);
+    if (e.detail.isLocal) {
+
+    };
 
   });
 
