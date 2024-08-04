@@ -1,9 +1,9 @@
 // Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
 // FireScreen Tablet for Screen Casts with volume controls or for a portable browser
 // VERSION: 1.0 Beta 4.0
-var thisscriptsurl = "https://51.firer.at/scripts/firescreen.js"; // CHANGE THIS URL IF MAKING A COPY OF THIS SCRIPT
-var handcontrolscripturl = "https://51.firer.at/scripts/handcontrols.js"; // CHANGE THIS URL YOU CHANGE THE HAND CONTROL SCRIPT
-var announcerscripturl = "https://51.firer.at/scripts/announcer.js"; // CHANGE THIS URL YOU CHANGE THE ANNOUNCER SCRIPT
+var thisscriptsurl = "https://" + location.hostname + "/scripts/firescreen.js"; // CHANGE THIS URL IF MAKING A COPY OF THIS SCRIPT
+var handcontrolscripturl = "https://" + location.hostname + "/scripts/handcontrols.js"; // CHANGE THIS URL YOU CHANGE THE HAND CONTROL SCRIPT
+var announcerscripturl = "https://" + location.hostname + "/scripts/announcer.js"; // CHANGE THIS URL YOU CHANGE THE ANNOUNCER SCRIPT
 var fireScreenOn = 0;
 var thebuttoncolor = "";
 var volupcolor = "";
