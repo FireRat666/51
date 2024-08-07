@@ -587,7 +587,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		fireextra03.appendChild(fireextra03p2);
 	}; 
 	document.querySelector("head").appendChild(firescreen);
-	setTimeout(() => { setBrowserWidths(); keepsoundlevel(); }, 1500);
+	setTimeout(() => { setupBrowsers(); keepsoundlevel(); }, 2000);
 	console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 	
 };
@@ -623,10 +623,10 @@ function keepsoundlevel() {
 };
 
 // Set the width and height of the screen(s)
-var widthalreadyset = false;
-function setBrowserWidths() {
-	if (widthalreadyset === false) {
-		widthalreadyset = true;
+var notalreadysetup = true;
+function setupBrowsers() {
+	if (notalreadysetup) {
+		notalreadysetup = false;
 		let thisloopnumber = 0;
 		while (thisloopnumber < numberofbrowsers) {
 			thisloopnumber++
