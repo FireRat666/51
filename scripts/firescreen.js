@@ -917,10 +917,10 @@ function firescreenloadstuff() {
   // Check if A Frame already exists on the page, if not, Add it
   const scripts = document.getElementsByTagName("script");
   for (let i = 0; i < scripts.length; i++) {
-    if (getAttrOrDefAgain(thescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
+    if (getAttrOrDef(thescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
         console.log("AFrame 1.4.0 Detected")
         aframedetected = true;
-      } else if (getAttrOrDefAgain(thescripts[i], "src", "") === "https://aframe.io/releases/1.3.0/aframe.min.js" ) { 
+      } else if (getAttrOrDef(thescripts[i], "src", "") === "https://aframe.io/releases/1.3.0/aframe.min.js" ) { 
         console.log("AFrame 1.3.0 Detected")
         aframedetected = true;
       };
