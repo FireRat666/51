@@ -927,7 +927,8 @@ function firescreenloadstuff() {
     };
     if (aframedetected) {
       console.log("AFrame Was Detected");
-    } else {
+    } else if (aframedetected === false) {
+      aframedetected = true
       console.log("AFrame Was NOT Detected, Adding AFrame 1.4.0");
 			const aframescript = document.createElement("script");
 			aframescript.id = "aframe-script";
