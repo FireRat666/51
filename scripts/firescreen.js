@@ -914,7 +914,7 @@ var firstbrowserrun = true;
 function firescreenloadstuff() {
 	console.log("FIRESCREEN: Waiting");
 	const firescene = BS.BanterScene.getInstance();
-
+  // Check if A Frame already exists on the page, if not, Add it
   const scripts = document.getElementsByTagName("script");
   for (let i = 0; i < scripts.length; i++) {
     if (getAttrOrDefAgain(thescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
