@@ -16,6 +16,7 @@ var numberofbrowsers = 0;
 var announcerfirstrun = true;
 var firstrunhandcontrols = true;
 var handcontrolsdisabled = true;
+var aframedetected = false;
 
 function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");
@@ -91,7 +92,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
             const handcontrols = document.createElement("script");
             handcontrols.id = "fires-handcontrols";
             handcontrols.setAttribute("src", handcontrolscripturl);
-            document.querySelector("a-scene").appendChild(handcontrols);
+            document.querySelector("head").appendChild(handcontrols);
         };
 		
 		// Setup the Announcer only on the first run if enabled
@@ -103,7 +104,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			announcerscript.setAttribute("src", announcerscripturl);
 			announcerscript.setAttribute("announce-420", p_announce420);
 			announcerscript.setAttribute("announce-events", p_announceevents);
-			document.querySelector("a-scene").appendChild(announcerscript);
+			document.querySelector("head").appendChild(announcerscript);
 		} else if (p_announce === "true" && announcerfirstrun === true ) {
 			announcerfirstrun = false;
 			console.log("FIRESCREEN: Enabling the Announcer Script")
@@ -112,7 +113,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			announcerscript.setAttribute("src", announcerscripturl);
 			announcerscript.setAttribute("announce-420", p_announce420);
 			announcerscript.setAttribute("announce-events", p_announceevents);
-			document.querySelector("a-scene").appendChild(announcerscript);
+			document.querySelector("head").appendChild(announcerscript);
 		};
 
 	numberofbrowsers++    
@@ -585,7 +586,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		fireextra03p2.setAttribute("align", "center");
 		fireextra03.appendChild(fireextra03p2);
 	}; 
-	document.querySelector("a-scene").appendChild(firescreen);
+	document.querySelector("head").appendChild(firescreen);
 	setTimeout(() => { setBrowserWidths(); keepsoundlevel(); }, 1500);
 	console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 	
@@ -913,6 +914,28 @@ var firstbrowserrun = true;
 function firescreenloadstuff() {
 	console.log("FIRESCREEN: Waiting");
 	const firescene = BS.BanterScene.getInstance();
+
+  const scripts = document.getElementsByTagName("script");
+  for (let i = 0; i < scripts.length; i++) {
+    if (getAttrOrDefAgain(thescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
+        console.log("AFrame 1.4.0 Detected")
+        aframedetected = true;
+      } else if (getAttrOrDefAgain(thescripts[i], "src", "") === "https://aframe.io/releases/1.3.0/aframe.min.js" ) { 
+        console.log("AFrame 1.3.0 Detected")
+        aframedetected = true;
+      };
+    };
+    if (aframedetected) {
+      console.log("AFrame Was Detected");
+    } else {
+      console.log("AFrame Was NOT Detected, Adding AFrame 1.4.0");
+			const aframescript = document.createElement("script");
+			aframescript.id = "aframe-script";
+			aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
+			document.querySelector("head").appendChild(aframescript);
+
+    };
+
 	firescene.On("unity-loaded", () => {
 		console.log("FIRESCREEN: unity-loaded");
 		setTimeout(() => { 
