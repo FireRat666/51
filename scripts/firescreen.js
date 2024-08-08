@@ -92,7 +92,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
             const handcontrols = document.createElement("script");
             handcontrols.id = "fires-handcontrols";
             handcontrols.setAttribute("src", handcontrolscripturl);
-            document.querySelector("head").appendChild(handcontrols);
+            document.querySelector("body").appendChild(handcontrols);
         };
 		
 		// Setup the Announcer only on the first run if enabled
@@ -104,7 +104,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			announcerscript.setAttribute("src", announcerscripturl);
 			announcerscript.setAttribute("announce-420", p_announce420);
 			announcerscript.setAttribute("announce-events", p_announceevents);
-			document.querySelector("head").appendChild(announcerscript);
+			document.querySelector("body").appendChild(announcerscript);
 		} else if (p_announce === "true" && announcerfirstrun === true ) {
 			announcerfirstrun = false;
 			console.log("FIRESCREEN: Enabling the Announcer Script")
@@ -113,7 +113,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			announcerscript.setAttribute("src", announcerscripturl);
 			announcerscript.setAttribute("announce-420", p_announce420);
 			announcerscript.setAttribute("announce-events", p_announceevents);
-			document.querySelector("head").appendChild(announcerscript);
+			document.querySelector("body").appendChild(announcerscript);
 		};
 
 	numberofbrowsers++    
@@ -586,7 +586,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		fireextra03p2.setAttribute("align", "center");
 		fireextra03.appendChild(fireextra03p2);
 	}; 
-	document.querySelector("head").appendChild(firescreen);
+	document.querySelector("body").appendChild(firescreen);
 	setTimeout(() => { setupBrowsers(); keepsoundlevel(); }, 2000);
 	console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 	
