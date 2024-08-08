@@ -1,19 +1,27 @@
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
-let scriptsource = "https://" + location.hostname + "/scripts/announcer.js";
+let scriptsource = "https://51.firer.at/scripts/announcer.js";
 let theusersname = "";
 let timevariable = 0;
 let theusersid = "";
 let announcefirstrun = true;
 let announceevents = "true";
 let announce420 = "false";
+let readytospeak = true;
 
 // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
-  console.log("ANNOUNCER: saying:", text);
-  let audio = new Audio('https://speak.firer.at/?text=' + text);
-  audio.autoplay = true;
-  audio.play();
-  audio.volume = 0.08;
+  if (readytospeak) {
+    readytospeak = false
+    console.log("ANNOUNCER: saying:", text);
+    let audio = new Audio('https://speak.firer.at/?text=' + text);
+    audio.autoplay = true;
+    audio.play();
+    audio.volume = 0.08;
+    setTimeout(() => { readytospeak = true; }, 4000);
+  } else {
+    console.log("ANNOUNCER: Not Ready to Speak");
+  };
+
 };
 
 // This function uses the current time as an input for the psuedo random number generator
