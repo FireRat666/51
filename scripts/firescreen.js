@@ -917,11 +917,23 @@ function firescreenloadstuff() {
   // Check if A Frame already exists on the page, if not, Add it
   const thesescripts = document.getElementsByTagName("script");
   for (let i = 0; i < thesescripts.length; i++) {
-    if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
+    if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.6.0/aframe.min.js" ) { 
+        console.log("AFrame 1.6.0 Detected")
+        aframedetected = true;
+      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.5.0/aframe.min.js" ) { 
+        console.log("AFrame 1.5.0 Detected")
+        aframedetected = true;
+      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
         console.log("AFrame 1.4.0 Detected")
         aframedetected = true;
       } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.3.0/aframe.min.js" ) { 
         console.log("AFrame 1.3.0 Detected")
+        aframedetected = true;
+      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.2.0/aframe.min.js" ) { 
+        console.log("AFrame 1.2.0 Detected")
+        aframedetected = true;
+      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.1.0/aframe.min.js" ) { 
+        console.log("AFrame 1.1.0 Detected")
         aframedetected = true;
       };
     };
@@ -929,10 +941,10 @@ function firescreenloadstuff() {
       console.log("AFrame Was Detected");
     } else if (aframedetected === false) {
       aframedetected = true
-      console.log("AFrame Was NOT Detected, Adding AFrame 1.4.0");
+      console.log("AFrame Was NOT Detected, Adding AFrame 1.6.0");
 			const aframescript = document.createElement("script");
 			aframescript.id = "aframe-script";
-			aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
+			aframescript.setAttribute("src", "https://aframe.io/releases/1.6.0/aframe.min.js");
 			document.querySelector("head").appendChild(aframescript);
 
     };
