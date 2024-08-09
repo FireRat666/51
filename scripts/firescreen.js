@@ -911,23 +911,16 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 
 // Create screen After Unity load 
 var firstbrowserrun = true;
-var firescreennotsetup = true;
 function firescreenloadstuff() {
-  
+
 	const firescene = BS.BanterScene.getInstance();
 
   let afirething = document.querySelector("firething");
   if (afirething === null) {
-    firescreennotsetup = false;
     console.log("FIRESCREEN: Thing NOT Detected, Adding Thing");
     const afiretag = document.createElement("firething");
     afiretag.id = "firething";
     document.querySelector("head").appendChild(afiretag);
-  } else {
-    console.log("FIRESCREEN: Thing Detected, NOT Adding Thing");
-  };
-
-    if (firescreennotsetup) {
 
   // Check if A Frame already exists on the page, if not, Add it
   const thesescripts = document.getElementsByTagName("script");
@@ -958,7 +951,6 @@ function firescreenloadstuff() {
       aframedetected = true;
     };
   };
-      console.log("FIRESCREEN: notsetup=" + firescreennotsetup)
       
 
     if (aframedetected) {
@@ -995,7 +987,11 @@ function firescreenloadstuff() {
       console.log("FIRESCREEN: A Scene Detected, NOT Adding A Scene");
     };
 
+  } else {
+    console.log("FIRESCREEN: Thing Detected, NOT Adding Thing");
   };
+
+
 
   console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 	firescene.On("unity-loaded", () => {
