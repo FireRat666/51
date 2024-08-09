@@ -944,6 +944,8 @@ function firescreenloadstuff() {
     };
   };
       console.log("FIRESCREEN: notsetup=" + firescreennotsetup)
+      
+  setTimeout(() => { 
   if (firescreennotsetup) {
     firescreennotsetup = false;
 
@@ -982,6 +984,7 @@ function firescreenloadstuff() {
     };
 
   };
+  }, 1000);
 
   console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 	firescene.On("unity-loaded", () => {
