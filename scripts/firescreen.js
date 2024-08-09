@@ -948,10 +948,10 @@ function firescreenloadstuff() {
     console.log("FIRESCREEN: AFrame Was Detected");
   } else if (aframedetected === false) {
     aframedetected = true
-    console.log("FIRESCREEN: AFrame Was NOT Detected, Adding AFrame 1.5.0");
+    console.log("FIRESCREEN: AFrame Was NOT Detected, Adding AFrame 1.4.0");
     const aframescript = document.createElement("script");
     aframescript.id = "aframe-script";
-    aframescript.setAttribute("src", "https://aframe.io/releases/1.5.0/aframe.min.js");
+    aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
     document.querySelector("head").appendChild(aframescript);
 
   };
