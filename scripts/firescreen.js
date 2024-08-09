@@ -943,10 +943,10 @@ function firescreenloadstuff() {
       aframedetected = true;
     };
   };
-      
+      console.log("FIRESCREEN: notsetup=" + firescreennotsetup)
   if (firescreennotsetup) {
     firescreennotsetup = false;
-    
+
     if (aframedetected) {
       console.log("FIRESCREEN: AFrame Was Detected");
     } else if (aframedetected === false) {
