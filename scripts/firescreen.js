@@ -917,7 +917,7 @@ function firescreenloadstuff() {
 
   let afirething = document.querySelector("firething");
   if (afirething === null) {
-    console.log("FIRESCREEN: Thing NOT Detected, Adding Thing");
+    console.log("FIRESCREEN: Setting up.");
     const afiretag = document.createElement("firething");
     afiretag.id = "firething";
     document.querySelector("head").appendChild(afiretag);
@@ -952,7 +952,6 @@ function firescreenloadstuff() {
     };
   };
       
-
     if (aframedetected) {
       console.log("FIRESCREEN: AFrame Was Detected");
     } else if (aframedetected === false) {
@@ -988,10 +987,8 @@ function firescreenloadstuff() {
     };
 
   } else {
-    console.log("FIRESCREEN: Thing Detected, NOT Adding Thing");
+    // console.log("FIRESCREEN: Thing Detected, NOT Adding Thing");
   };
-
-
 
   console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 	firescene.On("unity-loaded", () => {
