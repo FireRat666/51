@@ -1,7 +1,6 @@
 // create a reference to the banter scene
 const scene = BS.BanterScene.getInstance();
 
-scene.On("loaded", () => {
     console.log("index.html setSceneSettings Loading...");
     // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
     const settings = new BS.SceneSettings();
@@ -22,4 +21,3 @@ scene.On("loaded", () => {
     settings.SpawnPoint = new THREE.Vector4(0, 0.1, 0, 90);
     scene.SetSettings(settings);
     console.log("index.html finish setting settings for scene");
-});
