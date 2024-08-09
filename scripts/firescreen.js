@@ -985,12 +985,13 @@ function firescreenloadstuff() {
     } else {
       console.log("FIRESCREEN: A Scene Detected, NOT Adding A Scene");
     };
+    
+    console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 
   } else {
     // console.log("FIRESCREEN: Thing Detected, NOT Adding Thing");
   };
 
-  console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 	firescene.On("unity-loaded", () => {
 		console.log("FIRESCREEN: unity-loaded");
 		setTimeout(() => { 
