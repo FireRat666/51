@@ -984,7 +984,7 @@ function firescreenloadstuff() {
     };
 
   };
-  }, 1);
+  }, 1000);
 
   console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 	firescene.On("unity-loaded", () => {
