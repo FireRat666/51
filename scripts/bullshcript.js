@@ -1,6 +1,3 @@
-// Try Importing Three JS
-import * as THREE from 'three';
-
 // create a reference to the banter scene
 const scene = BS.BanterScene.getInstance();
 
