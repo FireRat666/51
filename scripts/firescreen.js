@@ -913,6 +913,8 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 var firstbrowserrun = true;
 var firescreennotsetup = true;
 function firescreenloadstuff() {
+  
+	const firescene = BS.BanterScene.getInstance();
 
   let afirething = document.querySelector("firething");
   if (afirething === null) {
@@ -927,7 +929,6 @@ function firescreenloadstuff() {
 
     if (firescreennotsetup) {
 
-	const firescene = BS.BanterScene.getInstance();
   // Check if A Frame already exists on the page, if not, Add it
   const thesescripts = document.getElementsByTagName("script");
   for (let i = 0; i < thesescripts.length; i++) {
