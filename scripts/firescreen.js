@@ -914,38 +914,39 @@ var firstbrowserrun = true;
 var firescreennotsetup = true;
 function firescreenloadstuff() {
 	const firescene = BS.BanterScene.getInstance();
-  if (firescreennotsetup) {
-      firescreennotsetup = false;
-    // Check if A Frame already exists on the page, if not, Add it
-    const thesescripts = document.getElementsByTagName("script");
-    for (let i = 0; i < thesescripts.length; i++) {
-      if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.6.0/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.6.0 Detected")
-        aframedetected = true;
-      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.5.0/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.5.0 Detected")
-        aframedetected = true;
-      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.2/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.4.2 Detected")
-        aframedetected = true;
-      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.1/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.4.1 Detected")
-        aframedetected = true;
-      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.4.0 Detected")
-        aframedetected = true;
-      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.3.0/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.3.0 Detected")
-        aframedetected = true;
-      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.2.0/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.2.0 Detected")
-        aframedetected = true;
-      } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.1.0/aframe.min.js" ) { 
-        console.log("FIRESCREEN: AFrame 1.1.0 Detected")
-        aframedetected = true;
-      };
+  // Check if A Frame already exists on the page, if not, Add it
+  const thesescripts = document.getElementsByTagName("script");
+  for (let i = 0; i < thesescripts.length; i++) {
+    if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.6.0/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.6.0 Detected")
+      aframedetected = true;
+    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.5.0/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.5.0 Detected")
+      aframedetected = true;
+    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.2/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.4.2 Detected")
+      aframedetected = true;
+    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.1/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.4.1 Detected")
+      aframedetected = true;
+    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.4.0 Detected")
+      aframedetected = true;
+    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.3.0/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.3.0 Detected")
+      aframedetected = true;
+    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.2.0/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.2.0 Detected")
+      aframedetected = true;
+    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.1.0/aframe.min.js" ) { 
+      console.log("FIRESCREEN: AFrame 1.1.0 Detected")
+      aframedetected = true;
     };
+  };
       
+  if (firescreennotsetup) {
+    firescreennotsetup = false;
+    
     if (aframedetected) {
       console.log("FIRESCREEN: AFrame Was Detected");
     } else if (aframedetected === false) {
@@ -981,7 +982,7 @@ function firescreenloadstuff() {
     };
 
   };
-  
+
   console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 	firescene.On("unity-loaded", () => {
 		console.log("FIRESCREEN: unity-loaded");
