@@ -912,7 +912,6 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // Create screen After Unity load 
 var firstbrowserrun = true;
 function firescreenloadstuff() {
-	console.log("FIRESCREEN: Waiting");
 	const firescene = BS.BanterScene.getInstance();
   // Check if A Frame already exists on the page, if not, Add it
   const thesescripts = document.getElementsByTagName("script");
@@ -978,6 +977,7 @@ function firescreenloadstuff() {
     console.log("FIRESCREEN: A Scene Detected, NOT Adding A Scene");
   };
 
+  console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 	firescene.On("unity-loaded", () => {
 		console.log("FIRESCREEN: unity-loaded");
 		setTimeout(() => { 
