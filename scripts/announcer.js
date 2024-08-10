@@ -13,7 +13,7 @@ async function speak(text) {
   if (readytospeak) {
     readytospeak = false
 
-    const volume = 0.01;
+    const volume = 0;
     const pitch = 1;
     const mute = false;
     const sloop = false;
@@ -25,15 +25,11 @@ async function speak(text) {
     const audioObject = new BS.GameObject("MyAudioSource"); 
     const audioSource = await audioObject.AddComponent(new BS.BanterAudioSource(volume, pitch, mute, sloop, bypassEffects, bypassListenerEffects, bypassReverbZones, playOnAwake));
 
-    audioSource.volume = 0.01;
+    audioSource.volume = 0.01; // I didn't expect this to work and it's not working
     
     console.log("ANNOUNCER: saying:", text);
     audioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "&.mp3");
 
-    // let audio = new Audio('https://speak.firer.at/?text=' + text);
-    // audio.autoplay = true;
-    // audio.play();
-    // audio.volume = 0.08;
     setTimeout(() => { readytospeak = true; }, 4000);
   } else {
     console.log("ANNOUNCER: Not Ready to Speak:", text);
