@@ -13,13 +13,13 @@ async function speak(text) {
   if (readytospeak) {
     readytospeak = false
 
-    const svolume = 0.001;
+    const svolume = 1;
     const spitch = 1;
     const smute = false;
     const sloop = false;
-    const bypassEffects = true;
-    const bypassListenerEffects = true;
-    const bypassReverbZones = true;
+    const bypassEffects = false;
+    const bypassListenerEffects = false;
+    const bypassReverbZones = false;
     const playOnAwake = false;
 
     const audioObject = new BS.GameObject("MyAudioSource"); 
