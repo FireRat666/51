@@ -26,7 +26,7 @@ async function speak(text) {
     const audioSource = await audioObject.AddComponent(new BS.BanterAudioSource(svolume, spitch, smute, sloop, bypassEffects, bypassListenerEffects, bypassReverbZones, playOnAwake));
     
     console.log("ANNOUNCER: saying:", text);
-    audioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "&lang=en&.mp3");
+    audioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "&.mp3");
 
     // let audio = new Audio('https://speak.firer.at/?text=' + text);
     // audio.autoplay = true;
