@@ -14,9 +14,6 @@ async function speak(text) {
     readytospeak = false
 
     const svolume = 0.08;
-    
-    audio.volume = 0.08;
-
     const spitch = 1;
     const smute = false;
     const sloop = false;
@@ -27,6 +24,8 @@ async function speak(text) {
 
     const audioObject = new BS.GameObject("MyAudioSource"); 
     const audioSource = await audioObject.AddComponent(new BS.BanterAudioSource(svolume, spitch, smute, sloop, bypassEffects, bypassListenerEffects, bypassReverbZones, playOnAwake));
+
+    audioSource.volume = 0.08;
     
     console.log("ANNOUNCER: saying:", text);
     audioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "&.mp3");
