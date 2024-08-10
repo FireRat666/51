@@ -14,12 +14,12 @@ async function speak(text) {
     readytospeak = false
 
     const volume = 0;
-    const pitch = 1;
+    const pitch = 0.5;
     const mute = false;
     const sloop = false;
-    const bypassEffects = false;
-    const bypassListenerEffects = false;
-    const bypassReverbZones = false;
+    const bypassEffects = true;
+    const bypassListenerEffects = true;
+    const bypassReverbZones = true;
     const playOnAwake = false;
 
     const audioObject = new BS.GameObject("MyAudioSource"); 
