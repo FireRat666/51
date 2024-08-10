@@ -12,17 +12,49 @@ let readytospeak = true;
 async function speak(text) {
   if (readytospeak) {
     readytospeak = false
+
+    const svolume = 1;
+    const spitch = 1;
+    const smute = false;
+    const sloop = false;
+    const bypassEffects = false;
+    const bypassListenerEffects = false;
+    const bypassReverbZones = false;
+    const playOnAwake = false;
+
+    const audioObject = new BS.GameObject("MyAudioSource"); 
+    const audioSource = await audioObject.AddComponent(new BS.BanterAudioSource(svolume, spitch, smute, sloop, bypassEffects, bypassListenerEffects, bypassReverbZones, playOnAwake));
+    
     console.log("ANNOUNCER: saying:", text);
-    let audio = new Audio('https://speak.firer.at/?text=' + text);
-    audio.autoplay = true;
-    audio.play();
-    audio.volume = 0.08;
+    audioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "&lang=en&.mp3");
+
+    // let audio = new Audio('https://speak.firer.at/?text=' + text);
+    // audio.autoplay = true;
+    // audio.play();
+    // audio.volume = 0.08;
     setTimeout(() => { readytospeak = true; }, 4000);
   } else {
     console.log("ANNOUNCER: Not Ready to Speak:", text);
   };
 
 };
+
+
+// // Main Speak Function, Thank you Elin and everyone
+// async function speak(text) {
+//   if (readytospeak) {
+//     readytospeak = false
+//     console.log("ANNOUNCER: saying:", text);
+//     let audio = new Audio('https://speak.firer.at/?text=' + text);
+//     audio.autoplay = true;
+//     audio.play();
+//     audio.volume = 0.08;
+//     setTimeout(() => { readytospeak = true; }, 4000);
+//   } else {
+//     console.log("ANNOUNCER: Not Ready to Speak:", text);
+//   };
+
+// };
 
 // This function uses the current time as an input for the psuedo random number generator
 function GETPRNGF(modulo) {
