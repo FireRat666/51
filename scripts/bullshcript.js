@@ -18,8 +18,8 @@ scene.On("loaded", () => {
   settings.EnableAvatars = true;
   settings.MaxOccupancy = 30;
   settings.RefreshRate = 90;
-  settings.ClippingPlane = new THREE.Vector2(0.02, 1500);
-  settings.SpawnPoint = new THREE.Vector4(0, 0.1, 0, 90);
+  settings.ClippingPlane = new BS.Vector2(0.02, 1500);
+  settings.SpawnPoint = new BS.Vector4(0, 0.1, 0, 90);
   scene.SetSettings(settings);
   console.log("index.html finish setting settings for scene");
 });
