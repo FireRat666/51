@@ -14,6 +14,9 @@ async function speak(text) {
     readytospeak = false
 
     const svolume = 0.08;
+    
+    audio.volume = 0.08;
+
     const spitch = 1;
     const smute = false;
     const sloop = false;
