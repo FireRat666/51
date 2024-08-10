@@ -13,7 +13,7 @@ async function speak(text) {
   if (readytospeak) {
     readytospeak = false
 
-    const svolume = 0.01;
+    const svolume = 0.001;
     const spitch = 1;
     const smute = false;
     const sloop = false;
