@@ -99,7 +99,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		// Setup the Announcer only on the first run if enabled
 		if (p_announcer === "true" && announcerfirstrun === true ) {
 			announcerfirstrun = false;
-			console.log("FIRESCREEN: Enabling the Announcer Script")
+			console.log("FIRESCREEN: Enabling the Announcer Script");
 			const announcerscript = document.createElement("script");
 			announcerscript.id = "fires-announcer";
 			announcerscript.setAttribute("src", announcerscripturl);
@@ -109,7 +109,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			document.querySelector("body").appendChild(announcerscript);
 		} else if (p_announce === "true" && announcerfirstrun === true ) {
 			announcerfirstrun = false;
-			console.log("FIRESCREEN: Enabling the Announcer Script")
+			console.log("FIRESCREEN: Enabling the Announcer Script");
 			const announcerscript = document.createElement("script");
 			announcerscript.id = "fires-announcer";
 			announcerscript.setAttribute("src", announcerscripturl);
@@ -119,9 +119,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			document.querySelector("body").appendChild(announcerscript);
 		};
     if (p_announceevents2 === "true" && announcerfirstrun === true && p_announcer === "false" && p_announce === "false" ) {
-			console.log("FIRESCREEN: Enabling the Announce-Events Script")
 			announcerfirstrun = false;
-			console.log("FIRESCREEN: Enabling the Announcer Script")
+			console.log("FIRESCREEN: Enabling the Announce-Events Script");
 			const announcerscript = document.createElement("script");
 			announcerscript.id = "fires-announcer";
 			announcerscript.setAttribute("src", announcerscripturl);
