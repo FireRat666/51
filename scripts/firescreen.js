@@ -896,7 +896,7 @@ function setupBrowsers() {
 });
 
 function getV3FromStr(strVector3) {
-  return new THREE.Vector3().fromArray(strVector3.split(" ").map(parseFloat));
+  return new BS.Vector3().fromArray(strVector3.split(" ").map(parseFloat));
 }
 
 function getAttrOrDef(pScript, pAttr, pDefault) {
