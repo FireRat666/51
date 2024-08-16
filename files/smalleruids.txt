@@ -25,7 +25,8 @@
   "89c3abbe6d16e057035cc35ad7492cf7", // staticthreat
   "6f9dfa7074d831fec165ead9c08aa187", // Khalima
   "d8a95acd1e6c774938b7ebdaf243f0b5", // Dani
-  "ad943d6635575610e50ae3600b14b238", // gdeuce 
+  "ad943d6635575610e50ae3600b14b238", // gdeuce
+  "7cd4a3ecd2801c9c0fcf9a767c26cf2a", // Oipjo
   "replace", // replace
   "ca5429464da79945c76e4f4d62700138" // Vanski  ad943d6635575610e50ae3600b14b238 
 ]
