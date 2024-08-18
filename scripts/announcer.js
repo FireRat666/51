@@ -234,6 +234,8 @@ function announcerloadtest() {
         "Welcome aboard, " + theusersname + " ! Set phasers to 'friendly' and boldly go where no avatar has gone before.",
         "Beam in, " + theusersname + "! The holodeck is ready for your chat adventure. Engage!",
         "Swim upstream, " + theusersname + "! You've leaped into our chat like a salmon on a mission. Splash-tastic!",
+        "Welcome aboard, " + theusersname + "! You've officially become a chatfish in our digital sea.",
+        "High-five, " + theusersname + "! Your anchor dropped, and you’re officially docked in our harbor.",
         "Enjoy your stay " + theusersname
       ];
   
@@ -300,6 +302,19 @@ function announcerloadtest() {
           "In a world of ones and zeros, " + theusersname + " emerges as a pixelated hero. Stay tuned for their chat-tastic adventures!",
           "Attention, aquatic enthusiasts: " + theusersname + " has surfaced! Let's dive deep into conversation.",
           "Cod almighty! " + theusersname + " just swam into our net. Reel 'em in for a chat-tastic time!",
+          "The tides have shifted, and " + theusersname + " has washed ashore! Welcome to our aquatic realm!",
+          "Attention, sailors! " + theusersname + " has charted a course to our chat. Prepare for a splash of conversation!",
+          "Hold onto your seashells! " + theusersname + " just emerged from the coral reefs and joined our crew!",
+          "Alert: " + theusersname + " has surfaced in our virtual ocean. Dive in and say hello!",
+          "Did anyone order a side of " + theusersname + "? It just swam in from Atlantis!",
+          "Welcome aboard, " + theusersname + "! You've officially become a chatfish in our digital sea.",
+          "Attention, fellow merfolk: " + theusersname + " has traded fins for keyboard strokes. Say hello!",
+          "Portal breach detected: " + theusersname + " has crossed the seafloor rift and entered our chat bubble!",
+          "Hold onto your shipwreck treasures, " + theusersname + "! You're now part of our salty crew.",
+          "Hey there, " + theusersname + "! You've just surfaced like a curious narwhal. Let's chat!",
+          "Warning: " + theusersname + " has ingested a potent dose of chat-ocean vibes. Dive deep and explore!",
+          "Red alert! " + theusersname + " has materialized on the crow's nest. Ready the parrots!",
+          "Ladies and gentlemen, put your flippers together for the incomparable " + theusersname,
 
           theusersname + " Joined your party",
           "Oh No, the announcer is stoned, oh well, " + theusersname + " Joined the space.&lang=en&pitch=0.7&speed=1.7",
