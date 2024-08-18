@@ -260,7 +260,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     p_backdropcolor = new BS.Vector4(0,0,0,0);
   };
   let texture = null;
-  const shaderName = "Unlit/DiffuseTransparent";
+  const shaderName = "Sprites/Diffuse";
   const side = "Front";
   const generateMipMaps = false;
 
@@ -391,7 +391,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane10Object = new BS.GameObject("MyGeometry10");
   const plane10geometry = await plane10Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane10size = new BS.Vector3(0.1,0.1,0);
-  const plane10color = new BS.Vector4(1,1,1,1);
+  const plane10color = thebuttonscolor;
   const plane10Collider = await plane10Object.AddComponent(new BS.BoxCollider(true, center, plane10size));
   const plane10material = await plane10Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/Eye.png", plane10color, side, generateMipMaps));
   const plane10transform = await plane10Object.AddComponent(new BS.Transform());
@@ -412,6 +412,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   await plane11Object.SetLayer(5); // UI Layer
   plane11transform.position = new BS.Vector3(0,0.38,0);
   await plane11Object.SetParent(screenObject, false);
+  plane11Object.SetActive(0);
 
 
   // THE MUTE BUTTON - CURRENTLY
@@ -766,7 +767,7 @@ if (p_custombutton04url != "false") {
         plane19Object.SetActive(0);
         textgameObject04.SetActive(0);
       };
-      plane10material.color = thebuttonscolor;
+      plane10material.color = new BS.Vector4(1,1,1,0.5);
     } else {
       buttonsvisible = true;
       console.log("WAS HIDDEN!");
@@ -778,7 +779,7 @@ if (p_custombutton04url != "false") {
       plane07Object.SetActive(1);
       plane08Object.SetActive(1);
       plane09Object.SetActive(1);
-      plane11Object.SetActive(1);
+      plane11Object.SetActive(0);
       plane12Object.SetActive(1);
       plane13Object.SetActive(1);
       plane14Object.SetActive(1);
@@ -799,7 +800,7 @@ if (p_custombutton04url != "false") {
         plane19Object.SetActive(1);
         textgameObject04.SetActive(1);
       };
-      plane10material.color = plane10color;
+      plane10material.color = thebuttonscolor;
     };
   });
 
