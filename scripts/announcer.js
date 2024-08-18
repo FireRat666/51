@@ -192,7 +192,7 @@ function announcerloadtest() {
     // if (theusersid === "d1bdc33ac0fcfc061728b2e11c740ac7") {theusersname = "Mika"}; //  "Mika"
     // if (theusersid === "2bf1e383ae55886d560f13e0bd040330") {theusersname = "Shane Harris"}; //  Shane Harris
     if (theusersid === "f90d43718f190161c2fa2d0879218686") {theusersname = "Captain Dan"}; //  CaptnDaN 
-    if (theusersid === "3236ff6310bfe543efa2648346f59ea3") {theusersname = "Irish Guy"}; //  Irishking  ""
+    if (theusersid === "3236ff6310bfe543efa2648346f59ea3") {theusersname = "Irish Guy"}; //  Irishking  
     if (theusersid === "9eefdbc0892b7f90f6c30723c00fcde5") {theusersname = "Shane"}; //  "Oh no, Shane"
 
     // "f90d43718f190161c2fa2d0879218686"   
