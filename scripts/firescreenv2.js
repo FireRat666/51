@@ -55,21 +55,34 @@ let plane17Object = null;
 let plane18Object = null;
 let plane19Object = null;
 let plane20Object = null;
+let plane21Object = null;
+let plane22Object = null;
+let plane23Object = null;
+let plane24Object = null;
 let plane16material = null;
 let plane17material = null;
 let plane18material = null;
 let plane19material = null;
 let plane20material = null;
+let plane21material = null;
+let plane22material = null;
+let plane23material = null;
+let plane24material = null;
 let plane16color = null;
 let plane17color = null;
 let plane18color = null;
 let plane19color = null;
 let plane20color = null;
+let plane21color = null;
+let plane22color = null;
+let plane23color = null;
+let plane24color = null;
 let textgameObject01 = null;
 let textgameObject02 = null;
 let textgameObject03 = null;
 let textgameObject04 = null;
 let playersuseridv2 = null;
+let playerislockedv2 = false;
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
@@ -247,7 +260,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     p_backdropcolor = new BS.Vector4(0,0,0,0);
   };
   let texture = null;
-  const shaderName = "Sprites/Diffuse";
+  const shaderName = "Unlit/DiffuseTransparent";
   const side = "Front";
   const generateMipMaps = false;
 
@@ -265,8 +278,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
 
 // ADD FRICTION 
-const dynamicFriction = 1;
-const staticFriction = 1;
+const dynamicFriction = 100;
+const staticFriction = 100;
 const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
   // THE HOME BUTTON - CURRENTLY
@@ -275,7 +288,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane02size = new BS.Vector3(0.1,0.1,0.01);
   const plane02color = thebuttonscolor;
   const plane02Collider = await plane02Object.AddComponent(new BS.BoxCollider(true, center, plane02size));
-  const plane02material = await plane02Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/Home.png", plane02color, side, generateMipMaps));
+  const plane02material = await plane02Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/Home.png", plane02color, side, generateMipMaps));
   const plane02transform = await plane02Object.AddComponent(new BS.Transform());
   await plane02Object.SetLayer(5); // UI Layer
   plane02transform.position = new BS.Vector3(-0.2,0.38,0);
@@ -288,7 +301,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane03size = new BS.Vector3(0.1,0.1,0.01);
   const plane03color = thebuttonscolor;
   const plane03Collider = await plane03Object.AddComponent(new BS.BoxCollider(true, center, plane03size));
-  const plane03material = await plane03Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/Info.png", plane03color, side, generateMipMaps));
+  const plane03material = await plane03Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/Info.png", plane03color, side, generateMipMaps));
   const plane03transform = await plane03Object.AddComponent(new BS.Transform());
   await plane03Object.SetLayer(5); // UI Layer
   plane03transform.position = new BS.Vector3(-0.6,0.28,0);
@@ -301,7 +314,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane04size = new BS.Vector3(0.1,0.1,0.01);
   const plane04color = new BS.Vector4(1,1,1,1);
   const plane04Collider = await plane04Object.AddComponent(new BS.BoxCollider(true, center, plane04size));
-  const plane04material = await plane04Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/Google.png", plane04color, side, generateMipMaps));
+  const plane04material = await plane04Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/Google.png", plane04color, side, generateMipMaps));
   const plane04transform = await plane04Object.AddComponent(new BS.Transform());
   await plane04Object.SetLayer(5); // UI Layer
   plane04transform.position = new BS.Vector3(-0.6,0.16,0);
@@ -314,7 +327,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane05size = new BS.Vector3(0.1,0.1,0);
   const plane05color = new BS.Vector4(1,1,1,1);
   const plane05Collider = await plane05Object.AddComponent(new BS.BoxCollider(true, center, plane05size));
-  const plane05material = await plane05Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/Keyboard.png", plane05color, side, generateMipMaps));
+  const plane05material = await plane05Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/Keyboard.png", plane05color, side, generateMipMaps));
   const plane05transform = await plane05Object.AddComponent(new BS.Transform());
   await plane05Object.SetLayer(5); // UI Layer
   plane05transform.position = new BS.Vector3(-0.6,-0.15,0);
@@ -327,7 +340,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane06size = new BS.Vector3(0.1,0.1,0);
   const plane06color = thebuttonscolor;
   const plane06Collider = await plane06Object.AddComponent(new BS.BoxCollider(true, center, plane06size));
-  const plane06material = await plane06Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", p_icondirectionurl, plane06color, side, generateMipMaps));
+  const plane06material = await plane06Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_icondirectionurl, plane06color, side, generateMipMaps));
   const plane06transform = await plane06Object.AddComponent(new BS.Transform());
   await plane06Object.SetLayer(5); // UI Layer
   plane06transform.position = new BS.Vector3(-0.5,0.38,0);
@@ -340,7 +353,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane07size = new BS.Vector3(0.1,0.1,0);
   const plane07color = thebuttonscolor;
   const plane07Collider = await plane07Object.AddComponent(new BS.BoxCollider(true, center, plane07size));
-  const plane07material = await plane07Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/expand.png", plane07color, side, generateMipMaps));
+  const plane07material = await plane07Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/expand.png", plane07color, side, generateMipMaps));
   const plane07transform = await plane07Object.AddComponent(new BS.Transform());
   await plane07Object.SetLayer(5); // UI Layer
   plane07transform.position = new BS.Vector3(0.6,0.06,0);
@@ -353,7 +366,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane08size = new BS.Vector3(0.1,0.1,0);
   const plane08color = thebuttonscolor;
   const plane08Collider = await plane08Object.AddComponent(new BS.BoxCollider(true, center, plane08size));
-  const plane08material = await plane08Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/shrink.png", plane08color, side, generateMipMaps));
+  const plane08material = await plane08Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/shrink.png", plane08color, side, generateMipMaps));
   const plane08transform = await plane08Object.AddComponent(new BS.Transform());
   await plane08Object.SetLayer(5); // UI Layer
   plane08transform.position = new BS.Vector3(0.6,-0.06,0);
@@ -366,7 +379,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane09size = new BS.Vector3(0.1,0.1,0);
   const plane09color = thebuttonscolor;
   const plane09Collider = await plane09Object.AddComponent(new BS.BoxCollider(true, center, plane09size));
-  const plane09material = await plane09Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", p_icondirectionurl, plane09color, side, generateMipMaps));
+  const plane09material = await plane09Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_icondirectionurl, plane09color, side, generateMipMaps));
   const plane09transform = await plane09Object.AddComponent(new BS.Transform());
   await plane09Object.SetLayer(5); // UI Layer
   plane09transform.position = new BS.Vector3(-0.38,0.38,0);
@@ -380,7 +393,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane10size = new BS.Vector3(0.1,0.1,0);
   const plane10color = new BS.Vector4(1,1,1,1);
   const plane10Collider = await plane10Object.AddComponent(new BS.BoxCollider(true, center, plane10size));
-  const plane10material = await plane10Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/Eye.png", plane10color, side, generateMipMaps));
+  const plane10material = await plane10Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/Eye.png", plane10color, side, generateMipMaps));
   const plane10transform = await plane10Object.AddComponent(new BS.Transform());
 
   await plane10Object.SetLayer(5); // UI Layer
@@ -394,7 +407,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane11size = new BS.Vector3(0.1,0.1,0);
   const plane11color = thebuttonscolor;
   const plane11Collider = await plane11Object.AddComponent(new BS.BoxCollider(true, center, plane11size));
-  plane11material = await plane11Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/HG2.png", plane11color, side, generateMipMaps));
+  plane11material = await plane11Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/HG2.png", plane11color, side, generateMipMaps));
   const plane11transform = await plane11Object.AddComponent(new BS.Transform());
   await plane11Object.SetLayer(5); // UI Layer
   plane11transform.position = new BS.Vector3(0,0.38,0);
@@ -407,14 +420,14 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane12size = new BS.Vector3(0.1,0.1,0);
   let plane12color = null;
 	if (p_mutecolor != "false") {
-    console.log("p_mutecolor is NOT null");
+    console.log("p_mutecolor is : ");
+    console.log(p_mutecolor);
 		plane12color = p_mutecolor;
 	} else {
 		plane12color = thebuttonscolor;
-    console.log("p_mutecolor is null");
 	};
   const plane12Collider = await plane12Object.AddComponent(new BS.BoxCollider(true, center, plane12size));
-  const plane12material = await plane12Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", p_iconmuteurl, plane12color, side, generateMipMaps));
+  const plane12material = await plane12Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconmuteurl, plane12color, side, generateMipMaps));
   const plane12transform = await plane12Object.AddComponent(new BS.Transform());
   await plane12Object.SetLayer(5); // UI Layer
   plane12transform.position = new BS.Vector3(0.167,0.38,0);
@@ -427,14 +440,14 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane13size = new BS.Vector3(0.1,0.1,0);
   let plane13color = null;
 	if (p_voldowncolor != "false") {
-    console.log("p_voldowncolor is NOT null: " + p_voldowncolor);
+    console.log("p_voldowncolor is : ");
+    console.log(p_voldowncolor);
 		plane13color = p_voldowncolor;
 	} else {
-    console.log("p_voldowncolor is null");
 		plane13color = thebuttonscolor;
 	};
   const plane13Collider = await plane13Object.AddComponent(new BS.BoxCollider(true, center, plane13size));
-  const plane13material = await plane13Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", p_iconvoldownurl, plane13color, side, generateMipMaps));
+  const plane13material = await plane13Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvoldownurl, plane13color, side, generateMipMaps));
   const plane13transform = await plane13Object.AddComponent(new BS.Transform());
   await plane13Object.SetLayer(5); // UI Layer
   plane13transform.position = new BS.Vector3(0.334,0.38,0);
@@ -447,14 +460,14 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane14size = new BS.Vector3(0.1,0.1,0);
   let plane14color = null;
 	if (p_volupcolor != "false") {
-    console.log("p_volupcolor is NOT null: " + p_volupcolor);
+    console.log("p_volupcolor is : ");
+    console.log(p_volupcolor);
 		plane14color = p_volupcolor;
 	} else {
-    console.log("p_volupcolor is null");
 		plane14color = thebuttonscolor;
 	};
   const plane14Collider = await plane14Object.AddComponent(new BS.BoxCollider(true, center, plane14size));
-  const plane14material = await plane14Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", p_iconvolupurl, plane14color, side, generateMipMaps));
+  const plane14material = await plane14Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvolupurl, plane14color, side, generateMipMaps));
   const plane14transform = await plane14Object.AddComponent(new BS.Transform());
   await plane14Object.SetLayer(5); // UI Layer
   plane14transform.position = new BS.Vector3(0.495,0.38,0);
@@ -467,7 +480,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane15size = new BS.Vector3(0.1,0.1,0);
   const plane15color = thebuttonscolor;
   const plane15Collider = await plane15Object.AddComponent(new BS.BoxCollider(true, center, plane15size));
-  const plane15material = await plane15Object.AddComponent(new BS.BanterMaterial("Sprites/Diffuse", "https://firer.at/files/Rot.png", plane15color, side, generateMipMaps));
+  const plane15material = await plane15Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/Rot.png", plane15color, side, generateMipMaps));
   const plane15transform = await plane15Object.AddComponent(new BS.Transform());
   await plane15Object.SetLayer(5); // UI Layer
   plane15transform.position = new BS.Vector3(-0.6,-0.3,0);
@@ -485,7 +498,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane16Object = new BS.GameObject("MyGeometry16");
   const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane16size = new BS.Vector3(1,1,0);
-  plane16color = new BS.Vector4(0.1,0.1,0.1,0.1);
+  plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
   const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
   plane16material = await plane16Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane16color, side, generateMipMaps));
   const plane16transform = await plane16Object.AddComponent(new BS.Transform());
@@ -608,7 +621,7 @@ if (p_custombutton04url != "false") {
   plane02Object.On('click', () => {
     console.log("CLICKED02!");
     browser.url = url;
-    plane02material.color = new BS.Vector4(1,1,1,1);
+    plane02material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane02material.color = plane02color }, 100);
 
   });
@@ -622,7 +635,7 @@ if (p_custombutton04url != "false") {
     detailpoint = e.detail.point;
     detailnormal = e.detail.normal;
     browser.url = "https://firer.at/pages/Info.html";
-    plane03material.color = new BS.Vector4(1,1,1,1);
+    plane03material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane03material.color = plane03color; }, 100);
   });
 
@@ -653,7 +666,7 @@ if (p_custombutton04url != "false") {
   plane06Object.On('click', () => {
     console.log("CLICKED06!");
     browser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
-    plane06material.color = new BS.Vector4(1,1,1,1);
+    plane06material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane06material.color = plane06color; }, 100);
   });
 
@@ -679,7 +692,7 @@ if (p_custombutton04url != "false") {
     
 
     geometrytransform.localScale = new BS.Vector3(scaleX,scaleY,1);
-    plane07material.color = new BS.Vector4(1,1,1,1);
+    plane07material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane07material.color = plane07color; }, 100);
   });
 
@@ -704,7 +717,7 @@ if (p_custombutton04url != "false") {
     if (scaleX <= 0) {scaleX = 0.025};
     if (scaleY <= 0) {scaleY = 0.025};
     geometrytransform.localScale = new BS.Vector3(scaleX,scaleY,1);
-    plane08material.color = new BS.Vector4(1,1,1,1);
+    plane08material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane08material.color = plane08color; }, 100);
   });
 
@@ -790,7 +803,7 @@ if (p_custombutton04url != "false") {
     };
   });
 
-  // HAND Button Thing
+  // HAND ICON Button Thing
   plane11Object.On('click', e => {
     console.log("CLICKED11!");
     // Do something with e.detail.point and e.detail.normal.
@@ -825,17 +838,19 @@ if (p_custombutton04url != "false") {
   plane13Object.On('click', () => {
     console.log("CLICKED13!");
     firevolume = Number(firevolume);
-    if (firevolume < 0.5) {
+    if (firevolume < 0.1) {
+      firevolume += Number(-0.01);
+    } else if (firevolume < 0.5) {
       firevolume += Number(-0.03);
     } else {
       firevolume += Number(-0.05);
     };
 		firevolume = parseFloat(firevolume).toFixed(2);
-		if (firevolume < 0) {volfirevolumeume = 0};
+		if (firevolume < 0) {firevolume = 0};
     console.log("The Volume: " + firevolume);
     browser.RunActions(JSON.stringify(
       {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");"}]}));
-    plane13material.color = new BS.Vector4(1,1,1,1);
+    plane13material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane13material.color = plane13color; }, 100);
     
   });
@@ -845,17 +860,19 @@ if (p_custombutton04url != "false") {
   plane14Object.On('click', () => {
     console.log("CLICKED14!");
     firevolume = Number(firevolume);
-    if (firevolume < 0.5) {
+    if (firevolume < 0.1) {
+      firevolume += Number(0.01);
+    } else if (firevolume < 0.5) {
       firevolume += Number(0.02);
     } else {
       firevolume += Number(0.05);
     };
 		firevolume = parseFloat(firevolume).toFixed(2);
-		if (firevolume > 1) {volume = 1};
+		if (firevolume > 1) {firevolume = 1};
     console.log("The Volume: " + firevolume);
     browser.RunActions(JSON.stringify(
       {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");"}]}));
-      plane14material.color = new BS.Vector4(1,1,1,1);
+      plane14material.color = new BS.Vector4(1,1,1,0.8);
       setTimeout(() => { plane14material.color = plane14color; }, 100);
   });
 
@@ -882,7 +899,7 @@ if (p_custombutton04url != "false") {
   
   if (p_custombutton01url != "false") {
       plane16Object.On('click', () => {
-      console.log("CLICKED04!");
+      console.log("CLICKED01!");
       browser.url = p_custombutton01url;
       plane16material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane16material.color = plane16color; }, 100);
@@ -892,7 +909,7 @@ if (p_custombutton04url != "false") {
   // EXTRA Button Thing 02
   if (p_custombutton02url != "false") {
     plane17Object.On('click', () => {
-      console.log("CLICKED04!");
+      console.log("CLICKED02!");
       browser.url = p_custombutton02url;
       plane17material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane17material.color = plane17color; }, 100);
@@ -902,7 +919,7 @@ if (p_custombutton04url != "false") {
   // EXTRA Button Thing 03
   if (p_custombutton03url != "false") {
     plane18Object.On('click', () => {
-      console.log("CLICKED04!");
+      console.log("CLICKED03!");
       browser.url = p_custombutton03url;
       plane18material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane18material.color = plane18color; }, 100);
@@ -918,7 +935,6 @@ if (p_custombutton04url != "false") {
       setTimeout(() => { plane19material.color = plane19color; }, 100);
     });
   };
-
 
   // plane09Object.SetActive(0)
   // browser.RunActions({actionType: click2d,150,150});
@@ -966,8 +982,9 @@ if (p_custombutton04url != "false") {
 
 
   async function setupHandControls() { // handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
-    // THE CONTAINER - CURRENTLY
-    const geometryType = BS.GeometryType.BoxGeometry;
+    // THE CONTAINER FOR THE HAND BUTTONS
+    console.log("FIRESCREEN2: Hand Control Stuff");
+    const geometryType = BS.GeometryType.PlaneGeometry;
     const parametricType = null;
     const depth = 1;
     const widthSegments = 1;
@@ -999,17 +1016,159 @@ if (p_custombutton04url != "false") {
     plane20Object = new BS.GameObject("MyGeometry20");
     const plane20geometry = await plane20Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
     const plane20size = new BS.Vector3(1,1,1);
-    plane20color = new BS.Vector4(0.1,0.1,0.1,1);
+    plane20color = new BS.Vector4(0,0,0,0);
     const center = new BS.Vector3(0,0,0);
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, center, plane20size));
-    plane20material = await plane20Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane20color, "Front", false));
+    plane20material = await plane20Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", null, plane20color, "Front", false));
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
     // await plane20Object.SetLayer(5); // UI Layer
-    plane20transform.position = new BS.Vector3(0.04,0.006,-0.010);
-    plane20transform.localScale = new BS.Vector3(0.5,0.5,0.5);
-    // await plane20Object.SetParent(firescenev2.localUser, false);
-    // BS.LegacyAttachmentPosition.LEFT_HAND
-    firescenev2.localUser.Attach(plane20Object,"LeftHand");
+    // firescenev2.localUser.Attach(plane20Object,BS.LegacyAttachmentPosition.LEFT_HAND);
+    firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
+    // const plane20transform = plane20Object.GetComponent(BS.ComponentType.Transform)
+    plane20transform.localPosition = new BS.Vector3(0,-0.006,0.010);
+    plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
+    // plane20transform.localRotation = new BS.Vector3(0,1,0);
+    // plane20transform.eulerAngles = new BS.Vector3(90,-90,90);
+    plane20transform.localEulerAngles = new BS.Vector3(20,260,0);
+
+
+    // HAND VOLUME UP BUTTON
+    plane21Object = new BS.GameObject("MyGeometry21");
+    const plane21geometry = await plane21Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane21size = new BS.Vector3(1,1,1);
+    const plane21Collider = await plane21Object.AddComponent(new BS.BoxCollider(true, center, plane21size));
+    plane21material = await plane21Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvolupurl, plane14color, "Front", false));
+    const plane21transform = await plane21Object.AddComponent(new BS.Transform());
+    await plane21Object.SetParent(plane20Object, false);
+    plane21transform.localPosition = new BS.Vector3(0.4,0.4,0.3);
+    plane21transform.localScale = new BS.Vector3(0.4,0.4,0.4);
+    await plane21Object.SetLayer(5); // UI Layer
+    // const plane21transform = plane21Object.GetComponent(BS.ComponentType.Transform)
+
+    // HAND VOLUME DOWN BUTTON
+    plane22Object = new BS.GameObject("MyGeometry22");
+    const plane22geometry = await plane22Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane22size = new BS.Vector3(1,1,1);
+    const plane22Collider = await plane22Object.AddComponent(new BS.BoxCollider(true, center, plane22size));
+    plane22material = await plane22Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvoldownurl, plane13color, "Front", false));
+    const plane22transform = await plane22Object.AddComponent(new BS.Transform());
+    await plane22Object.SetParent(plane20Object, false);
+    plane22transform.localPosition = new BS.Vector3(0.0,0.4,0.3);
+    plane22transform.localScale = new BS.Vector3(0.4,0.4,0.4);
+    await plane22Object.SetLayer(5); // UI Layer
+    // const plane22transform = plane22Object.GetComponent(BS.ComponentType.Transform)
+
+    // HAND MUTE BUTTON
+    plane23Object = new BS.GameObject("MyGeometry23");
+    const plane23geometry = await plane23Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane23size = new BS.Vector3(1,1,1);
+    const plane23Collider = await plane23Object.AddComponent(new BS.BoxCollider(true, center, plane23size));
+    plane23material = await plane23Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconmuteurl, plane12color, "Front", false));
+    const plane23transform = await plane23Object.AddComponent(new BS.Transform());
+    await plane23Object.SetParent(plane20Object, false);
+    plane23transform.localPosition = new BS.Vector3(-0.4,0.4,0.3);
+    plane23transform.localScale = new BS.Vector3(0.4,0.4,0.4);
+    await plane23Object.SetLayer(5); // UI Layer
+    // const plane23transform = plane23Object.GetComponent(BS.ComponentType.Transform)
+
+    // HAND LOCK BUTTON
+    plane24Object = new BS.GameObject("MyGeometry24");
+    const plane24geometry = await plane24Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane24size = new BS.Vector3(1,1,1);
+    const plane24color = new BS.Vector4(1,1,1,0.7);
+    const plane24Collider = await plane24Object.AddComponent(new BS.BoxCollider(true, center, plane24size));
+    plane24material = await plane24Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/lock.png", plane24color, "Front", false));
+    const plane24transform = await plane24Object.AddComponent(new BS.Transform());
+    await plane24Object.SetParent(plane20Object, false);
+    plane24transform.localPosition = new BS.Vector3(0,-0.1,0.3);
+    plane24transform.localScale = new BS.Vector3(0.4,0.4,0.4);
+    plane24transform.localEulerAngles = new BS.Vector3(0,0,180);
+    await plane24Object.SetLayer(5); // UI Layer
+    // const plane24transform = plane24Object.GetComponent(BS.ComponentType.Transform)
+
+
+
+
+    console.log("FIRESCREEN2: Hand Control Stuff Setup");
+
+    // HAND BUTTON VOLUME UP
+    plane21Object.On('click', () => {
+      console.log("CLICKED01!");
+      firevolume = Number(firevolume);
+      if (firevolume < 0.1) {
+        firevolume += Number(0.01);
+      } else if (firevolume < 0.5) {
+        firevolume += Number(0.02);
+      } else {
+        firevolume += Number(0.05);
+      };
+      firevolume = parseFloat(firevolume).toFixed(2);
+      if (firevolume > 1) {firevolume = 1};
+      console.log("The Volume: " + firevolume);
+      browser.RunActions(JSON.stringify(
+        {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");"}]}));
+
+      plane21material.color = new BS.Vector4(1,1,1,0.8);
+      setTimeout(() => { plane21material.color = plane14color; }, 100);
+    });
+
+    // HAND BUTTON VOLUME DOWN
+    plane22Object.On('click', () => {
+      console.log("CLICKED02!");
+      firevolume = Number(firevolume);
+      if (firevolume < 0.1) {
+        firevolume += Number(-0.01);
+      } else if (firevolume < 0.5) {
+        firevolume += Number(-0.03);
+      } else {
+        firevolume += Number(-0.05);
+      };
+      firevolume = parseFloat(firevolume).toFixed(2);
+      if (firevolume < 0) {firevolume = 0};
+      console.log("The Volume: " + firevolume);
+      browser.RunActions(JSON.stringify(
+        {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");"}]}));
+
+      plane22material.color = new BS.Vector4(1,1,1,0.8);
+      setTimeout(() => { plane22material.color = plane13color; }, 100);
+    });
+
+    // HAND BUTTON MUTE
+    plane23Object.On('click', () => {
+      console.log("CLICKED03!");
+
+      if (browsermuted) {
+        browsermuted = false;
+        browser.RunActions(JSON.stringify(
+          {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false);"}]}));
+          plane12material.color = plane12color;
+          plane23material.color = plane12color;
+      } else {
+        browsermuted = true;
+        browser.RunActions(JSON.stringify(
+          {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true);"}]}));
+          plane12material.color = new BS.Vector4(1,0,0,1);
+          plane23material.color = new BS.Vector4(1,0,0,1);
+      };
+
+    });
+
+    // HAND BUTTON LOCK PLAYER
+    plane24Object.On('click', () => {
+      console.log("CLICKED04!");
+
+      if (playerislockedv2) {
+        playerislockedv2 = false;
+        unlockPlayer();
+        plane24material.color = plane24color;
+      } else {
+        playerislockedv2 = true;
+        lockPlayer();
+        plane24material.color = new BS.Vector4(1,0,0,1);
+      };
+    });
+    console.log("FIRESCREEN2: Hand Click Stuff END");
+
   };
 
 
@@ -1061,7 +1220,7 @@ if (p_custombutton04url != "false") {
   });
 
   // MATERIAL SHADER STUFF
-  // "Legacy Shaders/Transparent/Diffuse" || "Unlit/Transparent Cutout" || "Unlit/Transparent" || "Mobile/Particles/Additive" || "Mobile/Particles/Alpha Blended" || "Sprites/Diffuse" || "Sprites/Default"
+  // "Legacy Shaders/Transparent/Diffuse" || "Unlit/Transparent Cutout" || "Unlit/Transparent" || "Mobile/Particles/Additive" || "Mobile/Particles/Alpha Blended" || "Sprites/Diffuse" || "Sprites/Default" || "Unlit/DiffuseTransparent" || "Unlit/Texture"
 
   
   // afterLoadActions: [ {&quot;actionType&quot;: &quot;click2d&quot;, &quot;numParam1&quot;: 150, &quot;numParam2&quot;: 150}]
@@ -1073,7 +1232,7 @@ if (p_custombutton04url != "false") {
   // browser.RunActions([ { actionType: "runscript", strparam1:
   //   "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + 0.1 + ");", }, ]);
 
-
+  // const component = geometryObject.GetComponent(BS.ComponentType.BanterPhysicMaterial);
 
   // SendBrowserMessage - Send a post message to the browser in the menu. See Browser Communication for more info.
   // await firescenev2.SendBrowserMessage(id: string);
