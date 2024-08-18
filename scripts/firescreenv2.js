@@ -75,7 +75,6 @@ function setupfirescreen2() {
       const pWidth = getAttrOrDef(allscripts[i], "width", "1024");
       const pHeight = getAttrOrDef(allscripts[i], "height", "576");
       const pBackdrop = getAttrOrDef(allscripts[i], "backdrop", "true");
-      const pCastMode = getAttrOrDef(allscripts[i], "castmode", "false");
       const pHandButtons = getAttrOrDef(allscripts[i], "hand-controls", "false");
       const pDisableInteraction = getAttrOrDef(allscripts[i], "disable-interaction", "false");
       const pAnnouncer = getAttrOrDef(allscripts[i], "announcer", "false");
@@ -102,7 +101,7 @@ function setupfirescreen2() {
       const pCustomButton04Url = getAttrOrDef(allscripts[i], "custom-button04-url", "false");
       const pCustomButton04Text = getAttrOrDef(allscripts[i], "custom-button04-text", "Custom Button 04");
       const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
-      sdk2tests(pPos, pRot, pSca, pVolume, pMipmaps, pPixelsperunit, pBackdrop, pCastMode, pWebsite, pButtonColor, pAnnouncer, pAnnounce, pAnnounce420,
+      sdk2tests(pPos, pRot, pSca, pVolume, pMipmaps, pPixelsperunit, pBackdrop, pWebsite, pButtonColor, pAnnouncer, pAnnounce, pAnnounce420,
       pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor, pMuteColor,
       pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text, pAnnounceEvents, pAnnounceEvents2,
       pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text, pCustomButton04Url, pCustomButton04Text);
@@ -111,7 +110,7 @@ function setupfirescreen2() {
 
 }
 
-async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_castmode, p_website, p_buttoncolor, p_announcer, p_announce, p_announce420,
+async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announcer, p_announce, p_announce420,
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
 	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text, p_announceevents, p_announceevents2,
 	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text, p_custombutton04url, p_custombutton04text) {
