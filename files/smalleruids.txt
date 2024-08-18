@@ -27,6 +27,8 @@
   "d8a95acd1e6c774938b7ebdaf243f0b5", // Dani
   "ad943d6635575610e50ae3600b14b238", // gdeuce
   "7cd4a3ecd2801c9c0fcf9a767c26cf2a", // Oipjo
+  "8d214db877c880abe3b56a38ff527c27", // "dianeparker."
+  "replace", // replace
   "replace", // replace
   "ca5429464da79945c76e4f4d62700138" // Vanski  ad943d6635575610e50ae3600b14b238 
 ]
