@@ -1,32 +1,6 @@
 // create a reference to the banter scene
 const firescenev2 = BS.BanterScene.getInstance();
 
-console.log("Bullshcript setSceneSettings Loading...");
-// SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
-const settings = new BS.SceneSettings();
-settings.EnableDevTools = true;
-settings.EnableTeleport = true;
-settings.EnableForceGrab = false;
-settings.EnableSpiderMan = false;
-settings.EnablePortals = true;
-settings.EnableGuests = true;
-settings.EnableQuaternionPose = false;
-settings.EnableControllerExtras = false;
-settings.EnableFriendPositionJoin = false;
-settings.EnableDefaultTextures = true;
-settings.EnableAvatars = true;
-settings.MaxOccupancy = 30;
-settings.RefreshRate = 72;
-settings.ClippingPlane = new BS.Vector2(0.02, 1500);
-settings.SpawnPoint = new BS.Vector4(2, 3, 0, 90);
-firescenev2.SetSettings(settings);
-console.log("Bullshcript finish setting settings for scene");
-
-
-firescenev2.On("loaded", () => {
-
-});
-
 let firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js";
 let announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 let fireScreen2On = false;
@@ -261,7 +235,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
   let texture = null;
   const shaderName = "Sprites/Diffuse";
-  const side = "Front";
+  const side = 0;
   const generateMipMaps = false;
 
   material = await geometryObject.AddComponent(new BS.BanterMaterial(shaderName, texture, p_backdropcolor, side, generateMipMaps));
@@ -547,7 +521,7 @@ if (p_custombutton03url != "false") {
   plane18Object = new BS.GameObject("MyGeometry18");
   const plane18geometry = await plane18Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane18size = new BS.Vector3(1,1,0);
-  plane18color = new BS.Vector4(0.1,0.1,0.1,0.1);
+  plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
   plane18material = await plane18Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane18color, side, generateMipMaps));
   const plane18transform = await plane18Object.AddComponent(new BS.Transform());
@@ -563,6 +537,7 @@ if (p_custombutton03url != "false") {
   // await textgameObject03.SetLayer(5); // UI Layer
   // text03transform.position = new BS.Vector3(1.6,0.1,0.03);
   text03transform.localPosition = new BS.Vector3(1.59,-0.287,-0.005);
+  await textgameObject03.SetLayer(6); // UI Layer
   await textgameObject03.SetParent(screenObject, false);
 };
 
@@ -571,7 +546,7 @@ if (p_custombutton04url != "false") {
   plane19Object = new BS.GameObject("MyGeometry19");
   const plane19geometry = await plane19Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane19size = new BS.Vector3(1,1,0);
-  plane19color = new BS.Vector4(0.1,0.1,0.1,0.1);
+  plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
   plane19material = await plane19Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane19color, side, generateMipMaps));
   const plane19transform = await plane19Object.AddComponent(new BS.Transform());
@@ -587,6 +562,7 @@ if (p_custombutton04url != "false") {
   // await textgameObject04.SetLayer(5); // UI Layer
   // text04transform.position = new BS.Vector3(1.6,0.1,0.04);
   text04transform.localPosition = new BS.Vector3(1.59,-0.336,-0.005);
+  await textgameObject04.SetLayer(6); // UI Layer
   await textgameObject04.SetParent(screenObject, false);
 };
   
@@ -1020,7 +996,7 @@ if (p_custombutton04url != "false") {
     plane20color = new BS.Vector4(0,0,0,0);
     const center = new BS.Vector3(0,0,0);
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, center, plane20size));
-    plane20material = await plane20Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", null, plane20color, "Front", false));
+    plane20material = await plane20Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", null, plane20color, 1, false));
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
     // await plane20Object.SetLayer(5); // UI Layer
     // firescenev2.localUser.Attach(plane20Object,BS.LegacyAttachmentPosition.LEFT_HAND);
@@ -1038,7 +1014,7 @@ if (p_custombutton04url != "false") {
     const plane21geometry = await plane21Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
     const plane21size = new BS.Vector3(1,1,1);
     const plane21Collider = await plane21Object.AddComponent(new BS.BoxCollider(true, center, plane21size));
-    plane21material = await plane21Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvolupurl, plane14color, "Front", false));
+    plane21material = await plane21Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvolupurl, plane14color, 1, false));
     const plane21transform = await plane21Object.AddComponent(new BS.Transform());
     await plane21Object.SetParent(plane20Object, false);
     plane21transform.localPosition = new BS.Vector3(0.4,0.4,0.3);
@@ -1051,7 +1027,7 @@ if (p_custombutton04url != "false") {
     const plane22geometry = await plane22Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
     const plane22size = new BS.Vector3(1,1,1);
     const plane22Collider = await plane22Object.AddComponent(new BS.BoxCollider(true, center, plane22size));
-    plane22material = await plane22Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvoldownurl, plane13color, "Front", false));
+    plane22material = await plane22Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvoldownurl, plane13color, 1, false));
     const plane22transform = await plane22Object.AddComponent(new BS.Transform());
     await plane22Object.SetParent(plane20Object, false);
     plane22transform.localPosition = new BS.Vector3(0.0,0.4,0.3);
@@ -1064,7 +1040,7 @@ if (p_custombutton04url != "false") {
     const plane23geometry = await plane23Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
     const plane23size = new BS.Vector3(1,1,1);
     const plane23Collider = await plane23Object.AddComponent(new BS.BoxCollider(true, center, plane23size));
-    plane23material = await plane23Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconmuteurl, plane12color, "Front", false));
+    plane23material = await plane23Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconmuteurl, plane12color, 1, false));
     const plane23transform = await plane23Object.AddComponent(new BS.Transform());
     await plane23Object.SetParent(plane20Object, false);
     plane23transform.localPosition = new BS.Vector3(-0.4,0.4,0.3);
@@ -1078,7 +1054,7 @@ if (p_custombutton04url != "false") {
     const plane24size = new BS.Vector3(1,1,1);
     const plane24color = new BS.Vector4(1,1,1,0.7);
     const plane24Collider = await plane24Object.AddComponent(new BS.BoxCollider(true, center, plane24size));
-    plane24material = await plane24Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/lock.png", plane24color, "Front", false));
+    plane24material = await plane24Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "https://firer.at/files/lock.png", plane24color, 1, false));
     const plane24transform = await plane24Object.AddComponent(new BS.Transform());
     await plane24Object.SetParent(plane20Object, false);
     plane24transform.localPosition = new BS.Vector3(0,-0.1,0.3);
