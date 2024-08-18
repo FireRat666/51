@@ -19,7 +19,7 @@ settings.MaxOccupancy = 30;
 settings.RefreshRate = 72;
 settings.ClippingPlane = new BS.Vector2(0.02, 1500);
 settings.SpawnPoint = new BS.Vector4(2, 3, 0, 90);
-firescenev2.SetSettings(settings);
+thisscene.SetSettings(settings);
 console.log("Bullshcript finish setting settings for scene");
 
 
