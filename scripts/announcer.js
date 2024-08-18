@@ -229,6 +229,11 @@ function announcerloadtest() {
         theusersname + ", welcome to the Banter Science Enrichment Center! Please refrain from touching any mysterious glowing buttons.",
         theusersname + ", congratulations! You've been selected for our groundbreaking portal experimentation program.",
         "Hail, " + theusersname + "! You've crossed the Brandywine Bridge and entered our Shire of conversation.",
+        "Hey there, " + theusersname + "! You've just rolled into our chat like a finely crafted joint. Spark up some conversation!",
+        "High-five, " + theusersname + "! You've entered the space. Grab a virtual brownie and let's chat!",
+        "Welcome aboard, " + theusersname + " ! Set phasers to 'friendly' and boldly go where no avatar has gone before.",
+        "Beam in, " + theusersname + "! The holodeck is ready for your chat adventure. Engage!",
+        "Swim upstream, " + theusersname + "! You've leaped into our chat like a salmon on a mission. Splash-tastic!",
         "Enjoy your stay " + theusersname
       ];
   
@@ -287,6 +292,14 @@ function announcerloadtest() {
           "Did anyone order a side of " + theusersname + "? It just apparated into the Great Hall!",
           "Hold onto your hobbit feet, " + theusersname + " you're now part of our Fellowship!",
           "Attention, fellow travelers: " + theusersname + " has stepped out of the Shire and into our chat!",
+          "Hey there, " + theusersname + "! has just rolled into our chat like a finely crafted joint. Spark up some conversation!",
+          "High-five, " + theusersname + " has entered the space. Grab a virtual brownie and let's chat!",
+          "Warning: " + theusersname + " has ingested a potent dose of curiosity. Side effects may include laughter and engaging conversations.",
+          "Red alert! " + theusersname + " has materialized on the bridge. Shields up, witty banter activated!",
+          "Ladies and gentlemen, put your hands together for the incomparable " + theusersname + "! They've just tuned in to our frequency.",
+          "In a world of ones and zeros, " + theusersname + " emerges as a pixelated hero. Stay tuned for their chat-tastic adventures!",
+          "Attention, aquatic enthusiasts: " + theusersname + " has surfaced! Let's dive deep into conversation.",
+          "Cod almighty! " + theusersname + " just swam into our net. Reel 'em in for a chat-tastic time!",
 
           theusersname + " Joined your party",
           "Oh No, the announcer is stoned, oh well, " + theusersname + " Joined the space.&lang=en&pitch=0.7&speed=1.7",
