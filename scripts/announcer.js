@@ -11,13 +11,13 @@ let readytospeak = true;
 
 const audiovolume = 0.08;
 const announcerAudioObject = new BS.GameObject("MyAudioSource"); 
-const announcerAudioSource = await announcerAudioObject.AddComponent(new BS.BanterAudioSource(audiovolume, 1, false, false, true, true, true, false));
 
 // // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
   if (readytospeak) {
     readytospeak = false
 
+    const announcerAudioSource = await announcerAudioObject.AddComponent(new BS.BanterAudioSource(audiovolume, 1, false, false, true, true, true, false));
     // audioSource.volume = 0.01;
     console.log("ANNOUNCER: saying:", text);
     announcerAudioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "#.mp3");
