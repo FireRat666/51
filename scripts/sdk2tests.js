@@ -1,5 +1,5 @@
 // create a reference to the banter scene
-const thisscene = BS.BanterScene.getInstance();
+const thisscene = BS.BanterScene.GetInstance();
 
 console.log("Bullshcript setSceneSettings Loading...");
 // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
