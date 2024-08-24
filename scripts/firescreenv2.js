@@ -1,5 +1,5 @@
 // create a reference to the banter scene
-const firescenev2 = BS.BanterScene.getInstance();
+const firescenev2 = BS.BanterScene.GetInstance();
 
 let firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js";
 let announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";

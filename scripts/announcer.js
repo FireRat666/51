@@ -131,7 +131,7 @@ function load420() {
 
 
 const thescripts = document.getElementsByTagName("script");
-const announcerscene = BS.BanterScene.getInstance();
+const announcerscene = BS.BanterScene.GetInstance();
 var timenow = 9999999999999; // Set Now to a Really Big Number, so if user-joined is called before unity-loaded, it wont spam user joined messages for users that were already in the space
 // Welcome message for user entering the space
 function announcerloadtest() {
