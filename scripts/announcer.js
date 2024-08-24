@@ -9,27 +9,18 @@ let announceevents = "true";
 let announce420 = "false";
 let readytospeak = true;
 
+const audiovolume = 0.08;
+const announcerAudioObject = new BS.GameObject("MyAudioSource"); 
+const announcerAudioSource = await announcerAudioObject.AddComponent(new BS.BanterAudioSource(audiovolume, 1, false, false, true, true, true, false));
+
 // // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
   if (readytospeak) {
     readytospeak = false
 
-    const volume = 0.08;
-    const pitch = 1;
-    const mute = false;
-    const sloop = false;
-    const bypassEffects = true;
-    const bypassListenerEffects = true;
-    const bypassReverbZones = true;
-    const playOnAwake = false;
-
-    const audioObject = new BS.GameObject("MyAudioSource"); 
-    const audioSource = await audioObject.AddComponent(new BS.BanterAudioSource(volume, pitch, mute, sloop, bypassEffects, bypassListenerEffects, bypassReverbZones, playOnAwake));
-
-    // audioSource.volume = 0.01; // I didn't expect this to work and it's not working
-    
+    // audioSource.volume = 0.01;
     console.log("ANNOUNCER: saying:", text);
-    audioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "#.mp3");
+    announcerAudioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "#.mp3");
 
     setTimeout(() => { readytospeak = true; }, 4000);
   } else {
