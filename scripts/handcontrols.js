@@ -124,10 +124,7 @@ class handButtonCrap{
 		.forEach((firescreenc) => {
       let ThisHomePage = firescreenc.getAttribute("sq-browser");
       console.log(ThisHomePage);
-      firescreenc.setAttribute("sq-browser", { url: ThisHomePage, pixelsPerUnit: 1200, mipMaps: 1, mode: "local", });		
-
-			// firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			// "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
+      firescreenc.setAttribute("sq-browser", ThisHomePage);
 
 		});
     firehomebut.setAttribute("color", "#FFFFFF"); 
