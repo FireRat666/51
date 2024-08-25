@@ -123,6 +123,7 @@ class handButtonCrap{
 		document.querySelectorAll('.firescreenc')
 		.forEach((firescreenc) => {
       let ThisHomePage = firescreenc.getAttribute("sq-browser");
+      console.log(ThisHomePage);
       firescreenc.setAttribute("sq-browser", { url: ThisHomePage, pixelsPerUnit: 1200, mipMaps: 1, mode: "local", });		
 
 			// firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
