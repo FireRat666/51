@@ -141,7 +141,6 @@ class handButtonCrap{
 		handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
 		if (playersuserid != false) {
 			handControlsContainer.setAttribute("sq-lefthand", "whoToShow: " + playersuserid);
-			
 		} else {
 			handControlsContainer.setAttribute("sq-lefthand", "whoToShow: " + window.user.id);
 		};
