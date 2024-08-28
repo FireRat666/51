@@ -57,7 +57,6 @@ function GETPRNGF(modulo) {
   return psudorandomvar
 }
   // Function which takes a seed and an upper value then returns a psuedo random number
-  // THIS FUNCTION SEEMS TO HARDLY EVER RETURN THE HIGHEST NUMBER IN THE ARRAY
   function PRNGF(seed, modulo) {
     str = `${(2**31-1&Math.imul(48271,seed))/2**31}`
     .split('')
@@ -701,7 +700,7 @@ function announcerloadtest() {
         let message = welcomeMessages[GETPRNGF(welcomeMessages.length)]; 
 
         if (theusersid === "3dbca1090fad5dff35543697ca007066") {message = "Bow to your King Seb eck the Mirror Creator"} //  "Sebek"
-        else if (theusersid === "220a4b971b3edb376cbc956f5539b8a5") {message = "Big John is here everybody hide your snack packs"}; // Big John
+        else if (theusersid === "no-220a4b971b3edb376cbc956f5539b8a5") {message = "Big John is here everybody hide your snack packs"}; // Big John
 
         speak(message);
         console.log("ANNOUNCER: USER: " + e.detail.name + " UID: " + theusersid + " PRVAR: " + psudorandomvar);
