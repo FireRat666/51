@@ -22,7 +22,7 @@ async function speak(text) {
     console.log("ANNOUNCER: saying:", text);
     announcerAudioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "#.mp3");
 
-    setTimeout(() => { readytospeak = true; }, 4000);
+    setTimeout(() => { readytospeak = true; }, 5000);
   } else {
     console.log("ANNOUNCER: Not Ready to Speak:", text);
   };
