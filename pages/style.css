@@ -12,7 +12,7 @@ a.buttonss {
 }
 
 /* Base styles */
-body { font-size: 35px; background-image: url("https://firer.at/files/FireRat-Logo-V.png"); background-color:#FFFF00; color: #FFFFFF; margin-left:100px; margin-right:100px; background-repeat: no-repeat; background-position: center; background-size: contain; }
+body { font-size: 35px; background-image: url("https://firer.at/files/FireRat-Logo-V.png"); background-color:#000000; color: #FFFFFF; margin-left:100px; margin-right:100px; background-repeat: no-repeat; background-position: center; background-size: contain; }
 /* Larger screens */
 @media (min-width: 1200px) { body { font-size: 45px; background-color:#000000; color: #FFFFFF; } } 
 /* Smaller tablets and mobiles */
