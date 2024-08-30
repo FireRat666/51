@@ -18,3 +18,8 @@ body { font-size: 35px; background-color:#000000; color: #FFFFFF; margin-left:10
 /* Smaller tablets and mobiles */
 @media (max-width: 900px) { body { font-size: 30px; background-color:#000000; color: #FFFFFF; } }
 input.url {font-size: 30px;}
+
+body {
+  background-image: url("https://firer.at/files/FireRat-Logo-V.png");
+  background-color: #cccccc;
+ }
