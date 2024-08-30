@@ -18,6 +18,3 @@ body { font-size: 35px; background-image: linear-gradient(rgba(0, 0, 0, 0.7), rg
 /* Smaller tablets and mobiles */
 @media (max-width: 900px) { body { font-size: 30px; background-color:#000000; color: #FFFFFF; } }
 input.url {font-size: 30px;}
-
-body {
- }
