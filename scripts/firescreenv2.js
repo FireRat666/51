@@ -201,7 +201,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // geometry Transform Stuff
   geometrytransform = await geometryObject.AddComponent(new BS.Transform());
   geometrytransform.position = p_pos;
-  geometrytransform.rotation = p_rot;
+  geometrytransform.eulerAngles = p_rot;
+  // geometrytransform.rotation = p_rot;
   // geometrytransform.localPosition = new BS.Vector3(1,2,1);
   // geometrytransform.localScale = new BS.Vector3(1,1,1);
 
