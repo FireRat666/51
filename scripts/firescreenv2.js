@@ -1,10 +1,6 @@
 // create a reference to the banter scene
 const firescenev2 = BS.BanterScene.GetInstance();
 
-firescenev2.On("unity-loaded", () => {
-  console.log("FIRESCREEN2: unity-loaded");
-  setTimeout(() => { if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); }; }, 1000); });
-
 let firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js";
 let announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 let fireScreen2On = false;
@@ -1201,10 +1197,9 @@ if (p_custombutton04url != "false") {
       waitingforunity = false;
       clearInterval(screeninterval);
       if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); };
-    } }, 500); };
+    };
+  }, 500); };
 
-
-  setTimeout(() => { if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); }; }, 10000);
   
 };
 
