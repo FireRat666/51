@@ -1,6 +1,10 @@
 // create a reference to the banter scene
 const firescenev2 = BS.BanterScene.GetInstance();
 
+firescenev2.On("unity-loaded", () => {
+  console.log("FIRESCREEN2: unity-loaded");
+  setTimeout(() => { if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); }; }, 1000); });
+
 let firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js";
 let announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 let fireScreen2On = false;
@@ -57,6 +61,15 @@ let textgameObject03 = null;
 let textgameObject04 = null;
 let playersuseridv2 = null;
 let playerislockedv2 = false;
+let the_announce = null;
+let the_announcer = null;
+let the_announce420 = null;
+let the_announceevents = null;
+let the_announceevents2 = null;
+
+
+
+
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
@@ -115,6 +128,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text, p_announceevents, p_announceevents2,
 	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text, p_custombutton04url, p_custombutton04text) {
 
+    the_announce = p_announce;
+    the_announcer = p_announcer;
+    the_announce420 = p_announce420;
+    the_announceevents = p_announceevents;
+    the_announceevents2 = p_announceevents2;
     firevolume = p_volume;
     fireScreen2On = true;
 	  thebuttonscolor = p_buttoncolor;
@@ -183,8 +201,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // geometry Transform Stuff
   geometrytransform = await geometryObject.AddComponent(new BS.Transform());
   geometrytransform.position = p_pos;
-  // geometrytransform.rotation = p_rot;
-  geometrytransform.eulerAngles = p_rot;
+  geometrytransform.rotation = p_rot;
   // geometrytransform.localPosition = new BS.Vector3(1,2,1);
   // geometrytransform.localScale = new BS.Vector3(1,1,1);
 
@@ -1148,54 +1165,6 @@ if (p_custombutton04url != "false") {
 
   };
 
-
-  firescenev2.On("unity-loaded", () => {
-    console.log("FIRESCREEN2: unity-loaded");
-
-    // Setup the Announcer only on the first run if enabled
-    if (p_announcer === "true" && announcerfirstrunv2 === true ) {
-      announcerfirstrunv2 = false;
-      console.log("FIRESCREEN2: Enabling the Announcer Script");
-      const announcerscript = document.createElement("script");
-      announcerscript.id = "fires-announcer";
-      announcerscript.setAttribute("src", announcerscripturlv2);
-      announcerscript.setAttribute("announce", p_announcer);
-      announcerscript.setAttribute("announce-420", p_announce420);
-      announcerscript.setAttribute("announce-events", p_announceevents);
-      document.querySelector("body").appendChild(announcerscript);
-    } else if (p_announce === "true" && announcerfirstrunv2 === true ) {
-      announcerfirstrunv2 = false;
-      console.log("FIRESCREEN2: Enabling the Announcer Script");
-      const announcerscript = document.createElement("script");
-      announcerscript.id = "fires-announcer";
-      announcerscript.setAttribute("src", announcerscripturlv2);
-      announcerscript.setAttribute("announce", p_announce);
-      announcerscript.setAttribute("announce-420", p_announce420);
-      announcerscript.setAttribute("announce-events", p_announceevents);
-      document.querySelector("body").appendChild(announcerscript);
-    };
-    if (p_announceevents2 === "true" && announcerfirstrunv2 === true && p_announcer === "false" && p_announce === "false" ) {
-      announcerfirstrunv2 = false;
-      console.log("FIRESCREEN2: Enabling the Announce-Events Script");
-      const announcerscript = document.createElement("script");
-      announcerscript.id = "fires-announcer";
-      announcerscript.setAttribute("src", announcerscripturlv2);
-      announcerscript.setAttribute("announce", p_announce);
-      announcerscript.setAttribute("announce-420", p_announce420);
-      announcerscript.setAttribute("announce-events", p_announceevents2);
-      document.querySelector("body").appendChild(announcerscript);
-
-    };
-
-    setTimeout(() => { 
-      if (announcerfirstrunv2 === false) {
-        timenow = Date.now(); 
-      }
-      
-    }, 1000);
-
-  });
-
   // MATERIAL SHADER STUFF
   // "Legacy Shaders/Transparent/Diffuse" || "Unlit/Transparent Cutout" || "Unlit/Transparent" || "Mobile/Particles/Additive" || "Mobile/Particles/Alpha Blended" || "Sprites/Diffuse" || "Sprites/Default" || "Unlit/DiffuseTransparent" || "Unlit/Texture"
 
@@ -1223,8 +1192,65 @@ if (p_custombutton04url != "false") {
   // gameObject.Destroy();
 
 	// setTimeout(() => { keepsoundlevel2(); }, 1000);
+  let waitingforunity = true;
+  if (waitingforunity) {
 
+  screeninterval = setInterval(function() {
+    if (scene2.unityLoaded) {
+      waitingforunity = false;
+      clearInterval(screeninterval);
+      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); };
+    } }, 500); };
+
+
+  setTimeout(() => { if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); }; }, 10000);
+  
 };
+
+function announcerstufffunc() {
+  console.log("FIRESCREEN2: Announcer Script Called");
+  // Setup the Announcer only on the first run if enabled
+  if (the_announcer === "true" && announcerfirstrunv2 === true ) {
+    announcerfirstrunv2 = false;
+    console.log("FIRESCREEN2: Enabling the Announcer Script");
+    const announcerscript = document.createElement("script");
+    announcerscript.id = "fires-announcer";
+    announcerscript.setAttribute("src", announcerscripturlv2);
+    announcerscript.setAttribute("announce", the_announcer);
+    announcerscript.setAttribute("announce-420", the_announce420);
+    announcerscript.setAttribute("announce-events", the_announceevents);
+    document.querySelector("body").appendChild(announcerscript);
+  } else if (the_announce === "true" && announcerfirstrunv2 === true ) {
+    announcerfirstrunv2 = false;
+    console.log("FIRESCREEN2: Enabling the Announcer Script");
+    const announcerscript = document.createElement("script");
+    announcerscript.id = "fires-announcer";
+    announcerscript.setAttribute("src", announcerscripturlv2);
+    announcerscript.setAttribute("announce", the_announce);
+    announcerscript.setAttribute("announce-420", the_announce420);
+    announcerscript.setAttribute("announce-events", the_announceevents);
+    document.querySelector("body").appendChild(announcerscript);
+  };
+  if (the_announceevents2 === "true" && announcerfirstrunv2 === true && the_announcer === "false" && the_announce === "false" ) {
+    announcerfirstrunv2 = false;
+    console.log("FIRESCREEN2: Enabling the Announce-Events Script");
+    const announcerscript = document.createElement("script");
+    announcerscript.id = "fires-announcer";
+    announcerscript.setAttribute("src", announcerscripturlv2);
+    announcerscript.setAttribute("announce", the_announce);
+    announcerscript.setAttribute("announce-420", the_announce420);
+    announcerscript.setAttribute("announce-events", the_announceevents2);
+    document.querySelector("body").appendChild(announcerscript);
+
+  };
+
+  setTimeout(() => { 
+    if (announcerfirstrunv2 === false) {
+      timenow = Date.now(); 
+    }
+    
+  }, 1000);
+}
 
 
 function getV3FromStr(strVector3) {
