@@ -1,31 +1,9 @@
 // create a reference to the banter scene
-const thisscene = BS.BanterScene.GetInstance();
+// const thisscene = BS.BanterScene.GetInstance();
 
-console.log("Bullshcript setSceneSettings Loading...");
-// SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
-const settings = new BS.SceneSettings();
-settings.EnableDevTools = true;
-settings.EnableTeleport = true;
-settings.EnableForceGrab = false;
-settings.EnableSpiderMan = false;
-settings.EnablePortals = true;
-settings.EnableGuests = true;
-settings.EnableQuaternionPose = false;
-settings.EnableControllerExtras = false;
-settings.EnableFriendPositionJoin = false;
-settings.EnableDefaultTextures = true;
-settings.EnableAvatars = true;
-settings.MaxOccupancy = 30;
-settings.RefreshRate = 72;
-settings.ClippingPlane = new BS.Vector2(0.02, 1500);
-settings.SpawnPoint = new BS.Vector4(5, 0.1, 13.5, 180);
-thisscene.SetSettings(settings);
-console.log("Bullshcript finish setting settings for scene");
+// thisscene.On("loaded", () => {
 
-
-thisscene.On("loaded", () => {
-
-});
+// });
 
 async function sdk2portal01() {
 
