@@ -912,7 +912,7 @@ if (p_custombutton04url != "false") {
       };
   
       if (currentshotdata.firevolume) {
-        console.log("currentshotdata.{videovolume: "0.5"} Is True");
+        console.log("currentshotdata.firevolume Is True");
         console.log(currentshotdata.firevolume);
         let thisfirevolume = Number(parseFloat(currentshotdata.firevolume).toFixed(2));
         let firepercent = parseInt(thisfirevolume*100).toFixed(0);
