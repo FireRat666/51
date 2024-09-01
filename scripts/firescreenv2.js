@@ -1240,7 +1240,7 @@ function announcerstufffunc() {
     const announcerscript = document.createElement("script");
     announcerscript.id = "fires-announcer";
     announcerscript.setAttribute("src", announcerscripturlv2);
-    announcerscript.setAttribute("announce", the_announcer);
+    announcerscript.setAttribute("announce", the_announce);
     announcerscript.setAttribute("announce-420", the_announce420);
     announcerscript.setAttribute("announce-events", the_announceevents);
     document.querySelector("body").appendChild(announcerscript);
