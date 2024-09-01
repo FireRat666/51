@@ -732,17 +732,8 @@ function announcerloadtest() {
     loadevents();
     setTimeout(() => { load420(); }, 20000);
 
-};
 
-function getAttrOrDefAgain (pScript, pAttr, pDefault) {
-  if (pScript.hasAttribute(pAttr)) {
-    return pScript.getAttribute(pAttr);
-  } else {
-    return pDefault;
-  }
-};
-
-announcerloadtest();
+    
 
 
 announcerscene.On("one-shot", e => {
@@ -767,3 +758,15 @@ announcerscene.On("one-shot", e => {
     console.log(e.detail.fromId);
   };
 });
+
+};
+
+function getAttrOrDefAgain (pScript, pAttr, pDefault) {
+  if (pScript.hasAttribute(pAttr)) {
+    return pScript.getAttribute(pAttr);
+  } else {
+    return pDefault;
+  }
+};
+
+announcerloadtest();
