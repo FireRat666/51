@@ -448,6 +448,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
     console.log("p_custombutton01url is false")
   } else {
     console.log("p_custombutton01url is true")
+    console.log(p_custombutton01url)
   // THE EXTRA BUTTON 01 - CURRENTLY
   plane16Object = new BS.GameObject("MyGeometry16");
   const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
