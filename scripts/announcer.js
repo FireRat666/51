@@ -745,7 +745,7 @@ function getAttrOrDefAgain (pScript, pAttr, pDefault) {
 announcerloadtest();
 
 
-scene2.On("one-shot", e => {
+announcerscene.On("one-shot", e => {
   console.log(e.detail);
   currentshot = e.detail;
   currentshotuser = e.detail.fromId;
