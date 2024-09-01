@@ -444,9 +444,12 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const richText = true;
   const enableWordWrapping = true;
   const rectTransformSizeDelta = new BS.Vector2(2,1);
-  if (p_custombutton01url != "false") {
+  if (p_custombutton01url === "false") { 
+    console.log("p_custombutton01url is false")
+  } else {
+    console.log("p_custombutton01url is true")
   // THE EXTRA BUTTON 01 - CURRENTLY
-  const plane16Object = new BS.GameObject("MyGeometry16");
+  plane16Object = new BS.GameObject("MyGeometry16");
   const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane16size = new BS.Vector3(1,1,0);
   plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
