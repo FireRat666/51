@@ -85,6 +85,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     fireScreen2On = true;
 	  let thebuttonscolor = p_buttoncolor;
 
+    let plane16color = null;
+    let plane17color = null;
+    let plane18color = null;
+    let plane19color = null;
     let plane16Object = null;
     let plane17Object = null;
     let plane18Object = null;
@@ -462,7 +466,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane16Object = new BS.GameObject("MyGeometry16");
   const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane16size = new BS.Vector3(1,1,0);
-  const plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
+  plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
   const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
   plane16material = await plane16Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane16color, side, generateMipMaps));
   const plane16transform = await plane16Object.AddComponent(new BS.Transform());
@@ -490,7 +494,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane17Object = new BS.GameObject("MyGeometry17");
   const plane17geometry = await plane17Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane17size = new BS.Vector3(1,1,0);
-  const plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
+  plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
   const plane17Collider = await plane17Object.AddComponent(new BS.BoxCollider(true, center, plane17size));
   plane17material = await plane17Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane17color, side, generateMipMaps));
   const plane17transform = await plane17Object.AddComponent(new BS.Transform());
@@ -518,7 +522,7 @@ if (p_custombutton03url === "false") {
   plane18Object = new BS.GameObject("MyGeometry18");
   const plane18geometry = await plane18Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane18size = new BS.Vector3(1,1,0);
-  const plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
+  plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
   plane18material = await plane18Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane18color, side, generateMipMaps));
   const plane18transform = await plane18Object.AddComponent(new BS.Transform());
@@ -547,7 +551,7 @@ if (p_custombutton04url === "false") {
   plane19Object = new BS.GameObject("MyGeometry19");
   const plane19geometry = await plane19Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane19size = new BS.Vector3(1,1,0);
-  const plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
+  plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
   plane19material = await plane19Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane19color, side, generateMipMaps));
   const plane19transform = await plane19Object.AddComponent(new BS.Transform());
