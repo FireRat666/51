@@ -453,7 +453,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane16Object = new BS.GameObject("MyGeometry16");
   const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane16size = new BS.Vector3(1,1,0);
-  plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
+  const plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
   const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
   const plane16material = await plane16Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane16color, side, generateMipMaps));
   const plane16transform = await plane16Object.AddComponent(new BS.Transform());
@@ -472,12 +472,16 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   await textgameObject01.SetParent(screenObject, false);
   };
 
-  if (p_custombutton02url != "false") {
+  if (p_custombutton02url === "false") { 
+    console.log("p_custombutton02url is false")
+  } else {
+    console.log("p_custombutton02url is true")
+    console.log(p_custombutton02url)
   // THE EXTRA BUTTON 02 - CURRENTLY
-  const plane17Object = new BS.GameObject("MyGeometry17");
+  plane17Object = new BS.GameObject("MyGeometry17");
   const plane17geometry = await plane17Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane17size = new BS.Vector3(1,1,0);
-  plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
+  const plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
   const plane17Collider = await plane17Object.AddComponent(new BS.BoxCollider(true, center, plane17size));
   const plane17material = await plane17Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane17color, side, generateMipMaps));
   const plane17transform = await plane17Object.AddComponent(new BS.Transform());
@@ -496,12 +500,16 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   await textgameObject02.SetParent(screenObject, false);
 };
 
-if (p_custombutton03url != "false") {
+if (p_custombutton03url === "false") { 
+  console.log("p_custombutton03url is false")
+} else {
+  console.log("p_custombutton03url is true")
+  console.log(p_custombutton03url)
   // THE EXTRA BUTTON 03 - CURRENTLY
-  const plane18Object = new BS.GameObject("MyGeometry18");
+  plane18Object = new BS.GameObject("MyGeometry18");
   const plane18geometry = await plane18Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane18size = new BS.Vector3(1,1,0);
-  plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
+  const plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
   const plane18material = await plane18Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane18color, side, generateMipMaps));
   const plane18transform = await plane18Object.AddComponent(new BS.Transform());
@@ -521,12 +529,16 @@ if (p_custombutton03url != "false") {
   await textgameObject03.SetParent(screenObject, false);
 };
 
-if (p_custombutton04url != "false") {
+if (p_custombutton04url === "false") { 
+  console.log("p_custombutton04url is false")
+} else {
+  console.log("p_custombutton04url is true")
+  console.log(p_custombutton04url)
   // THE EXTRA BUTTON 04 - CURRENTLY
-  const plane19Object = new BS.GameObject("MyGeometry19");
+  plane19Object = new BS.GameObject("MyGeometry19");
   const plane19geometry = await plane19Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
   const plane19size = new BS.Vector3(1,1,0);
-  plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
+  const plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
   const plane19material = await plane19Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane19color, side, generateMipMaps));
   const plane19transform = await plane19Object.AddComponent(new BS.Transform());
