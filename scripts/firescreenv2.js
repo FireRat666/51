@@ -85,6 +85,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     fireScreen2On = true;
 	  let thebuttonscolor = p_buttoncolor;
 
+    let plane16Object = null;
+    let plane17Object = null;
+    let plane18Object = null;
+    let plane19Object = null;
+
     let isbillboarded = true;
     let keyboardstate = false;
     let buttonsvisible = true;
