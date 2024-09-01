@@ -1234,9 +1234,9 @@ if (p_custombutton04url === "false") {
 function announcerstufffunc() {
   console.log("FIRESCREEN2: Announcer Script Called");
   // Setup the Announcer only on the first run if enabled
-  if (the_announcer === "true" && announcerfirstrunv2 === true ) {
+  if (announcerfirstrunv2 === true ) {
     announcerfirstrunv2 = false;
-    console.log("FIRESCREEN2: Enabling the Announcer Script");
+    console.log("FIRESCREEN2: Adding the Announcer Script");
     const announcerscript = document.createElement("script");
     announcerscript.id = "fires-announcer";
     announcerscript.setAttribute("src", announcerscripturlv2);
@@ -1244,34 +1244,12 @@ function announcerstufffunc() {
     announcerscript.setAttribute("announce-420", the_announce420);
     announcerscript.setAttribute("announce-events", the_announceevents);
     document.querySelector("body").appendChild(announcerscript);
-  } else if (the_announce === "true" && announcerfirstrunv2 === true ) {
-    announcerfirstrunv2 = false;
-    console.log("FIRESCREEN2: Enabling the Announcer Script");
-    const announcerscript = document.createElement("script");
-    announcerscript.id = "fires-announcer";
-    announcerscript.setAttribute("src", announcerscripturlv2);
-    announcerscript.setAttribute("announce", the_announce);
-    announcerscript.setAttribute("announce-420", the_announce420);
-    announcerscript.setAttribute("announce-events", the_announceevents);
-    document.querySelector("body").appendChild(announcerscript);
-  };
-  if (the_announceevents2 === "true" && announcerfirstrunv2 === true && the_announcer === "false" && the_announce === "false" ) {
-    announcerfirstrunv2 = false;
-    console.log("FIRESCREEN2: Enabling the Announce-Events Script");
-    const announcerscript = document.createElement("script");
-    announcerscript.id = "fires-announcer";
-    announcerscript.setAttribute("src", announcerscripturlv2);
-    announcerscript.setAttribute("announce", the_announce);
-    announcerscript.setAttribute("announce-420", the_announce420);
-    announcerscript.setAttribute("announce-events", the_announceevents2);
-    document.querySelector("body").appendChild(announcerscript);
-
   };
 
   setTimeout(() => { 
     if (announcerfirstrunv2 === false) {
       timenow = Date.now(); 
-    }
+    };
     
   }, 1000);
 }
