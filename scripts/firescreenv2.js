@@ -89,6 +89,15 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     let plane17Object = null;
     let plane18Object = null;
     let plane19Object = null;
+    let plane16material = null;
+    let plane17material = null;
+    let plane18material = null;
+    let plane19material = null;
+    let textgameObject01 = null;
+    let textgameObject02 = null;
+    let textgameObject03 = null;
+    let textgameObject04 = null;
+
 
     let isbillboarded = true;
     let keyboardstate = false;
@@ -455,7 +464,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane16size = new BS.Vector3(1,1,0);
   const plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
   const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
-  const plane16material = await plane16Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane16color, side, generateMipMaps));
+  plane16material = await plane16Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane16color, side, generateMipMaps));
   const plane16transform = await plane16Object.AddComponent(new BS.Transform());
   await plane16Object.SetLayer(5); // UI Layer
   plane16transform.position = new BS.Vector3(0.68,0.3,0);
@@ -463,7 +472,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   await plane16Object.SetParent(screenObject, false);
   // THE EXTRA TEXT - CURRENTLY
   const text01color = new BS.Vector4(1,1,1,1);
-  const textgameObject01 = new BS.GameObject("MyText01");
+  textgameObject01 = new BS.GameObject("MyText01");
   const text01object = await textgameObject01.AddComponent(new BS.BanterText(p_custombutton01text, text01color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
   const text01transform = await textgameObject01.AddComponent(new BS.Transform());
   // await textgameObject01.SetLayer(5); // UI Layer
@@ -483,7 +492,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane17size = new BS.Vector3(1,1,0);
   const plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
   const plane17Collider = await plane17Object.AddComponent(new BS.BoxCollider(true, center, plane17size));
-  const plane17material = await plane17Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane17color, side, generateMipMaps));
+  plane17material = await plane17Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane17color, side, generateMipMaps));
   const plane17transform = await plane17Object.AddComponent(new BS.Transform());
   await plane17Object.SetLayer(5); // UI Layer
   plane17transform.position = new BS.Vector3(0.68,0.25,0);
@@ -491,7 +500,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   await plane17Object.SetParent(screenObject, false);
   // THE EXTRA TEXT - CURRENTLY
   const text02color = new BS.Vector4(1,1,1,1);
-  const textgameObject02 = new BS.GameObject("MyText02");
+  textgameObject02 = new BS.GameObject("MyText02");
   const text02object = await textgameObject02.AddComponent(new BS.BanterText(p_custombutton02text, text02color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
   const text02transform = await textgameObject02.AddComponent(new BS.Transform());
   // await textgameObject02.SetLayer(5); // UI Layer
@@ -511,7 +520,7 @@ if (p_custombutton03url === "false") {
   const plane18size = new BS.Vector3(1,1,0);
   const plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
-  const plane18material = await plane18Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane18color, side, generateMipMaps));
+  plane18material = await plane18Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane18color, side, generateMipMaps));
   const plane18transform = await plane18Object.AddComponent(new BS.Transform());
   await plane18Object.SetLayer(5); // UI Layer
   plane18transform.position = new BS.Vector3(0.68,0.20,0);
@@ -519,7 +528,7 @@ if (p_custombutton03url === "false") {
   await plane18Object.SetParent(screenObject, false);
   // THE EXTRA TEXT - CURRENTLY
   const text03color = new BS.Vector4(1,1,1,1);
-  const textgameObject03 = new BS.GameObject("MyText03");
+  textgameObject03 = new BS.GameObject("MyText03");
   const text03object = await textgameObject03.AddComponent(new BS.BanterText(p_custombutton03text, text03color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
   const text03transform = await textgameObject03.AddComponent(new BS.Transform());
   // await textgameObject03.SetLayer(5); // UI Layer
@@ -540,7 +549,7 @@ if (p_custombutton04url === "false") {
   const plane19size = new BS.Vector3(1,1,0);
   const plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
-  const plane19material = await plane19Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane19color, side, generateMipMaps));
+  plane19material = await plane19Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane19color, side, generateMipMaps));
   const plane19transform = await plane19Object.AddComponent(new BS.Transform());
   await plane19Object.SetLayer(5); // UI Layer
   plane19transform.position = new BS.Vector3(0.68,0.15,0);
@@ -548,7 +557,7 @@ if (p_custombutton04url === "false") {
   await plane19Object.SetParent(screenObject, false);
   // THE EXTRA TEXT - CURRENTLY
   const text04color = new BS.Vector4(1,1,1,1);
-  const textgameObject04 = new BS.GameObject("MyText04");
+  textgameObject04 = new BS.GameObject("MyText04");
   const text04object = await textgameObject04.AddComponent(new BS.BanterText(p_custombutton04text, text04color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
   const text04transform = await textgameObject04.AddComponent(new BS.Transform());
   // await textgameObject04.SetLayer(5); // UI Layer
