@@ -1187,7 +1187,7 @@ if (p_custombutton04url != "false") {
   if (waitingforunity) {
 
   screeninterval = setInterval(function() {
-    if (scene2.unityLoaded) {
+    if (firescenev2.unityLoaded) {
       waitingforunity = false;
       clearInterval(screeninterval);
       if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); };
