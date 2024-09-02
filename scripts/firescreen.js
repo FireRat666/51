@@ -104,7 +104,9 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 			announcerscript.setAttribute("src", announcerscripturl);
 			announcerscript.setAttribute("announce", p_announce);
 			announcerscript.setAttribute("announce-420", p_announce420);
-      if (p_announceevents === "undefined") {
+      if (p_announceevents === "undefined" && p_announce === "true") {
+        announcerscript.setAttribute("announce-events", "true");
+      } else if (p_announceevents === "undefined") {
         announcerscript.setAttribute("announce-events", "false");
       } else {
         announcerscript.setAttribute("announce-events", p_announceevents);
