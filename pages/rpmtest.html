@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head style="background-color:#000000;">
-<!--     <script src="./webpagescripts.js"></script> -->
     <!-- <link rel="stylesheet" href="/pages/style.css" /> -->
   	<style>
       :root { color-scheme: dark; background-color:#000000;color: #FFFFFF; }
@@ -56,9 +55,7 @@
 
       function subscribe(event) {
           const json = parse(event);
-          if (json?.source !== 'readyplayerme') {
-              return;
-          }
+          if (json?.source !== 'readyplayerme') { return; };
 
           // Susbribe to all events sent from Ready Player Me once frame is ready
           if (json.eventName === 'v1.frame.ready') {
@@ -70,7 +67,7 @@
                   }),
                   '*'
               );
-          }
+          };
 
           // Get avatar GLB URL And User ID
           if (json.eventName === 'v1.avatar.exported') {
@@ -79,20 +76,15 @@
               document.getElementById('avatarID').innerHTML = `Avatar ID: ${json.data.avatarId}`;
               document.getElementById('tusersID').innerHTML = `RPM ID: ${json.data.userId}`;
               // document.getElementById('frame').hidden = true;
-          }
-      }
+          };
+      };
 
       function parse(event) {
-          try {
-              return JSON.parse(event.data);
-          } catch (error) {
-              return null;
-          }
-      }
+          try { return JSON.parse(event.data);
+          } catch (error) { return null; };
+      };
 
-      function displayIframe() {
-          document.getElementById('frame').hidden = false;
-      }
+      function displayIframe() { document.getElementById('frame').hidden = false; };
   </script>
 
 	</center>
