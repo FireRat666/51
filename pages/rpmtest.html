@@ -45,7 +45,8 @@
 	<h2><span style="color: #c70278">W</span><span style="color: #2EFF37">e</span><span style="color: #e86c00">l</span><span style="color: #00d6de">c</span><span style="color: #9600ed">o</span><span style="color: #009c08">m</span><span style="color: #d91400">e</span></h2>
 	<p>Test Page.</p>
   <p id="avatarUrl">Avatar URL:</p>
-  <p id="usersID">Users RPM ID:</p>
+  <p id="avatarID">Avatar ID:</p>
+  <p id="usersID">Users ID:</p>
   <p id="tusersID">Test RPM ID:</p>
   <input type="button" value="Open Ready Player Me" onClick="displayIframe()" />
 
@@ -85,14 +86,15 @@
               document.getElementById('avatarUrl').innerHTML = `Avatar URL: ${json.data.url}`;
               // let thisthingy01 = JSON.parse(localStorage.getItem('persist:user')).data._id
               // document.getElementById('tusersID').innerHTML = `Users RPM ID: ${thisthingy01}`;
-              document.getElementById('tusersID').innerHTML = `Users RPM ID: ${json.data.id}`;
+              document.getElementById('avatarID').innerHTML = `Avatar ID: ${json.data.avatarId}`;
+              document.getElementById('tusersID').innerHTML = `Test RPM ID: ${json.data.userId}`;
               // document.getElementById('frame').hidden = true;
           }
 
           // Get user id
           if (json.eventName === 'v1.user.set') {
               console.log(`User with id ${json.data.id} set: ${JSON.stringify(json)}`);
-              document.getElementById('usersID').innerHTML = `Users RPM ID: ${json.data.id}`;
+              document.getElementById('usersID').innerHTML = `Users ID: ${json.data.id}`;
           }
       }
 
