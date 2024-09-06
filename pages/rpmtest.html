@@ -83,8 +83,9 @@
           if (json.eventName === 'v1.avatar.exported') {
               console.log(`Avatar URL: ${json.data.url}`);
               document.getElementById('avatarUrl').innerHTML = `Avatar URL: ${json.data.url}`;
-              let thisthingy01 = JSON.parse(localStorage.getItem('persist:user')).data._id
-              document.getElementById('tusersID').innerHTML = `Users RPM ID: ${thisthingy01}`;
+              // let thisthingy01 = JSON.parse(localStorage.getItem('persist:user')).data._id
+              // document.getElementById('tusersID').innerHTML = `Users RPM ID: ${thisthingy01}`;
+              document.getElementById('tusersID').innerHTML = `Users RPM ID: ${json.data.id}`;
               // document.getElementById('frame').hidden = true;
           }
 
