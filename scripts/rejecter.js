@@ -1,4 +1,4 @@
-let theeventid = 123456;
+let theeventid = 12345;
 
 const rejecterscene = BS.BanterScene.GetInstance();
 
