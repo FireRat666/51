@@ -8,6 +8,8 @@ async function getuserids(thisusersid) {
     console.log("stateofticket = true");
   } else {
     console.log("stateofticket = false");
+    // openPage("banter://f.bant.ing/");
+    await scene.OpenPage("https://dthingy.firer.at/check-code/" + thisusersid + "/" + theeventid + "/");
   }
 };
 
