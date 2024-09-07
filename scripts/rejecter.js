@@ -2,7 +2,7 @@ let theeventid = 12345;
 
 const rejecterscene = BS.BanterScene.GetInstance();
 
-async function getuserids(thisusersid) {
+async function checkusersid(thisusersid) {
   let stateofticket = (await (await fetch(`https://dthingy.firer.at/check-user-event/${thisusersid}/${theeventid}/`)).text());
   if (stateofticket === 'true') {
     console.log("stateofticket = true");
@@ -15,7 +15,7 @@ async function getuserids(thisusersid) {
 };
 
 rejecterscene.On("user-joined", e => {
-  if (e.detail.isLocal) { getuserids(e.detail.uid); };
+  if (e.detail.isLocal) { checkusersid(e.detail.uid); };
 });
 
 // await scene.OpenPage("https://dthingy.firer.at/check-code/" + scene.localUser.uid + "/" + theeventid + "/");
