@@ -1,4 +1,4 @@
-let theeventid = 12345;
+let theeventid = 123456;
 
 const rejecterscene = BS.BanterScene.GetInstance();
 
@@ -14,3 +14,5 @@ async function getuserids(thisusersid) {
 rejecterscene.On("user-joined", e => {
   if (e.detail.isLocal) { getuserids(e.detail.uid); };
 });
+
+// await scene.OpenPage("https://dthingy.firer.at/check-code/" + scene.localUser.uid + "/" + theeventid + "/");
