@@ -19,8 +19,8 @@ a.buttonss {
 .button1:hover { background-color: #007914; color: white; }
 .button1:active { background-color: #004a0c; color: white; transform: translateY(4px); }
 
-.form-thing {font-size: 45px;
-  width: 60%;
+.form-thing {font-size: 40px;
+  width: 50%;
   padding: 12px 20px;
   margin: 8px 0;
   border: 2px solid rgb(0, 130, 0);
@@ -37,5 +37,5 @@ body { font-size: 35px; color: #FFFFFF; margin: 0; margin-left:100px; margin-rig
 /* Larger screens */
 @media (min-width: 1200px) { body { font-size: 45px; background-color:#000000; color: #FFFFFF; } .button {font-size: 35px;} .form-thing {font-size: 50px;} } 
 /* Smaller tablets and mobiles */
-@media (max-width: 900px) { body { font-size: 30px; background-color:#000000; color: #FFFFFF; } .button {font-size: 25px;} .form-thing {font-size: 35px;} }
+@media (max-width: 900px) { body { font-size: 30px; background-color:#000000; color: #FFFFFF; } .button {font-size: 25px;} .form-thing {font-size: 30px;} }
 input.url {font-size: 30px;}
