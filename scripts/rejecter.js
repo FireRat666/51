@@ -6,6 +6,7 @@ async function getuserids(thisusersid) {
   let stateofticket = (await (await fetch("https://dthingy.firer.at/check-user-event/" + thisusersid + "/" + theeventid + "/")).text());
   if (stateofticket === 'true') {
     console.log("stateofticket = true");
+    await rejecterscene.OpenPage("https://dthingy.firer.at/check-user-event/" + thisusersid + "/" + theeventid + "/");
   } else {
     console.log("stateofticket = false");
     // openPage("banter://f.bant.ing/");
