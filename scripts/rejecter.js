@@ -9,7 +9,7 @@ async function getuserids(thisusersid) {
   } else {
     console.log("stateofticket = false");
     // openPage("banter://f.bant.ing/");
-    await scene.OpenPage("https://dthingy.firer.at/check-code/" + thisusersid + "/" + theeventid + "/");
+    await rejecterscene.OpenPage("https://dthingy.firer.at/check-code/" + thisusersid + "/" + theeventid + "/");
   }
 };
 
