@@ -2,13 +2,13 @@ const rejecterscene = BS.BanterScene.GetInstance();
 
 async function checkusersid(thisusersid) {
   let theeventid = 12345;
-  let stateofticket = (await (await fetch(`https://dthingy.firer.at/confirm/${thisusersid}/${theeventid}/`)).text());
+  let stateofticket = (await (await fetch(`https://check.firer.at/confirm/${thisusersid}/${theeventid}/`)).text());
   if (stateofticket === 'true') {
     openportal01()
-    // await rejecterscene.OpenPage(`https://dthingy.firer.at/confirm/${thisusersid}/${theeventid}/`);
+    // await rejecterscene.OpenPage(`https://check.firer.at/confirm/${thisusersid}/${theeventid}/`);
   } else {
     // await rejecterscene.OpenPage("banter://f.bant.ing/");
-    await rejecterscene.OpenPage(`https://dthingy.firer.at/code/${thisusersid}/${theeventid}/`);
+    await rejecterscene.OpenPage(`https://check.firer.at/code/${thisusersid}/${theeventid}/`);
   }
 };
 
@@ -24,4 +24,4 @@ async function openportal01() {
   transform.localScale = new BS.Vector3(2,4,1);
 };
 
-// await scene.OpenPage("https://dthingy.firer.at/code/" + scene.localUser.uid + "/" + theeventid + "/");
+// await scene.OpenPage("https://check.firer.at/code/" + scene.localUser.uid + "/" + theeventid + "/");
