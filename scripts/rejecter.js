@@ -18,9 +18,9 @@ rejecterscene.On("user-joined", e => {
 
 async function openportal01() {
   const portalObject = new BS.GameObject("MyPortal");
-  const portal = await portalObject.AddComponent(new BS.BanterPortal("https://firer.at", "0001"));
+  const portal = await portalObject.AddComponent(new BS.BanterPortal("https://ba3891.bant.ing", "0001"));
   const transform = await portalObject.AddComponent(new BS.Transform());
-  transform.position = new BS.Vector3(10,0,-10);
+  transform.position = new BS.Vector3(15,0,-15);
   transform.localScale = new BS.Vector3(2,4,1);
 };
 
