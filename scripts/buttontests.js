@@ -1,7 +1,6 @@
 async function sdkstuffthing() {
     // Make sure if button is double clicked, it only plays once, using this variable
     let readytoplayaudio = true;
-
     // This Function creates a game Object with the given name
     async function createObjectTest(thingy1, thingy2) {
         thingy1 = new BS.GameObject(thingy2);
@@ -92,10 +91,7 @@ async function sdkstuffthing() {
         theAudioSourceThing.volume = thisaudiovolume;
         theAudioSourceThing.PlayOneShotFromUrl(theaudiofile);
         setTimeout(() => { readytoplayaudio = true }, 1500);
-      } else {
-          console.log("Not Ready!");
-      };
-
+      } else { console.log("Not Ready!"); };
     };
 
 };
