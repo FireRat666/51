@@ -88,7 +88,6 @@ async function sdkstuffthing() {
       if (readytoplayaudio) {
         readytoplayaudio = false
         theAudioSourceThing.volume = 0.25;
-        theAudioSourceThing.volume = thisaudiovolume;
         theAudioSourceThing.PlayOneShotFromUrl(theaudiofile);
         setTimeout(() => { readytoplayaudio = true }, 1500);
       } else { console.log("Not Ready!"); };
