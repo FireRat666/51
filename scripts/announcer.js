@@ -816,7 +816,7 @@ announcerscene.On("one-shot", e => {
 });
 // await scene.OneShot(JSON.stringify({message: "Example"}));
 // await announcerscene.OneShot(JSON.stringify({message: "Words go here"}));
-// await announcerscene.OneShot(JSON.stringify({audiofile: "http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/player_shoot.wav"}));
+// await announcerscene.OneShot(JSON.stringify({audiofile: "http://firer.at/files/audio/BigJohn.wav"}));
 // await announcerscene.OneShot(JSON.stringify({muteaudio: true}));
 // await announcerscene.OneShot(JSON.stringify({muteaudio: false}));
 
