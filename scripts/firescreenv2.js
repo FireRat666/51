@@ -14,10 +14,6 @@ let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
 
-
-
-
-
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   
