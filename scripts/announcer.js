@@ -773,6 +773,7 @@ announcerscene.On("one-shot", e => {
       console.log("currentshotdata.muteaudio Is True");
       let thismessage = currentshotdata.muteaudio;
       muteaudiofile(thismessage);
+      console.log(thismessage);
     } else {
       console.log("currentshotdata.muteaudio Is False");
     };
@@ -805,6 +806,7 @@ announcerscene.On("one-shot", e => {
       if (currentshotdata.muteaudio) {
         console.log("currentshotdata.muteaudio Is True");
         let thismessage = currentshotdata.muteaudio;
+        console.log(thismessage);
         muteaudiofile(thismessage);
       } else {
         console.log("currentshotdata.muteaudio Is False");
@@ -831,7 +833,8 @@ announcerscene.On("one-shot", e => {
 // await scene.OneShot(JSON.stringify({message: "Example"}));
 // await announcerscene.OneShot(JSON.stringify({message: "Words go here"}));
 // await announcerscene.OneShot(JSON.stringify({audiofile: "https://speak.firer.at/?text=hi#.mp3"}));
-// await announcerscene.OneShot(JSON.stringify({muteaudio: "true"}));
+// await announcerscene.OneShot(JSON.stringify({muteaudio: true}));
+// await announcerscene.OneShot(JSON.stringify({muteaudio: false}));
 
 };
 
