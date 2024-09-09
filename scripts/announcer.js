@@ -840,6 +840,7 @@ announcerloadtest();
 async function playaudiofile(text) {
   if (readytospeak) {
     readytospeak = false
+    announcerAudioSource = await announcerAudioObject.AddComponent(new BS.BanterAudioSource(announceraudiovolume, 1, false, false, true, true, true, false));
 
     announcerAudioSource.volume = announceraudiovolume;
     console.log("ANNOUNCER: saying:", text);
