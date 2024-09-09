@@ -379,8 +379,6 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane12size = new BS.Vector3(0.1,0.1,0);
   let plane12color = null;
 	if (p_mutecolor != "false") {
-    console.log("p_mutecolor is : ");
-    console.log(p_mutecolor);
 		plane12color = p_mutecolor;
 	} else {
 		plane12color = thebuttonscolor;
@@ -399,8 +397,6 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane13size = new BS.Vector3(0.1,0.1,0);
   let plane13color = null;
 	if (p_voldowncolor != "false") {
-    console.log("p_voldowncolor is : ");
-    console.log(p_voldowncolor);
 		plane13color = p_voldowncolor;
 	} else {
 		plane13color = thebuttonscolor;
@@ -419,8 +415,6 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane14size = new BS.Vector3(0.1,0.1,0);
   let plane14color = null;
 	if (p_volupcolor != "false") {
-    console.log("p_volupcolor is : ");
-    console.log(p_volupcolor);
 		plane14color = p_volupcolor;
 	} else {
 		plane14color = thebuttonscolor;
@@ -453,9 +447,8 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const enableWordWrapping = true;
   const rectTransformSizeDelta = new BS.Vector2(2,1);
   if (p_custombutton01url === "false") { 
-    console.log("p_custombutton01url is false")
   } else {
-    console.log("p_custombutton01url is true")
+    console.log("Custom Button 01 is true")
     console.log(p_custombutton01url)
   // THE EXTRA BUTTON 01 - CURRENTLY
   plane16Object = new BS.GameObject("MyGeometry16");
@@ -480,10 +473,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   await textgameObject01.SetParent(screenObject, false);
   };
 
-  if (p_custombutton02url === "false") { 
-    console.log("p_custombutton02url is false")
+  if (p_custombutton02url === "false") {
   } else {
-    console.log("p_custombutton02url is true")
+    console.log("Custom Button 02 is true")
     console.log(p_custombutton02url)
   // THE EXTRA BUTTON 02 - CURRENTLY
   plane17Object = new BS.GameObject("MyGeometry17");
@@ -508,10 +500,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   await textgameObject02.SetParent(screenObject, false);
 };
 
-if (p_custombutton03url === "false") { 
-  console.log("p_custombutton03url is false")
+if (p_custombutton03url === "false") {
 } else {
-  console.log("p_custombutton03url is true")
+  console.log("Custom Button 03 is true")
   console.log(p_custombutton03url)
   // THE EXTRA BUTTON 03 - CURRENTLY
   plane18Object = new BS.GameObject("MyGeometry18");
@@ -537,10 +528,9 @@ if (p_custombutton03url === "false") {
   await textgameObject03.SetParent(screenObject, false);
 };
 
-if (p_custombutton04url === "false") { 
-  console.log("p_custombutton04url is false")
+if (p_custombutton04url === "false") {
 } else {
-  console.log("p_custombutton04url is true")
+  console.log("Custom Button 04 is true")
   console.log(p_custombutton04url)
   // THE EXTRA BUTTON 04 - CURRENTLY
   plane19Object = new BS.GameObject("MyGeometry19");
@@ -936,8 +926,6 @@ if (p_custombutton04url === "false") {
       if (currentshotdata.fireurl) {
         console.log("currentshotdata.fireurl Is True");
         browser.url = currentshotdata.fireurl;
-      } else {
-        console.log("currentshotdata.fireurl Is False");
       };
   
       if (currentshotdata.firevolume) {
@@ -949,8 +937,6 @@ if (p_custombutton04url === "false") {
           {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + thisfirevolume + ");"}]}));
         browser.RunActions(JSON.stringify( {"actions":[{"actionType": "runscript","strparam1": "document.querySelector('.html5-video-player').setVolume(" + firepercent + ");"}]}));
     
-      } else {
-        console.log("currentshotdata.firevolume Is False");
       };
   
     } else {
@@ -981,11 +967,9 @@ if (p_custombutton04url === "false") {
         playersuseridv2 = e.detail.uid;
         setupHandControls();
 
-
       };
 
-      
-      console.log("success");
+      console.log("FIRESCREEN2: user-joined");
 
     };
   });
