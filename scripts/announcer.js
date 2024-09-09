@@ -759,7 +759,7 @@ announcerscene.On("one-shot", e => {
       console.log("currentshotdata.audiofile Is True");
       let thismessage = currentshotdata.audiofile;
       let thiscurrentaduiovolume = announceraudiovolume;
-      announceraudiovolume = 0.15;
+      announceraudiovolume = 0.10;
       playaudiofile(thismessage);
       setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
 
@@ -785,7 +785,7 @@ announcerscene.On("one-shot", e => {
         console.log("currentshotdata.audiofile Is True");
         let thismessage = currentshotdata.audiofile;
         let thiscurrentaduiovolume = announceraudiovolume;
-        announceraudiovolume = 0.15;
+        announceraudiovolume = 0.10;
         playaudiofile(thismessage);
         setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
   
