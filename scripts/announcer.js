@@ -847,15 +847,14 @@ announcerloadtest();
 async function playaudiofile(text) {
   if (readytospeak) {
     readytospeak = false
-    announcerAudioSource = await announcerAudioObject.AddComponent(new BS.BanterAudioSource(announceraudiovolume, 1, false, false, true, true, true, false));
+    announcerobjectthing();
 
-    announcerAudioSource.volume = announceraudiovolume;
-    console.log("ANNOUNCER: saying:", text);
+    console.log("ANNOUNCER: Playing:", text);
     announcerAudioSource.PlayOneShotFromUrl(text);
 
     setTimeout(() => { readytospeak = true; }, 5000);
   } else {
-    console.log("ANNOUNCER: Not Ready to Speak:", text);
+    console.log("ANNOUNCER: Not Ready to Play:", text);
   };
 
 };
