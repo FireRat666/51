@@ -64,7 +64,7 @@ async function createUIButton(name, thetexture, position, thecolor, rotation = "
 
   let textGameObject = null;
   if (text !== "false") {
-    const textGameObject = new BS.GameObject(name + "Text");
+    textGameObject = new BS.GameObject(name + "Text");
     const textObject = await textGameObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
     const textTransform = await textGameObject.AddComponent(new BS.Transform());
     textTransform.localPosition = textPosition || new BS.Vector3(0, 0, 0);
