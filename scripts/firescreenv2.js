@@ -55,6 +55,20 @@ async function createUIButton(name, thetexture, position, thecolor, rotation) {
   return buttonObject;
 }
 
+async function createTextButton(name, thetexture, position, thecolor, text = "false", textPosition = null) {
+  const buttonObject = await createUIButton(name, thetexture, position, thecolor);
+  if (text !== "false") {
+    const textGameObject = new BS.GameObject(name + "Text");
+    const textObject = await textGameObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
+    const textTransform = await textGameObject.AddComponent(new BS.Transform());
+    textTransform.localPosition = textPosition || new BS.Vector3(0, 0, 0);
+    await textGameObject.SetParent(screenObject, false);
+  }
+
+  return buttonObject;
+}
+
+
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   
@@ -147,6 +161,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const pageWidth = p_width;
     const pageHeight = p_height;
     const actions = null;
+    const buttonSize = new BS.Vector3(0.2,0.04,1);
+
 
     screenObject = await new BS.GameObject("MyBrowser"); 
     // const screenObject = await new BS.CreateGameObject("MyBrowser");
@@ -208,48 +224,48 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 const dynamicFriction = 100; const staticFriction = 100;
 const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
-  // THE HOME BUTTON - CURRENTLY
+  // THE HOME BUTTON
   const plane02color = thebuttonscolor;
   const plane02Object = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color);
 
-  // THE INFO BUTTON - CURRENTLY
+  // THE INFO BUTTON
   const plane03color = thebuttonscolor;
   const plane03Object = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color);
 
-  // THE GOOGLE BUTTON - CURRENTLY
+  // THE GOOGLE BUTTON
   const plane04color = new BS.Vector4(1,1,1,1);
   const plane04Object = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color);
 
-  // THE KEYBOARD BUTTON - CURRENTLY
+  // THE KEYBOARD BUTTON
   const plane05color = new BS.Vector4(1,1,1,1);
   const plane05Object = await createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color);
 
-  // THE BACK BUTTON - CURRENTLY
+  // THE BACK BUTTON
   const plane06color = thebuttonscolor;
   const plane06Object = await createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color);
 
-  // THE GROW BUTTON - CURRENTLY
+  // THE GROW BUTTON
   const plane07color = thebuttonscolor;
   const plane07Object = await createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color);
 
-  // THE SHRINK BUTTON - CURRENTLY
+  // THE SHRINK BUTTON
   const plane08color = thebuttonscolor;
   const plane08Object = await createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color);
 
-  // THE FORWARD BUTTON - CURRENTLY
+  // THE FORWARD BUTTON
   const plane09color = thebuttonscolor;
   const plane09Object = await createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, new BS.Vector4(0,0,100,1));
 
-  // THE HIDE/SHOW BUTTON - CURRENTLY
+  // THE HIDE/SHOW BUTTON
   const plane10color = thebuttonscolor;
   const plane10Object = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color);
 
-  // A EMPTY BUTTON - CURRENTLY
+  // A EMPTY BUTTON
   const plane11color = thebuttonscolor;
   const plane11Object = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), plane11color);
   plane11Object.SetActive(0);
 
-  // THE MUTE BUTTON - CURRENTLY
+  // THE MUTE BUTTON
   let plane12color = null;
 	if (p_mutecolor != "false") {
 		plane12color = p_mutecolor;
@@ -258,7 +274,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 	};
   const plane12Object = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color);
 
-  // THE VOLDOWN BUTTON - CURRENTLY
+  // THE VOLDOWN BUTTON
   let plane13color = null;
 	if (p_voldowncolor != "false") {
 		plane13color = p_voldowncolor;
@@ -267,7 +283,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 	};
   const plane13Object = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color);
 
-  // THE VOLUP BUTTON - CURRENTLY
+  // THE VOLUP BUTTON
   let plane14color = null;
 	if (p_volupcolor != "false") {
 		plane14color = p_volupcolor;
@@ -276,7 +292,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 	};
   const plane14Object = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color);
 
-  // THE BILLBOARD/ROTATION BUTTON - CURRENTLY
+  // THE BILLBOARD/ROTATION BUTTON
   const plane15color = thebuttonscolor;
   const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color);
 
@@ -290,112 +306,34 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   if (p_custombutton01url === "false") { 
   } else {
-    console.log("Custom Button 01 is true")
     console.log(p_custombutton01url)
-  // THE EXTRA BUTTON 01 - CURRENTLY
-  plane16Object = new BS.GameObject("MyGeometry16");
-  const plane16geometry = await createGeometry(plane16Object, BS.GeometryType.PlaneGeometry);
-  const plane16size = new BS.Vector3(1,1,0);
-  plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
-  const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
-  plane16material = await createMaterial(plane16Object, { shaderName: 'Unlit/Diffuse', color: plane16color });
-  const plane16transform = await plane16Object.AddComponent(new BS.Transform());
-  await plane16Object.SetLayer(5); // UI Layer
-  plane16transform.position = new BS.Vector3(0.68,0.3,0);
-  plane16transform.localScale = new BS.Vector3(0.2,0.04,1);
-  await plane16Object.SetParent(screenObject, false);
-  // THE EXTRA TEXT - CURRENTLY
-  const text01color = new BS.Vector4(1,1,1,1);
-  textgameObject01 = new BS.GameObject("MyText01");
-  const text01object = await textgameObject01.AddComponent(new BS.BanterText(p_custombutton01text, text01color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
-  const text01transform = await textgameObject01.AddComponent(new BS.Transform());
-  // await textgameObject01.SetLayer(5); // UI Layer
-  // text01transform.position = new BS.Vector3(1.6,0.1,0.01);
-  text01transform.localPosition = new BS.Vector3(1.59,-0.188,-0.005);
-  await textgameObject01.SetParent(screenObject, false);
+    // THE EXTRA BUTTON 01
+    plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
+    plane16Object = await createTextButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), plane16color, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
   };
 
   if (p_custombutton02url === "false") {
   } else {
-    console.log("Custom Button 02 is true")
     console.log(p_custombutton02url)
-  // THE EXTRA BUTTON 02 - CURRENTLY
-  plane17Object = new BS.GameObject("MyGeometry17");
-  const plane17geometry = await createGeometry(plane17Object, BS.GeometryType.PlaneGeometry);
-  const plane17size = new BS.Vector3(1,1,0);
-  plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
-  const plane17Collider = await plane17Object.AddComponent(new BS.BoxCollider(true, center, plane17size));
-  plane17material = await createMaterial(plane17Object, { shaderName: 'Unlit/Diffuse', color: plane17color });
-  const plane17transform = await plane17Object.AddComponent(new BS.Transform());
-  await plane17Object.SetLayer(5); // UI Layer
-  plane17transform.position = new BS.Vector3(0.68,0.25,0);
-  plane17transform.localScale = new BS.Vector3(0.2,0.04,1);
-  await plane17Object.SetParent(screenObject, false);
-  // THE EXTRA TEXT - CURRENTLY
-  const text02color = new BS.Vector4(1,1,1,1);
-  textgameObject02 = new BS.GameObject("MyText02");
-  const text02object = await textgameObject02.AddComponent(new BS.BanterText(p_custombutton02text, text02color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
-  const text02transform = await textgameObject02.AddComponent(new BS.Transform());
-  // await textgameObject02.SetLayer(5); // UI Layer
-  // text02transform.position = new BS.Vector3(1.6,0.1,0.02);
-  text02transform.localPosition = new BS.Vector3(1.59,-0.237,-0.005);
-  await textgameObject02.SetParent(screenObject, false);
+    // THE EXTRA BUTTON 02
+    plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
+    plane17Object = await createTextButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), plane17color, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
 };
 
 if (p_custombutton03url === "false") {
 } else {
-  console.log("Custom Button 03 is true")
   console.log(p_custombutton03url)
-  // THE EXTRA BUTTON 03 - CURRENTLY
-  plane18Object = new BS.GameObject("MyGeometry18");
-  const plane18geometry = await createGeometry(plane18Object, BS.GeometryType.PlaneGeometry);
-  const plane18size = new BS.Vector3(1,1,0);
-  plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
-  const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
-  plane18material = await createMaterial(plane18Object, { shaderName: 'Unlit/Diffuse', color: plane18color });
-  const plane18transform = await plane18Object.AddComponent(new BS.Transform());
-  await plane18Object.SetLayer(5); // UI Layer
-  plane18transform.position = new BS.Vector3(0.68,0.20,0);
-  plane18transform.localScale = new BS.Vector3(0.2,0.04,1);
-  await plane18Object.SetParent(screenObject, false);
-  // THE EXTRA TEXT - CURRENTLY
-  const text03color = new BS.Vector4(1,1,1,1);
-  textgameObject03 = new BS.GameObject("MyText03");
-  const text03object = await textgameObject03.AddComponent(new BS.BanterText(p_custombutton03text, text03color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
-  const text03transform = await textgameObject03.AddComponent(new BS.Transform());
-  // await textgameObject03.SetLayer(5); // UI Layer
-  // text03transform.position = new BS.Vector3(1.6,0.1,0.03);
-  text03transform.localPosition = new BS.Vector3(1.59,-0.287,-0.005);
-  await textgameObject03.SetLayer(6); // UI Layer
-  await textgameObject03.SetParent(screenObject, false);
+  // THE EXTRA BUTTON 03
+    plane18color = new BS.Vector4(0.1,0.1,0.1,0.1);
+    plane18Object = await createTextButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), plane18color, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
 };
 
 if (p_custombutton04url === "false") {
 } else {
-  console.log("Custom Button 04 is true")
   console.log(p_custombutton04url)
-  // THE EXTRA BUTTON 04 - CURRENTLY
-  plane19Object = new BS.GameObject("MyGeometry19");
-  const plane19geometry = await createGeometry(plane19Object, BS.GeometryType.PlaneGeometry);
-  const plane19size = new BS.Vector3(1,1,0);
-  plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
-  const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
-  plane19material = await createMaterial(plane19Object, { shaderName: 'Unlit/Diffuse', color: plane19color });
-  const plane19transform = await plane19Object.AddComponent(new BS.Transform());
-  await plane19Object.SetLayer(5); // UI Layer
-  plane19transform.position = new BS.Vector3(0.68,0.15,0);
-  plane19transform.localScale = new BS.Vector3(0.2,0.04,1);
-  await plane19Object.SetParent(screenObject, false);
-  // THE EXTRA TEXT - CURRENTLY
-  const text04color = new BS.Vector4(1,1,1,1);
-  textgameObject04 = new BS.GameObject("MyText04");
-  const text04object = await textgameObject04.AddComponent(new BS.BanterText(p_custombutton04text, text04color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
-  const text04transform = await textgameObject04.AddComponent(new BS.Transform());
-  // await textgameObject04.SetLayer(5); // UI Layer
-  // text04transform.position = new BS.Vector3(1.6,0.1,0.04);
-  text04transform.localPosition = new BS.Vector3(1.59,-0.336,-0.005);
-  await textgameObject04.SetLayer(6); // UI Layer
-  await textgameObject04.SetParent(screenObject, false);
+  // THE EXTRA BUTTON 04
+  plane19color = new BS.Vector4(0.1,0.1,0.1,0.1);
+  plane19Object = await createTextButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), plane19color, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
 };
   
   // Bill Board the geometryObject
@@ -861,7 +799,6 @@ if (p_custombutton04url === "false") {
     plane22transform.localPosition = new BS.Vector3(0.0,0.4,0.3);
     plane22transform.localScale = new BS.Vector3(0.4,0.4,0.4);
     await plane22Object.SetLayer(5); // UI Layer
-    // const plane22transform = plane22Object.GetComponent(BS.ComponentType.Transform)
 
     // HAND MUTE BUTTON
     const plane23Object = new BS.GameObject("MyGeometry23");
@@ -874,7 +811,6 @@ if (p_custombutton04url === "false") {
     plane23transform.localPosition = new BS.Vector3(-0.4,0.4,0.3);
     plane23transform.localScale = new BS.Vector3(0.4,0.4,0.4);
     await plane23Object.SetLayer(5); // UI Layer
-    // const plane23transform = plane23Object.GetComponent(BS.ComponentType.Transform)
 
     // HAND LOCK BUTTON
     const plane24Object = new BS.GameObject("MyGeometry24");
@@ -889,7 +825,6 @@ if (p_custombutton04url === "false") {
     plane24transform.localScale = new BS.Vector3(0.4,0.4,0.4);
     plane24transform.localEulerAngles = new BS.Vector3(0,0,180);
     await plane24Object.SetLayer(5); // UI Layer
-    // const plane24transform = plane24Object.GetComponent(BS.ComponentType.Transform)
 
     console.log("FIRESCREEN2: Hand Control Stuff Setup");
 
