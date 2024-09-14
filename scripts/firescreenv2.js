@@ -471,13 +471,20 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       customButton04: [plane19Object, textgameObject04],
     };
 
+    const buttonStates = {
+      customButton01: p_custombutton01url,
+      customButton02: p_custombutton02url,
+      customButton03: p_custombutton03url,
+      customButton04: p_custombutton04url,
+    };
+
     // Toggle buttons visibility
     const visibility = buttonsvisible ? 0 : 1;
     toggleVisibility(alwaysVisibleObjects, visibility);
 
     // Handle custom buttons
     for (const [key, [planeObj, textObj]] of Object.entries(customButtonObjects)) {
-      if (window[key] !== "false") {
+      if (buttonStates[key] !== "false") {
         toggleVisibility([planeObj, textObj], visibility);
       }
     }
