@@ -442,77 +442,45 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     setTimeout(() => { plane09material.color = plane09color; }, 100);
   });
 
+
+  // Function to toggle visibility of objects
+  function toggleVisibility(objects, visibility) {
+    objects.forEach(obj => obj.SetActive(visibility));
+  }
+
   // HIDE Button Thing
   plane10Object.On('click', () => {
     console.log("CLICKED10!");
+    console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
     let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
-    if (buttonsvisible) {
-      buttonsvisible = false;
-      console.log("WAS VISIBLE!");
-      plane02Object.SetActive(0);
-      plane03Object.SetActive(0);
-      plane04Object.SetActive(0);
-      plane05Object.SetActive(0);
-      plane06Object.SetActive(0);
-      plane07Object.SetActive(0);
-      plane08Object.SetActive(0);
-      plane09Object.SetActive(0);
-      plane11Object.SetActive(0);
-      plane12Object.SetActive(0);
-      plane13Object.SetActive(0);
-      plane14Object.SetActive(0);
-      plane15Object.SetActive(0);
-      if (p_custombutton01url != "false") {
-        plane16Object.SetActive(0);
-        textgameObject01.SetActive(0);
-      };
-      if (p_custombutton02url != "false") {
-        plane17Object.SetActive(0);
-        textgameObject02.SetActive(0);
-      };
-      if (p_custombutton03url != "false") {
-        plane18Object.SetActive(0);
-        textgameObject03.SetActive(0);
-      };
-      if (p_custombutton04url != "false") {
-        plane19Object.SetActive(0);
-        textgameObject04.SetActive(0);
-      };
-      plane10material.color = new BS.Vector4(1,1,1,0.5);
-    } else {
-      buttonsvisible = true;
-      console.log("WAS HIDDEN!");
-      plane02Object.SetActive(1);
-      plane03Object.SetActive(1);
-      plane04Object.SetActive(1);
-      plane05Object.SetActive(1);
-      plane06Object.SetActive(1);
-      plane07Object.SetActive(1);
-      plane08Object.SetActive(1);
-      plane09Object.SetActive(1);
-      plane11Object.SetActive(0);
-      plane12Object.SetActive(1);
-      plane13Object.SetActive(1);
-      plane14Object.SetActive(1);
-      plane15Object.SetActive(1);
-      if (p_custombutton01url != "false") {
-        plane16Object.SetActive(1);
-        textgameObject01.SetActive(1);
-      };
-      if (p_custombutton02url != "false") {
-        plane17Object.SetActive(1);
-        textgameObject02.SetActive(1);
-      };
-      if (p_custombutton03url != "false") {
-        plane18Object.SetActive(1);
-        textgameObject03.SetActive(1);
-      };
-      if (p_custombutton04url != "false") {
-        plane19Object.SetActive(1);
-        textgameObject04.SetActive(1);
-      };
-      plane10material.color = thebuttonscolor;
+
+    const alwaysVisibleObjects = [
+      plane02Object, plane03Object, plane04Object, plane05Object,
+      plane06Object, plane07Object, plane08Object, plane09Object,
+      plane11Object, plane12Object, plane13Object, plane14Object, plane15Object
+    ];
+
+    const customButtonObjects = {
+      "p_custombutton01url": [plane16Object, textgameObject01],
+      "p_custombutton02url": [plane17Object, textgameObject02],
+      "p_custombutton03url": [plane18Object, textgameObject03],
+      "p_custombutton04url": [plane19Object, textgameObject04]
     };
+
+    // Toggle buttons visibility
+    const visibility = buttonsvisible ? 0 : 1;
+    toggleVisibility(alwaysVisibleObjects, visibility);
+
+    // Handle custom buttons
+    for (const [key, [planeObj, textObj]] of Object.entries(customButtonObjects)) {
+      if (window[key] !== "false" && planeObj && textObj) {
+        toggleVisibility([planeObj, textObj], visibility);
+      }
+    }
+    plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
+
+    // Update buttonsvisible state
+    buttonsvisible = !buttonsvisible;
   });
 
   // HAND ICON Button Thing
