@@ -13,6 +13,7 @@ let the_announce = null;
 let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
+let screenObject = null;
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -147,7 +148,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const pageHeight = p_height;
     const actions = null;
 
-    const screenObject = await new BS.GameObject("MyBrowser"); 
+    screenObject = await new BS.GameObject("MyBrowser"); 
     // const screenObject = await new BS.CreateGameObject("MyBrowser");
     const browser = await screenObject.AddComponent(new BS.BanterBrowser(url, mipMaps, pixelsPerUnit, pageWidth, pageHeight, actions));
 
@@ -209,43 +210,43 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE HOME BUTTON - CURRENTLY
   const plane02color = thebuttonscolor;
-  const plane02Object = createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color);
+  const plane02Object = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color);
 
   // THE INFO BUTTON - CURRENTLY
   const plane03color = thebuttonscolor;
-  const plane03Object = createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color);
+  const plane03Object = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color);
 
   // THE GOOGLE BUTTON - CURRENTLY
   const plane04color = new BS.Vector4(1,1,1,1);
-  const plane04Object = createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color);
+  const plane04Object = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color);
 
   // THE KEYBOARD BUTTON - CURRENTLY
   const plane05color = new BS.Vector4(1,1,1,1);
-  const plane05Object = createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color);
+  const plane05Object = await createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color);
 
   // THE BACK BUTTON - CURRENTLY
   const plane06color = thebuttonscolor;
-  const plane06Object = createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color);
+  const plane06Object = await createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color);
 
   // THE GROW BUTTON - CURRENTLY
   const plane07color = thebuttonscolor;
-  const plane07Object = createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color);
+  const plane07Object = await createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color);
 
   // THE SHRINK BUTTON - CURRENTLY
   const plane08color = thebuttonscolor;
-  const plane08Object = createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color);
+  const plane08Object = await createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color);
 
   // THE FORWARD BUTTON - CURRENTLY
   const plane09color = thebuttonscolor;
-  const plane09Object = createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, new BS.Vector4(0,0,100,1));
+  const plane09Object = await createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, new BS.Vector4(0,0,100,1));
 
   // THE HIDE/SHOW BUTTON - CURRENTLY
   const plane10color = thebuttonscolor;
-  const plane10Object = createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color);
+  const plane10Object = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color);
 
   // A EMPTY BUTTON - CURRENTLY
   const plane11color = thebuttonscolor;
-  const plane11Object = createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), plane11color);
+  const plane11Object = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), plane11color);
   plane11Object.SetActive(0);
 
   // THE MUTE BUTTON - CURRENTLY
@@ -255,7 +256,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 	} else {
 		plane12color = thebuttonscolor;
 	};
-  const plane12Object = createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color);
+  const plane12Object = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color);
 
   // THE VOLDOWN BUTTON - CURRENTLY
   let plane13color = null;
@@ -264,7 +265,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 	} else {
 		plane13color = thebuttonscolor;
 	};
-  const plane13Object = createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color);
+  const plane13Object = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color);
 
   // THE VOLUP BUTTON - CURRENTLY
   let plane14color = null;
@@ -273,11 +274,11 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 	} else {
 		plane14color = thebuttonscolor;
 	};
-  const plane14Object = createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color);
+  const plane14Object = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color);
 
   // THE BILLBOARD/ROTATION BUTTON - CURRENTLY
   const plane15color = thebuttonscolor;
-  const plane15Object = createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color);
+  const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color);
 
   // Constants for Text Stuff
   const horizontalAlignment = "Center";
