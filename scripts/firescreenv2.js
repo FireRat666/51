@@ -242,9 +242,9 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane10color = thebuttonscolor;
   const plane10Object = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color);
 
-  // // A EMPTY BUTTON
-  // const plane11color = thebuttonscolor;
-  // const plane11Object = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), plane11color);
+  // A EMPTY BUTTON
+  const plane11color = thebuttonscolor;
+  const plane11Object = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0));
   // plane11Object.SetActive(0);
 
   // THE MUTE BUTTON
