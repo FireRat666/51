@@ -124,10 +124,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     firevolume = p_volume;
     fireScreen2On = true;
 	  let thebuttonscolor = p_buttoncolor;
-    let plane16color = null;
-    let plane17color = null;
-    let plane18color = null;
-    let plane19color = null;
     let plane16Object = null;
     let plane17Object = null;
     let plane18Object = null;
@@ -624,7 +620,7 @@ if (p_custombutton04url === "false") {
       browser.url = p_custombutton01url;
       let plane16material = plane16Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane16material.color = new BS.Vector4(0.3,0.3,0.3,1);
-      setTimeout(() => { plane16material.color = plane16color; }, 100);
+      setTimeout(() => { plane16material.color = textPlaneColour; }, 100);
     });
   };
 
@@ -635,7 +631,7 @@ if (p_custombutton04url === "false") {
       browser.url = p_custombutton02url;
       let plane17material = plane17Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane17material.color = new BS.Vector4(0.3,0.3,0.3,1);
-      setTimeout(() => { plane17material.color = plane17color; }, 100);
+      setTimeout(() => { plane17material.color = textPlaneColour; }, 100);
     });
   };
 
@@ -646,7 +642,7 @@ if (p_custombutton04url === "false") {
       browser.url = p_custombutton03url;
       let plane18material = plane18Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane18material.color = new BS.Vector4(0.3,0.3,0.3,1);
-      setTimeout(() => { plane18material.color = plane18color; }, 100);
+      setTimeout(() => { plane18material.color = textPlaneColour; }, 100);
     });
   };
 
@@ -657,7 +653,7 @@ if (p_custombutton04url === "false") {
       browser.url = p_custombutton04url;
       let plane19material = plane19Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane19material.color = new BS.Vector4(0.3,0.3,0.3,1);
-      setTimeout(() => { plane19material.color = plane19color; }, 100);
+      setTimeout(() => { plane19material.color = textPlaneColour; }, 100);
     });
   };
 
