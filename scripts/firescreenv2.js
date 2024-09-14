@@ -64,30 +64,6 @@ async function createUIButton(name, thetexture, position, thecolor, rotation = "
   return buttonObject;
 }
 
-async function createTextButton(name, thetexture, position, thecolor, text = "false", textPosition) {
-
-  const buttonObject = new BS.GameObject(name);
-  const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: 1, theheight: 1 });
-  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(1, 1, 0.01)));
-  const buttonMaterial = await createMaterial(buttonObject, { shaderName: 'Unlit/Diffuse', texture: thetexture, color: thecolor });
-  const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
-  buttonTransform.position = position;
-  buttonTransform.localScale = new BS.Vector3(0.2,0.04,1);
-  await buttonObject.SetLayer(5); // UI Layer
-  await buttonObject.SetParent(screenObject, false);
-
-  if (text !== "false") {
-    const textGameObject = new BS.GameObject(name + "Text");
-    const textObject = await textGameObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
-    const textTransform = await textGameObject.AddComponent(new BS.Transform());
-    textTransform.localPosition = textPosition || new BS.Vector3(0, 0, 0);
-    await textGameObject.SetParent(screenObject, false);
-  }
-
-  return buttonObject;
-}
-
-
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   
