@@ -478,7 +478,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
     // Handle custom buttons
     for (const [key, [planeObj, textObj]] of Object.entries(customButtonObjects)) {
-      if (window[key] !== "false" && planeObj && textObj) {
+      if (window[key] !== "false") {
         toggleVisibility([planeObj, textObj], visibility);
       }
     }
