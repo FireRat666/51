@@ -281,26 +281,33 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombutton01url !== "false") {
     console.log(p_custombutton01url)
     // THE EXTRA BUTTON 01
-    const { buttonObject: plane16Object, textObject: textgameObject01 } = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
-
+    const thisresult = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
+    plane16Object = thisresult.buttonObject;
+    textgameObject01 = thisresult.textObject;
   };
 
   if (p_custombutton02url !== "false") {
       console.log(p_custombutton02url)
       // THE EXTRA BUTTON 02
-      const { buttonObject: plane17Object, textObject: textgameObject02 } = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
+      const thisresult = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
+      plane17Object = thisresult.buttonObject;
+      textgameObject02 = thisresult.textObject;
   };
 
   if (p_custombutton03url !== "false") {
     console.log(p_custombutton03url)
     // THE EXTRA BUTTON 03
-    const { buttonObject: plane18Object, textObject: textgameObject03 } = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
+    const thisresult = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
+    plane18Object = thisresult.buttonObject;
+    textgameObject03 = thisresult.textObject;
   };
 
   if (p_custombutton04url !== "false") {
     console.log(p_custombutton04url)
     // THE EXTRA BUTTON 04
-    const { buttonObject: plane19Object, textObject: textgameObject04 } = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
+    const thisresult = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
+    plane19Object = thisresult.buttonObject;
+    textgameObject04 = thisresult.textObject;
   };
   
   // Bill Board the geometryObject
@@ -459,10 +466,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     ];
 
     const customButtonObjects = {
-      customButton01: [plane16Object, textObject01],
-      customButton02: [plane17Object, textObject02],
-      customButton03: [plane18Object, textObject03],
-      customButton04: [plane19Object, textObject04],
+      customButton01: [plane16Object, textgameObject01],
+      customButton02: [plane17Object, textgameObject02],
+      customButton03: [plane18Object, textgameObject03],
+      customButton04: [plane19Object, textgameObject04],
     };
 
     // Toggle buttons visibility
