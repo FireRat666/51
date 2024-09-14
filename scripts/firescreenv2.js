@@ -39,9 +39,20 @@ async function createMaterial(objectThing, options = {}) {
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
 };
 
-// // Usage:
-// const material = await createMaterial(geometryObject, { shaderName: 'MyCustomShader', color: new BS.Vector4(0,0,0,0) });
-
+async function createUIButton(name, thetexture, position, thecolor, rotation) {
+  const buttonObject = new BS.GameObject(name);
+  const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1 });
+  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(0.1, 0.1, 0.01)));
+  const buttonMaterial = await createMaterial(buttonObject, { shaderName: 'Unlit/DiffuseTransparent', texture: thetexture, color: thecolor });
+  const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
+  buttonTransform.position = position;
+  if (rotation) {
+    buttonTransform.localRotation = rotation;
+  }
+  await buttonObject.SetLayer(5); // UI Layer
+  await buttonObject.SetParent(screenObject, false);
+  return buttonObject;
+}
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
@@ -152,42 +163,29 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const geometrytransform = await geometryObject.AddComponent(new BS.Transform());
   geometrytransform.position = p_pos;
   geometrytransform.eulerAngles = p_rot;
-  // geometrytransform.rotation = p_rot;
-  // geometrytransform.localPosition = new BS.Vector3(1,2,1);
-  // geometrytransform.localScale = new BS.Vector3(1,1,1);
 
   // Add Box Collider
   const isTrigger = false;
   const center = new BS.Vector3(0,0,0);
   const size = new BS.Vector3(1.09,0.64,0.01);
-  // const boxcolObject = new BS.GameObject("MyBoxCollider"); 
   const boxCollider = await geometryObject.AddComponent(new BS.BoxCollider(isTrigger, center, size));
-  // const boxGameObject = boxCollider.gameObject;
 
   // screenboxCollider.gameObject.parent = await firescenev2.Find("MyBrowser");
 
   await geometryObject.SetLayer(20);
   
-
   // Add Rigid Body
   const mass = 1;
   const drag = 10;
   const angularDrag = 10;
   const isKinematic = true;
-  const useGravity = false;
   const centerOfMass = new BS.Vector3(0,0,0);
   const collisionDetectionMode = "Discrete";
-  const freezePositionX = false;
-  const freezePositionY = false;
-  const freezePositionZ = false;
-  const freezeRotationX = false;
-  const freezeRotationY = false;
-  const freezeRotationZ = false;
   const velocity = new BS.Vector3(0,0,0);
   const angularVelocity = new BS.Vector3(0,0,0);
   // const gameObject = new BS.GameObject("MyRigidbody");
   // Add a Rigid Body to the geometry
-  const firerigidBody = await geometryObject.AddComponent(new BS.BanterRigidbody(mass, drag, angularDrag, isKinematic, useGravity, centerOfMass, collisionDetectionMode, freezePositionX, freezePositionY, freezePositionZ, freezeRotationX, freezeRotationY, freezeRotationZ, velocity, angularVelocity));
+  const firerigidBody = await geometryObject.AddComponent(new BS.BanterRigidbody(mass, drag, angularDrag, isKinematic, false, centerOfMass, collisionDetectionMode, false, false, false, false, false, false, velocity, angularVelocity));
 
   // Material Stuff  p_backdrop
   if (p_backdrop == "true") {
@@ -205,204 +203,90 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // Make the screen a child of the Main Geometry Object
   await screenObject.SetParent(geometryObject, false);
 
-
 // ADD FRICTION 
-const dynamicFriction = 100;
-const staticFriction = 100;
+const dynamicFriction = 100; const staticFriction = 100;
 const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
   // THE HOME BUTTON - CURRENTLY
-  const plane02Object = new BS.GameObject("MyGeometry02");
-  const plane02geometry = await createGeometry(plane02Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane02size = new BS.Vector3(0.1,0.1,0.01);
   const plane02color = thebuttonscolor;
-  const plane02Collider = await plane02Object.AddComponent(new BS.BoxCollider(true, center, plane02size));
-  const plane02material = await createMaterial(plane02Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/Home.png', color: plane02color });
-  const plane02transform = await plane02Object.AddComponent(new BS.Transform());
-  await plane02Object.SetLayer(5); // UI Layer
-  plane02transform.position = new BS.Vector3(-0.2,0.38,0);
-  await plane02Object.SetParent(screenObject, false);
+  const plane02Object = createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color);
 
   // THE INFO BUTTON - CURRENTLY
-  const plane03Object = new BS.GameObject("MyGeometry03");
-  const plane03geometry = await createGeometry(plane03Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane03size = new BS.Vector3(0.1,0.1,0.01);
   const plane03color = thebuttonscolor;
-  const plane03Collider = await plane03Object.AddComponent(new BS.BoxCollider(true, center, plane03size));
-  const plane03material = await createMaterial(plane03Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/Info.png', color: plane03color });
-  const plane03transform = await plane03Object.AddComponent(new BS.Transform());
-  await plane03Object.SetLayer(5); // UI Layer
-  plane03transform.position = new BS.Vector3(-0.6,0.28,0);
-  await plane03Object.SetParent(screenObject, false);
+  const plane03Object = createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color);
 
   // THE GOOGLE BUTTON - CURRENTLY
-  const plane04Object = new BS.GameObject("MyGeometry04");
-  const plane04geometry = await createGeometry(plane04Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane04size = new BS.Vector3(0.1,0.1,0.01);
   const plane04color = new BS.Vector4(1,1,1,1);
-  const plane04Collider = await plane04Object.AddComponent(new BS.BoxCollider(true, center, plane04size));
-  const plane04material = await createMaterial(plane04Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/Google.png', color: plane04color });
-  const plane04transform = await plane04Object.AddComponent(new BS.Transform());
-  await plane04Object.SetLayer(5); // UI Layer
-  plane04transform.position = new BS.Vector3(-0.6,0.16,0);
-  await plane04Object.SetParent(screenObject, false);
+  const plane04Object = createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color);
 
   // THE KEYBOARD BUTTON - CURRENTLY
-  const plane05Object = new BS.GameObject("MyGeometry05");
-  const plane05geometry = await createGeometry(plane05Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane05size = new BS.Vector3(0.1,0.1,0);
   const plane05color = new BS.Vector4(1,1,1,1);
-  const plane05Collider = await plane05Object.AddComponent(new BS.BoxCollider(true, center, plane05size));
-  const plane05material = await createMaterial(plane05Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/Keyboard.png', color: plane05color });
-  const plane05transform = await plane05Object.AddComponent(new BS.Transform());
-  await plane05Object.SetLayer(5); // UI Layer
-  plane05transform.position = new BS.Vector3(-0.6,-0.15,0);
-  await plane05Object.SetParent(screenObject, false);
+  const plane05Object = createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color);
 
   // THE BACK BUTTON - CURRENTLY
-  const plane06Object = new BS.GameObject("MyGeometry06");
-  const plane06geometry = await createGeometry(plane06Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane06size = new BS.Vector3(0.1,0.1,0);
   const plane06color = thebuttonscolor;
-  const plane06Collider = await plane06Object.AddComponent(new BS.BoxCollider(true, center, plane06size));
-  const plane06material = await createMaterial(plane06Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_icondirectionurl, color: plane06color });
-  const plane06transform = await plane06Object.AddComponent(new BS.Transform());
-  await plane06Object.SetLayer(5); // UI Layer
-  plane06transform.position = new BS.Vector3(-0.5,0.38,0);
-  await plane06Object.SetParent(screenObject, false);
+  const plane06Object = createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color);
 
   // THE GROW BUTTON - CURRENTLY
-  const plane07Object = new BS.GameObject("MyGeometry07");
-  const plane07geometry = await createGeometry(plane07Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane07size = new BS.Vector3(0.1,0.1,0);
   const plane07color = thebuttonscolor;
-  const plane07Collider = await plane07Object.AddComponent(new BS.BoxCollider(true, center, plane07size));
-  const plane07material = await createMaterial(plane07Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/expand.png', color: plane07color });
-  const plane07transform = await plane07Object.AddComponent(new BS.Transform());
-  await plane07Object.SetLayer(5); // UI Layer
-  plane07transform.position = new BS.Vector3(0.6,0.06,0);
-  await plane07Object.SetParent(screenObject, false);
+  const plane07Object = createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color);
 
   // THE SHRINK BUTTON - CURRENTLY
-  const plane08Object = new BS.GameObject("MyGeometry08");
-  const plane08geometry = await createGeometry(plane08Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane08size = new BS.Vector3(0.1,0.1,0);
   const plane08color = thebuttonscolor;
-  const plane08Collider = await plane08Object.AddComponent(new BS.BoxCollider(true, center, plane08size));
-  const plane08material = await createMaterial(plane08Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/shrink.png', color: plane08color });
-  const plane08transform = await plane08Object.AddComponent(new BS.Transform());
-  await plane08Object.SetLayer(5); // UI Layer
-  plane08transform.position = new BS.Vector3(0.6,-0.06,0);
-  await plane08Object.SetParent(screenObject, false);
+  const plane08Object = createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color);
 
   // THE FORWARD BUTTON - CURRENTLY
-  const plane09Object = new BS.GameObject("MyGeometry09");
-  const plane09geometry = await createGeometry(plane09Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane09size = new BS.Vector3(0.1,0.1,0);
   const plane09color = thebuttonscolor;
-  const plane09Collider = await plane09Object.AddComponent(new BS.BoxCollider(true, center, plane09size));
-  const plane09material = await createMaterial(plane09Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_icondirectionurl, color: plane09color });
-  const plane09transform = await plane09Object.AddComponent(new BS.Transform());
-  await plane09Object.SetLayer(5); // UI Layer
-  plane09transform.position = new BS.Vector3(-0.38,0.38,0);
-  plane09transform.localRotation = new BS.Vector4(0,0,100,1);
-  await plane09Object.SetParent(screenObject, false);
+  const plane09Object = createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, new BS.Vector4(0,0,100,1));
 
   // THE HIDE/SHOW BUTTON - CURRENTLY
-  const plane10Object = new BS.GameObject("MyGeometry10");
-  const plane10geometry = await createGeometry(plane10Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane10size = new BS.Vector3(0.1,0.1,0);
   const plane10color = thebuttonscolor;
-  const plane10Collider = await plane10Object.AddComponent(new BS.BoxCollider(true, center, plane10size));
-  const plane10material = await createMaterial(plane10Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/Eye.png', color: plane10color });
-  const plane10transform = await plane10Object.AddComponent(new BS.Transform());
-
-  await plane10Object.SetLayer(5); // UI Layer
-  plane10transform.position = new BS.Vector3(-0.6,0,0);
-  await plane10Object.SetParent(screenObject, false);
+  const plane10Object = createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color);
 
   // A EMPTY BUTTON - CURRENTLY
-  const plane11Object = new BS.GameObject("MyGeometry11");
-  const plane11geometry = await createGeometry(plane11Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane11size = new BS.Vector3(0.1,0.1,0);
   const plane11color = thebuttonscolor;
-  const plane11Collider = await plane11Object.AddComponent(new BS.BoxCollider(true, center, plane11size));
-  const plane11material = await createMaterial(plane11Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/HG2.png', color: plane11color });
-  const plane11transform = await plane11Object.AddComponent(new BS.Transform());
-  await plane11Object.SetLayer(5); // UI Layer
-  plane11transform.position = new BS.Vector3(0,0.38,0);
-  await plane11Object.SetParent(screenObject, false);
+  const plane11Object = createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), plane11color);
   plane11Object.SetActive(0);
 
   // THE MUTE BUTTON - CURRENTLY
-  const plane12Object = new BS.GameObject("MyGeometry12");
-  const plane12geometry = await createGeometry(plane12Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane12size = new BS.Vector3(0.1,0.1,0);
   let plane12color = null;
 	if (p_mutecolor != "false") {
 		plane12color = p_mutecolor;
 	} else {
 		plane12color = thebuttonscolor;
 	};
-  const plane12Collider = await plane12Object.AddComponent(new BS.BoxCollider(true, center, plane12size));
-  const plane12material = await createMaterial(plane12Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_iconmuteurl, color: plane12color });
-  const plane12transform = await plane12Object.AddComponent(new BS.Transform());
-  await plane12Object.SetLayer(5); // UI Layer
-  plane12transform.position = new BS.Vector3(0.167,0.38,0);
-  await plane12Object.SetParent(screenObject, false);
+  const plane12Object = createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color);
 
   // THE VOLDOWN BUTTON - CURRENTLY
-  const plane13Object = new BS.GameObject("MyGeometry13");
-  const plane13geometry = await createGeometry(plane13Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane13size = new BS.Vector3(0.1,0.1,0);
   let plane13color = null;
 	if (p_voldowncolor != "false") {
 		plane13color = p_voldowncolor;
 	} else {
 		plane13color = thebuttonscolor;
 	};
-  const plane13Collider = await plane13Object.AddComponent(new BS.BoxCollider(true, center, plane13size));
-  const plane13material = await createMaterial(plane13Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_iconvoldownurl, color: plane13color });
-  const plane13transform = await plane13Object.AddComponent(new BS.Transform());
-  await plane13Object.SetLayer(5); // UI Layer
-  plane13transform.position = new BS.Vector3(0.334,0.38,0);
-  await plane13Object.SetParent(screenObject, false);
+  const plane13Object = createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color);
 
   // THE VOLUP BUTTON - CURRENTLY
-  const plane14Object = new BS.GameObject("MyGeometry14");
-  const plane14geometry = await createGeometry(plane14Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane14size = new BS.Vector3(0.1,0.1,0);
   let plane14color = null;
 	if (p_volupcolor != "false") {
 		plane14color = p_volupcolor;
 	} else {
 		plane14color = thebuttonscolor;
 	};
-  const plane14Collider = await plane14Object.AddComponent(new BS.BoxCollider(true, center, plane14size));
-  const plane14material = await createMaterial(plane14Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_iconvolupurl, color: plane14color });
-  const plane14transform = await plane14Object.AddComponent(new BS.Transform());
-  await plane14Object.SetLayer(5); // UI Layer
-  plane14transform.position = new BS.Vector3(0.495,0.38,0);
-  await plane14Object.SetParent(screenObject, false);
+  const plane14Object = createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color);
 
   // THE BILLBOARD/ROTATION BUTTON - CURRENTLY
-  const plane15Object = new BS.GameObject("MyGeometry15");
-  const plane15geometry = await createGeometry(plane15Object, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1});
-  const plane15size = new BS.Vector3(0.1,0.1,0);
   const plane15color = thebuttonscolor;
-  const plane15Collider = await plane15Object.AddComponent(new BS.BoxCollider(true, center, plane15size));
-  const plane15material = await createMaterial(plane15Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/Rot.png', color: plane15color });
-  const plane15transform = await plane15Object.AddComponent(new BS.Transform());
-  await plane15Object.SetLayer(5); // UI Layer
-  plane15transform.position = new BS.Vector3(-0.6,-0.3,0);
-  await plane15Object.SetParent(screenObject, false);
+  const plane15Object = createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color);
 
+  // Constants for Text Stuff
   const horizontalAlignment = "Center";
   const verticalAlignment = "Center";
   const fontSize = 0.20;
   const richText = true;
   const enableWordWrapping = true;
   const rectTransformSizeDelta = new BS.Vector2(2,1);
+
   if (p_custombutton01url === "false") { 
   } else {
     console.log("Custom Button 01 is true")
