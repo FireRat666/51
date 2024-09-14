@@ -15,6 +15,11 @@ let the_announce420 = null;
 let the_announceevents = null;
 let screenObject = null;
 
+let textgameObject01 = null;
+let textgameObject02 = null;
+let textgameObject03 = null;
+let textgameObject04 = null;
+
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
   const defaultOptions = {
@@ -54,6 +59,7 @@ async function createUIButton(name, thetexture, position, thecolor, rotation = "
   buttonObject.SetLayer(5); // UI Layer
   await buttonObject.SetParent(screenObject, false);
 
+  let textGameObject = null;
   if (text !== "false") {
     const textGameObject = new BS.GameObject(name + "Text");
     const textObject = await textGameObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
@@ -61,7 +67,7 @@ async function createUIButton(name, thetexture, position, thecolor, rotation = "
     textTransform.localPosition = textPosition || new BS.Vector3(0, 0, 0);
     await textGameObject.SetParent(screenObject, false);
   }
-  return buttonObject;
+  return { buttonObject, textGameObject };
 }
 
 function setupfirescreen2() {
@@ -125,10 +131,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let plane17Object = null;
   let plane18Object = null;
   let plane19Object = null;
-  let textgameObject01 = null;
-  let textgameObject02 = null;
-  let textgameObject03 = null;
-  let textgameObject04 = null;
   let isbillboarded = true;
   let keyboardstate = false;
   let buttonsvisible = true;
@@ -276,33 +278,29 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane15color = thebuttonscolor;
   const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color);
 
-  if (p_custombutton01url === "false") { 
-  } else {
+  if (p_custombutton01url !== "false") {
     console.log(p_custombutton01url)
     // THE EXTRA BUTTON 01
-    plane16Object = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
+    const { buttonObject: plane16Object, textObject: textgameObject01 } = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
 
   };
 
-  if (p_custombutton02url === "false") {
-    } else {
+  if (p_custombutton02url !== "false") {
       console.log(p_custombutton02url)
       // THE EXTRA BUTTON 02
-      plane17Object = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
+      const { buttonObject: plane17Object, textObject: textgameObject02 } = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
   };
 
-  if (p_custombutton03url === "false") {
-  } else {
+  if (p_custombutton03url !== "false") {
     console.log(p_custombutton03url)
     // THE EXTRA BUTTON 03
-      plane18Object = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
+    const { buttonObject: plane18Object, textObject: textgameObject03 } = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
   };
 
-  if (p_custombutton04url === "false") {
-  } else {
+  if (p_custombutton04url !== "false") {
     console.log(p_custombutton04url)
     // THE EXTRA BUTTON 04
-    plane19Object = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
+    const { buttonObject: plane19Object, textObject: textgameObject04 } = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
   };
   
   // Bill Board the geometryObject
@@ -461,10 +459,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     ];
 
     const customButtonObjects = {
-      "p_custombutton01url": [plane16Object, textgameObject01],
-      "p_custombutton02url": [plane17Object, textgameObject02],
-      "p_custombutton03url": [plane18Object, textgameObject03],
-      "p_custombutton04url": [plane19Object, textgameObject04]
+      customButton01: [plane16Object, textObject01],
+      customButton02: [plane17Object, textObject02],
+      customButton03: [plane18Object, textObject03],
+      customButton04: [plane19Object, textObject04],
     };
 
     // Toggle buttons visibility
