@@ -282,7 +282,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     // THE EXTRA BUTTON 01
     const thisresult = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
     plane16Object = thisresult.buttonObject;
-    textgameObject01 = thisresult.textObject;
+    textgameObject01 = thisresult.textGameObject;
   };
 
   if (p_custombutton02url !== "false") {
@@ -290,7 +290,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       // THE EXTRA BUTTON 02
       const thisresult = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
       plane17Object = thisresult.buttonObject;
-      textgameObject02 = thisresult.textObject;
+      textgameObject02 = thisresult.textGameObject;
   };
 
   if (p_custombutton03url !== "false") {
@@ -298,7 +298,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     // THE EXTRA BUTTON 03
     const thisresult = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
     plane18Object = thisresult.buttonObject;
-    textgameObject03 = thisresult.textObject;
+    textgameObject03 = thisresult.textGameObject;
   };
 
   if (p_custombutton04url !== "false") {
@@ -306,7 +306,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     // THE EXTRA BUTTON 04
     const thisresult = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
     plane19Object = thisresult.buttonObject;
-    textgameObject04 = thisresult.textObject;
+    textgameObject04 = thisresult.textGameObject;
   };
   
   // Bill Board the geometryObject
