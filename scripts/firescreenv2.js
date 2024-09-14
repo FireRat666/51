@@ -172,6 +172,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const pageHeight = p_height;
     const actions = null;
     const buttonSize = new BS.Vector3(0.2,0.04,1);
+    let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 
 
     screenObject = await new BS.GameObject("MyBrowser"); 
@@ -318,32 +319,28 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   } else {
     console.log(p_custombutton01url)
     // THE EXTRA BUTTON 01
-    plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
-    plane16Object = await createTextButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), plane16color, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
+    plane16Object = await createTextButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
   };
 
   if (p_custombutton02url === "false") {
   } else {
     console.log(p_custombutton02url)
     // THE EXTRA BUTTON 02
-    plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
-    plane17Object = await createTextButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), plane17color, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
+    plane17Object = await createTextButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
 };
 
 if (p_custombutton03url === "false") {
 } else {
   console.log(p_custombutton03url)
   // THE EXTRA BUTTON 03
-    plane18color = new BS.Vector4(0.1,0.1,0.1,0.1);
-    plane18Object = await createTextButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), plane18color, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
+    plane18Object = await createTextButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
 };
 
 if (p_custombutton04url === "false") {
 } else {
   console.log(p_custombutton04url)
   // THE EXTRA BUTTON 04
-  plane19color = new BS.Vector4(0.1,0.1,0.1,0.1);
-  plane19Object = await createTextButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), plane19color, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
+  plane19Object = await createTextButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
 };
   
   // Bill Board the geometryObject
