@@ -40,18 +40,27 @@ async function createMaterial(objectThing, options = {}) {
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
 };
 
-async function createUIButton(name, thetexture, position, thecolor, rotation) {
+async function createUIButton(name, thetexture, position, thecolor, rotation = "false", width = 0.1, height = 0.1, theShader = 'Unlit/DiffuseTransparent', localScale = new BS.Vector3(1, 1, 1), text = "false", textPosition) {
   const buttonObject = new BS.GameObject(name);
-  const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: 0.1, theheight: 0.1 });
-  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(0.1, 0.1, 0.01)));
-  const buttonMaterial = await createMaterial(buttonObject, { shaderName: 'Unlit/DiffuseTransparent', texture: thetexture, color: thecolor });
+  const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
+  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
+  const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position;
-  if (rotation) {
+  buttonTransform.localScale = localScale;
+  if (rotation !== "false") {
     buttonTransform.localRotation = rotation;
   }
-  await buttonObject.SetLayer(5); // UI Layer
+  buttonObject.SetLayer(5); // UI Layer
   await buttonObject.SetParent(screenObject, false);
+
+  if (text !== "false") {
+    const textGameObject = new BS.GameObject(name + "Text");
+    const textObject = await textGameObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
+    const textTransform = await textGameObject.AddComponent(new BS.Transform());
+    textTransform.localPosition = textPosition || new BS.Vector3(0, 0, 0);
+    await textGameObject.SetParent(buttonObject, true); // Set the text as a child of the button object
+  }
   return buttonObject;
 }
 
@@ -307,40 +316,33 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   const plane15color = thebuttonscolor;
   const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color);
 
-  // Constants for Text Stuff
-  const horizontalAlignment = "Center";
-  const verticalAlignment = "Center";
-  const fontSize = 0.20;
-  const richText = true;
-  const enableWordWrapping = true;
-  const rectTransformSizeDelta = new BS.Vector2(2,1);
-
   if (p_custombutton01url === "false") { 
   } else {
     console.log(p_custombutton01url)
     // THE EXTRA BUTTON 01
-    plane16Object = await createTextButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
+    plane16Object = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
+
   };
 
   if (p_custombutton02url === "false") {
   } else {
     console.log(p_custombutton02url)
     // THE EXTRA BUTTON 02
-    plane17Object = await createTextButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
+    plane17Object = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
 };
 
 if (p_custombutton03url === "false") {
 } else {
   console.log(p_custombutton03url)
   // THE EXTRA BUTTON 03
-    plane18Object = await createTextButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
+    plane18Object = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
 };
 
 if (p_custombutton04url === "false") {
 } else {
   console.log(p_custombutton04url)
   // THE EXTRA BUTTON 04
-  plane19Object = await createTextButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
+  plane19Object = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
 };
   
   // Bill Board the geometryObject
