@@ -64,6 +64,8 @@ async function createTextButton(name, thetexture, position, thecolor, text = "fa
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position;
   buttonTransform.localScale = new BS.Vector3(0.2,0.04,1);
+  await buttonObject.SetLayer(5); // UI Layer
+  await buttonObject.SetParent(screenObject, false);
 
   if (text !== "false") {
     const textGameObject = new BS.GameObject(name + "Text");
