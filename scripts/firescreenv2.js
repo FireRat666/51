@@ -111,8 +111,7 @@ function setupfirescreen2() {
       pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text, pCustomButton04Url, pCustomButton04Text);
     };
   };
-
-}
+};
 
 async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420,
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
@@ -125,7 +124,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     firevolume = p_volume;
     fireScreen2On = true;
 	  let thebuttonscolor = p_buttoncolor;
-
     let plane16color = null;
     let plane17color = null;
     let plane18color = null;
@@ -134,16 +132,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     let plane17Object = null;
     let plane18Object = null;
     let plane19Object = null;
-    let plane16material = null;
-    let plane17material = null;
-    let plane18material = null;
-    let plane19material = null;
     let textgameObject01 = null;
     let textgameObject02 = null;
     let textgameObject03 = null;
     let textgameObject04 = null;
-
-
     let isbillboarded = true;
     let keyboardstate = false;
     let buttonsvisible = true;
@@ -158,7 +150,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const actions = null;
     const buttonSize = new BS.Vector3(0.2,0.04,1);
     let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
-
 
     screenObject = await new BS.GameObject("MyBrowser"); 
     // const screenObject = await new BS.CreateGameObject("MyBrowser");
@@ -296,7 +287,7 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   } else {
     console.log(p_custombutton01url)
     // THE EXTRA BUTTON 01
-    plane16Object = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
+    plane16Object = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
 
   };
 
@@ -304,21 +295,21 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   } else {
     console.log(p_custombutton02url)
     // THE EXTRA BUTTON 02
-    plane17Object = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
+    plane17Object = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
 };
 
 if (p_custombutton03url === "false") {
 } else {
   console.log(p_custombutton03url)
   // THE EXTRA BUTTON 03
-    plane18Object = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
+    plane18Object = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
 };
 
 if (p_custombutton04url === "false") {
 } else {
   console.log(p_custombutton04url)
   // THE EXTRA BUTTON 04
-  plane19Object = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', new BS.Vector3(0.2,0.04,1), p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
+  plane19Object = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
 };
   
   // Bill Board the geometryObject
@@ -664,7 +655,7 @@ if (p_custombutton04url === "false") {
     plane19Object.On('click', () => {
       console.log("CLICKED04!");
       browser.url = p_custombutton04url;
-      let plane19material = plane19Object.GetComponent(BS.ComponentType.BanterMaterial);
+      plane19material = plane19Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane19material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane19material.color = plane19color; }, 100);
     });
