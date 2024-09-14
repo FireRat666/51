@@ -425,9 +425,9 @@ if (p_custombutton04url === "false") {
   plane02Object.On('click', () => {
     console.log("CLICKED02!");
     browser.url = url;
+    let plane02material = plane02Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane02material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane02material.color = plane02color }, 100);
-
   });
 
   // Info Button Thing - with extras
@@ -437,6 +437,7 @@ if (p_custombutton04url === "false") {
     console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
     console.log("normals: X:" + e.detail.normal.x + " Y:" + e.detail.normal.y + " Z:" + e.detail.normal.z);
     browser.url = "https://firer.at/pages/Info.html";
+    let plane03material = plane03Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane03material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane03material.color = plane03color; }, 100);
   });
@@ -445,6 +446,7 @@ if (p_custombutton04url === "false") {
   plane04Object.On('click', () => {
     console.log("CLICKED04!");
     browser.url = "https://google.com/";
+    let plane04material = plane04Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane04material.color = new BS.Vector4(1,1,1,0.7);
     setTimeout(() => { plane04material.color = plane04color; }, 100);
   });
@@ -452,6 +454,7 @@ if (p_custombutton04url === "false") {
   // Keyboard Button Thing
   plane05Object.On('click', () => {
     console.log("CLICKED05!");
+    let plane05material = plane05Object.GetComponent(BS.ComponentType.BanterMaterial);
 		if (keyboardstate == true) {
       keyboardstate = false;
 			browser.ToggleKeyboard(0);
@@ -467,6 +470,7 @@ if (p_custombutton04url === "false") {
   plane06Object.On('click', () => {
     console.log("CLICKED06!");
     browser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
+    let plane06material = plane06Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane06material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane06material.color = plane06color; }, 100);
   });
@@ -491,6 +495,7 @@ if (p_custombutton04url === "false") {
     };
     
     geometrytransform.localScale = new BS.Vector3(scaleX,scaleY,1);
+    let plane07material = plane07Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane07material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane07material.color = plane07color; }, 100);
   });
@@ -516,6 +521,7 @@ if (p_custombutton04url === "false") {
     if (scaleX <= 0) {scaleX = 0.025};
     if (scaleY <= 0) {scaleY = 0.025};
     geometrytransform.localScale = new BS.Vector3(scaleX,scaleY,1);
+    let plane08material = plane08Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane08material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane08material.color = plane08color; }, 100);
   });
@@ -524,6 +530,7 @@ if (p_custombutton04url === "false") {
   plane09Object.On('click', () => {
     console.log("CLICKED09!");
     browser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
+    let plane09material = plane09Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane09material.color = new BS.Vector4(1,1,1,1);
     setTimeout(() => { plane09material.color = plane09color; }, 100);
   });
@@ -531,6 +538,7 @@ if (p_custombutton04url === "false") {
   // HIDE Button Thing
   plane10Object.On('click', () => {
     console.log("CLICKED10!");
+    let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
     if (buttonsvisible) {
       buttonsvisible = false;
       console.log("WAS VISIBLE!");
@@ -606,6 +614,7 @@ if (p_custombutton04url === "false") {
     // Do something with e.detail.point and e.detail.normal.
     console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
     console.log("normals: X:" + e.detail.normal.x + " Y:" + e.detail.normal.y + " Z:" + e.detail.normal.z);
+    let plane11material = plane11Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane11material.color = new BS.Vector4(1,1,1,1);
     setTimeout(() => { plane11material.color = plane11color; }, 100);
   });
@@ -613,6 +622,7 @@ if (p_custombutton04url === "false") {
   // MUTE Button Thing
   plane12Object.On('click', () => {
     console.log("CLICKED12!");
+    let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
     if (browsermuted) {
       browsermuted = false;
       browser.RunActions(JSON.stringify(
@@ -645,7 +655,7 @@ if (p_custombutton04url === "false") {
     browser.RunActions(JSON.stringify(
       {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");"}]}));
     browser.RunActions(JSON.stringify( {"actions":[{"actionType": "runscript","strparam1": "document.querySelector('.html5-video-player').setVolume(" + firepercent + ");"}]}));
-
+    let plane13material = plane13Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane13material.color = new BS.Vector4(1,1,1,0.8);
     setTimeout(() => { plane13material.color = plane13color; }, 100);
     
@@ -669,7 +679,6 @@ if (p_custombutton04url === "false") {
     browser.RunActions(JSON.stringify(
       {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");"}]}));
       browser.RunActions(JSON.stringify( {"actions":[{"actionType": "runscript","strparam1": "document.querySelector('.html5-video-player').setVolume(" + firepercent + ");"}]}));
-
       let plane14material = plane14Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane14material.color = new BS.Vector4(1,1,1,0.8);
       setTimeout(() => { plane14material.color = plane14color; }, 100);
@@ -678,6 +687,7 @@ if (p_custombutton04url === "false") {
   // Billboard Button Thing
   plane15Object.On('click', () => {
     console.log("CLICKED15!");
+    let plane15material = plane15Object.GetComponent(BS.ComponentType.BanterMaterial);
     if (isbillboarded) {
       isbillboarded = false;
       billBoard.enableXAxis = false;
@@ -698,6 +708,7 @@ if (p_custombutton04url === "false") {
       plane16Object.On('click', () => {
       console.log("CLICKED01!");
       browser.url = p_custombutton01url;
+      let plane16material = plane16Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane16material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane16material.color = plane16color; }, 100);
     });
@@ -708,6 +719,7 @@ if (p_custombutton04url === "false") {
     plane17Object.On('click', () => {
       console.log("CLICKED02!");
       browser.url = p_custombutton02url;
+      let plane17material = plane17Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane17material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane17material.color = plane17color; }, 100);
     });
@@ -718,6 +730,7 @@ if (p_custombutton04url === "false") {
     plane18Object.On('click', () => {
       console.log("CLICKED03!");
       browser.url = p_custombutton03url;
+      let plane18material = plane18Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane18material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane18material.color = plane18color; }, 100);
     });
@@ -728,6 +741,7 @@ if (p_custombutton04url === "false") {
     plane19Object.On('click', () => {
       console.log("CLICKED04!");
       browser.url = p_custombutton04url;
+      let plane19material = plane19Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane19material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane19material.color = plane19color; }, 100);
     });
