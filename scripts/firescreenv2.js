@@ -15,11 +15,6 @@ let the_announce420 = null;
 let the_announceevents = null;
 let screenObject = null;
 
-let textgameObject01 = null;
-let textgameObject02 = null;
-let textgameObject03 = null;
-let textgameObject04 = null;
-
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
   const defaultOptions = {
@@ -131,6 +126,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let plane17Object = null;
   let plane18Object = null;
   let plane19Object = null;
+  let textgameObject01 = null;
+  let textgameObject02 = null;
+  let textgameObject03 = null;
+  let textgameObject04 = null;
   let isbillboarded = true;
   let keyboardstate = false;
   let buttonsvisible = true;
