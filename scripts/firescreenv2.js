@@ -655,7 +655,7 @@ if (p_custombutton04url === "false") {
     plane19Object.On('click', () => {
       console.log("CLICKED04!");
       browser.url = p_custombutton04url;
-      plane19material = plane19Object.GetComponent(BS.ComponentType.BanterMaterial);
+      let plane19material = plane19Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane19material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane19material.color = plane19color; }, 100);
     });
