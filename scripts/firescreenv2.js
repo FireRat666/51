@@ -106,6 +106,16 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const pageWidth = p_width;
     const pageHeight = p_height;
     const actions = null;
+
+
+    
+    // This Function adds geometry to the given game Object
+    async function createGeometryTest(thingy1, thingy2, geomtype, thewidth, theheight) {
+      thingy2 = await thingy1.AddComponent(new BS.BanterGeometry(geomtype, null, thewidth, theheight, 1, 1, 1, 1, 1, 24, 0, 6.283185, 0, 6.283185, 8, false, 1, 1, 0.3, 1, 24, 8, 0.4, 16, 6.283185, 2, 3, 5, 5, 0, ""));
+      return thingy2
+    };
+
+
     const screenObject = await new BS.GameObject("MyBrowser"); 
     // const screenObject = await new BS.CreateGameObject("MyBrowser");
     const browser = await screenObject.AddComponent(new BS.BanterBrowser(url, mipMaps, pixelsPerUnit, pageWidth, pageHeight, actions));
@@ -125,8 +135,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     // add Banter Geometry
     const geometryType = BS.GeometryType.PlaneGeometry;
     const parametricType = null;
-    const width = 1.09;
-    const height = 0.64;
     const depth = 1;
     const widthSegments = 1;
     const heightSegments = 1;
@@ -155,7 +163,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const detail = 0;
     const parametricPoints = "";
     geometryObject = new BS.GameObject("MyGeometry");
-    const geometry = await geometryObject.AddComponent(new BS.BanterGeometry(geometryType, parametricType, width, height, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+    const geometry = await createGeometryTest(geometryObject, "geometry", BS.GeometryType.PlaneGeometry, 1.09, 0.64);
 
 
   // await geometry.gameObject.SetParent(screenObject, false);
@@ -181,8 +190,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   await geometryObject.SetLayer(20);
   
 
-  
-
   // Add Rigid Body
   const mass = 1;
   const drag = 10;
@@ -202,10 +209,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // const gameObject = new BS.GameObject("MyRigidbody");
   // Add a Rigid Body to the geometry
   const firerigidBody = await geometryObject.AddComponent(new BS.BanterRigidbody(mass, drag, angularDrag, isKinematic, useGravity, centerOfMass, collisionDetectionMode, freezePositionX, freezePositionY, freezePositionZ, freezeRotationX, freezeRotationY, freezeRotationZ, velocity, angularVelocity));
-
-  // firerigidBody.freezePositionX = false;
-  // firerigidBody.freezePositionY = false;
-  // firerigidBody.Sleep();
 
   // Material Stuff  p_backdrop
   if (p_backdrop == "true") {
@@ -238,7 +241,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE HOME BUTTON - CURRENTLY
   const plane02Object = new BS.GameObject("MyGeometry02");
-  const plane02geometry = await plane02Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+  
+  const plane02geometry = await createGeometryTest(plane02Object, "plane02geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane02size = new BS.Vector3(0.1,0.1,0.01);
   const plane02color = thebuttonscolor;
   const plane02Collider = await plane02Object.AddComponent(new BS.BoxCollider(true, center, plane02size));
@@ -248,10 +253,11 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane02transform.position = new BS.Vector3(-0.2,0.38,0);
   await plane02Object.SetParent(screenObject, false);
 
-
   // THE INFO BUTTON - CURRENTLY
   const plane03Object = new BS.GameObject("MyGeometry03");
-  const plane03geometry = await plane03Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+  
+  const plane03geometry = await createGeometryTest(plane03Object, "plane03geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane03size = new BS.Vector3(0.1,0.1,0.01);
   const plane03color = thebuttonscolor;
   const plane03Collider = await plane03Object.AddComponent(new BS.BoxCollider(true, center, plane03size));
@@ -261,10 +267,11 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane03transform.position = new BS.Vector3(-0.6,0.28,0);
   await plane03Object.SetParent(screenObject, false);
 
-
   // THE GOOGLE BUTTON - CURRENTLY
   const plane04Object = new BS.GameObject("MyGeometry04");
-  const plane04geometry = await plane04Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane04geometry = await createGeometryTest(plane04Object, "plane04geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane04size = new BS.Vector3(0.1,0.1,0.01);
   const plane04color = new BS.Vector4(1,1,1,1);
   const plane04Collider = await plane04Object.AddComponent(new BS.BoxCollider(true, center, plane04size));
@@ -274,10 +281,11 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane04transform.position = new BS.Vector3(-0.6,0.16,0);
   await plane04Object.SetParent(screenObject, false);
 
-
   // THE KEYBOARD BUTTON - CURRENTLY
   const plane05Object = new BS.GameObject("MyGeometry05");
-  const plane05geometry = await plane05Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane05geometry = await createGeometryTest(plane05Object, "plane05geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane05size = new BS.Vector3(0.1,0.1,0);
   const plane05color = new BS.Vector4(1,1,1,1);
   const plane05Collider = await plane05Object.AddComponent(new BS.BoxCollider(true, center, plane05size));
@@ -287,10 +295,11 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
   plane05transform.position = new BS.Vector3(-0.6,-0.15,0);
   await plane05Object.SetParent(screenObject, false);
 
-
   // THE BACK BUTTON - CURRENTLY
   const plane06Object = new BS.GameObject("MyGeometry06");
-  const plane06geometry = await plane06Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane06geometry = await createGeometryTest(plane06Object, "plane06geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane06size = new BS.Vector3(0.1,0.1,0);
   const plane06color = thebuttonscolor;
   const plane06Collider = await plane06Object.AddComponent(new BS.BoxCollider(true, center, plane06size));
@@ -303,7 +312,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE GROW BUTTON - CURRENTLY
   const plane07Object = new BS.GameObject("MyGeometry07");
-  const plane07geometry = await plane07Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane07geometry = await createGeometryTest(plane07Object, "plane07geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane07size = new BS.Vector3(0.1,0.1,0);
   const plane07color = thebuttonscolor;
   const plane07Collider = await plane07Object.AddComponent(new BS.BoxCollider(true, center, plane07size));
@@ -316,7 +327,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE SHRINK BUTTON - CURRENTLY
   const plane08Object = new BS.GameObject("MyGeometry08");
-  const plane08geometry = await plane08Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane08geometry = await createGeometryTest(plane08Object, "plane08geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane08size = new BS.Vector3(0.1,0.1,0);
   const plane08color = thebuttonscolor;
   const plane08Collider = await plane08Object.AddComponent(new BS.BoxCollider(true, center, plane08size));
@@ -329,7 +342,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE FORWARD BUTTON - CURRENTLY
   const plane09Object = new BS.GameObject("MyGeometry09");
-  const plane09geometry = await plane09Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane09geometry = await createGeometryTest(plane09Object, "plane09geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane09size = new BS.Vector3(0.1,0.1,0);
   const plane09color = thebuttonscolor;
   const plane09Collider = await plane09Object.AddComponent(new BS.BoxCollider(true, center, plane09size));
@@ -343,7 +358,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE HIDE/SHOW BUTTON - CURRENTLY
   const plane10Object = new BS.GameObject("MyGeometry10");
-  const plane10geometry = await plane10Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane10geometry = await createGeometryTest(plane10Object, "plane10geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane10size = new BS.Vector3(0.1,0.1,0);
   const plane10color = thebuttonscolor;
   const plane10Collider = await plane10Object.AddComponent(new BS.BoxCollider(true, center, plane10size));
@@ -357,7 +374,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // A EMPTY BUTTON - CURRENTLY
   const plane11Object = new BS.GameObject("MyGeometry11");
-  const plane11geometry = await plane11Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane11geometry = await createGeometryTest(plane11Object, "plane11geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane11size = new BS.Vector3(0.1,0.1,0);
   const plane11color = thebuttonscolor;
   const plane11Collider = await plane11Object.AddComponent(new BS.BoxCollider(true, center, plane11size));
@@ -371,7 +390,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE MUTE BUTTON - CURRENTLY
   const plane12Object = new BS.GameObject("MyGeometry12");
-  const plane12geometry = await plane12Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane12geometry = await createGeometryTest(plane12Object, "plane12geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane12size = new BS.Vector3(0.1,0.1,0);
   let plane12color = null;
 	if (p_mutecolor != "false") {
@@ -389,7 +410,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE VOLDOWN BUTTON - CURRENTLY
   const plane13Object = new BS.GameObject("MyGeometry13");
-  const plane13geometry = await plane13Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane13geometry = await createGeometryTest(plane13Object, "plane13geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane13size = new BS.Vector3(0.1,0.1,0);
   let plane13color = null;
 	if (p_voldowncolor != "false") {
@@ -407,7 +430,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE VOLUP BUTTON - CURRENTLY
   const plane14Object = new BS.GameObject("MyGeometry14");
-  const plane14geometry = await plane14Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane14geometry = await createGeometryTest(plane14Object, "plane14geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+  
   const plane14size = new BS.Vector3(0.1,0.1,0);
   let plane14color = null;
 	if (p_volupcolor != "false") {
@@ -425,7 +450,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
 
   // THE BILLBOARD/ROTATION BUTTON - CURRENTLY
   const plane15Object = new BS.GameObject("MyGeometry15");
-  const plane15geometry = await plane15Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 0.1, 0.1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane15geometry = await createGeometryTest(plane15Object, "plane15geometry", BS.GeometryType.PlaneGeometry, 0.1, 0.1);
+
   const plane15size = new BS.Vector3(0.1,0.1,0);
   const plane15color = thebuttonscolor;
   const plane15Collider = await plane15Object.AddComponent(new BS.BoxCollider(true, center, plane15size));
@@ -448,7 +475,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
     console.log(p_custombutton01url)
   // THE EXTRA BUTTON 01 - CURRENTLY
   plane16Object = new BS.GameObject("MyGeometry16");
-  const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane16geometry = await createGeometryTest(plane16Object, "plane16geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
   const plane16size = new BS.Vector3(1,1,0);
   plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
   const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
@@ -475,7 +504,9 @@ const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMate
     console.log(p_custombutton02url)
   // THE EXTRA BUTTON 02 - CURRENTLY
   plane17Object = new BS.GameObject("MyGeometry17");
-  const plane17geometry = await plane17Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane17geometry = await createGeometryTest(plane17Object, "plane17geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
   const plane17size = new BS.Vector3(1,1,0);
   plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
   const plane17Collider = await plane17Object.AddComponent(new BS.BoxCollider(true, center, plane17size));
@@ -502,7 +533,9 @@ if (p_custombutton03url === "false") {
   console.log(p_custombutton03url)
   // THE EXTRA BUTTON 03 - CURRENTLY
   plane18Object = new BS.GameObject("MyGeometry18");
-  const plane18geometry = await plane18Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane18geometry = await createGeometryTest(plane18Object, "plane18geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
   const plane18size = new BS.Vector3(1,1,0);
   plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
@@ -530,7 +563,9 @@ if (p_custombutton04url === "false") {
   console.log(p_custombutton04url)
   // THE EXTRA BUTTON 04 - CURRENTLY
   plane19Object = new BS.GameObject("MyGeometry19");
-  const plane19geometry = await plane19Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+  const plane19geometry = await createGeometryTest(plane19Object, "plane19geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
   const plane19size = new BS.Vector3(1,1,0);
   plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
   const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
@@ -562,10 +597,6 @@ if (p_custombutton04url === "false") {
 
   // SET THE SCALE FOR THE SCREEN
   geometrytransform.localScale = p_sca;
-
-  // SET THE COLOUR FOR THE BACKDROP BECAUSE I NEED TO SET THIS AGAIN FOR SOME REASON
-  // material.shaderName = "Sprites/Diffuse";
-  // material.color = p_backdropcolor
 
 
   // When user Grabs the Browser, Make it moveable
@@ -1005,7 +1036,9 @@ if (p_custombutton04url === "false") {
     const detail = 0;
     const parametricPoints = "";
     const plane20Object = new BS.GameObject("MyGeometry20");
-    const plane20geometry = await plane20Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+    const plane20geometry = await createGeometryTest(plane20Object, "plane20geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
     const plane20size = new BS.Vector3(1,1,1);
     plane20color = new BS.Vector4(0,0,0,0);
     const center = new BS.Vector3(0,0,0);
@@ -1025,7 +1058,9 @@ if (p_custombutton04url === "false") {
 
     // HAND VOLUME UP BUTTON
     const plane21Object = new BS.GameObject("MyGeometry21");
-    const plane21geometry = await plane21Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+    const plane21geometry = await createGeometryTest(plane21Object, "plane21geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
     const plane21size = new BS.Vector3(1,1,1);
     const plane21Collider = await plane21Object.AddComponent(new BS.BoxCollider(true, center, plane21size));
     const plane21material = await plane21Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvolupurl, plane14color, 1, false));
@@ -1038,7 +1073,9 @@ if (p_custombutton04url === "false") {
 
     // HAND VOLUME DOWN BUTTON
     const plane22Object = new BS.GameObject("MyGeometry22");
-    const plane22geometry = await plane22Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+    const plane22geometry = await createGeometryTest(plane22Object, "plane22geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
     const plane22size = new BS.Vector3(1,1,1);
     const plane22Collider = await plane22Object.AddComponent(new BS.BoxCollider(true, center, plane22size));
     const plane22material = await plane22Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconvoldownurl, plane13color, 1, false));
@@ -1051,7 +1088,9 @@ if (p_custombutton04url === "false") {
 
     // HAND MUTE BUTTON
     const plane23Object = new BS.GameObject("MyGeometry23");
-    const plane23geometry = await plane23Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+    const plane23geometry = await createGeometryTest(plane23Object, "plane23geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+;
     const plane23size = new BS.Vector3(1,1,1);
     const plane23Collider = await plane23Object.AddComponent(new BS.BoxCollider(true, center, plane23size));
     const plane23material = await plane23Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", p_iconmuteurl, plane12color, 1, false));
@@ -1064,7 +1103,10 @@ if (p_custombutton04url === "false") {
 
     // HAND LOCK BUTTON
     const plane24Object = new BS.GameObject("MyGeometry24");
-    const plane24geometry = await plane24Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+
+    const plane24geometry = await createGeometryTest(plane24Object, "plane24geometry", BS.GeometryType.PlaneGeometry, 1, 1);
+
+    // const plane24geometry = await plane24Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
     const plane24size = new BS.Vector3(1,1,1);
     const plane24color = new BS.Vector4(1,1,1,0.7);
     const plane24Collider = await plane24Object.AddComponent(new BS.BoxCollider(true, center, plane24size));
@@ -1076,8 +1118,6 @@ if (p_custombutton04url === "false") {
     plane24transform.localEulerAngles = new BS.Vector3(0,0,180);
     await plane24Object.SetLayer(5); // UI Layer
     // const plane24transform = plane24Object.GetComponent(BS.ComponentType.Transform)
-
-
 
 
     console.log("FIRESCREEN2: Hand Control Stuff Setup");
@@ -1166,32 +1206,6 @@ if (p_custombutton04url === "false") {
 
   };
 
-  // MATERIAL SHADER STUFF
-  // "Legacy Shaders/Transparent/Diffuse" || "Unlit/Transparent Cutout" || "Unlit/Transparent" || "Mobile/Particles/Additive" || "Mobile/Particles/Alpha Blended" || "Sprites/Diffuse" || "Sprites/Default" || "Unlit/DiffuseTransparent" || "Unlit/Texture"
-
-  
-  // afterLoadActions: [ {&quot;actionType&quot;: &quot;click2d&quot;, &quot;numParam1&quot;: 150, &quot;numParam2&quot;: 150}]
-
-  // browser.RunActions([{
-  //   actionType: 'goback'
-  // }]);
-  
-  // browser.RunActions([ { actionType: "runscript", strparam1:
-  //   "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + 0.1 + ");", }, ]);
-
-  // const component = geometryObject.GetComponent(BS.ComponentType.BanterPhysicMaterial);
-
-  // SendBrowserMessage - Send a post message to the browser in the menu. See Browser Communication for more info.
-  // await firescenev2.SendBrowserMessage(id: string);
-  // await firescenev2.SendBrowserMessage(JSON.stringify({id: "0"}));
-
-  // const gameObject = await firescenev2.Find("MyBrowser");
-  
-  // const newGameObject = await gameObject.Find("MyBrowser");
-
-  // gameObject.Destroy();
-
-	// setTimeout(() => { keepsoundlevel2(); }, 1000);
   let waitingforunity = true;
   if (waitingforunity) {
 
@@ -1289,9 +1303,3 @@ function keepsoundlevel2() {
 
 
 setupfirescreen2()
-
-// if (typeof firescenev2 === 'undefined') {
-//   console.log('Scene is not defined');
-// } else {
-//   console.log('Scene is defined');
-// };
