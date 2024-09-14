@@ -669,6 +669,8 @@ if (p_custombutton04url === "false") {
     browser.RunActions(JSON.stringify(
       {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");"}]}));
       browser.RunActions(JSON.stringify( {"actions":[{"actionType": "runscript","strparam1": "document.querySelector('.html5-video-player').setVolume(" + firepercent + ");"}]}));
+
+      let plane14material = plane14Object.GetComponent(BS.ComponentType.BanterMaterial);
       plane14material.color = new BS.Vector4(1,1,1,0.8);
       setTimeout(() => { plane14material.color = plane14color; }, 100);
   });
