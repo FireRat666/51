@@ -315,7 +315,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   geometrytransform.localScale = p_sca;
 
   // When user Grabs the Browser, Make it moveable
-  firerigidBody.gameObject.On('grab', () => {
+  firerigidBody.On('grab', () => {
     firerigidBody.isKinematic = false;
     console.log("GRABBED!");
   });
@@ -327,7 +327,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Home Button Thing
-  plane02Object.buttonObject.On('click', () => {
+  plane02Object.On('click', () => {
     console.log("CLICKED02!");
     browser.url = url;
     let plane02material = plane02Object.GetComponent(BS.ComponentType.BanterMaterial);
@@ -336,7 +336,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Info Button Thing - with extras
-  plane03Object.buttonObject.On('click', e => {
+  plane03Object.On('click', e => {
     console.log("CLICKED03!");
     // Do something with e.detail.point and e.detail.normal.
     console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
@@ -348,7 +348,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Google Button Thing
-  plane04Object.buttonObject.On('click', () => {
+  plane04Object.On('click', () => {
     console.log("CLICKED04!");
     browser.url = "https://google.com/";
     let plane04material = plane04Object.GetComponent(BS.ComponentType.BanterMaterial);
@@ -357,7 +357,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Keyboard Button Thing
-  plane05Object.buttonObject.On('click', () => {
+  plane05Object.On('click', () => {
     console.log("CLICKED05!");
     let plane05material = plane05Object.GetComponent(BS.ComponentType.BanterMaterial);
 		if (keyboardstate == true) {
@@ -372,7 +372,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Back Button Thing
-  plane06Object.buttonObject.On('click', () => {
+  plane06Object.On('click', () => {
     console.log("CLICKED06!");
     browser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
     let plane06material = plane06Object.GetComponent(BS.ComponentType.BanterMaterial);
@@ -381,7 +381,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Grow Button Thing
-  plane07Object.buttonObject.On('click', () => {
+  plane07Object.On('click', () => {
     console.log("CLICKED07!");
     let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
     let scaleY = Number(parseFloat(geometrytransform.localScale.y).toFixed(3));
@@ -406,7 +406,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Shrink Button Thing
-  plane08Object.buttonObject.On('click', () => {
+  plane08Object.On('click', () => {
     console.log("CLICKED08!");
     let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
     let scaleY = Number(parseFloat(geometrytransform.localScale.y).toFixed(3));
@@ -432,7 +432,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Forward Button Thing
-  plane09Object.buttonObject.On('click', () => {
+  plane09Object.On('click', () => {
     console.log("CLICKED09!");
     browser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
     let plane09material = plane09Object.GetComponent(BS.ComponentType.BanterMaterial);
@@ -447,7 +447,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   }
 
   // HIDE Button Thing
-  plane10Object.buttonObject.On('click', () => {
+  plane10Object.On('click', () => {
     console.log("CLICKED10!");
     console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
     let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
@@ -482,7 +482,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // HAND ICON Button Thing
-  plane11Object.buttonObject.On('click', e => {
+  plane11Object.On('click', e => {
     console.log("CLICKED11!");
     // Do something with e.detail.point and e.detail.normal.
     console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
@@ -493,7 +493,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
   
   // MUTE Button Thing
-  plane12Object.buttonObject.On('click', () => {
+  plane12Object.On('click', () => {
     console.log("CLICKED12!");
     let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
     if (browsermuted) {
@@ -511,7 +511,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // VOLUME DOWN Button Thing
-  plane13Object.buttonObject.On('click', () => {
+  plane13Object.On('click', () => {
     console.log("CLICKED13!");
     firevolume = Number(firevolume);
     if (firevolume < 0.1) {
@@ -535,7 +535,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // VOLUME UP Button Thing
-  plane14Object.buttonObject.On('click', () => {
+  plane14Object.On('click', () => {
     console.log("CLICKED14!");
     firevolume = Number(firevolume);
     if (firevolume < 0.1) {
@@ -558,7 +558,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Billboard Button Thing
-  plane15Object.buttonObject.On('click', () => {
+  plane15Object.On('click', () => {
     console.log("CLICKED15!");
     let plane15material = plane15Object.GetComponent(BS.ComponentType.BanterMaterial);
     if (isbillboarded) {
