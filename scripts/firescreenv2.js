@@ -606,7 +606,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       playerislockedv2 ? lockPlayer() : unlockPlayer();
       
       let plane24material = hlockButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : plane24color;
+      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : thebuttonscolor;
 
     });
 
