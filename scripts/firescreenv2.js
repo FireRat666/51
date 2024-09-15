@@ -585,7 +585,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localEulerAngles = new BS.Vector3(20,260,0);
 
     // HAND VOLUME UP BUTTON
-    const hvolUpButton = await createUIButton("VolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color);
+    const hvolUpButton = await createUIButton("VolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color, false, 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
     const hvolDownButton = await createUIButton("VolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color);
     const hmuteButton = await createUIButton("MuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color);
     const hlockButton = await createUIButton("LockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), new BS.Vector3(0, 0, 180));
