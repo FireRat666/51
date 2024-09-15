@@ -583,12 +583,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color, plane20Object, new BS.Vector3(180, 0, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
     const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, new BS.Vector3(90, 0, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
 
-    // // Set parent to the container object
-    // await hvolUpButton.buttonObject.SetParent(plane20Object, false);
-    // await hvolDownButton.buttonObject.SetParent(plane20Object, false);
-    // await hmuteButton.buttonObject.SetParent(plane20Object, false);
-    // await hlockButton.buttonObject.SetParent(plane20Object, false);
-
     console.log("FIRESCREEN2: Hand Control Stuff Setup");
 
     // HAND BUTTON VOLUME UP
@@ -608,7 +602,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     // HAND BUTTON MUTE
     hmuteButton.buttonObject.On('click', () => {
       console.log("CLICKED03!");
-
       if (browsermuted) {
         browsermuted = false;
         firebrowser.RunActions(JSON.stringify(
@@ -622,7 +615,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
           plane12material.color = new BS.Vector4(1,0,0,1);
           plane23material.color = new BS.Vector4(1,0,0,1);
       };
-
     });
 
     // HAND BUTTON LOCK PLAYER
