@@ -578,10 +578,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localEulerAngles = new BS.Vector3(20,260,0);
 
     // HAND VOLUME UP BUTTON
-    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color, plane20Object, new BS.Vector3(0, 0, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
-    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color, plane20Object, new BS.Vector3(0, 0, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
-    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color, plane20Object, new BS.Vector3(0, 0, -180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
-    const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, new BS.Vector3(0, 0, -180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
+    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color, plane20Object, new BS.Vector3(0, 180, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
+    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color, plane20Object, new BS.Vector3(0, 90, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
+    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color, plane20Object, new BS.Vector3(180, 0, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
+    const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, new BS.Vector3(90, 0, 180), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
 
     // // Set parent to the container object
     // await hvolUpButton.buttonObject.SetParent(plane20Object, false);
