@@ -106,9 +106,6 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`)
 };
 
-// Function to toggle visibility of objects
-// function toggleVisibility(objects, visible) { objects.forEach(obj => { if (obj) {obj.SetActive(visible) } });};
-
 function toggleButtonVisibility(defaultobjects, visible) {
   
   defaultobjects.forEach(button => { button.SetActive(visible); });
@@ -310,14 +307,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane11Object = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
   createButtonAction(plane11Object, handIconClick);
   setTimeout(() => { plane11Object.SetActive(0); }, 500);
-
   // THE MUTE BUTTON
   let plane12color = null;
 	if (p_mutecolor !== "false") { plane12color = p_mutecolor;
 	} else { plane12color = thebuttonscolor; };
   const plane12Object = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color, screenObject);
   createButtonAction(plane12Object, muteButClick);
-
   // THE VOLDOWN BUTTON
   let plane13color = null;
 	if (p_voldowncolor !== "false") { plane13color = p_voldowncolor;
@@ -326,7 +321,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   createButtonAction(plane13Object, () => { adjustVolume(-1)
     updateButtonColor(plane13Object, new BS.Vector4(1,1,1,0.8), plane13color)
   });
-
   // THE VOLUP BUTTON
   let plane14color = null;
 	if (p_volupcolor !== "false") { plane14color = p_volupcolor;
@@ -335,14 +329,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   createButtonAction(plane14Object, () => { adjustVolume(1)
     updateButtonColor(plane14Object, new BS.Vector4(1,1,1,0.8), plane13color)
   });
-
   // THE BILLBOARD/ROTATION BUTTON
   const plane15color = thebuttonscolor;
   const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
   
-  // Usage (name, color, position, scale, text, textposition, url, clickHandler)
-
   if (p_custombuttonurl01 !== "false") {
     console.log("p_custombuttonurl01 is true");
     await createCustomButton("MyGeometry16", textPlaneColour, new BS.Vector3(0.68,0.3,0), buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
@@ -366,26 +357,21 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     await createCustomButton("MyGeometry19", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04);
   };
-
   // Bill Board the geometryObject
   const smoothing = 0;
   firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(smoothing, true, true, true));
-
   // SET THE SCALE FOR THE SCREEN
   geometrytransform.localScale = p_sca;
-
   // When user Grabs the Browser, Make it moveable
   firerigidBody.gameObject.On('grab', () => {
     firerigidBody.isKinematic = false;
     console.log("GRABBED!");
   });
-
   // When user Drops the Browser, Lock it in place
   firerigidBody.gameObject.On('drop', () => {
     firerigidBody.isKinematic = true;
     console.log("DROPPED!");
   });
-
   // HIDE Button Thing
   plane10Object.On('click', () => {
     console.log("CLICKED10!");
@@ -397,14 +383,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       plane07Object, plane08Object, plane09Object, plane12Object, plane13Object, 
       plane14Object, plane15Object
     ];
-
     // Toggle visibility for always visible objects
     toggleButtonVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
-
     plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
     buttonsvisible = !buttonsvisible;
   });
-
   // HAND ICON Button Thing
   function handIconClick(e) {
     console.log("CLICKED11!");
@@ -433,21 +416,21 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
   
   function adjustScale(direction) {
-  let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
-  let scaleY = Number(parseFloat(geometrytransform.localScale.y).toFixed(3));
-  let adjustment;
-  if (scaleX < 0.5) { adjustment = 0.025;
-  } else if (scaleX < 2) { adjustment = 0.05;
-  } else if (scaleX < 5) { adjustment = 0.1;
-  } else { adjustment = 0.5; }
-  if (direction === "shrink") { adjustment = -adjustment;
-    if (scaleX + adjustment <= 0) { scaleX = 0.025; scaleY = 0.025; } }
-  scaleX += adjustment; scaleY += adjustment;
-  geometrytransform.localScale = new BS.Vector3(scaleX, scaleY, 1);
-  return adjustment;
-};
+    let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
+    let scaleY = Number(parseFloat(geometrytransform.localScale.y).toFixed(3));
+    let adjustment;
+    if (scaleX < 0.5) { adjustment = 0.025;
+    } else if (scaleX < 2) { adjustment = 0.05;
+    } else if (scaleX < 5) { adjustment = 0.1;
+    } else { adjustment = 0.5; }
+    if (direction === "shrink") { adjustment = -adjustment;
+      if (scaleX + adjustment <= 0) { scaleX = 0.025; scaleY = 0.025; } }
+    scaleX += adjustment; scaleY += adjustment;
+    geometrytransform.localScale = new BS.Vector3(scaleX, scaleY, 1);
+    return adjustment;
+  };
   
-// browser-message - Fired when a message is received from a browser in the space.  
+  // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => {
     // Do something with e.detail.
       console.log(e)
@@ -505,8 +488,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localPosition = new BS.Vector3(-0.01,-0.006,0.020);
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
-
-    // HAND VOLUME UP BUTTON
     
     const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), plane14color, plane20Object, () => adjustVolume(1));
     const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), plane13color, plane20Object, () => adjustVolume(-1));
@@ -522,7 +503,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       let plane24material = hlockButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7);
     });
-
     console.log("FIRESCREEN2: Hand Click Stuff END");
   };
 
@@ -569,10 +549,7 @@ function announcerstufffunc() {
   };
 
   setTimeout(() => { 
-    if (announcerfirstrunv2 === false) {
-      timenow = Date.now(); 
-    };
-    
+    if (announcerfirstrunv2 === false) {  timenow = Date.now(); };
   }, 1000);
 }
 
