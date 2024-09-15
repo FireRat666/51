@@ -163,16 +163,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const buttonSize = new BS.Vector3(0.2,0.04,1);
   let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 
-  screenObject = await new BS.GameObject("MyBrowser"); 
-  // const screenObject = await new BS.CreateGameObject("MyBrowser");
+  screenObject = await new BS.GameObject("MyBrowser");
   firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(url, mipMaps, pixelsPerUnit, pageWidth, pageHeight, actions));
 
-  if (p_disableinteraction === "false") {
-  firebrowser.ToggleInteraction(true);
-  }
+  if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
   geometryObject = new BS.GameObject("MyGeometry");
-
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
 
   // geometry Transform Stuff
@@ -185,7 +181,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const center = new BS.Vector3(0,0,0);
   const size = new BS.Vector3(1.09,0.64,0.01);
   const boxCollider = await geometryObject.AddComponent(new BS.BoxCollider(isTrigger, center, size));
-
   await geometryObject.SetLayer(20);
   
   // Add a Rigid Body to the geometry
@@ -244,29 +239,20 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   // THE MUTE BUTTON
   let plane12color = null;
-	if (p_mutecolor !== "false") {
-		plane12color = p_mutecolor;
-	} else {
-		plane12color = thebuttonscolor;
-	};
+	if (p_mutecolor !== "false") { plane12color = p_mutecolor;
+	} else { plane12color = thebuttonscolor; };
   const { buttonObject: plane12Object } = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color, screenObject);
 
   // THE VOLDOWN BUTTON
   let plane13color = null;
-	if (p_voldowncolor !== "false") {
-		plane13color = p_voldowncolor;
-	} else {
-		plane13color = thebuttonscolor;
-	};
+	if (p_voldowncolor !== "false") { plane13color = p_voldowncolor;
+	} else { plane13color = thebuttonscolor; };
   const { buttonObject: plane13Object } = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color, screenObject);
 
   // THE VOLUP BUTTON
   let plane14color = null;
-	if (p_volupcolor !== "false") {
-		plane14color = p_volupcolor;
-	} else {
-		plane14color = thebuttonscolor;
-	};
+	if (p_volupcolor !== "false") { plane14color = p_volupcolor;
+	} else { plane14color = thebuttonscolor; };
   const { buttonObject: plane14Object } = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color, screenObject);
 
   // THE BILLBOARD/ROTATION BUTTON
@@ -532,7 +518,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         console.log("currentshotdata.fireurl Is True");
         firebrowser.url = currentshotdata.fireurl;
       };
-  
+
       if (currentshotdata.firevolume) {
         console.log("currentshotdata.firevolume Is True");
         console.log(currentshotdata.firevolume);
@@ -541,7 +527,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         firebrowser.RunActions(JSON.stringify(
           {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + thisfirevolume + ");"}]}));
         firebrowser.RunActions(JSON.stringify( {"actions":[{"actionType": "runscript","strparam1": "document.querySelector('.html5-video-player').setVolume(" + firepercent + ");"}]}));
-    
       };
   
     } else {
@@ -632,12 +617,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       };
     });
     console.log("FIRESCREEN2: Hand Click Stuff END");
-
   };
 
   let waitingforunity = true;
   if (waitingforunity) {
-
   screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) {
       waitingforunity = false;
@@ -646,7 +629,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     };
   }, 500); };
 
-  
 };
 
 function announcerstufffunc() {
