@@ -14,6 +14,7 @@ let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
 let screenObject = null;
+let customButtons = [];
 let firebrowser;
 let firesbillBoard;
 let defaultshader = 'Unlit/DiffuseTransparent';
@@ -51,6 +52,7 @@ function updateButtonColor(buttonObject, colour, revertColour) {
 async function createCustomButton(name, color, position, scale, text, textposition, url, clickHandler) {
   
   const buttonObject = await createUIButton(name, null, position, color, screenObject, "false", 1, 1, "Unlit/Diffuse", scale);
+  customButtons.push(buttonObject.buttonObject);
   let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
 
   if (text) {
@@ -104,7 +106,17 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
 };
 
 // Function to toggle visibility of objects
-function toggleVisibility(objects, visible) { objects.forEach(obj => { if (obj) {obj.SetActive(visible) } });};
+// function toggleVisibility(objects, visible) { objects.forEach(obj => { if (obj) {obj.SetActive(visible) } });};
+
+function toggleButtonVisibility(defaultobjects, visible) {
+  
+  defaultobjects.forEach(button => { button.SetActive(visible); });
+
+  customButtons.forEach(button => { 
+    if (button) {button.SetActive(visible); };
+  });
+}
+
 
 function runBrowserActions(script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
@@ -387,7 +399,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     ];
 
     // Toggle visibility for always visible objects
-    toggleVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
+    toggleButtonVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
 
     plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
     buttonsvisible = !buttonsvisible;
