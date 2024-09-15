@@ -124,32 +124,18 @@ async function createCustomButton(buttonId, position, color, screenObject, text,
   return result;
 };
 
-function setupCustomButton(planeObject, textObject, url) {
-  if (planeObject && textObject && url) {
-    planeObject.On('click', () => {
-        console.log(`Button with URL ${url} clicked!`);
-        // Perform actions based on URL or other parameters
-        CustomButtonClick(planeObject, url, textObject);
-    });
-  } else {
-    console.warn(`Invalid setup for button with URL: ${url}`);
-    console.log(planeObject);
-    console.log(textObject);
-  };
+function setupCustomButtons(customButtonObjects) {
+  Object.keys(customButtonObjects).forEach(key => {
+    const [buttonObject, textObject, url] = customButtonObjects[key];
+    if (url) {
+      buttonObject.On('click', () => {
+        console.log(`Button ${key} clicked!`);
+        firebrowser.url = url;
+        updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
+      });
+    }
+  });
 };
-
-// Generalized function to handle custom button logic
-function CustomButtonClick(buttonObject, url, textObject) {
-  if (url !== "false") {
-    buttonObject.On('click', () => {
-      console.log(`CLICKED: ${url}`);
-      firebrowser.url = url;
-      updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
-    });
-    toggleVisibility([buttonObject, textObject], buttonsvisible ? 1 : 0);
-  };
-};
-
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
@@ -326,7 +312,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
 
-  
+  const customButtonObjects = {
+    customButton01: [plane16Object, textgameObject01, p_custombuttonurl01],
+    customButton02: [plane17Object, textgameObject02, p_custombuttonurl02],
+    customButton03: [plane18Object, textgameObject03, p_custombuttonurl03],
+    customButton04: [plane19Object, textgameObject04, p_custombuttonurl04],
+  };
 
   const buttonsConfig = [
     { id: "MyGeometry16", position: new BS.Vector3(0.68, 0.3, 0), text: p_custombutton01text, textPosition: new BS.Vector3(1.59, -0.188, -0.005), planeObject: plane16Object, textObject: textgameObject01},
@@ -344,6 +335,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       textObject = result.textGameObject;
     };
   };
+
+  setupCustomButtons(customButtonObjects);
   
   // Bill Board the geometryObject
   const smoothing = 0;
@@ -437,23 +430,8 @@ plane10Object.On('click', () => {
     plane14Object, plane15Object
   ];
 
-  const customButtonObjects = {
-    customButton01: [plane16Object, textgameObject01, p_custombuttonurl01],
-    customButton02: [plane17Object, textgameObject02, p_custombuttonurl02],
-    customButton03: [plane18Object, textgameObject03, p_custombuttonurl03],
-    customButton04: [plane19Object, textgameObject04, p_custombuttonurl04],
-  };
-
   // Toggle visibility for always visible objects
   toggleVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
-
-  // Handle custom button clicks and visibility toggling
-  Object.keys(customButtonObjects).forEach(key => {
-    const [buttonObject, textObject, url] = customButtonObjects[key];
-    if (url) {
-      setupCustomButton(buttonObject, textObject, url);
-    }
-  });
 
   plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
   buttonsvisible = !buttonsvisible;
