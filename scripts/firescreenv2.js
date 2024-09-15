@@ -14,10 +14,10 @@ let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
 let screenObject = null;
-let plane16Object = null;
-let plane17Object = null;
-let plane18Object = null;
-let plane19Object = null;
+let plane16Object;
+let plane17Object;
+let plane18Object;
+let plane19Object;
 let textgameObject01 = null;
 let textgameObject02 = null;
 let textgameObject03 = null;
@@ -314,6 +314,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   
     for (const button of customButtons) {
       if (button.url !== 'false') {
+        console.log("customButtons")
         console.log(button)
         console.log(button.url)
         await createCustomButton(button.object, button.id, button.url, button.onClick);
