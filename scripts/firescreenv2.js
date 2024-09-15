@@ -126,12 +126,16 @@ async function createCustomButton(object, id, url, onClick) {
   console.log(id);
   console.log(url);
   object = new BS.GameObject(id);
+  console.log("Set object");
+  console.log(object);
   const geometry = await createGeometry(object, BS.GeometryType.PlaneGeometry);
   const material = await createMaterial(object, { shaderName: defaultshader, color: new BS.Vector4(1, 1, 1, 0.8), side: 1 });
   const collider = await object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
   const transform = await object.AddComponent(new BS.Transform());
   transform.localScale = new BS.Vector3(0.4, 0.4, 0.4);
+  object.SetLayer(5); // UI Layer
   object.On('click', onClick);
+  await object.SetParent(screenObject, false);
   console.log(`${id} created with URL: ${url}`);
 }
 
