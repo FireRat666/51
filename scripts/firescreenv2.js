@@ -73,7 +73,7 @@ async function createButton(name, color, position, scale, text, url, clickHandle
 
   if (text) {
       const textObject = new BS.GameObject(`${name}Text`);
-      const banterText = await textObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
+      const banterText = await textObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
       const textTransform = await textObject.AddComponent(new BS.Transform());
       textTransform.localPosition = new BS.Vector3(1.59, -0.1, -0.005); // Adjust as needed
       await textObject.SetParent(screenObject, false);
