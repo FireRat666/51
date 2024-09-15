@@ -362,6 +362,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 // };
 
 //   setupCustomButtons(customButtonObjects);
+setupCustomButtons();
   
   // Bill Board the geometryObject
   const smoothing = 0;
