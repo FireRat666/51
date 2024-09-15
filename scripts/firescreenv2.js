@@ -350,15 +350,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
   
-  const horizontalAlignment = "Center";
-  const verticalAlignment = "Center";
-  const fontSize = 0.20;
-  const richText = true;
-  const enableWordWrapping = true;
-  const rectTransformSizeDelta = new BS.Vector2(2,1);
-  const side = 0;
-  const generateMipMaps = false;
-
   // Usage (name, color, position, scale, text, url, clickHandler)
 
   if (p_custombuttonurl01 !== "false") {
