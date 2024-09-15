@@ -60,7 +60,7 @@ function updateButtonColor(buttonObject, colour, revertColour) {
   setTimeout(() => { material.color = revertColour; }, 100);
 };
 
-async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaultshader, localScale = new BS.Vector3(1, 1, 1), text = "false", textPosition) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaultshader, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = new BS.GameObject(name);
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
@@ -74,15 +74,7 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
   buttonObject.SetLayer(5); // UI Layer
   await buttonObject.SetParent(thisparent, false);
 
-  let textGameObject = null;
-  if (text !== "false") {
-    textGameObject = new BS.GameObject(name + "Text");
-    const textObject = await textGameObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
-    const textTransform = await textGameObject.AddComponent(new BS.Transform());
-    textTransform.localPosition = textPosition || new BS.Vector3(0, 0, 0);
-    await textGameObject.SetParent(thisparent, false);
-  }
-  return { buttonObject, textGameObject };
+  return buttonObject;
 };
 
 function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to increase the volume
@@ -115,7 +107,7 @@ function createButtonAction(buttonObject, clickHandler) {
 
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
   const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaultshader, new BS.Vector3(0.4, 0.4, 0.4));
-  createButtonAction(button.buttonObject, clickHandler);
+  createButtonAction(button, clickHandler);
   return button;
 };
 
@@ -235,26 +227,26 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
   // THE HOME BUTTON
   const plane02color = thebuttonscolor;
-  const { buttonObject: plane02Object } = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color, screenObject);
+  const plane02Object = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color, screenObject);
   createButtonAction(plane02Object, () => {console.log("Home Clicked!");
     firebrowser.url = url;updateButtonColor(plane02Object, new BS.Vector4(1,1,1,0.8), plane02color);
   });
   // THE INFO BUTTON
   const plane03color = thebuttonscolor;
-  const { buttonObject: plane03Object } = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color, screenObject);
+  const plane03Object = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color, screenObject);
   createButtonAction(plane03Object, () => { console.log("Info Clicked!");
     firebrowser.url = "https://firer.at/pages/Info.html";updateButtonColor(plane03Object, new BS.Vector4(1,1,1,0.8), plane03color);
   });
   // THE GOOGLE BUTTON
   const plane04color = new BS.Vector4(1,1,1,1);
-  const { buttonObject: plane04Object } = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color, screenObject);
+  const plane04Object = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color, screenObject);
   createButtonAction(plane04Object, () => { console.log("Google Clicked!");
     firebrowser.url = "https://google.com/";
     updateButtonColor(plane04Object, new BS.Vector4(1,1,1,0.8), plane04color);
   });
   // THE KEYBOARD BUTTON
   const plane05color = new BS.Vector4(1,1,1,1);
-  const { buttonObject: plane05Object } = await createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color, screenObject);
+  const plane05Object = await createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color, screenObject);
   createButtonAction(plane05Object, () => { console.log("Keyboard Clicked!");
     let plane05material = plane05Object.GetComponent(BS.ComponentType.BanterMaterial);
     keyboardstate = !keyboardstate; // Toggle state
@@ -263,38 +255,38 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
   // THE BACK BUTTON
   const plane06color = thebuttonscolor;
-  const { buttonObject: plane06Object } = await createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color, screenObject);
+  const plane06Object = await createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color, screenObject);
   createButtonAction(plane06Object, () => { console.log("Back Clicked!");
     firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
     updateButtonColor(plane06Object, new BS.Vector4(1,1,1,0.8), plane06color);
   });
   // THE GROW BUTTON
   const plane07color = thebuttonscolor;
-  const { buttonObject: plane07Object } = await createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color, screenObject);
+  const plane07Object = await createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color, screenObject);
   createButtonAction(plane07Object, () => { console.log("Grow Clicked!");
     adjustScale("grow");
     updateButtonColor(plane07Object, new BS.Vector4(1,1,1,0.8), plane07color);
   });
   // THE SHRINK BUTTON
   const plane08color = thebuttonscolor;
-  const { buttonObject: plane08Object } = await createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color, screenObject);
+  const plane08Object = await createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color, screenObject);
   createButtonAction(plane08Object, () => { console.log("Shrink Clicked!");
     adjustScale("shrink");
     updateButtonColor(plane08Object, new BS.Vector4(1,1,1,0.8), plane08color);
   });
   // THE FORWARD BUTTON
   const plane09color = thebuttonscolor;
-  const { buttonObject: plane09Object } = await createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, screenObject, new BS.Vector3(0,0,180));
+  const plane09Object = await createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, screenObject, new BS.Vector3(0,0,180));
   createButtonAction(plane09Object, () => { console.log("Forward Clicked!");
     firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
     updateButtonColor(plane09Object, new BS.Vector4(1,1,1,1), plane09color);
   });
   // THE HIDE/SHOW BUTTON
   const plane10color = thebuttonscolor;
-  const { buttonObject: plane10Object } = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color, screenObject);
+  const plane10Object = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color, screenObject);
   // A EMPTY BUTTON
   const plane11color = thebuttonscolor;
-  const { buttonObject: plane11Object } = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
+  const plane11Object = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
   createButtonAction(plane11Object, handIconClick);
   setTimeout(() => { plane11Object.SetActive(0); }, 500);
 
@@ -302,14 +294,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let plane12color = null;
 	if (p_mutecolor !== "false") { plane12color = p_mutecolor;
 	} else { plane12color = thebuttonscolor; };
-  const { buttonObject: plane12Object } = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color, screenObject);
+  const plane12Object = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color, screenObject);
   createButtonAction(plane12Object, muteButClick);
 
   // THE VOLDOWN BUTTON
   let plane13color = null;
 	if (p_voldowncolor !== "false") { plane13color = p_voldowncolor;
 	} else { plane13color = thebuttonscolor; };
-  const { buttonObject: plane13Object } = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color, screenObject);
+  const plane13Object = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color, screenObject);
   createButtonAction(plane13Object, () => { adjustVolume(-1)
     updateButtonColor(plane13Object, new BS.Vector4(1,1,1,0.8), plane13color)
   });
@@ -318,14 +310,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let plane14color = null;
 	if (p_volupcolor !== "false") { plane14color = p_volupcolor;
 	} else { plane14color = thebuttonscolor; };
-  const { buttonObject: plane14Object } = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color, screenObject);
+  const plane14Object = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color, screenObject);
   createButtonAction(plane14Object, () => { adjustVolume(1)
     updateButtonColor(plane14Object, new BS.Vector4(1,1,1,0.8), plane13color)
   });
 
   // THE BILLBOARD/ROTATION BUTTON
   const plane15color = thebuttonscolor;
-  const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
+  const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
   
   const horizontalAlignment = "Center";
@@ -508,7 +500,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
     let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
 
-    const alwaysVisibleObjects = [
+    let alwaysVisibleObjects = [
       plane02Object, plane03Object, plane04Object, plane05Object, plane06Object, 
       plane07Object, plane08Object, plane09Object, plane12Object, plane13Object, 
       plane14Object, plane15Object
