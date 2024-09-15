@@ -276,7 +276,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane11color = thebuttonscolor;
   const { buttonObject: plane11Object } = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
   createButtonAction(plane11Object, handIconClick, plane11color, new BS.Vector4(1, 1, 1, 1));
-  // plane11Object.SetActive(0);
+  setTimeout(() => { plane11Object.SetActive(0); }, 500);
 
   // THE MUTE BUTTON
   let plane12color = null;
