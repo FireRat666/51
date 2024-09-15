@@ -121,6 +121,10 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
 };
 
 async function createCustomButton(object, id, url, onClick) {
+  console.log("createCustomButton");
+  console.log(object);
+  console.log(id);
+  console.log(url);
   object = new BS.GameObject(id);
   const geometry = await createGeometry(object, BS.GeometryType.PlaneGeometry);
   const material = await createMaterial(object, { shaderName: defaultshader, color: new BS.Vector4(1, 1, 1, 0.8), side: 1 });
@@ -315,10 +319,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     ];
   
     for (const button of customButtons) {
+      console.log("customButtons");
+      console.log(button);
       if (button.url !== 'false') {
-        console.log("customButtons")
-        console.log(button)
-        console.log(button.url)
+        console.log("customButtons not false");
+        console.log(button.url);
         await createCustomButton(button.object, button.id, button.url, button.onClick);
       }
     }
