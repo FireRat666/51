@@ -295,7 +295,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // A EMPTY BUTTON
   const plane11color = thebuttonscolor;
   const { buttonObject: plane11Object } = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
-  createButtonAction(plane11Object, handIconClick, plane11color, new BS.Vector4(1, 1, 1, 1));
+  createButtonAction(plane11Object, handIconClick);
   setTimeout(() => { plane11Object.SetActive(0); }, 500);
 
   // THE MUTE BUTTON
@@ -303,23 +303,25 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 	if (p_mutecolor !== "false") { plane12color = p_mutecolor;
 	} else { plane12color = thebuttonscolor; };
   const { buttonObject: plane12Object } = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color, screenObject);
-  createButtonAction(plane12Object, muteButClick, plane12color, new BS.Vector4(1,0,0,1));
+  createButtonAction(plane12Object, muteButClick);
 
   // THE VOLDOWN BUTTON
   let plane13color = null;
 	if (p_voldowncolor !== "false") { plane13color = p_voldowncolor;
 	} else { plane13color = thebuttonscolor; };
   const { buttonObject: plane13Object } = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color, screenObject);
-  // THE VOLDOWN BUTTON Click Event Creation
-  createButtonAction(plane13Object, () => adjustVolume(-1), plane13color, new BS.Vector4(1,1,1,0.8));
+  createButtonAction(plane13Object, () => { adjustVolume(-1)
+    updateButtonColor(plane13Object, new BS.Vector4(1,1,1,0.8), plane13color)
+  });
 
   // THE VOLUP BUTTON
   let plane14color = null;
 	if (p_volupcolor !== "false") { plane14color = p_volupcolor;
 	} else { plane14color = thebuttonscolor; };
   const { buttonObject: plane14Object } = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color, screenObject);
-  // THE VOLUP BUTTON Click Event Creation
-  createButtonAction(plane14Object, () => adjustVolume(1), plane14color, new BS.Vector4(1,1,1,0.8));
+  createButtonAction(plane14Object, () => { adjustVolume(1)
+    updateButtonColor(plane14Object, new BS.Vector4(1,1,1,0.8), plane13color)
+  });
 
   // THE BILLBOARD/ROTATION BUTTON
   const plane15color = thebuttonscolor;
@@ -538,10 +540,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
 
   function billboardButClick() {
-    console.log("CLICKED15!");
-    console.log("Before toggle:", isbillboarded);
+    console.log("Billboard CLICKED!");
     isbillboarded = !isbillboarded; // Toggle billboard state
-    console.log("After toggle:", isbillboarded);
     firesbillBoard.enableXAxis = isbillboarded;  // Update billboard state
     firesbillBoard.enableYAxis = isbillboarded;
     let plane15material = plane15Object.GetComponent(BS.ComponentType.BanterMaterial);
