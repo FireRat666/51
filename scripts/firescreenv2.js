@@ -14,24 +14,12 @@ let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
 let screenObject = null;
-let plane16Object;
-let plane17Object;
-let plane18Object;
-let plane19Object;
-let textgameObject01 = null;
-let textgameObject02 = null;
-let textgameObject03 = null;
-let textgameObject04 = null;
 let firebrowser;
 let firesbillBoard;
 let defaultshader = 'Unlit/DiffuseTransparent';
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
-  console.log("createGeometry")
-  console.log(thingy1)
-  console.log(geomtype)
-  console.log(options)
   const defaultOptions = {
     thewidth: 1, theheight: 1, depth: 1, widthSegments: 1, heightSegments: 1, depthSegments: 1, radius: 1, segments: 24, thetaStart: 0, thetaLength: Math.PI * 2, phiStart: 0, phiLength: Math.PI * 2, radialSegments: 8, openEnded: false, radiusTop: 1, radiusBottom: 1, innerRadius: 0.3, outerRadius: 1, thetaSegments: 24, phiSegments: 8, tube: 0.4, tubularSegments: 16, arc: Math.PI * 2, p: 2, q: 3, stacks: 5, slices: 5, detail: 0, parametricPoints: ""
   };
@@ -129,7 +117,6 @@ function runBrowserActions(script) {
 };
 
 function createButtonAction(buttonObject, clickHandler) {
-  console.log("Create Button Action Object, Click");
   buttonObject.On('click', (e) => {
     clickHandler(e);
   });
