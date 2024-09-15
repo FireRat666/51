@@ -28,6 +28,10 @@ let defaultshader = 'Unlit/DiffuseTransparent';
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
+  console.log("createGeometry")
+  console.log(thingy1)
+  console.log(geomtype)
+  console.log(options)
   const defaultOptions = {
     thewidth: 1, theheight: 1, depth: 1, widthSegments: 1, heightSegments: 1, depthSegments: 1, radius: 1, segments: 24, thetaStart: 0, thetaLength: Math.PI * 2, phiStart: 0, phiLength: Math.PI * 2, radialSegments: 8, openEnded: false, radiusTop: 1, radiusBottom: 1, innerRadius: 0.3, outerRadius: 1, thetaSegments: 24, phiSegments: 8, tube: 0.4, tubularSegments: 16, arc: Math.PI * 2, p: 2, q: 3, stacks: 5, slices: 5, detail: 0, parametricPoints: ""
   };
@@ -103,8 +107,6 @@ function runBrowserActions(script) {
 
 function createButtonAction(buttonObject, clickHandler, defaultColor, clickedColor) {
   console.log("Create Button Action Object, Click");
-  console.log(buttonObject);
-  console.log(clickHandler);
   buttonObject.On('click', (e) => {
     clickHandler(e);
     updateButtonColor(buttonObject, clickedColor, defaultColor);
@@ -301,32 +303,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane15color = thebuttonscolor;
   const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
-
-  // const customButtonObjects = {
-  //   customButton01: [plane16Object, textgameObject01, p_custombuttonurl01],
-  //   customButton02: [plane17Object, textgameObject02, p_custombuttonurl02],
-  //   customButton03: [plane18Object, textgameObject03, p_custombuttonurl03],
-  //   customButton04: [plane19Object, textgameObject04, p_custombuttonurl04],
-  // };
-
-  // const buttonsConfig = [
-  //   { id: "MyGeometry16", position: new BS.Vector3(0.68, 0.3, 0), text: p_custombutton01text, textPosition: new BS.Vector3(1.59, -0.188, -0.005), planeObject: plane16Object, textObject: textgameObject01},
-  //   { id: "MyGeometry17", position: new BS.Vector3(0.68, 0.25, 0), text: p_custombutton02text, textPosition: new BS.Vector3(1.59, -0.237, -0.005), planeObject: plane17Object, textObject: textgameObject02},
-  //   { id: "MyGeometry18", position: new BS.Vector3(0.68, 0.20, 0), text: p_custombutton03text, textPosition: new BS.Vector3(1.59, -0.287, -0.005), planeObject: plane18Object, textObject: textgameObject03},
-  //   { id: "MyGeometry19", position: new BS.Vector3(0.68, 0.15, 0), text: p_custombutton04text, textPosition: new BS.Vector3(1.59, -0.336, -0.005), planeObject: plane19Object, textObject: textgameObject04}
-  // ];
-
-  // for (let i = 0; i < buttonsConfig.length;i++) {
-  //   let { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
-  //   if (window[`p_custombuttonurl0${i}`] !== "false") {
-  //     console.log(window[`p_custombutton0${i}url`]);
-  //     console.log(id);
-  //     console.log(text);
-  //     const result = await createCustomButton( id, position, textPlaneColour, screenObject, text, buttonSize, textPosition );
-  //     planeObject = result.buttonObject;
-  //     textObject = result.textGameObject;
-  //   };
-  // };
   
   async function setupCustomButtons() {
     const customButtons = [
@@ -338,6 +314,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   
     for (const button of customButtons) {
       if (button.url !== 'false') {
+        console.log(button)
+        console.log(button.url)
         await createCustomButton(button.object, button.id, button.url, button.onClick);
       }
     }
@@ -347,22 +325,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log(`Button ${buttonId} clicked!`);
   }
   
-
-// function setupCustomButtons(customButtonObjects) {
-//   Object.keys(customButtonObjects).forEach(key => {
-//     const [buttonObject, textObject, url] = customButtonObjects[key];
-//     if (url) {
-//       buttonObject.On('click', () => {
-//         console.log(`Button ${key} clicked!`);
-//         firebrowser.url = url;
-//         updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
-//       });
-//     }
-//   });
-// };
-
-//   setupCustomButtons(customButtonObjects);
-setupCustomButtons();
+  setupCustomButtons();
   
   // Bill Board the geometryObject
   const smoothing = 0;
