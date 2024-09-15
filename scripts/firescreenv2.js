@@ -413,7 +413,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
   
   // EXTRA Button Thing 01
-  if (p_custombutton01url != "false") {
+  if (p_custombuttonurl01 != "false") {
     plane16Object.On('click', () => {
     console.log("CLICKED01!");
     browser.url = p_custombutton01url;
@@ -423,7 +423,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
 
   // EXTRA Button Thing 02
-  if (p_custombutton02url != "false") {
+  if (p_custombuttonurl02 != "false") {
     plane17Object.On('click', () => {
       console.log("CLICKED02!");
       browser.url = p_custombutton02url;
@@ -433,7 +433,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
 
   // EXTRA Button Thing 03
-  if (p_custombutton03url != "false") {
+  if (p_custombuttonurl03 != "false") {
     plane18Object.On('click', () => {
       console.log("CLICKED03!");
       browser.url = p_custombutton03url;
@@ -443,7 +443,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
 
   // EXTRA Button Thing 04
-  if (p_custombutton04url != "false") {
+  if (p_custombuttonurl04 != "false") {
     plane19Object.On('click', () => {
       console.log("CLICKED04!");
       browser.url = p_custombutton04url;
