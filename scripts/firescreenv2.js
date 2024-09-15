@@ -553,19 +553,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   firescenev2.On("user-joined", e => {
     // When a user Joins the space, Check their UserID against the list
     if (e.detail.isLocal) { // e.detail.uid
-  
       // Setup Hand Controls only on the first run if enabled
       if (p_handbuttons == "true" && firstrunhandcontrolsv2 === true) {
         firstrunhandcontrolsv2 = false;
         console.log("FIRESCREEN2: Enabling Hand Controls");
-
         playersuseridv2 = e.detail.uid;
         setupHandControls();
-
       };
-
       console.log("FIRESCREEN2: user-joined");
-
     };
   });
 
@@ -591,10 +586,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const hlockButton = await createUIButton("LockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, new BS.Vector3(0, 0, 180));
 
     // Set parent to the container object
-    await volUpButton.buttonObject.SetParent(plane20Object, false);
-    await volDownButton.buttonObject.SetParent(plane20Object, false);
-    await muteButton.buttonObject.SetParent(plane20Object, false);
-    await lockButton.buttonObject.SetParent(plane20Object, false);
+    await hvolUpButton.buttonObject.SetParent(plane20Object, false);
+    await hvolDownButton.buttonObject.SetParent(plane20Object, false);
+    await hmuteButton.buttonObject.SetParent(plane20Object, false);
+    await hlockButton.buttonObject.SetParent(plane20Object, false);
 
     console.log("FIRESCREEN2: Hand Control Stuff Setup");
 
