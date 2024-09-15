@@ -49,15 +49,7 @@ function updateButtonColor(buttonObject, colour, revertColour) {
 };
 
 async function createButton(name, color, position, scale, text, textposition, url, clickHandler) {
-  const buttonObject = new BS.GameObject(name);
-  const geometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry);
-  const collider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(1,1,0)));
-  const material = await createMaterial(buttonObject, { shaderName: "Unlit/Diffuse", color: color });
-  const transform = await buttonObject.AddComponent(new BS.Transform());
-  await buttonObject.SetLayer(5); // UI Layer
-  transform.position = position;
-  transform.localScale = scale;
-  await buttonObject.SetParent(screenObject, false);
+  const buttonObject = await createUIButton(name, null, position, color, screenObject, "false", 1, 1, "Unlit/Diffuse");
 
   if (text) {
       const textObject = new BS.GameObject(`${name}Text`);
