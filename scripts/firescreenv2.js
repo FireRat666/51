@@ -510,7 +510,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   return adjustment;
 };
   
-
 // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => {
     // Do something with e.detail.
@@ -551,15 +550,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     };
   });
 
-  // await firescenev2.OneShot(data: any, allInstances = true);
-  // await firescenev2.OneShot({videovolume: "0.5"});
-  // await firescenev2.OneShot(JSON.stringify({firevolume: "0.5"}));
-  // await firescenev2.OneShot(JSON.stringify({fireurl: "https://firer.at/"}));
-
-  // oneShot({fireurl: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_5MB.mp4"});
-  // oneShot({firevolume: "0.5"});
-  // oneShot({firevolume: "0"});
-
   firescenev2.On("user-joined", e => {
     // When a user Joins the space, Check their UserID against the list
     if (e.detail.isLocal) { // e.detail.uid
@@ -585,91 +575,45 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const plane20Object = new BS.GameObject("MyGeometry20");
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.PlaneGeometry);
 
-    const plane20size = new BS.Vector3(1,1,1);
-    plane20color = new BS.Vector4(0,0,0,0);
     const center = new BS.Vector3(0,0,0);
-    const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, center, plane20size));
-    const plane20material = await createMaterial(plane20Object, { shaderName: 'Unlit/DiffuseTransparent', color: plane20color, side: 1 });
+    const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
+    const plane20material = await createMaterial(plane20Object, { shaderName: 'Unlit/DiffuseTransparent', color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
-    // await plane20Object.SetLayer(5); // UI Layer
-    // firescenev2.localUser.Attach(plane20Object,BS.LegacyAttachmentPosition.LEFT_HAND);
     firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
-    // const plane20transform = plane20Object.GetComponent(BS.ComponentType.Transform)
     plane20transform.localPosition = new BS.Vector3(0,-0.006,0.010);
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
-    // plane20transform.localRotation = new BS.Vector3(0,1,0);
-    // plane20transform.eulerAngles = new BS.Vector3(90,-90,90);
     plane20transform.localEulerAngles = new BS.Vector3(20,260,0);
 
     // HAND VOLUME UP BUTTON
-    const plane21Object = new BS.GameObject("MyGeometry21");
-    const plane21geometry = await createGeometry(plane21Object, BS.GeometryType.PlaneGeometry);
-    const plane21size = new BS.Vector3(1,1,1);
-    const plane21Collider = await plane21Object.AddComponent(new BS.BoxCollider(true, center, plane21size));
-    const plane21material = await createMaterial(plane21Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_iconvolupurl, color: plane14color, side: 1 });
-    const plane21transform = await plane21Object.AddComponent(new BS.Transform());
-    await plane21Object.SetParent(plane20Object, false);
-    plane21transform.localPosition = new BS.Vector3(0.4,0.4,0.3);
-    plane21transform.localScale = new BS.Vector3(0.4,0.4,0.4);
-    await plane21Object.SetLayer(5); // UI Layer
-    // const plane21transform = plane21Object.GetComponent(BS.ComponentType.Transform)
+    const hvolUpButton = await createUIButton("VolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color);
+    const hvolDownButton = await createUIButton("VolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color);
+    const hmuteButton = await createUIButton("MuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color);
+    const hlockButton = await createUIButton("LockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), new BS.Vector3(0, 0, 180));
 
-    // HAND VOLUME DOWN BUTTON
-    const plane22Object = new BS.GameObject("MyGeometry22");
-    const plane22geometry = await createGeometry(plane22Object, BS.GeometryType.PlaneGeometry);
-    const plane22size = new BS.Vector3(1,1,1);
-    const plane22Collider = await plane22Object.AddComponent(new BS.BoxCollider(true, center, plane22size));
-    const plane22material = await createMaterial(plane22Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_iconvoldownurl, color: plane13color, side: 1 });
-    const plane22transform = await plane22Object.AddComponent(new BS.Transform());
-    await plane22Object.SetParent(plane20Object, false);
-    plane22transform.localPosition = new BS.Vector3(0.0,0.4,0.3);
-    plane22transform.localScale = new BS.Vector3(0.4,0.4,0.4);
-    await plane22Object.SetLayer(5); // UI Layer
-
-    // HAND MUTE BUTTON
-    const plane23Object = new BS.GameObject("MyGeometry23");
-    const plane23geometry = await createGeometry(plane23Object, BS.GeometryType.PlaneGeometry);
-    const plane23size = new BS.Vector3(1,1,1);
-    const plane23Collider = await plane23Object.AddComponent(new BS.BoxCollider(true, center, plane23size));
-    const plane23material = await createMaterial(plane23Object, { shaderName: 'Unlit/DiffuseTransparent', texture: p_iconmuteurl, color: plane12color, side: 1 });
-    const plane23transform = await plane23Object.AddComponent(new BS.Transform());
-    await plane23Object.SetParent(plane20Object, false);
-    plane23transform.localPosition = new BS.Vector3(-0.4,0.4,0.3);
-    plane23transform.localScale = new BS.Vector3(0.4,0.4,0.4);
-    await plane23Object.SetLayer(5); // UI Layer
-
-    // HAND LOCK BUTTON
-    const plane24Object = new BS.GameObject("MyGeometry24");
-    const plane24geometry = await createGeometry(plane24Object, BS.GeometryType.PlaneGeometry);
-    const plane24size = new BS.Vector3(1,1,1);
-    const plane24color = new BS.Vector4(1,1,1,0.7);
-    const plane24Collider = await plane24Object.AddComponent(new BS.BoxCollider(true, center, plane24size));
-    const plane24material = await createMaterial(plane24Object, { shaderName: 'Unlit/DiffuseTransparent', texture: 'https://firer.at/files/lock.png', color: plane24color, side: 1 });
-    const plane24transform = await plane24Object.AddComponent(new BS.Transform());
-    await plane24Object.SetParent(plane20Object, false);
-    plane24transform.localPosition = new BS.Vector3(0,-0.1,0.3);
-    plane24transform.localScale = new BS.Vector3(0.4,0.4,0.4);
-    plane24transform.localEulerAngles = new BS.Vector3(0,0,180);
-    await plane24Object.SetLayer(5); // UI Layer
+    // Set parent to the container object
+    await volUpButton.buttonObject.SetParent(plane20Object, false);
+    await volDownButton.buttonObject.SetParent(plane20Object, false);
+    await muteButton.buttonObject.SetParent(plane20Object, false);
+    await lockButton.buttonObject.SetParent(plane20Object, false);
 
     console.log("FIRESCREEN2: Hand Control Stuff Setup");
 
     // HAND BUTTON VOLUME UP
-    plane21Object.On('click', () => {
+    hvolUpButton.buttonObject.On('click', () => {
       console.log("CLICKED01!");
       adjustVolume(1);
       updateButtonColor(plane21Object, new BS.Vector4(1,1,1,0.8), plane14color);
     });
 
     // HAND BUTTON VOLUME DOWN
-    plane22Object.On('click', () => {
+    hvolDownButton.buttonObject.On('click', () => {
       console.log("CLICKED02!");
       adjustVolume(-1);
       updateButtonColor(plane22Object, new BS.Vector4(1,1,1,0.8), plane13color);
     });
 
     // HAND BUTTON MUTE
-    plane23Object.On('click', () => {
+    hmuteButton.buttonObject.On('click', () => {
       console.log("CLICKED03!");
 
       if (browsermuted) {
@@ -689,7 +633,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     });
 
     // HAND BUTTON LOCK PLAYER
-    plane24Object.On('click', () => {
+    hlockButton.buttonObject.On('click', () => {
       console.log("CLICKED04!");
 
       if (playerislockedv2) {
@@ -801,3 +745,12 @@ function keepsoundlevel2() {
 setupfirescreen2();
 
 // screenboxCollider = await firescenev2.Find("MyBrowser");
+
+// await firescenev2.OneShot(data: any, allInstances = true);
+// await firescenev2.OneShot({videovolume: "0.5"});
+// await firescenev2.OneShot(JSON.stringify({firevolume: "0.5"}));
+// await firescenev2.OneShot(JSON.stringify({fireurl: "https://firer.at/"}));
+
+// oneShot({fireurl: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_5MB.mp4"});
+// oneShot({firevolume: "0.5"});
+// oneShot({firevolume: "0"});
