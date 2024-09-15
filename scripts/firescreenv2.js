@@ -120,25 +120,6 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
   return button;
 };
 
-async function createCustomButton(object, id, url, onClick) {
-  console.log("createCustomButton");
-  console.log(object);
-  console.log(id);
-  console.log(url);
-  object = new BS.GameObject(id);
-  console.log("Set object");
-  console.log(object);
-  const geometry = await createGeometry(object, BS.GeometryType.PlaneGeometry);
-  const material = await createMaterial(object, { shaderName: defaultshader, color: new BS.Vector4(1, 1, 1, 0.8), side: 1 });
-  const collider = await object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
-  const transform = await object.AddComponent(new BS.Transform());
-  transform.localScale = new BS.Vector3(0.4, 0.4, 0.4);
-  object.SetLayer(5); // UI Layer
-  object.On('click', onClick);
-  await object.SetParent(screenObject, false);
-  console.log(`${id} created with URL: ${url}`);
-}
-
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   
@@ -314,30 +295,112 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
   
-  async function setupCustomButtons() {
-    let customButtons = [
-      { url: p_custombuttonurl01, object: plane16Object, id: "MyGeometry16", onClick: () => handleButtonClick('button01') },
-      { url: p_custombuttonurl02, object: plane17Object, id: "MyGeometry17", onClick: () => handleButtonClick('button02') },
-      { url: p_custombuttonurl03, object: plane18Object, id: "MyGeometry18", onClick: () => handleButtonClick('button03') },
-      { url: p_custombuttonurl04, object: plane19Object, id: "MyGeometry19", onClick: () => handleButtonClick('button04') },
-    ];
   
-    for (const button of customButtons) {
-      console.log("customButtons");
-      console.log(button);
-      if (button.url !== 'false') {
-        console.log("customButtons not false");
-        console.log(button.url);
-        await createCustomButton(button.object, button.id, button.url, button.onClick);
-      }
-    }
-  }
-  
-  function handleButtonClick(buttonId) {
-    console.log(`Button ${buttonId} clicked!`);
-  }
-  
-  setupCustomButtons();
+  if (p_custombuttonurl01 !== "false") {
+    console.log("p_custombuttonurl01 is true")
+    console.log(p_custombuttonurl01)
+    // THE EXTRA BUTTON 01 - CURRENTLY
+    plane16Object = new BS.GameObject("MyGeometry16");
+    const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane16size = new BS.Vector3(1,1,0);
+    plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
+    const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
+    plane16material = await plane16Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane16color, side, generateMipMaps));
+    const plane16transform = await plane16Object.AddComponent(new BS.Transform());
+    await plane16Object.SetLayer(5); // UI Layer
+    plane16transform.position = new BS.Vector3(0.68,0.3,0);
+    plane16transform.localScale = new BS.Vector3(0.2,0.04,1);
+    await plane16Object.SetParent(screenObject, false);
+    // THE EXTRA TEXT - CURRENTLY
+    const text01color = new BS.Vector4(1,1,1,1);
+    textgameObject01 = new BS.GameObject("MyText01");
+    const text01object = await textgameObject01.AddComponent(new BS.BanterText(p_custombutton01text, text01color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
+    const text01transform = await textgameObject01.AddComponent(new BS.Transform());
+    // await textgameObject01.SetLayer(5); // UI Layer
+    // text01transform.position = new BS.Vector3(1.6,0.1,0.01);
+    text01transform.localPosition = new BS.Vector3(1.59,-0.188,-0.005);
+    await textgameObject01.SetParent(screenObject, false);
+  };
+
+  if (p_custombuttonurl02 !== "false") {
+    console.log("p_custombuttonurl02 is true")
+    console.log(p_custombuttonurl02)
+    // THE EXTRA BUTTON 02 - CURRENTLY
+    plane17Object = new BS.GameObject("MyGeometry17");
+    const plane17geometry = await plane17Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane17size = new BS.Vector3(1,1,0);
+    plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
+    const plane17Collider = await plane17Object.AddComponent(new BS.BoxCollider(true, center, plane17size));
+    plane17material = await plane17Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane17color, side, generateMipMaps));
+    const plane17transform = await plane17Object.AddComponent(new BS.Transform());
+    await plane17Object.SetLayer(5); // UI Layer
+    plane17transform.position = new BS.Vector3(0.68,0.25,0);
+    plane17transform.localScale = new BS.Vector3(0.2,0.04,1);
+    await plane17Object.SetParent(screenObject, false);
+    // THE EXTRA TEXT - CURRENTLY
+    const text02color = new BS.Vector4(1,1,1,1);
+    textgameObject02 = new BS.GameObject("MyText02");
+    const text02object = await textgameObject02.AddComponent(new BS.BanterText(p_custombutton02text, text02color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
+    const text02transform = await textgameObject02.AddComponent(new BS.Transform());
+    // await textgameObject02.SetLayer(5); // UI Layer
+    // text02transform.position = new BS.Vector3(1.6,0.1,0.02);
+    text02transform.localPosition = new BS.Vector3(1.59,-0.237,-0.005);
+    await textgameObject02.SetParent(screenObject, false);
+  };
+
+  if (p_custombuttonurl03 !== "false") {
+    console.log("p_custombuttonurl03 is true")
+    console.log(p_custombuttonurl03)
+    // THE EXTRA BUTTON 03 - CURRENTLY
+    plane18Object = new BS.GameObject("MyGeometry18");
+    const plane18geometry = await plane18Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane18size = new BS.Vector3(1,1,0);
+    plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
+    const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
+    plane18material = await plane18Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane18color, side, generateMipMaps));
+    const plane18transform = await plane18Object.AddComponent(new BS.Transform());
+    await plane18Object.SetLayer(5); // UI Layer
+    plane18transform.position = new BS.Vector3(0.68,0.20,0);
+    plane18transform.localScale = new BS.Vector3(0.2,0.04,1);
+    await plane18Object.SetParent(screenObject, false);
+    // THE EXTRA TEXT - CURRENTLY
+    const text03color = new BS.Vector4(1,1,1,1);
+    textgameObject03 = new BS.GameObject("MyText03");
+    const text03object = await textgameObject03.AddComponent(new BS.BanterText(p_custombutton03text, text03color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
+    const text03transform = await textgameObject03.AddComponent(new BS.Transform());
+    // await textgameObject03.SetLayer(5); // UI Layer
+    // text03transform.position = new BS.Vector3(1.6,0.1,0.03);
+    text03transform.localPosition = new BS.Vector3(1.59,-0.287,-0.005);
+    await textgameObject03.SetLayer(6); // UI Layer
+    await textgameObject03.SetParent(screenObject, false);
+  };
+
+  if (p_custombuttonurl04 !== "false") {
+    console.log("p_custombuttonurl04 is true")
+    console.log(p_custombuttonurl04)
+    // THE EXTRA BUTTON 04 - CURRENTLY
+    plane19Object = new BS.GameObject("MyGeometry19");
+    const plane19geometry = await plane19Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane19size = new BS.Vector3(1,1,0);
+    plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
+    const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
+    plane19material = await plane19Object.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, plane19color, side, generateMipMaps));
+    const plane19transform = await plane19Object.AddComponent(new BS.Transform());
+    await plane19Object.SetLayer(5); // UI Layer
+    plane19transform.position = new BS.Vector3(0.68,0.15,0);
+    plane19transform.localScale = new BS.Vector3(0.2,0.04,1);
+    await plane19Object.SetParent(screenObject, false);
+    // THE EXTRA TEXT - CURRENTLY
+    const text04color = new BS.Vector4(1,1,1,1);
+    textgameObject04 = new BS.GameObject("MyText04");
+    const text04object = await textgameObject04.AddComponent(new BS.BanterText(p_custombutton04text, text04color, horizontalAlignment, verticalAlignment, fontSize, richText, enableWordWrapping, rectTransformSizeDelta));
+    const text04transform = await textgameObject04.AddComponent(new BS.Transform());
+    // await textgameObject04.SetLayer(5); // UI Layer
+    // text04transform.position = new BS.Vector3(1.6,0.1,0.04);
+    text04transform.localPosition = new BS.Vector3(1.59,-0.336,-0.005);
+    await textgameObject04.SetLayer(6); // UI Layer
+    await textgameObject04.SetParent(screenObject, false);
+  };
   
   // Bill Board the geometryObject
   const smoothing = 0;
