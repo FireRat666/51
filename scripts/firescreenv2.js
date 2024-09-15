@@ -296,6 +296,13 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
   
   
+  const horizontalAlignment = "Center";
+  const verticalAlignment = "Center";
+  const fontSize = 0.20;
+  const richText = true;
+  const enableWordWrapping = true;
+  const rectTransformSizeDelta = new BS.Vector2(2,1);
+  
   if (p_custombuttonurl01 !== "false") {
     console.log("p_custombuttonurl01 is true")
     console.log(p_custombuttonurl01)
