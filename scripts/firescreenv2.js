@@ -102,6 +102,9 @@ function runBrowserActions(script) {
 };
 
 function createButtonAction(buttonObject, clickHandler, defaultColor, clickedColor) {
+  console.log("Create Button Action Object, Click");
+  console.log(buttonObject);
+  console.log(clickHandler);
   buttonObject.On('click', (e) => {
     clickHandler(e);
     updateButtonColor(buttonObject, clickedColor, defaultColor);
