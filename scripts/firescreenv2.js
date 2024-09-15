@@ -442,9 +442,6 @@ plane10Object.On('click', () => {
   Object.keys(customButtonObjects).forEach(key => {
     const [buttonObject, textObject, url] = customButtonObjects[key];
     setupCustomButton(buttonObject, textObject, url);
-
-    const [buttonObject, textObject, url] = customButtonObjects[key];
-    CustomButtonClick(buttonObject, url, textObject);
   });
 
   plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
