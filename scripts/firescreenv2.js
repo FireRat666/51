@@ -96,18 +96,6 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
 
 // Function to toggle visibility of objects
 function toggleVisibility(objects, visibility) { objects.forEach(obj => obj.SetActive(visibility)); };
-
-// Generalized function to handle custom button logic
-function CustomButtonClick(buttonObject, url, textObject) {
-  if (url !== "false") {
-    buttonObject.On('click', () => {
-      console.log(`CLICKED: ${url}`);
-      firebrowser.url = url;
-      updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
-    });
-    toggleVisibility([buttonObject, textObject], buttonsvisible ? 1 : 0);
-  };
-};
   
 function runBrowserActions(script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
@@ -132,6 +120,27 @@ async function createCustomButton(buttonId, position, color, screenObject, text,
   );
   return result;
 };
+
+function setupCustomButton(planeObject, textObject, url) {
+  planeObject.On('click', () => {
+      console.log(`Button with URL ${url} clicked!`);
+      // Perform actions based on URL or other parameters
+      CustomButtonClick(planeObject, url, textObject);
+  });
+};
+
+// Generalized function to handle custom button logic
+function CustomButtonClick(buttonObject, url, textObject) {
+  if (url !== "false") {
+    buttonObject.On('click', () => {
+      console.log(`CLICKED: ${url}`);
+      firebrowser.url = url;
+      updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
+    });
+    toggleVisibility([buttonObject, textObject], buttonsvisible ? 1 : 0);
+  };
+};
+
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
@@ -431,6 +440,9 @@ plane10Object.On('click', () => {
 
   // Handle custom button clicks and visibility toggling
   Object.keys(customButtonObjects).forEach(key => {
+    const [buttonObject, textObject, url] = customButtonObjects[key];
+    setupCustomButton(buttonObject, textObject, url);
+
     const [buttonObject, textObject, url] = customButtonObjects[key];
     CustomButtonClick(buttonObject, url, textObject);
   });
