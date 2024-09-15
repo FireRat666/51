@@ -390,34 +390,51 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
 
   // Function to toggle visibility of objects
-  function toggleVisibility(objects, visibility) { objects.forEach(obj => obj.SetActive(visibility)); }
+  function toggleVisibility(objects, visibility) { objects.forEach(obj => obj.SetActive(visibility)); };
+
+  // Generalized function to handle custom button logic
+  function CustomButtonClick(buttonObject, url, textObject) {
+    if (url !== "false") {
+      buttonObject.On('click', () => {
+        console.log(`CLICKED: ${url}`);
+        firebrowser.url = url;
+        updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
+      });
+      toggleVisibility([buttonObject, textObject], buttonsvisible ? 1 : 0);
+    }
+  }
 
   // HIDE Button Thing
-  plane10Object.On('click', () => {
-    console.log("CLICKED10!");
-    console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
-    let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
+plane10Object.On('click', () => {
+  console.log("CLICKED10!");
+  console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
+  let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
 
-    const alwaysVisibleObjects = [ plane02Object, plane03Object, plane04Object, plane05Object, plane06Object, plane07Object, plane08Object, plane09Object, plane12Object, plane13Object, plane14Object, plane15Object ];
+  const alwaysVisibleObjects = [
+    plane02Object, plane03Object, plane04Object, plane05Object, plane06Object, 
+    plane07Object, plane08Object, plane09Object, plane12Object, plane13Object, 
+    plane14Object, plane15Object
+  ];
 
-    const customButtonObjects = {
-      customButton01: [plane16Object, textgameObject01],
-      customButton02: [plane17Object, textgameObject02],
-      customButton03: [plane18Object, textgameObject03],
-      customButton04: [plane19Object, textgameObject04],
-    };
-    const buttonStates = { customButton01: p_custombutton01url, customButton02: p_custombutton02url, customButton03: p_custombutton03url, customButton04: p_custombutton04url, };
-    // Toggle buttons visibility
-    const visibility = buttonsvisible ? 0 : 1;
-    toggleVisibility(alwaysVisibleObjects, visibility);
-    // Handle custom buttons
-    for (const [key, [planeObj, textObj]] of Object.entries(customButtonObjects)) {
-      if (buttonStates[key] !== "false") { toggleVisibility([planeObj, textObj], visibility); }
-    }
-    plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
-    // Update buttonsvisible state
-    buttonsvisible = !buttonsvisible;
+  const customButtonObjects = {
+    customButton01: [plane16Object, textgameObject01, p_custombutton01url],
+    customButton02: [plane17Object, textgameObject02, p_custombutton02url],
+    customButton03: [plane18Object, textgameObject03, p_custombutton03url],
+    customButton04: [plane19Object, textgameObject04, p_custombutton04url],
+  };
+
+  // Toggle visibility for always visible objects
+  toggleVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
+
+  // Handle custom button clicks and visibility toggling
+  Object.keys(customButtonObjects).forEach(key => {
+    const [buttonObject, textObject, url] = customButtonObjects[key];
+    handleCustomButtonClick(buttonObject, url, textObject);
   });
+  
+  plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
+  buttonsvisible = !buttonsvisible;
+});
 
   // HAND ICON Button Thing
   plane11Object.On('click', e => {
