@@ -416,7 +416,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombuttonurl01 != "false") {
     plane16Object.On('click', () => {
     console.log("CLICKED01!");
-    browser.url = p_custombutton01url;
+    firebrowser.url = p_custombutton01url;
     plane16material.color = new BS.Vector4(0.3,0.3,0.3,1);
     setTimeout(() => { plane16material.color = plane16color; }, 100);
     });
@@ -426,7 +426,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombuttonurl02 != "false") {
     plane17Object.On('click', () => {
       console.log("CLICKED02!");
-      browser.url = p_custombutton02url;
+      firebrowser.url = p_custombutton02url;
       plane17material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane17material.color = plane17color; }, 100);
     });
@@ -436,7 +436,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombuttonurl03 != "false") {
     plane18Object.On('click', () => {
       console.log("CLICKED03!");
-      browser.url = p_custombutton03url;
+      firebrowser.url = p_custombutton03url;
       plane18material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane18material.color = plane18color; }, 100);
     });
@@ -446,7 +446,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombuttonurl04 != "false") {
     plane19Object.On('click', () => {
       console.log("CLICKED04!");
-      browser.url = p_custombutton04url;
+      firebrowser.url = p_custombutton04url;
       plane19material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { plane19material.color = plane19color; }, 100);
     });
