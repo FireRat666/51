@@ -63,8 +63,8 @@ function updateButtonColor(buttonObject, colour, revertColour) {
 async function createButton(name, color, position, scale, text, url, clickHandler) {
   const buttonObject = new BS.GameObject(name);
   const geometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry);
-  const collider = await buttonObject.AddComponent(new BS.BoxCollider(true, center, new BS.Vector3(1,1,0)));
-  const material = await buttonObject.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, color, side, generateMipMaps));
+  const collider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(1,1,0)));
+  const material = await buttonObject.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, color, 0, false));
   const transform = await buttonObject.AddComponent(new BS.Transform());
   await buttonObject.SetLayer(5); // UI Layer
   transform.position = position;
@@ -227,10 +227,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   geometrytransform.eulerAngles = p_rot;
 
   // Add Box Collider
-  const isTrigger = false;
-  const center = new BS.Vector3(0,0,0);
   const size = new BS.Vector3(1.09,0.64,0.01);
-  const boxCollider = await geometryObject.AddComponent(new BS.BoxCollider(isTrigger, center, size));
+  const boxCollider = await geometryObject.AddComponent(new BS.BoxCollider(false, new BS.Vector3(0,0,0), size));
   await geometryObject.SetLayer(20);
   
   // Add a Rigid Body to the geometry
