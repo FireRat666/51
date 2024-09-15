@@ -23,6 +23,7 @@ let textgameObject02 = null;
 let textgameObject03 = null;
 let textgameObject04 = null;
 let firebrowser;
+let defaultshader = 'Unlit/DiffuseTransparent';
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -49,7 +50,7 @@ async function createMaterial(objectThing, options = {}) {
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
 };
 
-async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = 'Unlit/DiffuseTransparent', localScale = new BS.Vector3(1, 1, 1), text = "false", textPosition) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaultshader, localScale = new BS.Vector3(1, 1, 1), text = "false", textPosition) {
   const buttonObject = new BS.GameObject(name);
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
@@ -555,7 +556,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const plane20Object = new BS.GameObject("MyGeometry20");
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.PlaneGeometry);
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
-    const plane20material = await createMaterial(plane20Object, { shaderName: 'Unlit/DiffuseTransparent', color: new BS.Vector4(0,0,0,0), side: 1 });
+    const plane20material = await createMaterial(plane20Object, { shaderName: defaultshader, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
     firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
     plane20transform.localPosition = new BS.Vector3(0,-0.006,0.010);
@@ -563,10 +564,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localEulerAngles = new BS.Vector3(20,260,0);
 
     // HAND VOLUME UP BUTTON
-    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color, plane20Object, new BS.Vector3(180,0,0), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
-    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color, plane20Object, new BS.Vector3(180,0,0), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
-    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color, plane20Object, new BS.Vector3(180,0,0), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
-    const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, new BS.Vector3(180,0,0), 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
+    let buttonsSize = new BS.Vector3(0.4,0.4,0.4);
+    let buttonsRotation = new BS.Vector3(180,0,0);
+    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color, plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
+    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color, plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
+    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color, plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
+    const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
 
     console.log("FIRESCREEN2: Hand Control Stuff Setup");
 
@@ -574,32 +577,25 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     hvolUpButton.buttonObject.On('click', () => {
       console.log("CLICKED01!");
       adjustVolume(1);
-      updateButtonColor(plane21Object, new BS.Vector4(1,1,1,0.8), plane14color);
+      updateButtonColor(hvolUpButton.buttonObject, new BS.Vector4(1,1,1,0.8), plane14color);
     });
 
     // HAND BUTTON VOLUME DOWN
     hvolDownButton.buttonObject.On('click', () => {
       console.log("CLICKED02!");
       adjustVolume(-1);
-      updateButtonColor(plane22Object, new BS.Vector4(1,1,1,0.8), plane13color);
+      updateButtonColor(hvolDownButton.buttonObject, new BS.Vector4(1,1,1,0.8), plane13color);
     });
 
     // HAND BUTTON MUTE
     hmuteButton.buttonObject.On('click', () => {
       console.log("CLICKED03!");
-      if (browsermuted) {
-        browsermuted = false;
-        firebrowser.RunActions(JSON.stringify(
-          {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false);"}]}));
-          plane12material.color = plane12color;
-          plane23material.color = plane12color;
-      } else {
-        browsermuted = true;
-        firebrowser.RunActions(JSON.stringify(
-          {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true);"}]}));
-          plane12material.color = new BS.Vector4(1,0,0,1);
-          plane23material.color = new BS.Vector4(1,0,0,1);
-      };
+      browsermuted = !browsermuted;
+      runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
+      let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
+      let plane23material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
+      plane12material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
+      plane23material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
     });
 
     // HAND BUTTON LOCK PLAYER
