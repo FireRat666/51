@@ -305,7 +305,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
   
   async function setupCustomButtons() {
-    const customButtons = [
+    let customButtons = [
       { url: p_custombuttonurl01, object: plane16Object, id: "MyGeometry16", onClick: () => handleButtonClick('button01') },
       { url: p_custombuttonurl02, object: plane17Object, id: "MyGeometry17", onClick: () => handleButtonClick('button02') },
       { url: p_custombuttonurl03, object: plane18Object, id: "MyGeometry18", onClick: () => handleButtonClick('button03') },
@@ -447,7 +447,9 @@ plane10Object.On('click', () => {
 
   function billboardButClick() {
     console.log("CLICKED15!");
+    console.log("Before toggle:", isbillboarded);
     isbillboarded = !isbillboarded; // Toggle billboard state
+    console.log("After toggle:", isbillboarded);
     firesbillBoard.enableXAxis = isbillboarded;  // Update billboard state
     firesbillBoard.enableYAxis = isbillboarded;
     let plane15material = plane15Object.GetComponent(BS.ComponentType.BanterMaterial);
