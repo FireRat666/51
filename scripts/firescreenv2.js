@@ -302,6 +302,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const richText = true;
   const enableWordWrapping = true;
   const rectTransformSizeDelta = new BS.Vector2(2,1);
+  const side = 0;
+  const generateMipMaps = false;
 
   if (p_custombuttonurl01 !== "false") {
     console.log("p_custombuttonurl01 is true")
