@@ -49,6 +49,12 @@ async function createMaterial(objectThing, options = {}) {
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
 };
 
+function updateButtonColor(buttonObject, colour, revertColour) {
+  let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+  material.color = colour;
+  setTimeout(() => { material.color = revertColour; }, 100);
+};
+
 async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaultshader, localScale = new BS.Vector3(1, 1, 1), text = "false", textPosition) {
   const buttonObject = new BS.GameObject(name);
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
@@ -456,12 +462,6 @@ plane10Object.On('click', () => {
     billBoard.enableYAxis = isbillboarded;
     let plane15material = plane15Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane15material.color = isbillboarded ? plane15color : new BS.Vector4(1,1,1,1); // Update the plane colour 
-  };
-
-  function updateButtonColor(buttonObject, colour, revertColour) {
-    let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-    material.color = colour;
-    setTimeout(() => { material.color = revertColour; }, 100);
   };
   
   function adjustScale(direction) {
