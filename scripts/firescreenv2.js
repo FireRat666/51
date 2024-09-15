@@ -117,25 +117,15 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
   return button;
 };
 
-async function createCustomButton(buttonId, position, color, screenObject, text, buttonSize, textPosition) {
-  const result = await createUIButton(
-    buttonId, null, position, color, screenObject, "false", 1, 1, 'Unlit/Diffuse', buttonSize, text, textPosition
-  );
-  return result;
-};
-
-function setupCustomButtons(customButtonObjects) {
-  Object.keys(customButtonObjects).forEach(key => {
-    const [buttonObject, textObject, url] = customButtonObjects[key];
-    if (url) {
-      buttonObject.On('click', () => {
-        console.log(`Button ${key} clicked!`);
-        firebrowser.url = url;
-        updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
-      });
-    }
-  });
-};
+async function createCustomButton(object, id, url, onClick) {
+  const geometry = await createGeometry(object, BS.GeometryType.PlaneGeometry);
+  const material = await createMaterial(object, { shaderName: defaultshader, color: new BS.Vector4(1, 1, 1, 0.8), side: 1 });
+  const collider = await object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
+  const transform = await object.AddComponent(new BS.Transform());
+  transform.localScale = new BS.Vector3(0.4, 0.4, 0.4);
+  object.On('click', onClick);
+  console.log(`${id} created with URL: ${url}`);
+}
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
@@ -312,33 +302,66 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
 
-  const customButtonObjects = {
-    customButton01: [plane16Object, textgameObject01, p_custombuttonurl01],
-    customButton02: [plane17Object, textgameObject02, p_custombuttonurl02],
-    customButton03: [plane18Object, textgameObject03, p_custombuttonurl03],
-    customButton04: [plane19Object, textgameObject04, p_custombuttonurl04],
-  };
+  // const customButtonObjects = {
+  //   customButton01: [plane16Object, textgameObject01, p_custombuttonurl01],
+  //   customButton02: [plane17Object, textgameObject02, p_custombuttonurl02],
+  //   customButton03: [plane18Object, textgameObject03, p_custombuttonurl03],
+  //   customButton04: [plane19Object, textgameObject04, p_custombuttonurl04],
+  // };
 
-  const buttonsConfig = [
-    { id: "MyGeometry16", position: new BS.Vector3(0.68, 0.3, 0), text: p_custombutton01text, textPosition: new BS.Vector3(1.59, -0.188, -0.005), planeObject: plane16Object, textObject: textgameObject01},
-    { id: "MyGeometry17", position: new BS.Vector3(0.68, 0.25, 0), text: p_custombutton02text, textPosition: new BS.Vector3(1.59, -0.237, -0.005), planeObject: plane17Object, textObject: textgameObject02},
-    { id: "MyGeometry18", position: new BS.Vector3(0.68, 0.20, 0), text: p_custombutton03text, textPosition: new BS.Vector3(1.59, -0.287, -0.005), planeObject: plane18Object, textObject: textgameObject03},
-    { id: "MyGeometry19", position: new BS.Vector3(0.68, 0.15, 0), text: p_custombutton04text, textPosition: new BS.Vector3(1.59, -0.336, -0.005), planeObject: plane19Object, textObject: textgameObject04}
-  ];
+  // const buttonsConfig = [
+  //   { id: "MyGeometry16", position: new BS.Vector3(0.68, 0.3, 0), text: p_custombutton01text, textPosition: new BS.Vector3(1.59, -0.188, -0.005), planeObject: plane16Object, textObject: textgameObject01},
+  //   { id: "MyGeometry17", position: new BS.Vector3(0.68, 0.25, 0), text: p_custombutton02text, textPosition: new BS.Vector3(1.59, -0.237, -0.005), planeObject: plane17Object, textObject: textgameObject02},
+  //   { id: "MyGeometry18", position: new BS.Vector3(0.68, 0.20, 0), text: p_custombutton03text, textPosition: new BS.Vector3(1.59, -0.287, -0.005), planeObject: plane18Object, textObject: textgameObject03},
+  //   { id: "MyGeometry19", position: new BS.Vector3(0.68, 0.15, 0), text: p_custombutton04text, textPosition: new BS.Vector3(1.59, -0.336, -0.005), planeObject: plane19Object, textObject: textgameObject04}
+  // ];
 
-  for (let i = 0; i < buttonsConfig.length;i++) {
-    let { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
-    if (window[`p_custombuttonurl0${i}`] !== "false") {
-      console.log(window[`p_custombutton0${i}url`]);
-      console.log(id);
-      console.log(text);
-      const result = await createCustomButton( id, position, textPlaneColour, screenObject, text, buttonSize, textPosition );
-      planeObject = result.buttonObject;
-      textObject = result.textGameObject;
-    };
-  };
+  // for (let i = 0; i < buttonsConfig.length;i++) {
+  //   let { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
+  //   if (window[`p_custombuttonurl0${i}`] !== "false") {
+  //     console.log(window[`p_custombutton0${i}url`]);
+  //     console.log(id);
+  //     console.log(text);
+  //     const result = await createCustomButton( id, position, textPlaneColour, screenObject, text, buttonSize, textPosition );
+  //     planeObject = result.buttonObject;
+  //     textObject = result.textGameObject;
+  //   };
+  // };
+  
+  async function setupCustomButtons() {
+    const customButtons = [
+      { url: p_custombuttonurl01, object: plane16Object, id: "MyGeometry16", onClick: () => handleButtonClick('button01') },
+      { url: p_custombuttonurl02, object: plane17Object, id: "MyGeometry17", onClick: () => handleButtonClick('button02') },
+      { url: p_custombuttonurl03, object: plane18Object, id: "MyGeometry18", onClick: () => handleButtonClick('button03') },
+      { url: p_custombuttonurl04, object: plane19Object, id: "MyGeometry19", onClick: () => handleButtonClick('button04') },
+    ];
+  
+    for (const button of customButtons) {
+      if (button.url !== 'false') {
+        await createCustomButton(button.object, button.id, button.url, button.onClick);
+      }
+    }
+  }
+  
+  function handleButtonClick(buttonId) {
+    console.log(`Button ${buttonId} clicked!`);
+  }
+  
 
-  setupCustomButtons(customButtonObjects);
+// function setupCustomButtons(customButtonObjects) {
+//   Object.keys(customButtonObjects).forEach(key => {
+//     const [buttonObject, textObject, url] = customButtonObjects[key];
+//     if (url) {
+//       buttonObject.On('click', () => {
+//         console.log(`Button ${key} clicked!`);
+//         firebrowser.url = url;
+//         updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
+//       });
+//     }
+//   });
+// };
+
+//   setupCustomButtons(customButtonObjects);
   
   // Bill Board the geometryObject
   const smoothing = 0;
