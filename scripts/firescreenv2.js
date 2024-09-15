@@ -96,6 +96,7 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
   let firepercent = (firevolume * 100).toFixed(0);
   runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
   runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
+  console.log(`FIRESCREEN2: Volume is: ${firevolume}`)
 };
 
 // Function to toggle visibility of objects
