@@ -302,13 +302,13 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const richText = true;
   const enableWordWrapping = true;
   const rectTransformSizeDelta = new BS.Vector2(2,1);
-  
+
   if (p_custombuttonurl01 !== "false") {
     console.log("p_custombuttonurl01 is true")
     console.log(p_custombuttonurl01)
     // THE EXTRA BUTTON 01 - CURRENTLY
     plane16Object = new BS.GameObject("MyGeometry16");
-    const plane16geometry = await plane16Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane16geometry = await createGeometry(plane16Object, BS.GeometryType.PlaneGeometry);
     const plane16size = new BS.Vector3(1,1,0);
     plane16color = new BS.Vector4(0.1,0.1,0.1,0.9);
     const plane16Collider = await plane16Object.AddComponent(new BS.BoxCollider(true, center, plane16size));
