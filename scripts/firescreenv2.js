@@ -113,11 +113,10 @@ function toggleButtonVisibility(defaultobjects, visible) {
   
   defaultobjects.forEach(button => { button.SetActive(visible); });
 
-  customButtons.forEach(button => { 
+  customButtonObjects.forEach(button => { 
     if (button) {button.SetActive(visible); };
   });
 }
-
 
 function runBrowserActions(script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
