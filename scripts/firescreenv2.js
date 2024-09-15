@@ -92,6 +92,19 @@ function runBrowserActions(script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
 };
 
+function createButtonAction(buttonObject, clickHandler, defaultColor, clickedColor) {
+  buttonObject.On('click', () => {
+      clickHandler();
+      updateButtonColor(buttonObject, clickedColor, defaultColor);
+  });
+};
+
+async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
+  const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaultshader, new BS.Vector3(0.4, 0.4, 0.4));
+  createButtonAction(button, clickHandler, color, new BS.Vector4(1,1,1,0.8));
+  return button;
+};
+
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   
@@ -249,12 +262,16 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 	if (p_voldowncolor !== "false") { plane13color = p_voldowncolor;
 	} else { plane13color = thebuttonscolor; };
   const { buttonObject: plane13Object } = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color, screenObject);
+  // THE VOLDOWN BUTTON Click Event Creation
+  createButtonAction(plane13Object, () => adjustVolume(-1), plane13color, new BS.Vector4(1,1,1,0.8));
 
   // THE VOLUP BUTTON
   let plane14color = null;
 	if (p_volupcolor !== "false") { plane14color = p_volupcolor;
 	} else { plane14color = thebuttonscolor; };
   const { buttonObject: plane14Object } = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color, screenObject);
+  // THE VOLUP BUTTON Click Event Creation
+  createButtonAction(plane14Object, () => adjustVolume(1), plane14color, new BS.Vector4(1,1,1,0.8));
 
   // THE BILLBOARD/ROTATION BUTTON
   const plane15color = thebuttonscolor;
@@ -418,18 +435,18 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane12material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
   });
-  // VOLUME DOWN Button Thing
-  plane13Object.On('click', () => {
-    console.log("CLICKED13!");
-    adjustVolume(-1);
-    updateButtonColor(plane13Object, new BS.Vector4(1,1,1,0.8), plane13color);
-  });
-  // VOLUME UP Button Thing
-  plane14Object.On('click', () => {
-    console.log("CLICKED14!");
-    adjustVolume(1);
-    updateButtonColor(plane14Object, new BS.Vector4(1,1,1,0.8), plane14color);
-  });
+  // // VOLUME DOWN Button Thing
+  // plane13Object.On('click', () => {
+  //   console.log("CLICKED13!");
+  //   adjustVolume(-1);
+  //   updateButtonColor(plane13Object, new BS.Vector4(1,1,1,0.8), plane13color);
+  // });
+  // // VOLUME UP Button Thing
+  // plane14Object.On('click', () => {
+  //   console.log("CLICKED14!");
+  //   adjustVolume(1);
+  //   updateButtonColor(plane14Object, new BS.Vector4(1,1,1,0.8), plane14color);
+  // });
   // Billboard Button Thing
   plane15Object.On('click', () => {
     console.log("CLICKED15!");
@@ -510,24 +527,17 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   firescenev2.On("one-shot", e => {
     console.log(e)
-    console.log(e.detail);
     let currentshotdata = JSON.parse(e.detail.data);
     if (e.detail.fromAdmin) {
       console.log("Current Shot From Admin Is True");
   
-      if (currentshotdata.fireurl) {
-        console.log("currentshotdata.fireurl Is True");
-        firebrowser.url = currentshotdata.fireurl;
-      };
-
+      if (currentshotdata.fireurl) { firebrowser.url = currentshotdata.fireurl; };
       if (currentshotdata.firevolume) {
-        console.log("currentshotdata.firevolume Is True");
         console.log(currentshotdata.firevolume);
         let thisfirevolume = Number(parseFloat(currentshotdata.firevolume).toFixed(2));
         let firepercent = parseInt(thisfirevolume*100).toFixed(0);
-        firebrowser.RunActions(JSON.stringify(
-          {"actions":[{"actionType": "runscript","strparam1": "document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + thisfirevolume + ");"}]}));
-        firebrowser.RunActions(JSON.stringify( {"actions":[{"actionType": "runscript","strparam1": "document.querySelector('.html5-video-player').setVolume(" + firepercent + ");"}]}));
+        runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
+        runBrowserActions(`document.querySelector('.html5-video-player').setVolume(${firepercent});`);
       };
   
     } else {
@@ -564,50 +574,19 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
 
     // HAND VOLUME UP BUTTON
-    let buttonsSize = new BS.Vector3(0.4,0.4,0.4);
-    let buttonsRotation = new BS.Vector3(180,0,0);
-    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color, plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
-    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color, plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
-    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color, plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
-    const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, buttonsRotation, 1, 1, defaultshader, buttonsSize);
-
-    console.log("FIRESCREEN2: Hand Control Stuff Setup");
-
-    // HAND BUTTON VOLUME UP
-    hvolUpButton.buttonObject.On('click', () => {
-      console.log("CLICKED01!");
-      adjustVolume(1);
-      updateButtonColor(hvolUpButton.buttonObject, new BS.Vector4(1,1,1,0.8), plane14color);
-    });
-
-    // HAND BUTTON VOLUME DOWN
-    hvolDownButton.buttonObject.On('click', () => {
-      console.log("CLICKED02!");
-      adjustVolume(-1);
-      updateButtonColor(hvolDownButton.buttonObject, new BS.Vector4(1,1,1,0.8), plane13color);
-    });
-
-    // HAND BUTTON MUTE
-    hmuteButton.buttonObject.On('click', () => {
-      console.log("CLICKED03!");
+    const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), plane14color, plane20Object, () => adjustVolume(1));
+    const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), plane13color, plane20Object, () => adjustVolume(-1));
+    const hmuteButton = await createHandButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), plane12color, plane20Object, () => {
       browsermuted = !browsermuted;
       runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
-      let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
-      let plane23material = hmuteButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-      plane12material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
-      plane23material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
+      let muteMaterial = hmuteButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+      muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : plane12color;
     });
-
-    // HAND BUTTON LOCK PLAYER
-    hlockButton.buttonObject.On('click', () => {
-      console.log("CLICKED04!");
-
+    const hlockButton = await createHandButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
       playerislockedv2 = !playerislockedv2;
       playerislockedv2 ? lockPlayer() : unlockPlayer();
-      
       let plane24material = hlockButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7);
-
     });
 
     console.log("FIRESCREEN2: Hand Click Stuff END");
@@ -662,7 +641,6 @@ function announcerstufffunc() {
     
   }, 1000);
 }
-
 
 function getV3FromStr(strVector3) {
   var aresult = strVector3.split(" ");
