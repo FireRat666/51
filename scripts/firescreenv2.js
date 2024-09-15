@@ -327,7 +327,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log(p_custombuttonurl02)
     // THE EXTRA BUTTON 02 - CURRENTLY
     plane17Object = new BS.GameObject("MyGeometry17");
-    const plane17geometry = await plane17Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane17geometry = await createGeometry(plane17Object, BS.GeometryType.PlaneGeometry);
     const plane17size = new BS.Vector3(1,1,0);
     plane17color = new BS.Vector4(0.1,0.1,0.1,0.1);
     const plane17Collider = await plane17Object.AddComponent(new BS.BoxCollider(true, center, plane17size));
@@ -353,7 +353,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log(p_custombuttonurl03)
     // THE EXTRA BUTTON 03 - CURRENTLY
     plane18Object = new BS.GameObject("MyGeometry18");
-    const plane18geometry = await plane18Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane18geometry = await createGeometry(plane18Object, BS.GeometryType.PlaneGeometry);
     const plane18size = new BS.Vector3(1,1,0);
     plane18color = new BS.Vector4(0.1,0.1,0.1,0.7);
     const plane18Collider = await plane18Object.AddComponent(new BS.BoxCollider(true, center, plane18size));
@@ -380,7 +380,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log(p_custombuttonurl04)
     // THE EXTRA BUTTON 04 - CURRENTLY
     plane19Object = new BS.GameObject("MyGeometry19");
-    const plane19geometry = await plane19Object.AddComponent(new BS.BanterGeometry(geometryType, parametricType, 1, 1, depth, widthSegments, heightSegments, depthSegments, radius, segments, thetaStart, thetaLength, phiStart, phiLength, radialSegments, openEnded, radiusTop, radiusBottom, innerRadius, outerRadius, thetaSegments, phiSegments, tube, tubularSegments, arc, p, q, stacks, slices, detail, parametricPoints));
+    const plane19geometry = await createGeometry(plane19Object, BS.GeometryType.PlaneGeometry);
     const plane19size = new BS.Vector3(1,1,0);
     plane19color = new BS.Vector4(0.1,0.1,0.1,0.7);
     const plane19Collider = await plane19Object.AddComponent(new BS.BoxCollider(true, center, plane19size));
