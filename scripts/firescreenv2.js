@@ -106,17 +106,16 @@ function runBrowserActions(script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
 };
 
-function createButtonAction(buttonObject, clickHandler, defaultColor, clickedColor) {
+function createButtonAction(buttonObject, clickHandler) {
   console.log("Create Button Action Object, Click");
   buttonObject.On('click', (e) => {
     clickHandler(e);
-    updateButtonColor(buttonObject, clickedColor, defaultColor);
   });
 };
 
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
   const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaultshader, new BS.Vector3(0.4, 0.4, 0.4));
-  createButtonAction(button.buttonObject, clickHandler, color, new BS.Vector4(1,1,1,0.8));
+  createButtonAction(button.buttonObject, clickHandler);
   return button;
 };
 
@@ -237,9 +236,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // THE HOME BUTTON
   const plane02color = thebuttonscolor;
   const { buttonObject: plane02Object } = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color, screenObject);
+  createButtonAction(plane02Object, () => {firebrowser.url = url;updateButtonColor(plane02Object, new BS.Vector4(1,1,1,0.8), plane02color);});
   // THE INFO BUTTON
   const plane03color = thebuttonscolor;
   const { buttonObject: plane03Object } = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color, screenObject);
+  createButtonAction(plane03Object, () => {firebrowser.url = "https://firer.at/pages/Info.html";updateButtonColor(plane03Object, new BS.Vector4(1,1,1,0.8), plane03color);});
   // THE GOOGLE BUTTON
   const plane04color = new BS.Vector4(1,1,1,1);
   const { buttonObject: plane04Object } = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color, screenObject);
@@ -411,6 +412,46 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     await textgameObject04.SetParent(screenObject, false);
   };
   
+  // EXTRA Button Thing 01
+  if (p_custombutton01url != "false") {
+    plane16Object.On('click', () => {
+    console.log("CLICKED01!");
+    browser.url = p_custombutton01url;
+    plane16material.color = new BS.Vector4(0.3,0.3,0.3,1);
+    setTimeout(() => { plane16material.color = plane16color; }, 100);
+    });
+  };
+
+  // EXTRA Button Thing 02
+  if (p_custombutton02url != "false") {
+    plane17Object.On('click', () => {
+      console.log("CLICKED02!");
+      browser.url = p_custombutton02url;
+      plane17material.color = new BS.Vector4(0.3,0.3,0.3,1);
+      setTimeout(() => { plane17material.color = plane17color; }, 100);
+    });
+  };
+
+  // EXTRA Button Thing 03
+  if (p_custombutton03url != "false") {
+    plane18Object.On('click', () => {
+      console.log("CLICKED03!");
+      browser.url = p_custombutton03url;
+      plane18material.color = new BS.Vector4(0.3,0.3,0.3,1);
+      setTimeout(() => { plane18material.color = plane18color; }, 100);
+    });
+  };
+
+  // EXTRA Button Thing 04
+  if (p_custombutton04url != "false") {
+    plane19Object.On('click', () => {
+      console.log("CLICKED04!");
+      browser.url = p_custombutton04url;
+      plane19material.color = new BS.Vector4(0.3,0.3,0.3,1);
+      setTimeout(() => { plane19material.color = plane19color; }, 100);
+    });
+  };
+
   // Bill Board the geometryObject
   const smoothing = 0;
   firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(smoothing, true, true, true));
@@ -428,23 +469,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   firerigidBody.gameObject.On('drop', () => {
     firerigidBody.isKinematic = true;
     console.log("DROPPED!");
-  });
-
-  // Home Button Thing
-  plane02Object.On('click', () => {
-    console.log("CLICKED02!");
-    firebrowser.url = url;
-    updateButtonColor(plane02Object, new BS.Vector4(1,1,1,0.8), plane02color);
-  });
-
-  // Info Button Thing - with extras
-  plane03Object.On('click', e => {
-    console.log("CLICKED03!");
-    // Do something with e.detail.point and e.detail.normal.
-    console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
-    console.log("normals: X:" + e.detail.normal.x + " Y:" + e.detail.normal.y + " Z:" + e.detail.normal.z);
-    firebrowser.url = "https://firer.at/pages/Info.html";
-    updateButtonColor(plane03Object, new BS.Vector4(1,1,1,0.8), plane03color);
   });
 
   // Google Button Thing
