@@ -561,7 +561,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
     plane20transform.localPosition = new BS.Vector3(0,-0.006,0.010);
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
-    plane20transform.localEulerAngles = new BS.Vector3(20,260,0);
+    plane20transform.localEulerAngles = new BS.Vector3(0,-95,0);
 
     // HAND VOLUME UP BUTTON
     let buttonsSize = new BS.Vector3(0.4,0.4,0.4);
