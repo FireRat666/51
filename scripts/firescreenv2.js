@@ -335,7 +335,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     { id: "MyGeometry19", position: new BS.Vector3(0.68, 0.15, 0), text: p_custombutton04text, textPosition: new BS.Vector3(1.59, -0.336, -0.005), planeObject: plane19Object, textObject: textgameObject04}
   ];
 
-  for (let i = 1; i < buttonsConfig.length; i++) {
+  for (let i = 0; i < buttonsConfig.length; i++) {
     let { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
     if (window[`p_custombuttonurl0${i}`] !== "false") {
       console.log(window[`p_custombutton0${i+1}url`]);
