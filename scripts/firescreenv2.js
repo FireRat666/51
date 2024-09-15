@@ -93,9 +93,9 @@ function runBrowserActions(script) {
 };
 
 function createButtonAction(buttonObject, clickHandler, defaultColor, clickedColor) {
-  buttonObject.On('click', () => {
-      clickHandler();
-      updateButtonColor(buttonObject, clickedColor, defaultColor);
+  buttonObject.On('click', (e) => {
+    clickHandler(e);
+    updateButtonColor(buttonObject, clickedColor, defaultColor);
   });
 };
 
@@ -249,6 +249,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // A EMPTY BUTTON
   const plane11color = thebuttonscolor;
   const { buttonObject: plane11Object } = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
+  createButtonAction(plane11Object, handIconClick, plane11color, new BS.Vector4(1, 1, 1, 1));
   // plane11Object.SetActive(0);
 
   // THE MUTE BUTTON
@@ -256,6 +257,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 	if (p_mutecolor !== "false") { plane12color = p_mutecolor;
 	} else { plane12color = thebuttonscolor; };
   const { buttonObject: plane12Object } = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color, screenObject);
+  createButtonAction(plane12Object, muteButClick, plane12color, new BS.Vector4(1,0,0,1));
 
   // THE VOLDOWN BUTTON
   let plane13color = null;
@@ -431,40 +433,29 @@ plane10Object.On('click', () => {
     const [buttonObject, textObject, url] = customButtonObjects[key];
     handleCustomButtonClick(buttonObject, url, textObject);
   });
-  
+
   plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
   buttonsvisible = !buttonsvisible;
 });
 
   // HAND ICON Button Thing
-  plane11Object.On('click', e => {
+  function handIconClick(e) {
     console.log("CLICKED11!");
-    // Do something with e.detail.point and e.detail.normal.
-    console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
-    console.log("normals: X:" + e.detail.normal.x + " Y:" + e.detail.normal.y + " Z:" + e.detail.normal.z);
+    if (e) {
+      console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
+      console.log("normals: X:" + e.detail.normal.x + " Y:" + e.detail.normal.y + " Z:" + e.detail.normal.z);
+    }
     updateButtonColor(plane11Object, new BS.Vector4(1, 1, 1, 1), plane11color);
-  });
-  // MUTE Button Thing
-  plane12Object.On('click', () => {
+  }
+
+  function muteButClick() {
     console.log("CLICKED12!");
     browsermuted = !browsermuted;
     runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
     let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane12material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
-  });
-  // // VOLUME DOWN Button Thing
-  // plane13Object.On('click', () => {
-  //   console.log("CLICKED13!");
-  //   adjustVolume(-1);
-  //   updateButtonColor(plane13Object, new BS.Vector4(1,1,1,0.8), plane13color);
-  // });
-  // // VOLUME UP Button Thing
-  // plane14Object.On('click', () => {
-  //   console.log("CLICKED14!");
-  //   adjustVolume(1);
-  //   updateButtonColor(plane14Object, new BS.Vector4(1,1,1,0.8), plane14color);
-  // });
-  // Billboard Button Thing
+  }
+
   plane15Object.On('click', () => {
     console.log("CLICKED15!");
     isbillboarded = !isbillboarded; // Toggle billboard state
@@ -473,42 +464,6 @@ plane10Object.On('click', () => {
     let plane15material = plane15Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane15material.color = isbillboarded ? plane15color : new BS.Vector4(1,1,1,1); // Update the plane colour 
   });
-
-  // EXTRA Button Thing 01
-  if (p_custombutton01url != "false") {
-      plane16Object.On('click', () => {
-      console.log("CLICKED01!");
-      firebrowser.url = p_custombutton01url;
-      updateButtonColor(plane16Object, new BS.Vector4(0.3,0.3,0.3,1), textPlaneColour);
-    });
-  };
-
-  // EXTRA Button Thing 02
-  if (p_custombutton02url != "false") {
-    plane17Object.On('click', () => {
-      console.log("CLICKED02!");
-      firebrowser.url = p_custombutton02url;
-      updateButtonColor(plane17Object, new BS.Vector4(0.3,0.3,0.3,1), textPlaneColour);
-    });
-  };
-
-  // EXTRA Button Thing 03
-  if (p_custombutton03url != "false") {
-    plane18Object.On('click', () => {
-      console.log("CLICKED03!");
-      firebrowser.url = p_custombutton03url;
-      updateButtonColor(plane18Object, new BS.Vector4(0.3,0.3,0.3,1), textPlaneColour);
-    });
-  };
-
-  // EXTRA Button Thing 04
-  if (p_custombutton04url != "false") {
-    plane19Object.On('click', () => {
-      console.log("CLICKED04!");
-      firebrowser.url = p_custombutton04url;
-      updateButtonColor(plane19Object, new BS.Vector4(0.3,0.3,0.3,1), textPlaneColour);
-    });
-  };
 
   function updateButtonColor(buttonObject, colour, revertColour) {
     let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
