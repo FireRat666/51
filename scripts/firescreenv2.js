@@ -93,6 +93,21 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
   runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
   runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
 };
+
+// Function to toggle visibility of objects
+function toggleVisibility(objects, visibility) { objects.forEach(obj => obj.SetActive(visibility)); };
+
+// Generalized function to handle custom button logic
+function CustomButtonClick(buttonObject, url, textObject) {
+  if (url !== "false") {
+    buttonObject.On('click', () => {
+      console.log(`CLICKED: ${url}`);
+      firebrowser.url = url;
+      updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
+    });
+    toggleVisibility([buttonObject, textObject], buttonsvisible ? 1 : 0);
+  };
+};
   
 function runBrowserActions(script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
@@ -109,6 +124,30 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
   const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaultshader, new BS.Vector3(0.4, 0.4, 0.4));
   createButtonAction(button, clickHandler, color, new BS.Vector4(1,1,1,0.8));
   return button;
+};
+
+async function createCustomButton(buttonId, position, color, screenObject, text, buttonSize, textPosition) {
+  const result = await createUIButton(
+    buttonId, null, position, color, screenObject, "false", 1, 1, 'Unlit/Diffuse', buttonSize, text, textPosition
+  );
+  return result;
+};
+
+const buttonsConfig = [
+  { id: "MyGeometry16", position: new BS.Vector3(0.68, 0.3, 0), text: p_custombutton01text, textPosition: new BS.Vector3(1.59, -0.188, -0.005), planeObject: plane16Object, textObject: textgameObject01},
+  { id: "MyGeometry17", position: new BS.Vector3(0.68, 0.25, 0), text: p_custombutton02text, textPosition: new BS.Vector3(1.59, -0.237, -0.005), planeObject: plane17Object, textObject: textgameObject02},
+  { id: "MyGeometry18", position: new BS.Vector3(0.68, 0.20, 0), text: p_custombutton03text, textPosition: new BS.Vector3(1.59, -0.287, -0.005), planeObject: plane18Object, textObject: textgameObject03},
+  { id: "MyGeometry19", position: new BS.Vector3(0.68, 0.15, 0), text: p_custombutton04text, textPosition: new BS.Vector3(1.59, -0.336, -0.005), planeObject: plane19Object, textObject: textgameObject04}
+];
+
+for (let i = 1; i < buttonsConfig.length; i++) {
+  let { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
+  if (window[`p_custombuttonurl0${i}`] !== "false") {
+    console.log(window[`p_custombutton0${i+1}url`]);
+    const result = await createCustomButton( id, position, textPlaneColour, screenObject, text, buttonSize, textPosition );
+    planeObject = result.buttonObject;
+    textObject = result.textGameObject;
+  };
 };
 
 function setupfirescreen2() {
@@ -286,30 +325,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
 
-
-  async function createCustomButton(buttonId, position, color, screenObject, text, buttonSize, textPosition) {
-    const result = await createUIButton(
-      buttonId, null, position, color, screenObject, "false", 1, 1, 'Unlit/Diffuse', buttonSize, text, textPosition
-    );
-    return result;
-  };
-
-  const buttonsConfig = [
-    { id: "MyGeometry16", position: new BS.Vector3(0.68, 0.3, 0), text: p_custombutton01text, textPosition: new BS.Vector3(1.59, -0.188, -0.005), planeObject: plane16Object, textObject: textgameObject01},
-    { id: "MyGeometry17", position: new BS.Vector3(0.68, 0.25, 0), text: p_custombutton02text, textPosition: new BS.Vector3(1.59, -0.237, -0.005), planeObject: plane17Object, textObject: textgameObject02},
-    { id: "MyGeometry18", position: new BS.Vector3(0.68, 0.20, 0), text: p_custombutton03text, textPosition: new BS.Vector3(1.59, -0.287, -0.005), planeObject: plane18Object, textObject: textgameObject03},
-    { id: "MyGeometry19", position: new BS.Vector3(0.68, 0.15, 0), text: p_custombutton04text, textPosition: new BS.Vector3(1.59, -0.336, -0.005), planeObject: plane19Object, textObject: textgameObject04}
-  ];
-  
-  for (let i = 1; i < buttonsConfig.length; i++) {
-    let { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
-    if (window[`p_custombuttonurl0${i}`] !== "false") {
-      console.log(window[`p_custombutton0${i+1}url`]);
-      const result = await createCustomButton( id, position, textPlaneColour, screenObject, text, buttonSize, textPosition );
-      planeObject = result.buttonObject;
-      textObject = result.textGameObject;
-    };
-  };
   
   // Bill Board the geometryObject
   const smoothing = 0;
@@ -390,21 +405,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
     updateButtonColor(plane09Object, new BS.Vector4(1,1,1,1), plane09color);
   });
-
-  // Function to toggle visibility of objects
-  function toggleVisibility(objects, visibility) { objects.forEach(obj => obj.SetActive(visibility)); };
-
-  // Generalized function to handle custom button logic
-  function CustomButtonClick(buttonObject, url, textObject) {
-    if (url !== "false") {
-      buttonObject.On('click', () => {
-        console.log(`CLICKED: ${url}`);
-        firebrowser.url = url;
-        updateButtonColor(buttonObject, new BS.Vector4(0.3, 0.3, 0.3, 1), textPlaneColour);
-      });
-      toggleVisibility([buttonObject, textObject], buttonsvisible ? 1 : 0);
-    }
-  }
 
   // HIDE Button Thing
 plane10Object.On('click', () => {
