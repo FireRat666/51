@@ -236,29 +236,59 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // THE HOME BUTTON
   const plane02color = thebuttonscolor;
   const { buttonObject: plane02Object } = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color, screenObject);
-  createButtonAction(plane02Object, () => {firebrowser.url = url;updateButtonColor(plane02Object, new BS.Vector4(1,1,1,0.8), plane02color);});
+  createButtonAction(plane02Object, () => {console.log("Home Clicked!");
+    firebrowser.url = url;updateButtonColor(plane02Object, new BS.Vector4(1,1,1,0.8), plane02color);
+  });
   // THE INFO BUTTON
   const plane03color = thebuttonscolor;
   const { buttonObject: plane03Object } = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color, screenObject);
-  createButtonAction(plane03Object, () => {firebrowser.url = "https://firer.at/pages/Info.html";updateButtonColor(plane03Object, new BS.Vector4(1,1,1,0.8), plane03color);});
+  createButtonAction(plane03Object, () => { console.log("Info Clicked!");
+    firebrowser.url = "https://firer.at/pages/Info.html";updateButtonColor(plane03Object, new BS.Vector4(1,1,1,0.8), plane03color);
+  });
   // THE GOOGLE BUTTON
   const plane04color = new BS.Vector4(1,1,1,1);
   const { buttonObject: plane04Object } = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color, screenObject);
+  createButtonAction(plane04Object, () => { console.log("Google Clicked!");
+    firebrowser.url = "https://google.com/";
+    updateButtonColor(plane04Object, new BS.Vector4(1,1,1,0.8), plane04color);
+  });
   // THE KEYBOARD BUTTON
   const plane05color = new BS.Vector4(1,1,1,1);
   const { buttonObject: plane05Object } = await createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color, screenObject);
+  createButtonAction(plane05Object, () => { console.log("Keyboard Clicked!");
+    let plane05material = plane05Object.GetComponent(BS.ComponentType.BanterMaterial);
+    keyboardstate = !keyboardstate; // Toggle state
+    firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
+    plane05material.color = keyboardstate ? thebuttonscolor : plane05color;
+  });
   // THE BACK BUTTON
   const plane06color = thebuttonscolor;
   const { buttonObject: plane06Object } = await createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color, screenObject);
+  createButtonAction(plane06Object, () => { console.log("Back Clicked!");
+    firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
+    updateButtonColor(plane06Object, new BS.Vector4(1,1,1,0.8), plane06color);
+  });
   // THE GROW BUTTON
   const plane07color = thebuttonscolor;
   const { buttonObject: plane07Object } = await createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color, screenObject);
+  createButtonAction(plane07Object, () => { console.log("Grow Clicked!");
+    adjustScale("grow");
+    updateButtonColor(plane07Object, new BS.Vector4(1,1,1,0.8), plane07color);
+  });
   // THE SHRINK BUTTON
   const plane08color = thebuttonscolor;
   const { buttonObject: plane08Object } = await createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color, screenObject);
+  createButtonAction(plane08Object, () => { console.log("Shrink Clicked!");
+    adjustScale("shrink");
+    updateButtonColor(plane08Object, new BS.Vector4(1,1,1,0.8), plane08color);
+  });
   // THE FORWARD BUTTON
   const plane09color = thebuttonscolor;
   const { buttonObject: plane09Object } = await createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, screenObject, new BS.Vector3(0,0,180));
+  createButtonAction(plane09Object, () => { console.log("Forward Clicked!");
+    firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
+    updateButtonColor(plane09Object, new BS.Vector4(1,1,1,1), plane09color);
+  });
   // THE HIDE/SHOW BUTTON
   const plane10color = thebuttonscolor;
   const { buttonObject: plane10Object } = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color, screenObject);
@@ -295,7 +325,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane15color = thebuttonscolor;
   const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
-  
   
   const horizontalAlignment = "Center";
   const verticalAlignment = "Center";
@@ -471,68 +500,24 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log("DROPPED!");
   });
 
-  // Google Button Thing
-  plane04Object.On('click', () => {
-    console.log("CLICKED04!");
-    firebrowser.url = "https://google.com/";
-    updateButtonColor(plane04Object, new BS.Vector4(1,1,1,0.8), plane04color);
-  });
-
-  // Keyboard Button Thing
-  plane05Object.On('click', () => {
-    console.log("CLICKED05!");
-    let plane05material = plane05Object.GetComponent(BS.ComponentType.BanterMaterial);
-    keyboardstate = !keyboardstate; // Toggle state
-    firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
-    plane05material.color = keyboardstate ? thebuttonscolor : plane05color;
-  });
-
-  // Back Button Thing
-  plane06Object.On('click', () => {
-    console.log("CLICKED06!");
-    firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
-    updateButtonColor(plane06Object, new BS.Vector4(1,1,1,0.8), plane06color);
-  });
-
-  // Grow Button Thing
-  plane07Object.On('click', () => {
-    console.log("CLICKED07!");
-    adjustScale("grow");
-    updateButtonColor(plane07Object, new BS.Vector4(1,1,1,0.8), plane07color);
-  });
-
-  // Shrink Button Thing
-  plane08Object.On('click', () => {
-    console.log("CLICKED08!");
-    adjustScale("shrink");
-    updateButtonColor(plane08Object, new BS.Vector4(1,1,1,0.8), plane08color);
-  });
-
-  // Forward Button Thing
-  plane09Object.On('click', () => {
-    console.log("CLICKED09!");
-    firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
-    updateButtonColor(plane09Object, new BS.Vector4(1,1,1,1), plane09color);
-  });
-
   // HIDE Button Thing
-plane10Object.On('click', () => {
-  console.log("CLICKED10!");
-  console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
-  let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
+  plane10Object.On('click', () => {
+    console.log("CLICKED10!");
+    console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
+    let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
 
-  const alwaysVisibleObjects = [
-    plane02Object, plane03Object, plane04Object, plane05Object, plane06Object, 
-    plane07Object, plane08Object, plane09Object, plane12Object, plane13Object, 
-    plane14Object, plane15Object
-  ];
+    const alwaysVisibleObjects = [
+      plane02Object, plane03Object, plane04Object, plane05Object, plane06Object, 
+      plane07Object, plane08Object, plane09Object, plane12Object, plane13Object, 
+      plane14Object, plane15Object
+    ];
 
-  // Toggle visibility for always visible objects
-  toggleVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
+    // Toggle visibility for always visible objects
+    toggleVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
 
-  plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
-  buttonsvisible = !buttonsvisible;
-});
+    plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
+    buttonsvisible = !buttonsvisible;
+  });
 
   // HAND ICON Button Thing
   function handIconClick(e) {
