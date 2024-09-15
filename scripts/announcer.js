@@ -734,93 +734,52 @@ function announcerloadtest() {
     setTimeout(() => { load420(); }, 20000);
 
 
-    
-
-
-announcerscene.On("one-shot", e => {
-  console.log(e.detail);
-  currentshot = e.detail;
-  currentshotuser = e.detail.fromId;
-  currentshotdata = JSON.parse(e.detail.data);
-  if (e.detail.fromAdmin) {
-    console.log("Current Shot From Admin Is True");
-
-    if (currentshotdata.message) {
-      console.log("currentshotdata.message Is True");
-      let thismessage = currentshotdata.message;
-      let thiscurrentaduiovolume = announceraudiovolume;
-      announceraudiovolume = 0.15;
-      speak(thismessage);
-      setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
+  announcerscene.On("one-shot", e => {
+    console.log(e.detail);
+    currentshot = e.detail;
+    currentshotdata = JSON.parse(e.detail.data);
+  
+    const shotMessage = (message, volume) => {
+      if (message) {
+        console.log("shot message");
+        let currentVolume = announceraudiovolume;
+        announceraudiovolume = volume;
+        speak(message);
+        setTimeout(() => { announceraudiovolume = currentVolume; }, 4000);
+      }
     };
-
-    if (currentshotdata.audiofile) {
-      console.log("currentshotdata.audiofile Is True");
-      let thismessage = currentshotdata.audiofile;
-      let thiscurrentaduiovolume = announceraudiovolume;
-      announceraudiovolume = 0.10;
-      playaudiofile(thismessage);
-      setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
+  
+    const shotAudioFile = (audiofile, volume) => {
+      if (audiofile) {
+        console.log("shot audio file");
+        let currentVolume = announceraudiovolume;
+        announceraudiovolume = volume;
+        playaudiofile(audiofile);
+        setTimeout(() => { announceraudiovolume = currentVolume; }, 4000);
+      }
     };
-
-    if (currentshotdata.muteaudio) {
-      console.log("currentshotdata.muteaudio Is True");
-      muteaudiofile();
-    };
-
-  } else if (e.detail.fromId === announcerscene.localUser.uid) {
-    console.log("Current Shot is from Local User");
-
-      if (currentshotdata.message) {
-        console.log("currentshotdata.message Is True");
-        let thiscurrentaduiovolume = announceraudiovolume;
-        speak(currentshotdata.message);
-        announceraudiovolume = 0.15;
-        setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
-      };
-
-      if (currentshotdata.audiofile) {
-        console.log("currentshotdata.audiofile Is True");
-        let thismessage = currentshotdata.audiofile;
-        let thiscurrentaduiovolume = announceraudiovolume;
-        announceraudiovolume = 0.10;
-        playaudiofile(thismessage);
-        setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
-      };
-
+  
+    const shotMute = () => {
       if (currentshotdata.muteaudio) {
-        console.log("currentshotdata.muteaudio Is True");
+        console.log("shot mute");
         muteaudiofile();
-      };
-
-  } else {
-    console.log(e.detail.fromId);
-    if (e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {
-      if (currentshotdata.message) {
-        console.log("currentshotdata.message Is True");
-        let thismessage = currentshotdata.message;
-        let thiscurrentaduiovolume = announceraudiovolume;
-        announceraudiovolume = 0.15;
-        speak(thismessage);
-        setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
-      };
+      }
     };
-
-    if (currentshotdata.audiofile) {
-      console.log("currentshotdata.audiofile Is True");
-      let thismessage = currentshotdata.audiofile;
-      let thiscurrentaduiovolume = announceraudiovolume;
-      announceraudiovolume = 0.10;
-      playaudiofile(thismessage);
-      setTimeout(() => { announceraudiovolume = thiscurrentaduiovolume; }, 4000);
+  
+    const isAdminOrLocalUser = e.detail.fromAdmin || e.detail.fromId === announcerscene.localUser.uid;
+  
+    if (isAdminOrLocalUser) {
+      console.log(isAdminOrLocalUser ? "Current Shot is from Admin" : "Current Shot is from Local User");
+      shotMessage(currentshotdata.message, 0.15);
+      shotAudioFile(currentshotdata.audiofile, 0.10);
+      shotMute();
+    } else if (e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {
+        shotMessage(currentshotdata.message, 0.15);
+        shotAudioFile(currentshotdata.audiofile, 0.10);
+        shotMute();
     };
-
-    if (currentshotdata.muteaudio) {
-      console.log("currentshotdata.muteaudio Is True");
-      muteaudiofile();
-    };
-  };
-});
+  });
+    
 // await scene.OneShot(JSON.stringify({message: "Example"}));
 // await announcerscene.OneShot(JSON.stringify({message: "Words go here"}));
 // await announcerscene.OneShot(JSON.stringify({audiofile: "http://firer.at/files/audio/BigJohn.wav"}));
