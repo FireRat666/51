@@ -125,11 +125,17 @@ async function createCustomButton(buttonId, position, color, screenObject, text,
 };
 
 function setupCustomButton(planeObject, textObject, url) {
-  planeObject.On('click', () => {
-      console.log(`Button with URL ${url} clicked!`);
-      // Perform actions based on URL or other parameters
-      CustomButtonClick(planeObject, url, textObject);
-  });
+  if (planeObject && textObject && url) {
+    planeObject.On('click', () => {
+        console.log(`Button with URL ${url} clicked!`);
+        // Perform actions based on URL or other parameters
+        CustomButtonClick(planeObject, url, textObject);
+    });
+  } else {
+    console.warn(`Invalid setup for button with URL: ${url}`);
+    console.log(planeObject);
+    console.log(textObject);
+  };
 };
 
 // Generalized function to handle custom button logic
