@@ -49,7 +49,7 @@ async function createMaterial(objectThing, options = {}) {
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
 };
 
-async function createUIButton(name, thetexture, position, thecolor, rotation = "false", width = 0.1, height = 0.1, theShader = 'Unlit/DiffuseTransparent', localScale = new BS.Vector3(1, 1, 1), text = "false", textPosition) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = 'Unlit/DiffuseTransparent', localScale = new BS.Vector3(1, 1, 1), text = "false", textPosition) {
   const buttonObject = new BS.GameObject(name);
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
@@ -61,7 +61,7 @@ async function createUIButton(name, thetexture, position, thecolor, rotation = "
     buttonTransform.localRotation = rotation;
   }
   buttonObject.SetLayer(5); // UI Layer
-  await buttonObject.SetParent(screenObject, false);
+  await buttonObject.SetParent(thisparent, false);
 
   let textGameObject = null;
   if (text !== "false") {
@@ -69,7 +69,7 @@ async function createUIButton(name, thetexture, position, thecolor, rotation = "
     const textObject = await textGameObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
     const textTransform = await textGameObject.AddComponent(new BS.Transform());
     textTransform.localPosition = textPosition || new BS.Vector3(0, 0, 0);
-    await textGameObject.SetParent(screenObject, false);
+    await textGameObject.SetParent(thisparent, false);
   }
   return { buttonObject, textGameObject };
 };
@@ -212,34 +212,34 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
   // THE HOME BUTTON
   const plane02color = thebuttonscolor;
-  const { buttonObject: plane02Object } = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color);
+  const { buttonObject: plane02Object } = await createUIButton("MyGeometry02", "https://firer.at/files/Home.png", new BS.Vector3(-0.2,0.38,0), plane02color, screenObject);
   // THE INFO BUTTON
   const plane03color = thebuttonscolor;
-  const { buttonObject: plane03Object } = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color);
+  const { buttonObject: plane03Object } = await createUIButton("MyGeometry03", "https://firer.at/files/Info.png", new BS.Vector3(-0.6,0.28,0), plane03color, screenObject);
   // THE GOOGLE BUTTON
   const plane04color = new BS.Vector4(1,1,1,1);
-  const { buttonObject: plane04Object } = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color);
+  const { buttonObject: plane04Object } = await createUIButton("MyGeometry04", "https://firer.at/files/Google.png", new BS.Vector3(-0.6,0.16,0), plane04color, screenObject);
   // THE KEYBOARD BUTTON
   const plane05color = new BS.Vector4(1,1,1,1);
-  const { buttonObject: plane05Object } = await createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color);
+  const { buttonObject: plane05Object } = await createUIButton("MyGeometry05", "https://firer.at/files/Keyboard.png", new BS.Vector3(-0.6,-0.15,0), plane05color, screenObject);
   // THE BACK BUTTON
   const plane06color = thebuttonscolor;
-  const { buttonObject: plane06Object } = await createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color);
+  const { buttonObject: plane06Object } = await createUIButton("MyGeometry06", p_icondirectionurl, new BS.Vector3(-0.5,0.38,0), plane06color, screenObject);
   // THE GROW BUTTON
   const plane07color = thebuttonscolor;
-  const { buttonObject: plane07Object } = await createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color);
+  const { buttonObject: plane07Object } = await createUIButton("MyGeometry07", "https://firer.at/files/expand.png", new BS.Vector3(0.6,0.06,0), plane07color, screenObject);
   // THE SHRINK BUTTON
   const plane08color = thebuttonscolor;
-  const { buttonObject: plane08Object } = await createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color);
+  const { buttonObject: plane08Object } = await createUIButton("MyGeometry08", "https://firer.at/files/shrink.png", new BS.Vector3(0.6,-0.06,0), plane08color, screenObject);
   // THE FORWARD BUTTON
   const plane09color = thebuttonscolor;
-  const { buttonObject: plane09Object } = await createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, new BS.Vector4(0,0,100,1));
+  const { buttonObject: plane09Object } = await createUIButton("MyGeometry09", p_icondirectionurl, new BS.Vector3(-0.38,0.38,0), plane09color, screenObject, new BS.Vector4(0,0,100,1));
   // THE HIDE/SHOW BUTTON
   const plane10color = thebuttonscolor;
-  const { buttonObject: plane10Object } = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color);
+  const { buttonObject: plane10Object } = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color, screenObject);
   // A EMPTY BUTTON
   const plane11color = thebuttonscolor;
-  const { buttonObject: plane11Object } = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0));
+  const { buttonObject: plane11Object } = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
   // plane11Object.SetActive(0);
 
   // THE MUTE BUTTON
@@ -249,7 +249,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 	} else {
 		plane12color = thebuttonscolor;
 	};
-  const { buttonObject: plane12Object } = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color);
+  const { buttonObject: plane12Object } = await createUIButton("MyGeometry12", p_iconmuteurl, new BS.Vector3(0.167,0.38,0), plane12color, screenObject);
 
   // THE VOLDOWN BUTTON
   let plane13color = null;
@@ -258,7 +258,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 	} else {
 		plane13color = thebuttonscolor;
 	};
-  const { buttonObject: plane13Object } = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color);
+  const { buttonObject: plane13Object } = await createUIButton("MyGeometry13", p_iconvoldownurl, new BS.Vector3(0.334,0.38,0), plane13color, screenObject);
 
   // THE VOLUP BUTTON
   let plane14color = null;
@@ -267,16 +267,16 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 	} else {
 		plane14color = thebuttonscolor;
 	};
-  const { buttonObject: plane14Object } = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color);
+  const { buttonObject: plane14Object } = await createUIButton("MyGeometry14", p_iconvolupurl, new BS.Vector3(0.495,0.38,0), plane14color, screenObject);
 
   // THE BILLBOARD/ROTATION BUTTON
   const plane15color = thebuttonscolor;
-  const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color);
+  const { buttonObject: plane15Object } = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
 
   if (p_custombutton01url !== "false") {
     console.log(p_custombutton01url)
     // THE EXTRA BUTTON 01
-    const thisresult = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
+    const thisresult = await createUIButton("MyGeometry16", null, new BS.Vector3(0.68,0.3,0), textPlaneColour, screenObject, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005));
     plane16Object = thisresult.buttonObject;
     textgameObject01 = thisresult.textGameObject;
   };
@@ -284,7 +284,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombutton02url !== "false") {
       console.log(p_custombutton02url)
       // THE EXTRA BUTTON 02
-      const thisresult = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
+      const thisresult = await createUIButton("MyGeometry17", null, new BS.Vector3(0.68,0.25,0), textPlaneColour, screenObject, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005));
       plane17Object = thisresult.buttonObject;
       textgameObject02 = thisresult.textGameObject;
   };
@@ -292,7 +292,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombutton03url !== "false") {
     console.log(p_custombutton03url)
     // THE EXTRA BUTTON 03
-    const thisresult = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
+    const thisresult = await createUIButton("MyGeometry18", null, new BS.Vector3(0.68,0.20,0), textPlaneColour, screenObject, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005));
     plane18Object = thisresult.buttonObject;
     textgameObject03 = thisresult.textGameObject;
   };
@@ -300,7 +300,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombutton04url !== "false") {
     console.log(p_custombutton04url)
     // THE EXTRA BUTTON 04
-    const thisresult = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
+    const thisresult = await createUIButton("MyGeometry19", null, new BS.Vector3(0.68,0.15,0), textPlaneColour, screenObject, "false", 1, 1, 'Unlit/Diffuse', buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005));
     plane19Object = thisresult.buttonObject;
     textgameObject04 = thisresult.textGameObject;
   };
@@ -585,10 +585,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localEulerAngles = new BS.Vector3(20,260,0);
 
     // HAND VOLUME UP BUTTON
-    const hvolUpButton = await createUIButton("VolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane14color, false, 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
-    const hvolDownButton = await createUIButton("VolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color);
-    const hmuteButton = await createUIButton("MuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color);
-    const hlockButton = await createUIButton("LockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), new BS.Vector3(0, 0, 180));
+    const hvolUpButton = await createUIButton("VolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4, 0.4, 0.3), plane20Object, screenObject, false, 1, 1, 'Unlit/DiffuseTransparent', new BS.Vector3(0.4,0.4,0.4));
+    const hvolDownButton = await createUIButton("VolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0, 0.4, 0.3), plane13color, plane20Object);
+    const hmuteButton = await createUIButton("MuteButton", p_iconmuteurl, new BS.Vector3(-0.4, 0.4, 0.3), plane12color, plane20Object);
+    const hlockButton = await createUIButton("LockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0, -0.1, 0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, new BS.Vector3(0, 0, 180));
 
     // Set parent to the container object
     await volUpButton.buttonObject.SetParent(plane20Object, false);
