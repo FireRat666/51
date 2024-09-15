@@ -559,9 +559,9 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const plane20material = await createMaterial(plane20Object, { shaderName: defaultshader, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
     firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
-    plane20transform.localPosition = new BS.Vector3(0,-0.006,0.010);
+    plane20transform.localPosition = new BS.Vector3(-0.01,-0.006,0.020);
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
-    plane20transform.localEulerAngles = new BS.Vector3(0,-95,0);
+    plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
 
     // HAND VOLUME UP BUTTON
     let buttonsSize = new BS.Vector3(0.4,0.4,0.4);
@@ -606,7 +606,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       playerislockedv2 ? lockPlayer() : unlockPlayer();
       
       let plane24material = hlockButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : thebuttonscolor;
+      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7);
 
     });
 
