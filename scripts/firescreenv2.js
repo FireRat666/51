@@ -95,8 +95,8 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
 };
 
 // Function to toggle visibility of objects
-function toggleVisibility(objects, visibility) { objects.forEach(obj => obj.SetActive(visibility)); };
-  
+function toggleVisibility(objects, visible) { objects.forEach(obj => { if (obj) {obj.SetActive(visible) } });};
+
 function runBrowserActions(script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
 };
@@ -444,7 +444,9 @@ plane10Object.On('click', () => {
   // Handle custom button clicks and visibility toggling
   Object.keys(customButtonObjects).forEach(key => {
     const [buttonObject, textObject, url] = customButtonObjects[key];
-    setupCustomButton(buttonObject, textObject, url);
+    if (url) {
+      setupCustomButton(buttonObject, textObject, url);
+    }
   });
 
   plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
