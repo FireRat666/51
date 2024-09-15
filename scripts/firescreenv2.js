@@ -295,7 +295,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   ];
   
   for (let i = 1; i < buttonsConfig.length; i++) {
-    const { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
+    let { id, position, text, textPosition, planeObject, textObject } = buttonsConfig[i];
     if (window[`p_custombuttonurl0${i}`] !== "false") {
       console.log(window[`p_custombutton0${i+1}url`]);
       const result = await createCustomButton( id, position, textPlaneColour, screenObject, text, buttonSize, textPosition );
