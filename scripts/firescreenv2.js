@@ -60,7 +60,7 @@ function updateButtonColor(buttonObject, colour, revertColour) {
   setTimeout(() => { material.color = revertColour; }, 100);
 };
 
-async function createButton(name, color, position, scale, text, url, clickHandler) {
+async function createButton(name, color, position, scale, text, textposition, url, clickHandler) {
   const buttonObject = new BS.GameObject(name);
   const geometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry);
   const collider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(1,1,0)));
@@ -75,7 +75,7 @@ async function createButton(name, color, position, scale, text, url, clickHandle
       const textObject = new BS.GameObject(`${name}Text`);
       const banterText = await textObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
       const textTransform = await textObject.AddComponent(new BS.Transform());
-      textTransform.localPosition = new BS.Vector3(1.59, -0.1, -0.005); // Adjust as needed
+      textTransform.localPosition = textposition;
       await textObject.SetParent(screenObject, false);
   };
 
@@ -348,29 +348,29 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const plane15Object = await createUIButton("MyGeometry15", "https://firer.at/files/Rot.png", new BS.Vector3(-0.6,-0.3,0), plane15color, screenObject);
   createButtonAction(plane15Object, billboardButClick, plane15color, new BS.Vector4(1,1,1,1));
   
-  // Usage (name, color, position, scale, text, url, clickHandler)
+  // Usage (name, color, position, scale, text, textposition, url, clickHandler)
 
   if (p_custombuttonurl01 !== "false") {
     console.log("p_custombuttonurl01 is true");
-    await createButton("MyGeometry16", new BS.Vector4(0.1,0.1,0.1,1), new BS.Vector3(0.68,0.3,0), new BS.Vector3(0.2,0.04,1), p_custombutton01text, p_custombuttonurl01, () => {});
+    await createButton("MyGeometry16", textPlaneColour, new BS.Vector3(0.68,0.3,0), buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
     console.log(p_custombuttonurl01);
   };
 
   if (p_custombuttonurl02 !== "false") {
     console.log("p_custombuttonurl02 is true");
-    await createButton("MyGeometry17", new BS.Vector4(0.1,0.1,0.1,1), new BS.Vector3(0.68,0.25,0), new BS.Vector3(0.2,0.04,1), p_custombutton02text, p_custombuttonurl02, () => {});
+    await createButton("MyGeometry17", textPlaneColour, new BS.Vector3(0.68,0.25,0), buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
     console.log(p_custombuttonurl02);
   };
 
   if (p_custombuttonurl03 !== "false") {
     console.log("p_custombuttonurl03 is true");
-    await createButton("MyGeometry18", new BS.Vector4(0.1,0.1,0.1,1), new BS.Vector3(0.68,0.20,0), new BS.Vector3(0.2,0.04,1), p_custombutton03text, p_custombuttonurl03, () => {});
+    await createButton("MyGeometry18", textPlaneColour, new BS.Vector3(0.68,0.20,0), buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
     console.log(p_custombuttonurl03);
   };
 
   if (p_custombuttonurl04 !== "false") {
     console.log("p_custombuttonurl04 is true");
-    await createButton("MyGeometry19", new BS.Vector4(0.1,0.1,0.1,1), new BS.Vector3(0.68,0.15,0), new BS.Vector3(0.2,0.04,1), p_custombutton04text, p_custombuttonurl04, () => {});
+    await createButton("MyGeometry19", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04);
   };
 
