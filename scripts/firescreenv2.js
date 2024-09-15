@@ -14,7 +14,7 @@ let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
 let screenObject = null;
-let customButtons = [];
+let customButtonObjects = [];
 let firebrowser;
 let firesbillBoard;
 let defaultshader = 'Unlit/DiffuseTransparent';
@@ -52,7 +52,7 @@ function updateButtonColor(buttonObject, colour, revertColour) {
 async function createCustomButton(name, color, position, scale, text, textposition, url, clickHandler) {
   
   const buttonObject = await createUIButton(name, null, position, color, screenObject, "false", 1, 1, "Unlit/Diffuse", scale);
-  customButtons.push(buttonObject.buttonObject);
+  customButtonObjects.push(buttonObject);
   let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
 
   if (text) {
@@ -61,6 +61,7 @@ async function createCustomButton(name, color, position, scale, text, textpositi
       const textTransform = await textObject.AddComponent(new BS.Transform());
       textTransform.localPosition = textposition;
       await textObject.SetParent(screenObject, false);
+      customButtonObjects.push(textObject);
   };
 
   if (url) {
