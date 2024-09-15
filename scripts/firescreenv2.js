@@ -113,7 +113,7 @@ function createButtonAction(buttonObject, clickHandler, defaultColor, clickedCol
 
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
   const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaultshader, new BS.Vector3(0.4, 0.4, 0.4));
-  createButtonAction(button, clickHandler, color, new BS.Vector4(1,1,1,0.8));
+  createButtonAction(button.buttonObject, clickHandler, color, new BS.Vector4(1,1,1,0.8));
   return button;
 };
 
@@ -553,6 +553,7 @@ plane10Object.On('click', () => {
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
 
     // HAND VOLUME UP BUTTON
+    
     const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), plane14color, plane20Object, () => adjustVolume(1));
     const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), plane13color, plane20Object, () => adjustVolume(-1));
     const hmuteButton = await createHandButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), plane12color, plane20Object, () => {
