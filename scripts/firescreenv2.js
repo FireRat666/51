@@ -431,7 +431,7 @@ plane10Object.On('click', () => {
   // Handle custom button clicks and visibility toggling
   Object.keys(customButtonObjects).forEach(key => {
     const [buttonObject, textObject, url] = customButtonObjects[key];
-    handleCustomButtonClick(buttonObject, url, textObject);
+    CustomButtonClick(buttonObject, url, textObject);
   });
 
   plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
