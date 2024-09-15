@@ -52,7 +52,7 @@ async function createButton(name, color, position, scale, text, textposition, ur
   const buttonObject = new BS.GameObject(name);
   const geometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry);
   const collider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(1,1,0)));
-  const material = await buttonObject.AddComponent(new BS.BanterMaterial("Unlit/Diffuse", null, color, 0, false));
+  const material = await createMaterial(buttonObject, { shaderName: "Unlit/Diffuse", color: color });
   const transform = await buttonObject.AddComponent(new BS.Transform());
   await buttonObject.SetLayer(5); // UI Layer
   transform.position = position;
