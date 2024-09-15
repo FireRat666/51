@@ -593,7 +593,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       browsermuted = !browsermuted;
       runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
-      let plane23material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
+      let plane23material = hmuteButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
       plane12material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
       plane23material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
     });
@@ -602,16 +602,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     hlockButton.buttonObject.On('click', () => {
       console.log("CLICKED04!");
 
-      if (playerislockedv2) {
-        playerislockedv2 = false;
-        unlockPlayer();
-        plane24material.color = plane24color;
-      } else {
-        playerislockedv2 = true;
-        lockPlayer();
-        plane24material.color = new BS.Vector4(1,0,0,1);
-      };
+      playerislockedv2 = !playerislockedv2;
+      playerislockedv2 ? lockPlayer() : unlockPlayer();
+      
+      let plane24material = hlockButton.buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : plane24color;
+
     });
+
     console.log("FIRESCREEN2: Hand Click Stuff END");
   };
 
