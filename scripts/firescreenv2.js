@@ -23,6 +23,7 @@ let textgameObject02 = null;
 let textgameObject03 = null;
 let textgameObject04 = null;
 let firebrowser;
+let firesbillBoard;
 let defaultshader = 'Unlit/DiffuseTransparent';
 
 // This Function adds geometry to the given game Object
@@ -312,7 +313,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   
   // Bill Board the geometryObject
   const smoothing = 0;
-  const billBoard = await geometryObject.AddComponent(new BS.BanterBillboard(smoothing, true, true, true));
+  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(smoothing, true, true, true));
 
   // SET THE SCALE FOR THE SCREEN
   geometrytransform.localScale = p_sca;
@@ -458,8 +459,8 @@ plane10Object.On('click', () => {
   function billboardButClick() {
     console.log("CLICKED15!");
     isbillboarded = !isbillboarded; // Toggle billboard state
-    billBoard.enableXAxis = isbillboarded;  // Update billboard state
-    billBoard.enableYAxis = isbillboarded;
+    firesbillBoard.enableXAxis = isbillboarded;  // Update billboard state
+    firesbillBoard.enableYAxis = isbillboarded;
     let plane15material = plane15Object.GetComponent(BS.ComponentType.BanterMaterial);
     plane15material.color = isbillboarded ? plane15color : new BS.Vector4(1,1,1,1); // Update the plane colour 
   };
