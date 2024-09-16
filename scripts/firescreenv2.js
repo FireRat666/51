@@ -479,7 +479,7 @@ function getV3FromStr(strVector3) {
 };
 
 function getV4FromStr(strVector4) {
-  if (strVector4 == "false") {
+  if (strVector4 == "false" || strVector4 === false) {
     return strVector4;
   } else {
     var aresult = strVector4.split(" ");
