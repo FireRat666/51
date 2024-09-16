@@ -17,7 +17,7 @@ let screenObject = null;
 let customButtonObjects = [];
 let firebrowser;
 let firesbillBoard;
-let defaultshader = 'Unlit/DiffuseTransparent';
+let defaulTransparent = 'Unlit/DiffuseTransparent';
 let uiButtons;
 let uiButton;
 let BUTTON_CONFIGS;
@@ -80,7 +80,7 @@ async function createCustomButton(name, color, position, scale, text, textpositi
   };
 };
 
-async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaultshader, localScale = new BS.Vector3(1, 1, 1)) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = new BS.GameObject(name);
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
@@ -136,7 +136,7 @@ function createButtonAction(buttonObject, clickHandler) {
 };
 
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
-  const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaultshader, new BS.Vector3(0.4, 0.4, 0.4));
+  const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
   createButtonAction(button, clickHandler);
   return button;
 };
@@ -401,7 +401,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const plane20Object = new BS.GameObject("MyGeometry20");
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.PlaneGeometry);
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
-    const plane20material = await createMaterial(plane20Object, { shaderName: defaultshader, color: new BS.Vector4(0,0,0,0), side: 1 });
+    const plane20material = await createMaterial(plane20Object, { shaderName: defaulTransparent, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
     firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
     plane20transform.localPosition = new BS.Vector3(-0.01,-0.006,0.020);
