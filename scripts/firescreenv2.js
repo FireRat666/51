@@ -19,7 +19,6 @@ let firebrowser;
 let firesbillBoard;
 let defaulTransparent = 'Unlit/DiffuseTransparent';
 let uiButtons;
-let uiButton;
 let BUTTON_CONFIGS;
 let thebuttonscolor;
 let buttonsObjectsThing = {};
@@ -202,7 +201,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
-  geometryObject = new BS.GameObject("MyGeometry");
+  geometryObject = new BS.GameObject("MainParentObject");
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
 
   // geometry Transform Stuff
@@ -273,47 +272,42 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }
   };
 
-  HIDE_BUTTON_CONFIG = { hideShow: { icon: "https://firer.at/files/Eye.png", position: new BS.Vector3(-0.6,0,0), color: thebuttonscolor,
-      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), buttonsvisible ? 1 : 0)
-        uiButton.hideShow.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5); }
-    }
-  };
-
-  async function createUIButtons(parent, thebuttons) {
+  async function createUIButtons(parent) {
     buttonsObjectsThing = {};
-    for (const [name, config] of Object.entries(thebuttons)) {
+    for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
         config.icon, config.position, config.color, parent, config.clickHandler);
         console.log(`buttonsObjectsThing${name}`);
-        console.log(`buttonsObjectsThingColor`);
-        console.log(config.color);
         console.log(buttonsObjectsThing[name]);
     } return buttonsObjectsThing;
   };
 
-  console.log("Screen Button Stuff 2");
-  uiButton = await createUIButtons(screenObject, HIDE_BUTTON_CONFIG);
-  uiButtons = await createUIButtons(screenObject, BUTTON_CONFIGS);
+  uiButtons = await createUIButtons(screenObject);
   console.log("Screen Button Stuff 3");
+
+  const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color, screenObject);
+  createButtonAction(hideShowObject, () => { buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), buttonsvisible ? 1 : 0)
+    hideShowObject.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5);
+  });
   
   if (p_custombuttonurl01 !== "false") {
     console.log("p_custombuttonurl01 is true");
-    await createCustomButton("MyGeometry16", textPlaneColour, new BS.Vector3(0.68,0.3,0), buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
+    await createCustomButton("CustomButton01", textPlaneColour, new BS.Vector3(0.68,0.3,0), buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
     console.log(p_custombuttonurl01); };
 
   if (p_custombuttonurl02 !== "false") {
     console.log("p_custombuttonurl02 is true");
-    await createCustomButton("MyGeometry17", textPlaneColour, new BS.Vector3(0.68,0.25,0), buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
+    await createCustomButton("CustomButton02", textPlaneColour, new BS.Vector3(0.68,0.25,0), buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
     console.log(p_custombuttonurl02); };
 
   if (p_custombuttonurl03 !== "false") {
     console.log("p_custombuttonurl03 is true");
-    await createCustomButton("MyGeometry18", textPlaneColour, new BS.Vector3(0.68,0.20,0), buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
+    await createCustomButton("CustomButton03", textPlaneColour, new BS.Vector3(0.68,0.20,0), buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
     console.log(p_custombuttonurl03); };
 
   if (p_custombuttonurl04 !== "false") {
     console.log("p_custombuttonurl04 is true");
-    await createCustomButton("MyGeometry19", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
+    await createCustomButton("CustomButton04", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04); };
   // Bill Board the geometryObject
   firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, true, true, true));
@@ -394,7 +388,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   async function setupHandControls() {
     // THE CONTAINER FOR THE HAND BUTTONS
     console.log("FIRESCREEN2: Hand Control Stuff");
-    const plane20Object = new BS.GameObject("MyGeometry20");
+    const plane20Object = new BS.GameObject("handContainer");
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.PlaneGeometry);
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
     const plane20material = await createMaterial(plane20Object, { shaderName: defaulTransparent, color: new BS.Vector4(0,0,0,0), side: 1 });
