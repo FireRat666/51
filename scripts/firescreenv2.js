@@ -19,6 +19,7 @@ let firebrowser;
 let firesbillBoard;
 let defaultshader = 'Unlit/DiffuseTransparent';
 let uiButtons;
+let BUTTON_CONFIGS;
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -243,7 +244,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const dynamicFriction = 100; const staticFriction = 100;
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
-  const BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png",
+  BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png",
       position: new BS.Vector3(-0.2,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = url;
       updateButtonColor(buttons.home, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
@@ -303,6 +304,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   console.log("Screen Button Stuff 2");
   uiButtons = await createUIButtons(screenObject, thebuttonscolor);
 
+  console.log("Screen Button Stuff 3");
   // THE HIDE/SHOW BUTTON
   const plane10Object = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), thebuttonscolor, screenObject);
   // A EMPTY BUTTON
