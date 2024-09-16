@@ -276,7 +276,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
         buttonsObjectsThing.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
     }, hideShow: { icon: "https://firer.at/files/Eye.png", position: new BS.Vector3(-0.6,0,0), color: thebuttonscolor,
-      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(buttonsObjectsThing, buttonsvisible)
+      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(buttonsObjectsThing, buttonsvisible ? 0 : 1)
         buttonsObjectsThing.hideShow.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5); }
     }
   };
