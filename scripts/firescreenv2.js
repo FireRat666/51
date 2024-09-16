@@ -162,51 +162,41 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
-  
-  const allscripts = document.getElementsByTagName("script");
-  for (let i = 0; i < allscripts.length; i++) {
-    if (getAttrOrDef(allscripts[i], "src", "") === firescreenurlv2) { 
-      console.log("FIRESCREEN2: Loading");
-      const pPos = getV3FromStr(getAttrOrDef(allscripts[i], "position", "0 2 0"));
-      const pRot = getV3FromStr(getAttrOrDef(allscripts[i], "rotation", "0 0 0"));
-      const pSca = getV3FromStr(getAttrOrDef(allscripts[i], "scale", "1 1 1"));
-      const pVolume = getAttrOrDef(allscripts[i], "volumelevel", "0.25");
-      const pWebsite = getAttrOrDef(allscripts[i], "website", "https://firer.at/pages/games.html");
-      const pMipmaps = getAttrOrDef(allscripts[i], "mipmaps", "1");
-      const pPixelsperunit = getAttrOrDef(allscripts[i], "pixelsperunit", "1200");
-      const pWidth = getAttrOrDef(allscripts[i], "width", "1024");
-      const pHeight = getAttrOrDef(allscripts[i], "height", "576");
-      const pBackdrop = getAttrOrDef(allscripts[i], "backdrop", "true");
-      const pHandButtons = getAttrOrDef(allscripts[i], "hand-controls", "false");
-      const pDisableInteraction = getAttrOrDef(allscripts[i], "disable-interaction", "false");
-      const pAnnounce = getAttrOrDef(allscripts[i], "announce", "false");
-	    const pAnnounce420 = getAttrOrDef(allscripts[i], "announce-420", "false");
-	    const pAnnounceEvents = getAttrOrDef(allscripts[i], "announce-events", "undefined");
-      const pButtonColor = getV4FromStr(getAttrOrDef(allscripts[i], "button-color", "0 1 0 1"));
-      const pBackDropColor = getV4FromStr(getAttrOrDef(allscripts[i], "backdrop-color", "0 0 0 0.9"));
-      const pVolUpColor = getV4FromStr(getAttrOrDef(allscripts[i], "volup-color", "false"));
-      const pVolDownColor = getV4FromStr(getAttrOrDef(allscripts[i], "voldown-color", "false"));
-      const pMuteColor = getV4FromStr(getAttrOrDef(allscripts[i], "mute-color", "false"));
-      const pButtonPos = getAttrOrDef(allscripts[i], "button-position", "0 0 0");
-      const pIconMuteUrl = getAttrOrDef(allscripts[i], "icon-mute-url", "https://firer.at/files/VolumeMute.png");
-      const pIconVolUpUrl = getAttrOrDef(allscripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
-      const pIconVolDownUrl = getAttrOrDef(allscripts[i], "icon-voldown-url", "https://firer.at/files/VolumeLow.png");
-      const pIconDirectionUrl = getAttrOrDef(allscripts[i], "icon-direction-url", "https://firer.at/files/Arrow.png");
-      const pCustomButton01Url = getAttrOrDef(allscripts[i], "custom-button01-url", "false");
-      const pCustomButton01Text = getAttrOrDef(allscripts[i], "custom-button01-text", "Custom Button 01");
-      const pCustomButton02Url = getAttrOrDef(allscripts[i], "custom-button02-url", "false");
-      const pCustomButton02Text = getAttrOrDef(allscripts[i], "custom-button02-text", "Custom Button 02");
-      const pCustomButton03Url = getAttrOrDef(allscripts[i], "custom-button03-url", "false");
-      const pCustomButton03Text = getAttrOrDef(allscripts[i], "custom-button03-text", "Custom Button 03");
-      const pCustomButton04Url = getAttrOrDef(allscripts[i], "custom-button04-url", "false");
-      const pCustomButton04Text = getAttrOrDef(allscripts[i], "custom-button04-text", "Custom Button 04");
-      const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
-      sdk2tests(pPos, pRot, pSca, pVolume, pMipmaps, pPixelsperunit, pBackdrop, pWebsite, pButtonColor, pAnnounce, pAnnounce420,
-      pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor, pMuteColor,
-      pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text, pAnnounceEvents,
-      pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text, pCustomButton04Url, pCustomButton04Text);
+  const allscripts = document.querySelectorAll("script[src='" + firescreenurlv2 + "']");
+  allscripts.forEach(script => {
+    console.log("FIRESCREEN2: Loading");
+    const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", volumelevel: "0.25",
+      website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
+      backdrop: "true", handControls: "false", disableInteraction: "false", announce: "false", announce420: "false", announceEvents: "undefined",
+      buttonColor: "0 1 0 1", backdropColor: "0 0 0 0.9", volUpColor: "false", volDownColor: "false", muteColor: "false", buttonPosition: "0 0 0",
+      iconMuteUrl: "https://firer.at/files/VolumeMute.png", iconVolUpUrl: "https://firer.at/files/VolumeHigh.png",
+      iconVolDownUrl: "https://firer.at/files/VolumeLow.png", iconDirectionUrl: "https://firer.at/files/Arrow.png",
+      customButton01Url: "false", customButton01Text: "Custom Button 01",
+      customButton02Url: "false", customButton02Text: "Custom Button 02",
+      customButton03Url: "false", customButton03Text: "Custom Button 03",
+      customButton04Url: "false", customButton04Text: "Custom Button 04"
     };
-  };
+
+    const numberAttributes = { position: getV3FromStr, rotation: getV3FromStr, scale: getV3FromStr, buttonColor: getV4FromStr, backdropColor: getV4FromStr, volUpColor: getV4FromStr, volDownColor: getV4FromStr, muteColor: getV4FromStr };
+    // Function to get or convert attribute
+    const getParam = (key) => { const attr = script.getAttribute(key);
+      const value = attr !== null ? attr : defaultParams[key];
+      return numberAttributes[key] ? numberAttributes[key](value) : value; };
+
+    const params = {};
+    Object.keys(defaultParams).forEach(key => { params[key] = getParam(key); });
+
+    const {
+      position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420, backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor, disableInteraction, buttonPosition, handControls, width, height, customButton01Url, customButton01Text, announceEvents, customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text
+    } = params;
+
+    const pURL = `url: ${website}; mipMaps: ${mipmaps}; pixelsPerUnit: ${pixelsperunit}; pageWidth: ${width}; pageHeight: ${height}; mode: local;`;
+
+    sdk2tests(position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
+      backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor,
+      disableInteraction, buttonPosition, handControls, width, height, customButton01Url, customButton01Text, announceEvents,
+      customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text);
+  });
 };
 
 async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombuttonurl01, p_custombutton01text, p_announceevents, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
