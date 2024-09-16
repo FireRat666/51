@@ -282,7 +282,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     buttonsObjectsThing = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
-        config.icon, config.position, getButtonColor(config.color, defaultColor), parent, config.clickHandler);
+        config.icon, config.position, getButtonColor(config.color, thebuttonscolor), parent, config.clickHandler);
         console.log(`buttonsObjectsThing${name}`);
         console.log(buttonsObjectsThing[name]);
     } return buttonsObjectsThing;
