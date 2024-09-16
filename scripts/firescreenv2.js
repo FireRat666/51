@@ -288,10 +288,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         buttons.volUp.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
     }
   };
-
+  console.log("Screen Button Stuff");
   async function createUIButtons(parent, defaultColor) {
     const buttons = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
+      console.log(buttons[name]);
       buttons[name] = await createButton({ name: `FireButton_${name}`,
         icon: config.icon, position: config.position,
         color: getButtonColor(config.specificColor, defaultColor),
@@ -299,6 +300,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     } return buttons;
   };
 
+  console.log("Screen Button Stuff 2");
   uiButtons = await createUIButtons(screenObject, thebuttonscolor);
 
   // THE HIDE/SHOW BUTTON
