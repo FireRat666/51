@@ -175,17 +175,21 @@ function setupfirescreen2() {
     const {
       position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420, backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor, disableInteraction, buttonPosition, handControls, width, height, customButton01Url, customButton01Text, announceEvents, customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text
     } = params;
+    console.log("Button Colours are:");
+    console.log(volUpColor);
+    console.log(volDownColor);
+    console.log(muteColor);
 
     const pURL = `url: ${website}; mipMaps: ${mipmaps}; pixelsPerUnit: ${pixelsperunit}; pageWidth: ${width}; pageHeight: ${height}; mode: local;`;
 
     sdk2tests(position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
       backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor,
-      disableInteraction, buttonPosition, handControls, width, height, customButton01Url, customButton01Text, announceEvents,
+      disableInteraction, buttonPosition, handControls, width, height, announceEvents, customButton01Url, customButton01Text,
       customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text);
   });
 };
 
-async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombuttonurl01, p_custombutton01text, p_announceevents, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
+async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
 
   the_announce = p_announce;
   the_announce420 = p_announce420;
