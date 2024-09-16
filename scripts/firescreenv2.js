@@ -308,6 +308,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     const buttons = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
       console.log(name);
+      console.log(config);
       buttons[name] = await createButton({ name: `FireButton_${name}`,
         icon: config.icon, position: config.position,
         color: defaultColor,
