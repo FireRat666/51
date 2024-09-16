@@ -301,7 +301,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: thebuttonscolor,
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
-        buttons.volUp.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
+        buttonsObjectsThing.volUp.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
     }
   };
   console.log("Screen Button Configs");
@@ -367,22 +367,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     firerigidBody.isKinematic = true;
     console.log("DROPPED!");
   });
-  // HIDE Button Thing
-  plane10Object.On('click', () => {
-    console.log("CLICKED10!");
-    console.log(buttonsvisible ? "WAS VISIBLE!" : "WAS HIDDEN!");
-    let plane10material = plane10Object.GetComponent(BS.ComponentType.BanterMaterial);
 
-    let alwaysVisibleObjects = [
-      plane02Object, plane03Object, plane04Object, plane05Object, plane06Object, 
-      plane07Object, plane08Object, plane09Object, plane12Object, plane13Object, 
-      plane14Object, plane15Object
-    ];
-    // Toggle visibility for always visible objects
-    toggleButtonVisibility(alwaysVisibleObjects, buttonsvisible ? 0 : 1);
-    plane10material.color = buttonsvisible ? new BS.Vector4(1, 1, 1, 0.5) : thebuttonscolor;
-    buttonsvisible = !buttonsvisible;
-  });
   // HAND ICON Button Thing
   function handIconClick(e) {
     console.log("CLICKED11!");
