@@ -1177,10 +1177,10 @@ class handButtonCrap{
 			"document.querySelector('.html5-video-player').setVolume(" + firepercent + ");", }, ]);
 		});
 
-			let firevolbut = document.getElementById("firevoldownbut");
-			let butcolour = firevolbut.getAttribute("color");
-			firevolbut.setAttribute("color", "#FFFFFF"); 
-			setTimeout(() => {  firevolbut.setAttribute("color", butcolour); }, 100);
+			let firevolupbut = document.getElementById("firevoldownbut");
+			let butcolour = firevolupbut.getAttribute("color");
+			firevolupbut.setAttribute("color", "#FFFFFF"); 
+			setTimeout(() => {  firevolupbut.setAttribute("color", butcolour); }, 100);
 
 	}
 
