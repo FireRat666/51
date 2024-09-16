@@ -38,7 +38,7 @@ async function createMaterial(objectThing, options = {}) {
   const texture = options.texture || null;
   const color = options.color || new BS.Vector4(1,1,1,1);
   const side = options.side || 0;
-  const generateMipMaps = options.generateMipMaps || false;
+  const generateMipMaps = options.generateMipMaps || true;
 
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
 };
