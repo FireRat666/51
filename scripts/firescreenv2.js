@@ -193,18 +193,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let buttonsvisible = true;
   let playerislockedv2 = false;
   let browsermuted = false;
-
   const url = p_website;
-  const mipMaps = p_mipmaps;
-  const pixelsPerUnit = p_pixelsperunit;
-  const pageWidth = p_width;
-  const pageHeight = p_height;
-  const actions = null;
   const buttonSize = new BS.Vector3(0.2,0.04,1);
   let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 
   screenObject = await new BS.GameObject("MyBrowser");
-  firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(url, mipMaps, pixelsPerUnit, pageWidth, pageHeight, actions));
+  firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
@@ -213,8 +207,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   // geometry Transform Stuff
   const geometrytransform = await geometryObject.AddComponent(new BS.Transform());
-  geometrytransform.position = p_pos;
-  geometrytransform.eulerAngles = p_rot;
+  geometrytransform.position = p_pos; geometrytransform.eulerAngles = p_rot;
 
   // Add Box Collider
   const size = new BS.Vector3(1.09,0.64,0.01);
@@ -224,12 +217,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // Add a Rigid Body to the geometry
   const firerigidBody = await geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0,0,0), "Discrete", false, false, false, false, false, false, new BS.Vector3(0,0,0), new BS.Vector3(0,0,0)));
 
-  // Material Stuff  p_backdrop
-  if (p_backdrop == "true") {
-    p_backdropcolor = p_backdropcolor;
-  } else {
-    p_backdropcolor = new BS.Vector4(0,0,0,0);
-  };
+  // If Backdrop is disabled, Hide it
+  if (p_backdrop !== "true") { p_backdropcolor = new BS.Vector4(0,0,0,0); };
 
   const material = await createMaterial(geometryObject, { color: p_backdropcolor });
   // firebrowser Transform Stuff
