@@ -19,6 +19,7 @@ let firebrowser;
 let firesbillBoard;
 let defaultshader = 'Unlit/DiffuseTransparent';
 let uiButtons;
+let uiButton;
 let BUTTON_CONFIGS;
 let thebuttonscolor;
 let buttonsObjectsThing = {};
@@ -275,15 +276,18 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
         buttonsObjectsThing.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
-    }, hideShow: { icon: "https://firer.at/files/Eye.png", position: new BS.Vector3(-0.6,0,0), color: thebuttonscolor,
-      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(buttonsObjectsThing), buttonsvisible ? 0 : 1)
-        buttonsObjectsThing.hideShow.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5); }
     }
   };
 
-  async function createUIButtons(parent) {
+  HIDE_BUTTON_CONFIG = { hideShow: { icon: "https://firer.at/files/Eye.png", position: new BS.Vector3(-0.6,0,0), color: thebuttonscolor,
+      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(buttonsObjectsThing), buttonsvisible ? 0 : 1)
+      buttonsObjectsThing.hideShow.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5); }
+    }
+  };
+
+  async function createUIButtons(parent, thebuttons) {
     buttonsObjectsThing = {};
-    for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
+    for (const [name, config] of Object.entries(thebuttons)) {
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
         config.icon, config.position, config.color, parent, config.clickHandler);
         console.log("buttonsObjectsThing[name]");
@@ -292,7 +296,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   };
 
   console.log("Screen Button Stuff 2");
-  uiButtons = await createUIButtons(screenObject);
+  uiButtons = await createUIButtons(screenObject, BUTTON_CONFIGS);
+  uiButton = await createUIButtons(screenObject, HIDE_BUTTON_CONFIG);
   console.log("Screen Button Stuff 3");
   
   if (p_custombuttonurl01 !== "false") {
