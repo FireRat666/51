@@ -259,7 +259,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       uiButtons.mute.GetComponent(BS.ComponentType.BanterMaterial).color = browsermuted ? new BS.Vector4(1,0,0,1) : (p_mutecolor ? p_mutecolor : thebuttonscolor); }
     }, volDown: { icon: p_iconvoldownurl, position: new BS.Vector3(0.334,0.38,0), color: p_voldowncolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(-1);
-      updateButtonColor(uiButtons.volDown, new BS.Vector4(1,1,1,0.8), p_voldowncolor); }
+      updateButtonColor(uiButtons.volDown, new BS.Vector4(1,1,1,0.8), p_voldowncolor ? p_voldowncolor : thebuttonscolor); }
     }, pageBack: { icon: p_icondirectionurl, position: new BS.Vector3(-0.5,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Back Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
       updateButtonColor(uiButtons.pageBack, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
@@ -273,7 +273,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       clickHandler: () => { console.log("Forward Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
       updateButtonColor(uiButtons.pageForward, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
     }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor,
-      clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(-1);
+      clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(1);
       updateButtonColor(uiButtons.volUp, new BS.Vector4(1,1,1,0.8), p_volupcolor ? p_volupcolor : thebuttonscolor); }
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: thebuttonscolor,
       clickHandler: () => {isbillboarded = !isbillboarded;
