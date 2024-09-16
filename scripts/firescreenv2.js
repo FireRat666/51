@@ -126,7 +126,7 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
   let firepercent = (firevolume * 100).toFixed(0);
   runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
   runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
-  console.log(`FIRESCREEN2: Volume is: ${firevolume}`)
+  console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
 
 function toggleButtonVisibility(defaultobjects, visible) {
@@ -155,6 +155,8 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
 };
 
 function getButtonColor(specificColor, defaultColor) {
+  console.log("specificColor");
+  console.log(specificColor);
   return specificColor !== "false" ? specificColor : defaultColor;
 };
 
@@ -259,24 +261,19 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const dynamicFriction = 100; const staticFriction = 100;
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
-  BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png",
-      position: new BS.Vector3(-0.2,0.38,0), color: thebuttonscolor,
+  BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = url;
       updateButtonColor(buttonsObjectsThing.home, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
-    }, info: { icon: "https://firer.at/files/Info.png",
-      position: new BS.Vector3(-0.6,0.28,0), color: thebuttonscolor,
+    }, info: { icon: "https://firer.at/files/Info.png", position: new BS.Vector3(-0.6,0.28,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Info Clicked!"); firebrowser.url = "https://firer.at/pages/Info.html";
       updateButtonColor(buttonsObjectsThing.info, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
-    }, google: { icon: "https://firer.at/files/Google.png",
-      position: new BS.Vector3(-0.6,0.16,0), color: new BS.Vector4(1,1,1,1),
+    }, google: { icon: "https://firer.at/files/Google.png", position: new BS.Vector3(-0.6,0.16,0), color: new BS.Vector4(1,1,1,1),
       clickHandler: () => { console.log("Google Clicked!"); firebrowser.url = "https://google.com/";
       updateButtonColor(buttonsObjectsThing.google, new BS.Vector4(1,1,1,0.8), new BS.Vector4(1,1,1,1)); }
-    }, keyboard: { icon: "https://firer.at/files/Keyboard.png",
-      position: new BS.Vector3(-0.6,-0.15,0), color: new BS.Vector4(1,1,1,1),
+    }, keyboard: { icon: "https://firer.at/files/Keyboard.png", position: new BS.Vector3(-0.6,-0.15,0), color: new BS.Vector4(1,1,1,1),
       clickHandler: () => { console.log("Keyboard Clicked!"); keyboardstate = !keyboardstate; firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
         buttonsObjectsThing.keyboard.GetComponent(BS.ComponentType.BanterMaterial).color = keyboardstate ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
-    }, mute: { icon: p_iconmuteurl, position: new BS.Vector3(0.167,0.38,0),
-      color: thebuttonscolor,
+    }, mute: { icon: p_iconmuteurl, position: new BS.Vector3(0.167,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Mute Clicked!"); browsermuted = !browsermuted;
       runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       buttonsObjectsThing.mute.GetComponent(BS.ComponentType.BanterMaterial).color = browsermuted ? new BS.Vector4(1,0,0,1) : (p_mutecolor !== "false" ? p_mutecolor : thebuttonscolor); }
@@ -301,7 +298,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: thebuttonscolor,
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
-        buttonsObjectsThing.volUp.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
+        buttonsObjectsThing.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
     }
   };
   console.log("Screen Button Configs");
@@ -353,8 +350,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log(p_custombuttonurl04);
   };
   // Bill Board the geometryObject
-  const smoothing = 0;
-  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(smoothing, true, true, true));
+  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, true, true, true));
   // SET THE SCALE FOR THE SCREEN
   geometrytransform.localScale = p_sca;
   // When user Grabs the Browser, Make it moveable
