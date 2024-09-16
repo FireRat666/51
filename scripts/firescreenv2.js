@@ -141,12 +141,6 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
   return button;
 };
 
-// function getButtonColor(specificColor, defaultColor) {
-//   console.log("specificColor");
-//   console.log(specificColor);
-//   return specificColor !== "false" ? specificColor : defaultColor;
-// };
-
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   const allscripts = document.querySelectorAll("script[src='" + firescreenurlv2 + "']");
@@ -155,7 +149,7 @@ function setupfirescreen2() {
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
       backdrop: "true", handControls: "false", disableInteraction: "false", announce: "false", announce420: "false", announceEvents: "undefined",
-      buttonColor: "0 1 0 1", backdropColor: "0 0 0 0.9", volUpColor: "false", volDownColor: "false", muteColor: "false", buttonPosition: "0 0 0",
+      buttonColor: "0 1 0 1", backdropColor: "0 0 0 0.9", volUpColor: false, volDownColor: false, muteColor: false, buttonPosition: "0 0 0",
       iconMuteUrl: "https://firer.at/files/VolumeMute.png", iconVolUpUrl: "https://firer.at/files/VolumeHigh.png",
       iconVolDownUrl: "https://firer.at/files/VolumeLow.png", iconDirectionUrl: "https://firer.at/files/Arrow.png",
       customButton01Url: "false", customButton01Text: "Custom Button 01",
@@ -250,13 +244,13 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }, keyboard: { icon: "https://firer.at/files/Keyboard.png", position: new BS.Vector3(-0.6,-0.15,0), color: new BS.Vector4(1,1,1,1),
       clickHandler: () => { console.log("Keyboard Clicked!"); keyboardstate = !keyboardstate; firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
         uiButtons.keyboard.GetComponent(BS.ComponentType.BanterMaterial).color = keyboardstate ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
-    }, mute: { icon: p_iconmuteurl, position: new BS.Vector3(0.167,0.38,0), color: p_mutecolor !== "false" ? p_mutecolor : thebuttonscolor,
+    }, mute: { icon: p_iconmuteurl, position: new BS.Vector3(0.167,0.38,0), color: p_mutecolor ? p_mutecolor : thebuttonscolor,
       clickHandler: () => { console.log("Mute Clicked!"); browsermuted = !browsermuted;
       runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
-      uiButtons.mute.GetComponent(BS.ComponentType.BanterMaterial).color = browsermuted ? new BS.Vector4(1,0,0,1) : (p_mutecolor !== "false" ? p_mutecolor : thebuttonscolor); }
-    }, volDown: { icon: p_iconvoldownurl, position: new BS.Vector3(0.334,0.38,0), color: p_voldowncolor !== "false" ? p_voldowncolor : thebuttonscolor,
+      uiButtons.mute.GetComponent(BS.ComponentType.BanterMaterial).color = browsermuted ? new BS.Vector4(1,0,0,1) : (p_mutecolor ? p_mutecolor : thebuttonscolor); }
+    }, volDown: { icon: p_iconvoldownurl, position: new BS.Vector3(0.334,0.38,0), color: p_voldowncolor ? p_voldowncolor : thebuttonscolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(-1);
-      updateButtonColor(uiButtons.volDown, new BS.Vector4(1,1,1,0.8), p_voldowncolor !== "false" ? p_voldowncolor : thebuttonscolor); }
+      updateButtonColor(uiButtons.volDown, new BS.Vector4(1,1,1,0.8), p_voldowncolor ? p_voldowncolor : thebuttonscolor); }
     }, pageBack: { icon: p_icondirectionurl, position: new BS.Vector3(-0.5,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Back Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
       updateButtonColor(uiButtons.pageBack, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
@@ -269,9 +263,9 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }, pageForward: { icon: p_icondirectionurl, position: new BS.Vector3(-0.38,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Forward Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
       updateButtonColor(uiButtons.pageForward, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
-    }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor !== "false" ? p_volupcolor : thebuttonscolor,
+    }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor ? p_volupcolor : thebuttonscolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(-1);
-      updateButtonColor(uiButtons.volUp, new BS.Vector4(1,1,1,0.8), p_volupcolor !== "false" ? p_volupcolor : thebuttonscolor); }
+      updateButtonColor(uiButtons.volUp, new BS.Vector4(1,1,1,0.8), p_volupcolor ? p_volupcolor : thebuttonscolor); }
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: thebuttonscolor,
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
