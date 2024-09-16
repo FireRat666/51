@@ -285,7 +285,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   uiButtons = await createUIButtons(screenObject);
   console.log("Screen Button Stuff 3");
 
-  const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), plane10color, screenObject);
+  const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), thebuttonscolor, screenObject);
   createButtonAction(hideShowObject, () => { buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), buttonsvisible ? 1 : 0)
     hideShowObject.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5);
   });
