@@ -153,17 +153,17 @@ function setupfirescreen2() {
     console.log("FIRESCREEN2: Loading");
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
-      backdrop: "true", handControls: "false", disableInteraction: "false", announce: "false", announce420: "false", announceEvents: "undefined",
-      buttonColor: "0 1 0 1", backdropColor: "0 0 0 0.9", volUpColor: false, volDownColor: false, muteColor: false, buttonPosition: "0 0 0",
-      iconMuteUrl: "https://firer.at/files/VolumeMute.png", iconVolUpUrl: "https://firer.at/files/VolumeHigh.png",
-      iconVolDownUrl: "https://firer.at/files/VolumeLow.png", iconDirectionUrl: "https://firer.at/files/Arrow.png",
-      customButton01Url: "false", customButton01Text: "Custom Button 01",
-      customButton02Url: "false", customButton02Text: "Custom Button 02",
-      customButton03Url: "false", customButton03Text: "Custom Button 03",
-      customButton04Url: "false", customButton04Text: "Custom Button 04"
+      backdrop: "true", "hand-controls": "false", "disable-interaction": "false", announce: "false", "announce-420": "false", "announce-events": "undefined",
+      "button-color": "0 1 0 1", "backdrop-color": "0 0 0 0.9", "volup-color": false, "voldown-color": false, "mute-color": false, "button-position": "0 0 0",
+      "icon-mute-url": "https://firer.at/files/VolumeMute.png", "icon-volup-url": "https://firer.at/files/VolumeHigh.png",
+      "icon-voldown-url": "https://firer.at/files/VolumeLow.png", "icon-direction-url": "https://firer.at/files/Arrow.png",
+      "custom-button01-url": "false", "custom-button01-text": "Custom Button 01",
+      "custom-button02-url": "false", "custom-button02-text": "Custom Button 02",
+      "custom-button03-url": "false", "custom-button03-text": "Custom Button 03",
+      "custom-button04-url": "false", "custom-button04-text": "Custom Button 04"
     };
 
-    const numberAttributes = { position: getV3FromStr, rotation: getV3FromStr, scale: getV3FromStr, buttonColor: getV4FromStr, backdropColor: getV4FromStr, volUpColor: getV4FromStr, volDownColor: getV4FromStr, muteColor: getV4FromStr };
+    const numberAttributes = { position: getV3FromStr, rotation: getV3FromStr, scale: getV3FromStr, "button-color": getV4FromStr, "backdrop-color": getV4FromStr, "volup-color": getV4FromStr, "voldown-color": getV4FromStr, "mute-color": getV4FromStr };
     // Function to get or convert attribute
     const getParam = (key) => { const attr = script.getAttribute(key);
       const value = attr !== null ? attr : defaultParams[key];
@@ -173,7 +173,7 @@ function setupfirescreen2() {
     Object.keys(defaultParams).forEach(key => { params[key] = getParam(key); });
 
     const {
-      position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420, backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor, disableInteraction, buttonPosition, handControls, width, height, customButton01Url, customButton01Text, announceEvents, customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text
+      position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, "button-color": buttonColor, announce, "announce-420": announce420, "backdrop-color": backdropColor, "icon-mute-url": iconMuteUrl, "icon-volup-url": iconVolUpUrl, "icon-voldown-url": iconVolDownUrl, "icon-direction-url": iconDirectionUrl, "volup-color": volUpColor, "voldown-color": volDownColor, "mute-color": muteColor, "disable-interaction": disableInteraction, "button-position": buttonPosition, "hand-controls": handControls, width, height, "announce-events": announceEvents, "custom-button01-url": customButton01Url, "custom-button01-text": customButton01Text, "custom-button02-url": customButton02Url, "custom-button02-text": customButton02Text, "custom-button03-url": customButton03Url, "custom-button03-text": customButton03Text, "custom-button04-url": customButton04Url, "custom-button04-text": customButton04Text
     } = params;
     console.log("Button Colours are:");
     console.log(volUpColor);
@@ -441,41 +441,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
 };
 
-function announcerstufffunc() {
-  console.log("FIRESCREEN2: Announcer Script Called");
-  // Setup the Announcer only on the first run if enabled
-  if (announcerfirstrunv2 === true ) {
-    setTimeout(() => { 
-      if (typeof announcerscene === 'undefined') {
-        console.log('FIRESCREEN2: announcerscene is not defined, Setting up');
-
-        announcerfirstrunv2 = false;
-        console.log("FIRESCREEN2: Adding the Announcer Script");
-        const announcerscript = document.createElement("script");
-        announcerscript.id = "fires-announcer";
-        announcerscript.setAttribute("src", announcerscripturlv2);
-        announcerscript.setAttribute("announce", the_announce);
-        announcerscript.setAttribute("announce-420", the_announce420);
-        if (the_announceevents === "undefined" && the_announce === "true") {
-          announcerscript.setAttribute("announce-events", "true");
-        } else if (the_announceevents === "undefined") {
-          announcerscript.setAttribute("announce-events", "false");
-        } else {
-          announcerscript.setAttribute("announce-events", the_announceevents);
-        };
-        document.querySelector("body").appendChild(announcerscript);
-
-      } else {
-        console.log('FIRESCREEN2: announcerscene is defined, Moving on');
-      };
-    }, 1000);
-  };
-
-  setTimeout(() => { 
-    if (announcerfirstrunv2 === false) {  timenow = Date.now(); };
-  }, 1000);
-}
-
 function getV3FromStr(strVector3) {
   var aresult = strVector3.split(" ");
   let thisX = aresult[0]; let thisY = aresult[1]; let thisZ = aresult[2];
@@ -515,6 +480,41 @@ function keepsoundlevel2() {
 
     }, 3000); } else if (fireScreen2On) { } else { clearInterval(volinterval2); }
 };
+
+function announcerstufffunc() {
+  console.log("FIRESCREEN2: Announcer Script Called");
+  // Setup the Announcer only on the first run if enabled
+  if (announcerfirstrunv2 === true ) {
+    setTimeout(() => { 
+      if (typeof announcerscene === 'undefined') {
+        console.log('FIRESCREEN2: announcerscene is not defined, Setting up');
+
+        announcerfirstrunv2 = false;
+        console.log("FIRESCREEN2: Adding the Announcer Script");
+        const announcerscript = document.createElement("script");
+        announcerscript.id = "fires-announcer";
+        announcerscript.setAttribute("src", announcerscripturlv2);
+        announcerscript.setAttribute("announce", the_announce);
+        announcerscript.setAttribute("announce-420", the_announce420);
+        if (the_announceevents === "undefined" && the_announce === "true") {
+          announcerscript.setAttribute("announce-events", "true");
+        } else if (the_announceevents === "undefined") {
+          announcerscript.setAttribute("announce-events", "false");
+        } else {
+          announcerscript.setAttribute("announce-events", the_announceevents);
+        };
+        document.querySelector("body").appendChild(announcerscript);
+
+      } else {
+        console.log('FIRESCREEN2: announcerscene is defined, Moving on');
+      };
+    }, 1000);
+  };
+
+  setTimeout(() => { 
+    if (announcerfirstrunv2 === false) {  timenow = Date.now(); };
+  }, 1000);
+}
 
 setupfirescreen2();
 
