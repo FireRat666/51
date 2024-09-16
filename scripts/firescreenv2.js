@@ -97,19 +97,6 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
 };
 
 async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler) {
-  console.log("name");
-  console.log(name);
-  console.log("thetexture");
-  console.log(thetexture);
-  console.log("position");
-  console.log(position);
-  console.log("thecolor");
-  console.log(thecolor);
-  console.log("thisparent");
-  console.log(thisparent);
-  console.log("clickHandler");
-  console.log(clickHandler);
-
   const button = await createUIButton(name, thetexture, position, thecolor, thisparent);
   createButtonAction(button, clickHandler);
   return button;
@@ -130,7 +117,6 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
 };
 
 function toggleButtonVisibility(defaultobjects, visible) {
-  
   defaultobjects.forEach(button => { button.SetActive(visible); });
 
   customButtonObjects.forEach(button => { 
@@ -289,6 +275,9 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
         buttonsObjectsThing.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
+    }, hideShow: { icon: "https://firer.at/files/Eye.png", position: new BS.Vector3(-0.6,0,0), color: thebuttonscolor,
+      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(buttonsObjectsThing, buttonsvisible)
+        buttonsObjectsThing.hideShow.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5); }
     }
   };
 
@@ -304,39 +293,27 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   console.log("Screen Button Stuff 2");
   uiButtons = await createUIButtons(screenObject);
-
   console.log("Screen Button Stuff 3");
-  // THE HIDE/SHOW BUTTON
-  const plane10Object = await createUIButton("MyGeometry10", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), thebuttonscolor, screenObject);
-  // A EMPTY BUTTON
-  const plane11color = thebuttonscolor;
-  const plane11Object = await createUIButton("MyGeometry11", "https://firer.at/files/HG2.png", new BS.Vector3(0,0.38,0), new BS.Vector4(0,0,0,0), screenObject);
-  createButtonAction(plane11Object, handIconClick);
-  setTimeout(() => { plane11Object.SetActive(0); }, 500);
   
   if (p_custombuttonurl01 !== "false") {
     console.log("p_custombuttonurl01 is true");
     await createCustomButton("MyGeometry16", textPlaneColour, new BS.Vector3(0.68,0.3,0), buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
-    console.log(p_custombuttonurl01);
-  };
+    console.log(p_custombuttonurl01); };
 
   if (p_custombuttonurl02 !== "false") {
     console.log("p_custombuttonurl02 is true");
     await createCustomButton("MyGeometry17", textPlaneColour, new BS.Vector3(0.68,0.25,0), buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
-    console.log(p_custombuttonurl02);
-  };
+    console.log(p_custombuttonurl02); };
 
   if (p_custombuttonurl03 !== "false") {
     console.log("p_custombuttonurl03 is true");
     await createCustomButton("MyGeometry18", textPlaneColour, new BS.Vector3(0.68,0.20,0), buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
-    console.log(p_custombuttonurl03);
-  };
+    console.log(p_custombuttonurl03); };
 
   if (p_custombuttonurl04 !== "false") {
     console.log("p_custombuttonurl04 is true");
     await createCustomButton("MyGeometry19", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
-    console.log(p_custombuttonurl04);
-  };
+    console.log(p_custombuttonurl04); };
   // Bill Board the geometryObject
   firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, true, true, true));
   // SET THE SCALE FOR THE SCREEN
@@ -351,31 +328,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     firerigidBody.isKinematic = true;
     console.log("DROPPED!");
   });
-
-  // HAND ICON Button Thing
-  function handIconClick(e) {
-    console.log("CLICKED11!");
-    if (e) {
-      console.log("points: X:" + e.detail.point.x + " Y:" + e.detail.point.y + " Z:" + e.detail.point.z);
-      console.log("normals: X:" + e.detail.normal.x + " Y:" + e.detail.normal.y + " Z:" + e.detail.normal.z);
-    };
-    updateButtonColor(plane11Object, new BS.Vector4(1, 1, 1, 1), plane11color);
-  };
-
-  // function muteButClick() {
-  //   console.log("CLICKED12!");
-  //   browsermuted = !browsermuted;
-  //   runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
-  //   let plane12material = plane12Object.GetComponent(BS.ComponentType.BanterMaterial);
-  //   plane12material.color = browsermuted ? new BS.Vector4(1,0,0,1) : plane12color;
-  // };
-
-  // function billboardButClick() {
-  //   console.log("Billboard CLICKED!");
-  //   isbillboarded = !isbillboarded; // Toggle billboard state
-  //   firesbillBoard.enableXAxis = isbillboarded;  // Update billboard state
-  //   firesbillBoard.enableYAxis = isbillboarded;
-  // };
   
   function adjustScale(direction) {
     let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
