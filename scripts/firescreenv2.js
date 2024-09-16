@@ -20,6 +20,7 @@ let firesbillBoard;
 let defaultshader = 'Unlit/DiffuseTransparent';
 let uiButtons;
 let BUTTON_CONFIGS;
+let thebuttonscolor;
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -212,7 +213,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   the_announceevents = p_announceevents;
   firevolume = p_volume;
   fireScreen2On = true;
-  let thebuttonscolor = p_buttoncolor;
+  thebuttonscolor = p_buttoncolor;
   let isbillboarded = true;
   let keyboardstate = false;
   let buttonsvisible = true;
@@ -480,17 +481,17 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
     
-    const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), plane14color, plane20Object, () => { adjustVolume(1);
-      updateButtonColor(hvolUpButton, new BS.Vector4(1,1,1,0.8), plane14color);
+    const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(1);
+      updateButtonColor(hvolUpButton, new BS.Vector4(1,1,1,0.8), thebuttonscolor);
     });
-    const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), plane13color, plane20Object, () => { adjustVolume(-1);
-      updateButtonColor(hvolDownButton, new BS.Vector4(1,1,1,0.8), plane13color);
+    const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(-1);
+      updateButtonColor(hvolDownButton, new BS.Vector4(1,1,1,0.8), thebuttonscolor);
     });
-    const hmuteButton = await createHandButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), plane12color, plane20Object, () => {
+    const hmuteButton = await createHandButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), thebuttonscolor, plane20Object, () => {
       browsermuted = !browsermuted;
       runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
-      muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : plane12color;
+      muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : thebuttonscolor;
     });
     const hlockButton = await createHandButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
       playerislockedv2 = !playerislockedv2;
