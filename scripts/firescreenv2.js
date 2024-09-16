@@ -137,7 +137,7 @@ function createButtonAction(buttonObject, clickHandler) {
 function getButtonColor(specificColor, defaultColor) {
   console.log("specificColor");
   console.log(specificColor);
-  return specificColor !== "false" ? specificColor : defaultColor;
+  return specificColor ? specificColor : defaultColor;
 };
 
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
