@@ -35,7 +35,7 @@ async function createGeometry(thingy1, geomtype, options = {}) {
     geomtype, null, config.thewidth, config.theheight, config.depth, config.widthSegments, config.heightSegments, config.depthSegments, config.radius, config.segments, config.thetaStart, config.thetaLength, config.phiStart, config.phiLength, config.radialSegments, config.openEnded, config.radiusTop, config.radiusBottom, config.innerRadius, config.outerRadius, config.thetaSegments, config.phiSegments, config.tube, config.tubularSegments, config.arc, config.p, config.q, config.stacks, config.slices, config.detail, config.parametricPoints
   ));
   return geometry;
-}
+};
 
 async function createMaterial(objectThing, options = {}) {
   const shaderName = options.shaderName || 'Sprites/Diffuse';
@@ -276,7 +276,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
         buttonsObjectsThing.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
     }, hideShow: { icon: "https://firer.at/files/Eye.png", position: new BS.Vector3(-0.6,0,0), color: thebuttonscolor,
-      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(buttonsObjectsThing, buttonsvisible ? 0 : 1)
+      clickHandler: () => {buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(buttonsObjectsThing), buttonsvisible ? 0 : 1)
         buttonsObjectsThing.hideShow.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5); }
     }
   };
