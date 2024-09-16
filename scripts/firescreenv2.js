@@ -95,6 +95,19 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
 };
 
 async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler) {
+  console.log("name");
+  console.log(name);
+  console.log("thetexture");
+  console.log(thetexture);
+  console.log("position");
+  console.log(position);
+  console.log("thecolor");
+  console.log(thecolor);
+  console.log("thisparent");
+  console.log(thisparent);
+  console.log("clickHandler");
+  console.log(clickHandler);
+
   const button = await createUIButton(name, thetexture, position, thecolor, thisparent);
   createButtonAction(button, clickHandler);
   return button;
@@ -289,7 +302,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         buttons.volUp.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
     }
   };
-  console.log("Screen Button Stuff");
+  console.log("Screen Button Configs");
+  console.log("Screen Button Configs");
   async function createUIButtons(parent, defaultColor) {
     const buttons = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
