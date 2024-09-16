@@ -134,6 +134,12 @@ function createButtonAction(buttonObject, clickHandler) {
   });
 };
 
+function getButtonColor(specificColor, defaultColor) {
+  console.log("specificColor");
+  console.log(specificColor);
+  return specificColor !== "false" ? specificColor : defaultColor;
+};
+
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
   const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
   createButtonAction(button, clickHandler);
@@ -276,7 +282,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     buttonsObjectsThing = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
-        config.icon, config.position, config.color, parent, config.clickHandler);
+        config.icon, config.position, getButtonColor(config.color, defaultColor), parent, config.clickHandler);
         console.log(`buttonsObjectsThing${name}`);
         console.log(buttonsObjectsThing[name]);
     } return buttonsObjectsThing;
