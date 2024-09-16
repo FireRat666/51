@@ -3,7 +3,6 @@
 // VERSION: 1.1 Beta 1.4
 var thishostnameurl = "https://51.firer.at/scripts/"; // CHANGE THIS URL IF MAKING A COPY OF THIS SCRIPT AND THE ONES BELOW
 var thisscriptsurl = thishostnameurl + "firescreen.js"; // CHANGE THIS
-var handcontrolscripturl = thishostnameurl + "handcontrols.js"; // CHANGE THIS
 var announcerscripturl = thishostnameurl + "announcer.js"; // CHANGE THIS
 var fireScreenOn = false;
 var thebuttoncolor = "";
