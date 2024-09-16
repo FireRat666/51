@@ -291,6 +291,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
         config.icon, config.position, config.color, parent, config.clickHandler);
         console.log(`buttonsObjectsThing${name}`);
+        console.log(`buttonsObjectsThingColor`);
+        console.log(config.color);
         console.log(buttonsObjectsThing[name]);
     } return buttonsObjectsThing;
   };
