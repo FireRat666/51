@@ -14,15 +14,16 @@ let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
 let screenObject = null;
-let customButtonObjects = [];
-let firebrowser;
 let firesbillBoard;
 let defaulTransparent = 'Unlit/DiffuseTransparent';
+let customButShader = 'Unlit/Diffuse';
 let uiButtons;
 let thebuttonscolor;
 let buttonsObjectsThing = [];
 let clickedColour = new BS.Vector4(1,1,1,0.7);
 let whiteColour = new BS.Vector4(1,1,1,1);
+const customButtonSize = new BS.Vector3(0.2,0.04,1);
+let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -50,21 +51,18 @@ function updateButtonColor(buttonObject, revertColour) {
   material.color = clickedColour; setTimeout(() => { material.color = revertColour; }, 100);
 };
 
-async function createCustomButton(name, color, position, scale, text, textposition, url, clickHandler) {
-  const buttonObject = await createUIButton(name, null, position, color, screenObject, "false", 1, 1, "Unlit/Diffuse", scale);
+async function createCustomButton(name, firebrowser, customButtonObjects, position, text, textposition, url, clickHandler) {
+  const buttonObject = await createUIButton(name, null, position, new BS.Vector4(0.1,0.1,0.1,1), screenObject, "false", 1, 1, customButShader, customButtonSize);
   customButtonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-  if (text) { const textObject = new BS.GameObject(`${name}Text`);
-      const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
-      const textTransform = await textObject.AddComponent(new BS.Transform());
-      textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
-      customButtonObjects.push(textObject);
-  };
-  if (url) {
-      buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
-          firebrowser.url = url; material.color = new BS.Vector4(0.3, 0.3, 0.3, 1);
-          setTimeout(() => { material.color = color; }, 100); if (clickHandler) clickHandler();
-      });
-  };
+  const textObject = new BS.GameObject(`${name}Text`);
+  const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
+  const textTransform = await textObject.AddComponent(new BS.Transform());
+  textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
+  customButtonObjects.push(textObject);
+  buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
+      firebrowser.url = url; material.color = new BS.Vector4(0.3, 0.3, 0.3, 1);
+      setTimeout(() => { material.color = color; }, 100); if (clickHandler) clickHandler();
+  });
 };
 
 async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
@@ -83,7 +81,7 @@ async function createButton(name, thetexture, position, thecolor, thisparent, cl
   createButtonAction(button, clickHandler); return button;
 };
 
-function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to increase the volume
+function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume Pass 1 to increase the volume
   let currentVolume = Number(firevolume); let adjustment;
   if (currentVolume < 0.1) { adjustment = 0.01; // Tiny adjustment for low volume
   } else if (currentVolume < 0.5) { adjustment = 0.03; // Medium adjustment for medium volume
@@ -91,8 +89,8 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
   firevolume = currentVolume + (change * adjustment);
   firevolume = Math.max(0, Math.min(firevolume, 1)).toFixed(2);
   let firepercent = (firevolume * 100).toFixed(0);
-  runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
-  runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
+  runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume});`);
+  runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
 
@@ -101,7 +99,7 @@ function toggleButtonVisibility(defaultobjects, visible) {
   customButtonObjects.forEach(button => { if (button) {button.SetActive(visible); }; });
 }
 
-function runBrowserActions(script) {
+function runBrowserActions(firebrowser, script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
 };
 
@@ -163,11 +161,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let buttonsvisible = true;
   let playerislockedv2 = false;
   let browsermuted = false;
+  let customButtonObjects = [];
   const url = p_website;
-  const buttonSize = new BS.Vector3(0.2,0.04,1);
-  let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
   screenObject = await new BS.GameObject("MyBrowser");
-  firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
+  let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   let isbillboarded;
   p_disableRotation ? isbillboarded = false : isbillboarded = true;
@@ -210,10 +207,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         uiButtons.keyboard.GetComponent(BS.ComponentType.BanterMaterial).color = keyboardstate ? thebuttonscolor : whiteColour; }
     }, mute: { icon: p_iconmuteurl, position: new BS.Vector3(0.167,0.38,0), color: p_mutecolor,
       clickHandler: () => { console.log("Mute Clicked!"); browsermuted = !browsermuted;
-      runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
+      runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       uiButtons.mute.GetComponent(BS.ComponentType.BanterMaterial).color = browsermuted ? new BS.Vector4(1,0,0,1) : (p_mutecolor ? p_mutecolor : thebuttonscolor); }
     }, volDown: { icon: p_iconvoldownurl, position: new BS.Vector3(0.334,0.38,0), color: p_voldowncolor,
-      clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(-1);
+      clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(firebrowser, -1);
       updateButtonColor(uiButtons.volDown, p_voldowncolor ? p_voldowncolor : thebuttonscolor); }
     }, pageBack: { icon: p_icondirectionurl, position: new BS.Vector3(-0.5,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Back Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
@@ -228,7 +225,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       clickHandler: () => { console.log("Forward Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
       updateButtonColor(uiButtons.pageForward, thebuttonscolor); }
     }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor,
-      clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(1);
+      clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(firebrowser, 1);
       updateButtonColor(uiButtons.volUp, p_volupcolor ? p_volupcolor : thebuttonscolor); }
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: isbillboarded ? thebuttonscolor : whiteColour,
       clickHandler: () => {isbillboarded = !isbillboarded;
@@ -254,19 +251,19 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
   
   if (p_custombuttonurl01 !== "false") {  console.log("p_custombuttonurl01 is true");
-    await createCustomButton("CustomButton01", textPlaneColour, new BS.Vector3(0.68,0.3,0), buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
+    await createCustomButton("CustomButton01", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.3,0), p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
     console.log(p_custombuttonurl01); };
 
   if (p_custombuttonurl02 !== "false") { console.log("p_custombuttonurl02 is true");
-    await createCustomButton("CustomButton02", textPlaneColour, new BS.Vector3(0.68,0.25,0), buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
+    await createCustomButton("CustomButton02", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.25,0), p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
     console.log(p_custombuttonurl02); };
 
   if (p_custombuttonurl03 !== "false") { console.log("p_custombuttonurl03 is true");
-    await createCustomButton("CustomButton03", textPlaneColour, new BS.Vector3(0.68,0.20,0), buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
+    await createCustomButton("CustomButton03", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.20,0), p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
     console.log(p_custombuttonurl03); };
 
   if (p_custombuttonurl04 !== "false") { console.log("p_custombuttonurl04 is true");
-    await createCustomButton("CustomButton04", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
+    await createCustomButton("CustomButton04", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.15,0), p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04); };
   // Bill Board the geometryObject
   firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));
@@ -298,8 +295,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       if (currentshotdata.firevolume) {
         let thisfirevolume = Number(parseFloat(currentshotdata.firevolume).toFixed(2));
         let firepercent = parseInt(thisfirevolume*100).toFixed(0);
-        runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
-        runBrowserActions(`document.querySelector('.html5-video-player').setVolume(${firepercent});`);
+        runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
+        runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
       };
     } else { console.log("Current Shot From Admin Is False");
       console.log(e.detail.fromId);
@@ -329,14 +326,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
     // Hand Volume Up Button
-    const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(1);
+    const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(firebrowser, 1);
       updateButtonColor(hvolUpButton, thebuttonscolor); });
-    const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(-1);
+    const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(firebrowser, -1);
       updateButtonColor(hvolDownButton, thebuttonscolor); });
     // Hand Mute Button
     const hmuteButton = await createHandButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), thebuttonscolor, plane20Object, () => {
       browsermuted = !browsermuted;
-      runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
+      runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
       muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : thebuttonscolor; });
     // Hand Lock Button
@@ -366,8 +363,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     // Loop to keep sound level set, runs every set second(s)
       volinterval2 = setInterval(function() {
         let firepercent = (firevolume * 100).toFixed(0);
-        runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
-        runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
+        runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume});`);
+        runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
       }, 5000); } else if (fireScreen2On) { } else { clearInterval(volinterval2); }
   };
 
