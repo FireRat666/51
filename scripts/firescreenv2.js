@@ -195,10 +195,9 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const material = await createMaterial(geometryObject, { color: p_backdropcolor });
   // firebrowser Transform Stuff
   const browsertransform = await screenObject.AddComponent(new BS.Transform());
-  browsertransform.position = new BS.Vector3(0,0,-0.01);
   browsertransform.localScale = new BS.Vector3(1,1,1);
-  // Make the screen a child of the Main Geometry Object
   await screenObject.SetParent(geometryObject, false);
+  browsertransform.position = new BS.Vector3(0,0,-0.01);
   // ADD FRICTION 
   const dynamicFriction = 100; const staticFriction = 100;
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
