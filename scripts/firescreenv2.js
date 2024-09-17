@@ -88,8 +88,8 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
   await buttonObject.SetParent(thisparent, false); return buttonObject;
 };
 
-async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler) {
-  const button = await createUIButton(name, thetexture, position, thecolor, thisparent);
+async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler, rotation) {
+  const button = await createUIButton(name, thetexture, position, thecolor, thisparent, rotation);
   createButtonAction(button, clickHandler); return button;
 };
 
@@ -235,7 +235,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       updateButtonColor(uiButtons.sizeShrink, thebuttonscolor); }
     }, pageForward: { icon: p_icondirectionurl, position: new BS.Vector3(-0.38,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Forward Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
-      updateButtonColor(uiButtons.pageForward, thebuttonscolor); }
+      updateButtonColor(uiButtons.pageForward, thebuttonscolor); }, rotation: new BS.Vector3(0,0,180)
     }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(firebrowser, 1);
       updateButtonColor(uiButtons.volUp, p_volupcolor ? p_volupcolor : thebuttonscolor); }
@@ -250,7 +250,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     buttonsObjectsThing = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
-        config.icon, config.position, config.color, parent, config.clickHandler);
+        config.icon, config.position, config.color, parent, config.clickHandler, config.rotation);
         console.log(`buttonsObjectsThing${name}`);
         console.log(buttonsObjectsThing[name]);
     } return buttonsObjectsThing;
