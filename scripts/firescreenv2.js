@@ -252,23 +252,19 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     hideShowObject.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5);
   });
   
-  if (p_custombuttonurl01 !== "false") {
-    console.log("p_custombuttonurl01 is true");
+  if (p_custombuttonurl01 !== "false") {  console.log("p_custombuttonurl01 is true");
     await createCustomButton("CustomButton01", textPlaneColour, new BS.Vector3(0.68,0.3,0), buttonSize, p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
     console.log(p_custombuttonurl01); };
 
-  if (p_custombuttonurl02 !== "false") {
-    console.log("p_custombuttonurl02 is true");
+  if (p_custombuttonurl02 !== "false") { console.log("p_custombuttonurl02 is true");
     await createCustomButton("CustomButton02", textPlaneColour, new BS.Vector3(0.68,0.25,0), buttonSize, p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
     console.log(p_custombuttonurl02); };
 
-  if (p_custombuttonurl03 !== "false") {
-    console.log("p_custombuttonurl03 is true");
+  if (p_custombuttonurl03 !== "false") { console.log("p_custombuttonurl03 is true");
     await createCustomButton("CustomButton03", textPlaneColour, new BS.Vector3(0.68,0.20,0), buttonSize, p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
     console.log(p_custombuttonurl03); };
 
-  if (p_custombuttonurl04 !== "false") {
-    console.log("p_custombuttonurl04 is true");
+  if (p_custombuttonurl04 !== "false") { console.log("p_custombuttonurl04 is true");
     await createCustomButton("CustomButton04", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04); };
   // Bill Board the geometryObject
