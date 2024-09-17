@@ -341,8 +341,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
       if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); };
-    };
-  }, 500); };
+    }; console.log(`FIRESCREEN2: waitingforunity ${waitingforunity}, firescenev2.unityLoaded:${firescenev2.unityLoaded}`);
+  }, 1500); };
   // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => { console.log(e) });
   firescenev2.On("browser-message", e => { console.log(e) });
