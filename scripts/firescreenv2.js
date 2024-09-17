@@ -94,7 +94,7 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
 
-function toggleButtonVisibility(defaultobjects, visible) {
+function toggleButtonVisibility(defaultobjects, customButtonObjects, visible) {
   defaultobjects.forEach(button => { button.SetActive(visible); });
   customButtonObjects.forEach(button => { if (button) {button.SetActive(visible); }; });
 }
@@ -246,7 +246,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let uiButtons = await createUIButtons(screenObject);
 
   const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), thebuttonscolor, screenObject);
-  createButtonAction(hideShowObject, () => { buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), buttonsvisible ? 1 : 0)
+  createButtonAction(hideShowObject, () => { buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), customButtonObjects, buttonsvisible ? 1 : 0)
     hideShowObject.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5);
   });
   
