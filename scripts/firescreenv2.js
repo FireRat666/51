@@ -17,7 +17,6 @@ let screenObject = null;
 let firesbillBoard;
 let defaulTransparent = 'Unlit/DiffuseTransparent';
 let customButShader = 'Unlit/Diffuse';
-let uiButtons;
 let thebuttonscolor;
 let buttonsObjectsThing = [];
 let clickedColour = new BS.Vector4(1,1,1,0.7);
@@ -243,7 +242,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         console.log(buttonsObjectsThing[name]);
     } return buttonsObjectsThing;
   };
-  uiButtons = await createUIButtons(screenObject);
+  let uiButtons = await createUIButtons(screenObject);
 
   const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), thebuttonscolor, screenObject);
   createButtonAction(hideShowObject, () => { buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), buttonsvisible ? 1 : 0)
