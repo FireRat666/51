@@ -121,7 +121,7 @@ function setupfirescreen2() {
     console.log("FIRESCREEN2: Loading");
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
-      backdrop: "true", "hand-controls": "false", "disable-interaction": "false", announce: "false", "announce-420": "false", "announce-events": "undefined",
+      backdrop: "true", "hand-controls": "false", "disable-interaction": "false", "disable-rotation": false, announce: "false", "announce-420": "false", "announce-events": "undefined",
       "button-color": "0 1 0 1", "backdrop-color": "0 0 0 0.9", "volup-color": "0 1 0 1", "voldown-color": "1 1 0 1", "mute-color": "1 1 1 1", "button-position": "0 0 0",
       "icon-mute-url": "https://firer.at/files/VolumeMute.png", "icon-volup-url": "https://firer.at/files/VolumeHigh.png",
       "icon-voldown-url": "https://firer.at/files/VolumeLow.png", "icon-direction-url": "https://firer.at/files/Arrow.png",
@@ -139,19 +139,19 @@ function setupfirescreen2() {
 
     const params = {}; Object.keys(defaultParams).forEach(key => { params[key] = getParam(key); });
     const {
-      position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, "button-color": buttonColor, announce, "announce-420": announce420, "backdrop-color": backdropColor, "icon-mute-url": iconMuteUrl, "icon-volup-url": iconVolUpUrl, "icon-voldown-url": iconVolDownUrl, "icon-direction-url": iconDirectionUrl, "volup-color": volUpColor, "voldown-color": volDownColor, "mute-color": muteColor, "disable-interaction": disableInteraction, "button-position": buttonPosition, "hand-controls": handControls, width, height, "announce-events": announceEvents, "custom-button01-url": customButton01Url, "custom-button01-text": customButton01Text, "custom-button02-url": customButton02Url, "custom-button02-text": customButton02Text, "custom-button03-url": customButton03Url, "custom-button03-text": customButton03Text, "custom-button04-url": customButton04Url, "custom-button04-text": customButton04Text
+      position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, "button-color": buttonColor, announce, "announce-420": announce420, "backdrop-color": backdropColor, "icon-mute-url": iconMuteUrl, "icon-volup-url": iconVolUpUrl, "icon-voldown-url": iconVolDownUrl, "icon-direction-url": iconDirectionUrl, "volup-color": volUpColor, "voldown-color": volDownColor, "mute-color": muteColor, "disable-interaction": disableInteraction, "disable-rotation": disableRotation, "button-position": buttonPosition, "hand-controls": handControls, width, height, "announce-events": announceEvents, "custom-button01-url": customButton01Url, "custom-button01-text": customButton01Text, "custom-button02-url": customButton02Url, "custom-button02-text": customButton02Text, "custom-button03-url": customButton03Url, "custom-button03-text": customButton03Text, "custom-button04-url": customButton04Url, "custom-button04-text": customButton04Text
     } = params;
 
     const pURL = `url: ${website}; mipMaps: ${mipmaps}; pixelsPerUnit: ${pixelsperunit}; pageWidth: ${width}; pageHeight: ${height}; mode: local;`;
 
     sdk2tests(position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
       backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor,
-      disableInteraction, buttonPosition, handControls, width, height, announceEvents, customButton01Url, customButton01Text,
+      disableInteraction, disableRotation, buttonPosition, handControls, width, height, announceEvents, customButton01Url, customButton01Text,
       customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text);
   });
 };
 
-async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
+async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
 
   the_announce = p_announce;
   the_announce420 = p_announce420;
@@ -159,7 +159,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   firevolume = p_volume;
   fireScreen2On = true;
   thebuttonscolor = p_buttoncolor;
-  let isbillboarded = true;
   let keyboardstate = false;
   let buttonsvisible = true;
   let playerislockedv2 = false;
@@ -170,6 +169,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   screenObject = await new BS.GameObject("MyBrowser");
   firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
+  let isbillboarded;
+  if (p_disableRotation) { isbillboarded = true; } else { isbillboarded = false; };
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
   geometryObject = new BS.GameObject("MainParentObject");
@@ -229,7 +230,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(1);
       updateButtonColor(uiButtons.volUp, p_volupcolor ? p_volupcolor : thebuttonscolor); }
-    }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: thebuttonscolor,
+    }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: isbillboarded ? thebuttonscolor : whiteColour,
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
         uiButtons.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : whiteColour; }
@@ -268,7 +269,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     await createCustomButton("CustomButton04", textPlaneColour, new BS.Vector3(0.68,0.15,0), buttonSize, p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04); };
   // Bill Board the geometryObject
-  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, true, true, true));
+  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));
   // SET THE SCALE FOR THE SCREEN
   geometrytransform.localScale = p_sca;
   // When user Grabs the Browser, Make it moveable
