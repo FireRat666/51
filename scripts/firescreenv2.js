@@ -48,6 +48,20 @@ function updateButtonColor(buttonObject, revertColour) {
   let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   material.color = clickedColour; setTimeout(() => { material.color = revertColour; }, 100);
 };
+  
+function adjustScale(geometrytransform, direction) {
+  let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
+  let scaleY = Number(parseFloat(geometrytransform.localScale.y).toFixed(3));
+  let adjustment;
+  if (scaleX < 0.5) { adjustment = 0.025;
+  } else if (scaleX < 2) { adjustment = 0.05;
+  } else if (scaleX < 5) { adjustment = 0.1;
+  } else { adjustment = 0.5; }
+  if (direction === "shrink") { adjustment = -adjustment;
+    if (scaleX + adjustment <= 0) { scaleX = 0.025; scaleY = 0.025; } }
+  scaleX += adjustment; scaleY += adjustment; geometrytransform.localScale = new BS.Vector3(scaleX, scaleY, 1);
+  return adjustment;
+};
 
 async function createCustomButton(name, firebrowser, screenObject, buttonObjects, position, text, textposition, url, clickHandler) {
   const buttonObject = await createUIButton(name, null, position, textPlaneColour, screenObject, "false", 1, 1, customButShader, customButtonSize);
@@ -214,10 +228,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       clickHandler: () => { console.log("Back Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
       updateButtonColor(uiButtons.pageBack, thebuttonscolor); }
     }, sizeGrow: { icon: "https://firer.at/files/expand.png", position: new BS.Vector3(0.6,0.06,0), color: thebuttonscolor,
-      clickHandler: () => { console.log("Grow Clicked!"); adjustScale("grow");
+      clickHandler: () => { console.log("Grow Clicked!"); adjustScale(geometrytransform, "grow");
       updateButtonColor(uiButtons.sizeGrow, thebuttonscolor); }
     }, sizeShrink: { icon: "https://firer.at/files/shrink.png", position: new BS.Vector3(0.6,-0.06,0), color: thebuttonscolor,
-      clickHandler: () => { console.log("Shrink Clicked!"); adjustScale("shrink");
+      clickHandler: () => { console.log("Shrink Clicked!"); adjustScale(geometrytransform, "shrink");
       updateButtonColor(uiButtons.sizeShrink, thebuttonscolor); }
     }, pageForward: { icon: p_icondirectionurl, position: new BS.Vector3(-0.38,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Forward Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
@@ -271,20 +285,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   firerigidBody.gameObject.On('grab', () => {console.log("GRABBED!"); firerigidBody.isKinematic = false; });
   // When user Drops the Browser, Lock it in place
   firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; });
-  
-  function adjustScale(direction) {
-    let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
-    let scaleY = Number(parseFloat(geometrytransform.localScale.y).toFixed(3));
-    let adjustment;
-    if (scaleX < 0.5) { adjustment = 0.025;
-    } else if (scaleX < 2) { adjustment = 0.05;
-    } else if (scaleX < 5) { adjustment = 0.1;
-    } else { adjustment = 0.5; }
-    if (direction === "shrink") { adjustment = -adjustment;
-      if (scaleX + adjustment <= 0) { scaleX = 0.025; scaleY = 0.025; } }
-    scaleX += adjustment; scaleY += adjustment; geometrytransform.localScale = new BS.Vector3(scaleX, scaleY, 1);
-    return adjustment;
-  };
 
   firescenev2.On("one-shot", e => { console.log(e)
     let currentshotdata = JSON.parse(e.detail.data);
