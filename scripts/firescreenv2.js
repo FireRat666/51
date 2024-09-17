@@ -51,14 +51,14 @@ function updateButtonColor(buttonObject, revertColour) {
   material.color = clickedColour; setTimeout(() => { material.color = revertColour; }, 100);
 };
 
-async function createCustomButton(name, firebrowser, customButtonObjects, position, text, textposition, url, clickHandler) {
+async function createCustomButton(name, firebrowser, buttonObjects, position, text, textposition, url, clickHandler) {
   const buttonObject = await createUIButton(name, null, position, new BS.Vector4(0.1,0.1,0.1,1), screenObject, "false", 1, 1, customButShader, customButtonSize);
-  customButtonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+  buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   const textObject = new BS.GameObject(`${name}Text`);
   const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
   const textTransform = await textObject.AddComponent(new BS.Transform());
   textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
-  customButtonObjects.push(textObject);
+  buttonObjects.push(textObject);
   buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
       firebrowser.url = url; material.color = new BS.Vector4(0.3, 0.3, 0.3, 1);
       setTimeout(() => { material.color = color; }, 100); if (clickHandler) clickHandler();
