@@ -2,7 +2,6 @@ var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https:/
 var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 var fireScreen2On = false;
 var firstrunhandcontrolsv2 = true;
-var announcerfirstrunv2 = true;
 var firevolume = 1;
 var playersuseridv2 = null;
 
@@ -170,6 +169,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let keyboardstate = false;
   let playerislockedv2 = false;
   let browsermuted = false;
+  var announcerfirstrunv2 = true;
   let customButtonObjects = [];
   const screenObject = await new BS.GameObject("MyBrowser");
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
