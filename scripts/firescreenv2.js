@@ -170,7 +170,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   let isbillboarded;
-  if (p_disableRotation) { isbillboarded = true; } else { isbillboarded = false; };
+  if (p_disableRotation) { isbillboarded = false; } else { isbillboarded = true; };
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
   geometryObject = new BS.GameObject("MainParentObject");
