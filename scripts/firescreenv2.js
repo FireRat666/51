@@ -13,8 +13,6 @@ let the_announce = null;
 let the_announcer = null;
 let the_announce420 = null;
 let the_announceevents = null;
-let screenObject = null;
-let firesbillBoard;
 let defaulTransparent = 'Unlit/DiffuseTransparent';
 let customButShader = 'Unlit/Diffuse';
 let thebuttonscolor;
@@ -51,7 +49,7 @@ function updateButtonColor(buttonObject, revertColour) {
   material.color = clickedColour; setTimeout(() => { material.color = revertColour; }, 100);
 };
 
-async function createCustomButton(name, firebrowser, buttonObjects, position, text, textposition, url, clickHandler) {
+async function createCustomButton(name, firebrowser, screenObject, buttonObjects, position, text, textposition, url, clickHandler) {
   const buttonObject = await createUIButton(name, null, position, textPlaneColour, screenObject, "false", 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   const textObject = new BS.GameObject(`${name}Text`);
@@ -163,7 +161,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let browsermuted = false;
   let customButtonObjects = [];
   const url = p_website;
-  screenObject = await new BS.GameObject("MyBrowser");
+  const screenObject = await new BS.GameObject("MyBrowser");
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   let isbillboarded;
@@ -251,22 +249,22 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
   
   if (p_custombuttonurl01 !== "false") {  console.log("p_custombuttonurl01 is true");
-    await createCustomButton("CustomButton01", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.3,0), p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
+    await createCustomButton("CustomButton01", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.3,0), p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
     console.log(p_custombuttonurl01); };
 
   if (p_custombuttonurl02 !== "false") { console.log("p_custombuttonurl02 is true");
-    await createCustomButton("CustomButton02", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.25,0), p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
+    await createCustomButton("CustomButton02", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.25,0), p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
     console.log(p_custombuttonurl02); };
 
   if (p_custombuttonurl03 !== "false") { console.log("p_custombuttonurl03 is true");
-    await createCustomButton("CustomButton03", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.20,0), p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
+    await createCustomButton("CustomButton03", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.20,0), p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
     console.log(p_custombuttonurl03); };
 
   if (p_custombuttonurl04 !== "false") { console.log("p_custombuttonurl04 is true");
-    await createCustomButton("CustomButton04", firebrowser, customButtonObjects, new BS.Vector3(0.68,0.15,0), p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
+    await createCustomButton("CustomButton04", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.15,0), p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04); };
   // Bill Board the geometryObject
-  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));
+  const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));
   // SET THE SCALE FOR THE SCREEN
   geometrytransform.localScale = p_sca;
   // When user Grabs the Browser, Make it moveable
