@@ -174,7 +174,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let playerislockedv2 = false;
   let browsermuted = false;
   let customButtonObjects = [];
-  const url = p_website;
   const screenObject = await new BS.GameObject("MyBrowser");
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
@@ -206,7 +205,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
   let BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,0.38,0), color: thebuttonscolor,
-      clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = url;
+      clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = p_website;
       updateButtonColor(uiButtons.home, thebuttonscolor); }
     }, info: { icon: "https://firer.at/files/Info.png", position: new BS.Vector3(-0.6,0.28,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Info Clicked!"); firebrowser.url = "https://firer.at/pages/Info.html";
