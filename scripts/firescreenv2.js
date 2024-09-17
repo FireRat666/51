@@ -23,6 +23,7 @@ let clickedColour = new BS.Vector4(1,1,1,0.7);
 let whiteColour = new BS.Vector4(1,1,1,1);
 const customButtonSize = new BS.Vector3(0.2,0.04,1);
 let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
+let textClickColour = new BS.Vector4(0.3,0.3,0.3,1);
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -51,7 +52,7 @@ function updateButtonColor(buttonObject, revertColour) {
 };
 
 async function createCustomButton(name, firebrowser, buttonObjects, position, text, textposition, url, clickHandler) {
-  const buttonObject = await createUIButton(name, null, position, new BS.Vector4(0.1,0.1,0.1,1), screenObject, "false", 1, 1, customButShader, customButtonSize);
+  const buttonObject = await createUIButton(name, null, position, textPlaneColour, screenObject, "false", 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   const textObject = new BS.GameObject(`${name}Text`);
   const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
@@ -59,8 +60,8 @@ async function createCustomButton(name, firebrowser, buttonObjects, position, te
   textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
   buttonObjects.push(textObject);
   buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
-      firebrowser.url = url; material.color = new BS.Vector4(0.3, 0.3, 0.3, 1);
-      setTimeout(() => { material.color = color; }, 100); if (clickHandler) clickHandler();
+      firebrowser.url = url; material.color = textClickColour;
+      setTimeout(() => { material.color = textPlaneColour; }, 100); if (clickHandler) clickHandler();
   });
 };
 
