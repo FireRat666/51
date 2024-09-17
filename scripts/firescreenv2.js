@@ -1,6 +1,3 @@
-// create a reference to the banter scene
-const firescenev2 = BS.BanterScene.GetInstance();
-
 let firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
 let announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 let fireScreen2On = false;
@@ -162,7 +159,8 @@ function setupfirescreen2() {
 };
 
 async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
-
+  // create a reference to the banter scene
+  const firescenev2 = BS.BanterScene.GetInstance();
   the_announce = p_announce;
   the_announce420 = p_announce420;
   the_announceevents = p_announceevents;
@@ -195,7 +193,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const material = await createMaterial(geometryObject, { color: p_backdropcolor });
   // firebrowser Transform Stuff
   const browsertransform = await screenObject.AddComponent(new BS.Transform());
-  browsertransform.position = new BS.Vector3(0,0,-0.1);
+  browsertransform.position = new BS.Vector3(0,0,-0.02);
   browsertransform.localScale = new BS.Vector3(1,1,1);
   // Make the screen a child of the Main Geometry Object
   await screenObject.SetParent(geometryObject, false);
