@@ -1,24 +1,24 @@
-let firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
-let announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
-let fireScreen2On = false;
-let firstrunhandcontrolsv2 = true;
-let announcerfirstrunv2 = true;
-let firevolume = 1;
-let playersuseridv2 = null;
+var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
+var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
+var fireScreen2On = false;
+var firstrunhandcontrolsv2 = true;
+var announcerfirstrunv2 = true;
+var firevolume = 1;
+var playersuseridv2 = null;
 
-let the_announce = null;
-let the_announcer = null;
-let the_announce420 = null;
-let the_announceevents = null;
-let defaulTransparent = 'Unlit/DiffuseTransparent';
-let customButShader = 'Unlit/Diffuse';
-let thebuttonscolor;
-let buttonsObjectsThing = [];
-let clickedColour = new BS.Vector4(1,1,1,0.7);
-let whiteColour = new BS.Vector4(1,1,1,1);
-const customButtonSize = new BS.Vector3(0.2,0.04,1);
-let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
-let textClickColour = new BS.Vector4(0.3,0.3,0.3,1);
+var the_announce = null;
+var the_announcer = null;
+var the_announce420 = null;
+var the_announceevents = null;
+var defaulTransparent = 'Unlit/DiffuseTransparent';
+var customButShader = 'Unlit/Diffuse';
+var thebuttonscolor;
+var buttonsObjectsThing = [];
+var clickedColour = new BS.Vector4(1,1,1,0.7);
+var whiteColour = new BS.Vector4(1,1,1,1);
+var customButtonSize = new BS.Vector3(0.2,0.04,1);
+var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
+var textClickColour = new BS.Vector4(0.3,0.3,0.3,1);
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
