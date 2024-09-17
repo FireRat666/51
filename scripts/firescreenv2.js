@@ -77,18 +77,18 @@ async function createCustomButton(name, firebrowser, screenObject, buttonObjects
   });
 };
 
-async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = "false", width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = new BS.GameObject(name);
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
   const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position; buttonTransform.localScale = localScale;
-  if (rotation !== "false") { buttonTransform.localEulerAngles = rotation; }; buttonObject.SetLayer(5); // UI Layer
+  rotation ? buttonTransform.localEulerAngles = rotation : rotation; buttonObject.SetLayer(5); // UI Layer
   await buttonObject.SetParent(thisparent, false); return buttonObject;
 };
 
-async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler, rotation) {
+async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler, rotation = false) {
   const button = await createUIButton(name, thetexture, position, thecolor, thisparent, rotation);
   createButtonAction(button, clickHandler); return button;
 };
