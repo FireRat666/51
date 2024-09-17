@@ -18,6 +18,7 @@ var whiteColour = new BS.Vector4(1,1,1,1);
 var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 var textClickColour = new BS.Vector4(0.3,0.3,0.3,1);
+var theNumberofBrowsers = 0;
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -158,6 +159,7 @@ function setupfirescreen2() {
 };
 
 async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
+  theNumberofBrowsers++;
   // create a reference to the banter scene
   const firescenev2 = BS.BanterScene.GetInstance();
   the_announce = p_announce;
@@ -171,7 +173,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let browsermuted = false;
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
-  const screenObject = await new BS.GameObject("MyBrowser");
+  const screenObject = await new BS.GameObject(`MyBrowser${theNumberofBrowsers}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   let isbillboarded;
