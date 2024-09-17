@@ -39,7 +39,7 @@ async function createGeometry(thingy1, geomtype, options = {}) {
 async function createMaterial(objectThing, options = {}) {
   const shaderName = options.shaderName || 'Sprites/Diffuse';
   const texture = options.texture || null;
-  const color = options.color || new BS.Vector4(1,1,1,1);
+  const color = options.color || whiteColour;
   const side = options.side || 0;
   const generateMipMaps = options.generateMipMaps || true;
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
@@ -54,7 +54,7 @@ async function createCustomButton(name, color, position, scale, text, textpositi
   const buttonObject = await createUIButton(name, null, position, color, screenObject, "false", 1, 1, "Unlit/Diffuse", scale);
   customButtonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   if (text) { const textObject = new BS.GameObject(`${name}Text`);
-      const banterText = await textObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
+      const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
       const textTransform = await textObject.AddComponent(new BS.Transform());
       textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
       customButtonObjects.push(textObject);
@@ -201,12 +201,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }, info: { icon: "https://firer.at/files/Info.png", position: new BS.Vector3(-0.6,0.28,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Info Clicked!"); firebrowser.url = "https://firer.at/pages/Info.html";
       updateButtonColor(uiButtons.info, thebuttonscolor); }
-    }, google: { icon: "https://firer.at/files/Google.png", position: new BS.Vector3(-0.6,0.16,0), color: new BS.Vector4(1,1,1,1),
+    }, google: { icon: "https://firer.at/files/Google.png", position: new BS.Vector3(-0.6,0.16,0), color: whiteColour,
       clickHandler: () => { console.log("Google Clicked!"); firebrowser.url = "https://google.com/";
-      updateButtonColor(uiButtons.google, new BS.Vector4(1,1,1,1)); }
-    }, keyboard: { icon: "https://firer.at/files/Keyboard.png", position: new BS.Vector3(-0.6,-0.15,0), color: new BS.Vector4(1,1,1,1),
+      updateButtonColor(uiButtons.google, whiteColour); }
+    }, keyboard: { icon: "https://firer.at/files/Keyboard.png", position: new BS.Vector3(-0.6,-0.15,0), color: whiteColour,
       clickHandler: () => { console.log("Keyboard Clicked!"); keyboardstate = !keyboardstate; firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
-        uiButtons.keyboard.GetComponent(BS.ComponentType.BanterMaterial).color = keyboardstate ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
+        uiButtons.keyboard.GetComponent(BS.ComponentType.BanterMaterial).color = keyboardstate ? thebuttonscolor : whiteColour; }
     }, mute: { icon: p_iconmuteurl, position: new BS.Vector3(0.167,0.38,0), color: p_mutecolor,
       clickHandler: () => { console.log("Mute Clicked!"); browsermuted = !browsermuted;
       runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
@@ -232,7 +232,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: thebuttonscolor,
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
-        uiButtons.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
+        uiButtons.billboard.GetComponent(BS.ComponentType.BanterMaterial).color = isbillboarded ? thebuttonscolor : whiteColour; }
     }
   };
 
