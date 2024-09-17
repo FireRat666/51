@@ -20,7 +20,7 @@ let firesbillBoard;
 let defaulTransparent = 'Unlit/DiffuseTransparent';
 let uiButtons;
 let thebuttonscolor;
-let buttonsObjectsThing = {};
+let buttonsObjectsThing = [];
 let clickedColour = new BS.Vector4(1,1,1,0.7);
 let whiteColour = new BS.Vector4(1,1,1,1);
 
@@ -357,6 +357,46 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   firescenev2.On("browser-message", e => { console.log(e) });
   firebrowser.On("menu-browser-message", e => { console.log(e) });
   firescenev2.On("menu-browser-message", e => { console.log(e) });
+
+  var soundlevel2firstrun = true;
+  function keepsoundlevel2() { var volinterval2;
+    if (fireScreen2On && soundlevel2firstrun) {
+    console.log("FIRESCREEN2: keepsoundlevel loop");
+    soundlevel2firstrun = false;
+    // Loop to keep sound level set, runs every set second(s)
+      volinterval2 = setInterval(function() {
+        let firepercent = (firevolume * 100).toFixed(0);
+        runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
+        runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
+      }, 5000); } else if (fireScreen2On) { } else { clearInterval(volinterval2); }
+  };
+
+  function announcerstufffunc() {
+    console.log("FIRESCREEN2: Announcer Script Called");
+    // Setup the Announcer only on the first run if enabled
+    if (announcerfirstrunv2 === true ) {
+      setTimeout(() => { 
+        if (typeof announcerscene === 'undefined') { announcerfirstrunv2 = false;
+          console.log("FIRESCREEN2: announcerscene is not defined, Adding the Announcer Script");
+          const announcerscript = document.createElement("script");
+          announcerscript.id = "fires-announcer";
+          announcerscript.setAttribute("src", announcerscripturlv2);
+          announcerscript.setAttribute("announce", the_announce);
+          announcerscript.setAttribute("announce-420", the_announce420);
+          if (the_announceevents === "undefined" && the_announce === "true") {
+            announcerscript.setAttribute("announce-events", "true");
+          } else if (the_announceevents === "undefined") {
+            announcerscript.setAttribute("announce-events", "false");
+          } else {
+            announcerscript.setAttribute("announce-events", the_announceevents);
+          };
+          document.querySelector("body").appendChild(announcerscript);
+        } else { console.log('FIRESCREEN2: announcerscene is defined, Moving on'); };
+      }, 1000);
+    };
+    setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
+  };
+  keepsoundlevel2()
 };
 
 function getV3FromStr(strVector3) {
@@ -375,45 +415,6 @@ function getV4FromStr(strVector4) {
 
 function getAttrOrDef(pScript, pAttr, pDefault) { if (pScript.hasAttribute(pAttr)) { return pScript.getAttribute(pAttr); } else { return pDefault; }; };
 
-var soundlevel2firstrun = true;
-function keepsoundlevel2() { var volinterval2;
-  if (fireScreen2On && soundlevel2firstrun) {
-	console.log("FIRESCREEN2: keepsoundlevel loop");
-	soundlevel2firstrun = false;
-  // Loop to keep sound level set, runs every set second(s)
-    volinterval2 = setInterval(function() {
-      let firepercent = (firevolume * 100).toFixed(0);
-      runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
-      runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
-    }, 3000); } else if (fireScreen2On) { } else { clearInterval(volinterval2); }
-};
-
-function announcerstufffunc() {
-  console.log("FIRESCREEN2: Announcer Script Called");
-  // Setup the Announcer only on the first run if enabled
-  if (announcerfirstrunv2 === true ) {
-    setTimeout(() => { 
-      if (typeof announcerscene === 'undefined') { announcerfirstrunv2 = false;
-        console.log("FIRESCREEN2: announcerscene is not defined, Adding the Announcer Script");
-        const announcerscript = document.createElement("script");
-        announcerscript.id = "fires-announcer";
-        announcerscript.setAttribute("src", announcerscripturlv2);
-        announcerscript.setAttribute("announce", the_announce);
-        announcerscript.setAttribute("announce-420", the_announce420);
-        if (the_announceevents === "undefined" && the_announce === "true") {
-          announcerscript.setAttribute("announce-events", "true");
-        } else if (the_announceevents === "undefined") {
-          announcerscript.setAttribute("announce-events", "false");
-        } else {
-          announcerscript.setAttribute("announce-events", the_announceevents);
-        };
-        document.querySelector("body").appendChild(announcerscript);
-      } else { console.log('FIRESCREEN2: announcerscene is defined, Moving on'); };
-    }, 1000);
-  };
-
-  setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
-};
 
 setupfirescreen2();
 
