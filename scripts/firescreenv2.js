@@ -169,7 +169,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let keyboardstate = false;
   let playerislockedv2 = false;
   let browsermuted = false;
-  var announcerfirstrunv2 = true;
+  let announcerfirstrunv2 = true;
   let customButtonObjects = [];
   const screenObject = await new BS.GameObject("MyBrowser");
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
