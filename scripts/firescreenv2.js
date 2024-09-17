@@ -19,18 +19,17 @@ let firebrowser;
 let firesbillBoard;
 let defaulTransparent = 'Unlit/DiffuseTransparent';
 let uiButtons;
-let BUTTON_CONFIGS;
 let thebuttonscolor;
 let buttonsObjectsThing = {};
+let clickedColour = new BS.Vector4(1,1,1,0.7);
+let whiteColour = new BS.Vector4(1,1,1,1);
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
   const defaultOptions = {
     thewidth: 1, theheight: 1, depth: 1, widthSegments: 1, heightSegments: 1, depthSegments: 1, radius: 1, segments: 24, thetaStart: 0, thetaLength: Math.PI * 2, phiStart: 0, phiLength: Math.PI * 2, radialSegments: 8, openEnded: false, radiusTop: 1, radiusBottom: 1, innerRadius: 0.3, outerRadius: 1, thetaSegments: 24, phiSegments: 8, tube: 0.4, tubularSegments: 16, arc: Math.PI * 2, p: 2, q: 3, stacks: 5, slices: 5, detail: 0, parametricPoints: ""
   };
-
   const config = { ...defaultOptions, ...options };
-
   const geometry = await thingy1.AddComponent(new BS.BanterGeometry( 
     geomtype, null, config.thewidth, config.theheight, config.depth, config.widthSegments, config.heightSegments, config.depthSegments, config.radius, config.segments, config.thetaStart, config.thetaLength, config.phiStart, config.phiLength, config.radialSegments, config.openEnded, config.radiusTop, config.radiusBottom, config.innerRadius, config.outerRadius, config.thetaSegments, config.phiSegments, config.tube, config.tubularSegments, config.arc, config.p, config.q, config.stacks, config.slices, config.detail, config.parametricPoints
   ));
@@ -43,38 +42,27 @@ async function createMaterial(objectThing, options = {}) {
   const color = options.color || new BS.Vector4(1,1,1,1);
   const side = options.side || 0;
   const generateMipMaps = options.generateMipMaps || true;
-
   return objectThing.AddComponent(new BS.BanterMaterial(shaderName, texture, color, side, generateMipMaps));
 };
 
-function updateButtonColor(buttonObject, colour, revertColour) {
+function updateButtonColor(buttonObject, revertColour) {
   let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-  material.color = colour;
-  setTimeout(() => { material.color = revertColour; }, 100);
+  material.color = clickedColour; setTimeout(() => { material.color = revertColour; }, 100);
 };
 
 async function createCustomButton(name, color, position, scale, text, textposition, url, clickHandler) {
-  
   const buttonObject = await createUIButton(name, null, position, color, screenObject, "false", 1, 1, "Unlit/Diffuse", scale);
-  customButtonObjects.push(buttonObject);
-  let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-
-  if (text) {
-      const textObject = new BS.GameObject(`${name}Text`);
+  customButtonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+  if (text) { const textObject = new BS.GameObject(`${name}Text`);
       const banterText = await textObject.AddComponent(new BS.BanterText(text, new BS.Vector4(1,1,1,1), "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
       const textTransform = await textObject.AddComponent(new BS.Transform());
-      textTransform.localPosition = textposition;
-      await textObject.SetParent(screenObject, false);
+      textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
       customButtonObjects.push(textObject);
   };
-
   if (url) {
-      buttonObject.On('click', () => {
-          console.log(`CLICKED: ${name}`);
-          firebrowser.url = url;
-          material.color = new BS.Vector4(0.3, 0.3, 0.3, 1);
-          setTimeout(() => { material.color = color; }, 100);
-          if (clickHandler) clickHandler();
+      buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
+          firebrowser.url = url; material.color = new BS.Vector4(0.3, 0.3, 0.3, 1);
+          setTimeout(() => { material.color = color; }, 100); if (clickHandler) clickHandler();
       });
   };
 };
@@ -85,29 +73,21 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
   const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
-  buttonTransform.position = position;
-  buttonTransform.localScale = localScale;
-  if (rotation !== "false") {
-    buttonTransform.localEulerAngles = rotation;
-  }
-  buttonObject.SetLayer(5); // UI Layer
-  await buttonObject.SetParent(thisparent, false);
-
-  return buttonObject;
+  buttonTransform.position = position; buttonTransform.localScale = localScale;
+  if (rotation !== "false") { buttonTransform.localEulerAngles = rotation; }; buttonObject.SetLayer(5); // UI Layer
+  await buttonObject.SetParent(thisparent, false); return buttonObject;
 };
 
 async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler) {
   const button = await createUIButton(name, thetexture, position, thecolor, thisparent);
-  createButtonAction(button, clickHandler);
-  return button;
+  createButtonAction(button, clickHandler); return button;
 };
 
 function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to increase the volume
   let currentVolume = Number(firevolume); let adjustment;
   if (currentVolume < 0.1) { adjustment = 0.01; // Tiny adjustment for low volume
   } else if (currentVolume < 0.5) { adjustment = 0.03; // Medium adjustment for medium volume
-  } else { adjustment = 0.05; // Big adjustment for high volume
-  }
+  } else { adjustment = 0.05; } // Big adjustment for high volume
   firevolume = currentVolume + (change * adjustment);
   firevolume = Math.max(0, Math.min(firevolume, 1)).toFixed(2);
   let firepercent = (firevolume * 100).toFixed(0);
@@ -118,10 +98,7 @@ function adjustVolume(change) { // Pass -1 to decrease the volume Pass 1 to incr
 
 function toggleButtonVisibility(defaultobjects, visible) {
   defaultobjects.forEach(button => { button.SetActive(visible); });
-
-  customButtonObjects.forEach(button => { 
-    if (button) {button.SetActive(visible); };
-  });
+  customButtonObjects.forEach(button => { if (button) {button.SetActive(visible); }; });
 }
 
 function runBrowserActions(script) {
@@ -129,21 +106,12 @@ function runBrowserActions(script) {
 };
 
 function createButtonAction(buttonObject, clickHandler) {
-  buttonObject.On('click', (e) => {
-    clickHandler(e);
-  });
-};
-
-function getButtonColor(specificColor, defaultColor) {
-  console.log("specificColor");
-  console.log(specificColor);
-  return specificColor ? specificColor : defaultColor;
+  buttonObject.On('click', (e) => { clickHandler(e); });
 };
 
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
   const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
-  createButtonAction(button, clickHandler);
-  return button;
+  createButtonAction(button, clickHandler); return button;
 };
 
 function setupfirescreen2() {
@@ -169,16 +137,10 @@ function setupfirescreen2() {
       const value = attr !== null ? attr : defaultParams[key];
       return numberAttributes[key] ? numberAttributes[key](value) : value; };
 
-    const params = {};
-    Object.keys(defaultParams).forEach(key => { params[key] = getParam(key); });
-
+    const params = {}; Object.keys(defaultParams).forEach(key => { params[key] = getParam(key); });
     const {
       position, rotation, scale, volumelevel, mipmaps, pixelsperunit, backdrop, website, "button-color": buttonColor, announce, "announce-420": announce420, "backdrop-color": backdropColor, "icon-mute-url": iconMuteUrl, "icon-volup-url": iconVolUpUrl, "icon-voldown-url": iconVolDownUrl, "icon-direction-url": iconDirectionUrl, "volup-color": volUpColor, "voldown-color": volDownColor, "mute-color": muteColor, "disable-interaction": disableInteraction, "button-position": buttonPosition, "hand-controls": handControls, width, height, "announce-events": announceEvents, "custom-button01-url": customButton01Url, "custom-button01-text": customButton01Text, "custom-button02-url": customButton02Url, "custom-button02-text": customButton02Text, "custom-button03-url": customButton03Url, "custom-button03-text": customButton03Text, "custom-button04-url": customButton04Url, "custom-button04-text": customButton04Text
     } = params;
-    console.log("Button Colours are:");
-    console.log(volUpColor);
-    console.log(volDownColor);
-    console.log(muteColor);
 
     const pURL = `url: ${website}; mipMaps: ${mipmaps}; pixelsPerUnit: ${pixelsperunit}; pageWidth: ${width}; pageHeight: ${height}; mode: local;`;
 
@@ -205,7 +167,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const url = p_website;
   const buttonSize = new BS.Vector3(0.2,0.04,1);
   let textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
-
   screenObject = await new BS.GameObject("MyBrowser");
   firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
@@ -213,22 +174,16 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   geometryObject = new BS.GameObject("MainParentObject");
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
-
   // geometry Transform Stuff
   const geometrytransform = await geometryObject.AddComponent(new BS.Transform());
   geometrytransform.position = p_pos; geometrytransform.eulerAngles = p_rot;
-
-  // Add Box Collider
   const size = new BS.Vector3(1.09,0.64,0.01);
   const boxCollider = await geometryObject.AddComponent(new BS.BoxCollider(false, new BS.Vector3(0,0,0), size));
   await geometryObject.SetLayer(20);
-  
-  // Add a Rigid Body to the geometry
   const firerigidBody = await geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0,0,0), "Discrete", false, false, false, false, false, false, new BS.Vector3(0,0,0), new BS.Vector3(0,0,0)));
 
   // If Backdrop is disabled, Hide it
   if (p_backdrop !== "true") { p_backdropcolor = new BS.Vector4(0,0,0,0); };
-
   const material = await createMaterial(geometryObject, { color: p_backdropcolor });
   // firebrowser Transform Stuff
   const browsertransform = await screenObject.AddComponent(new BS.Transform());
@@ -236,20 +191,19 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   browsertransform.localScale = new BS.Vector3(1,1,1);
   // Make the screen a child of the Main Geometry Object
   await screenObject.SetParent(geometryObject, false);
-
   // ADD FRICTION 
   const dynamicFriction = 100; const staticFriction = 100;
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
-  BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,0.38,0), color: thebuttonscolor,
+  let BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = url;
-      updateButtonColor(uiButtons.home, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
+      updateButtonColor(uiButtons.home, thebuttonscolor); }
     }, info: { icon: "https://firer.at/files/Info.png", position: new BS.Vector3(-0.6,0.28,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Info Clicked!"); firebrowser.url = "https://firer.at/pages/Info.html";
-      updateButtonColor(uiButtons.info, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
+      updateButtonColor(uiButtons.info, thebuttonscolor); }
     }, google: { icon: "https://firer.at/files/Google.png", position: new BS.Vector3(-0.6,0.16,0), color: new BS.Vector4(1,1,1,1),
       clickHandler: () => { console.log("Google Clicked!"); firebrowser.url = "https://google.com/";
-      updateButtonColor(uiButtons.google, new BS.Vector4(1,1,1,0.8), new BS.Vector4(1,1,1,1)); }
+      updateButtonColor(uiButtons.google, new BS.Vector4(1,1,1,1)); }
     }, keyboard: { icon: "https://firer.at/files/Keyboard.png", position: new BS.Vector3(-0.6,-0.15,0), color: new BS.Vector4(1,1,1,1),
       clickHandler: () => { console.log("Keyboard Clicked!"); keyboardstate = !keyboardstate; firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
         uiButtons.keyboard.GetComponent(BS.ComponentType.BanterMaterial).color = keyboardstate ? thebuttonscolor : new BS.Vector4(1,1,1,1); }
@@ -259,22 +213,22 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       uiButtons.mute.GetComponent(BS.ComponentType.BanterMaterial).color = browsermuted ? new BS.Vector4(1,0,0,1) : (p_mutecolor ? p_mutecolor : thebuttonscolor); }
     }, volDown: { icon: p_iconvoldownurl, position: new BS.Vector3(0.334,0.38,0), color: p_voldowncolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(-1);
-      updateButtonColor(uiButtons.volDown, new BS.Vector4(1,1,1,0.8), p_voldowncolor ? p_voldowncolor : thebuttonscolor); }
+      updateButtonColor(uiButtons.volDown, p_voldowncolor ? p_voldowncolor : thebuttonscolor); }
     }, pageBack: { icon: p_icondirectionurl, position: new BS.Vector3(-0.5,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Back Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goback"}]}));
-      updateButtonColor(uiButtons.pageBack, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
+      updateButtonColor(uiButtons.pageBack, thebuttonscolor); }
     }, sizeGrow: { icon: "https://firer.at/files/expand.png", position: new BS.Vector3(0.6,0.06,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Grow Clicked!"); adjustScale("grow");
-      updateButtonColor(uiButtons.sizeGrow, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
+      updateButtonColor(uiButtons.sizeGrow, thebuttonscolor); }
     }, sizeShrink: { icon: "https://firer.at/files/shrink.png", position: new BS.Vector3(0.6,-0.06,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Shrink Clicked!"); adjustScale("shrink");
-      updateButtonColor(uiButtons.sizeShrink, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
+      updateButtonColor(uiButtons.sizeShrink, thebuttonscolor); }
     }, pageForward: { icon: p_icondirectionurl, position: new BS.Vector3(-0.38,0.38,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Forward Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
-      updateButtonColor(uiButtons.pageForward, new BS.Vector4(1,1,1,0.8), thebuttonscolor); }
+      updateButtonColor(uiButtons.pageForward, thebuttonscolor); }
     }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(1);
-      updateButtonColor(uiButtons.volUp, new BS.Vector4(1,1,1,0.8), p_volupcolor ? p_volupcolor : thebuttonscolor); }
+      updateButtonColor(uiButtons.volUp, p_volupcolor ? p_volupcolor : thebuttonscolor); }
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: thebuttonscolor,
       clickHandler: () => {isbillboarded = !isbillboarded;
         firesbillBoard.enableXAxis = isbillboarded; firesbillBoard.enableYAxis = isbillboarded;
@@ -286,14 +240,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     buttonsObjectsThing = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
-        config.icon, config.position, getButtonColor(config.color, thebuttonscolor), parent, config.clickHandler);
+        config.icon, config.position, config.color, parent, config.clickHandler);
         console.log(`buttonsObjectsThing${name}`);
         console.log(buttonsObjectsThing[name]);
     } return buttonsObjectsThing;
   };
-
   uiButtons = await createUIButtons(screenObject);
-  console.log("Screen Button Stuff 3");
 
   const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(-0.6,0,0), thebuttonscolor, screenObject);
   createButtonAction(hideShowObject, () => { buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), buttonsvisible ? 1 : 0)
@@ -324,15 +276,9 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   // SET THE SCALE FOR THE SCREEN
   geometrytransform.localScale = p_sca;
   // When user Grabs the Browser, Make it moveable
-  firerigidBody.gameObject.On('grab', () => {
-    firerigidBody.isKinematic = false;
-    console.log("GRABBED!");
-  });
+  firerigidBody.gameObject.On('grab', () => {console.log("GRABBED!"); firerigidBody.isKinematic = false; });
   // When user Drops the Browser, Lock it in place
-  firerigidBody.gameObject.On('drop', () => {
-    firerigidBody.isKinematic = true;
-    console.log("DROPPED!");
-  });
+  firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; });
   
   function adjustScale(direction) {
     let scaleX = Number(parseFloat(geometrytransform.localScale.x).toFixed(3));
@@ -344,52 +290,30 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     } else { adjustment = 0.5; }
     if (direction === "shrink") { adjustment = -adjustment;
       if (scaleX + adjustment <= 0) { scaleX = 0.025; scaleY = 0.025; } }
-    scaleX += adjustment; scaleY += adjustment;
-    geometrytransform.localScale = new BS.Vector3(scaleX, scaleY, 1);
+    scaleX += adjustment; scaleY += adjustment; geometrytransform.localScale = new BS.Vector3(scaleX, scaleY, 1);
     return adjustment;
   };
-  
-  // browser-message - Fired when a message is received from a browser in the space.  
-  firebrowser.On("browser-message", e => {
-    // Do something with e.detail.
-      console.log(e)
-  });
-    
-  firescenev2.On("menu-browser-message", e => {
-    // Do something with e.detail
-    console.log(e)
-  });
 
-  firescenev2.On("one-shot", e => {
-    console.log(e)
+  firescenev2.On("one-shot", e => { console.log(e)
     let currentshotdata = JSON.parse(e.detail.data);
-    if (e.detail.fromAdmin) {
-      console.log("Current Shot From Admin Is True");
-  
+    if (e.detail.fromAdmin) { console.log("Current Shot From Admin Is True");
       if (currentshotdata.fireurl) { firebrowser.url = currentshotdata.fireurl; };
       if (currentshotdata.firevolume) {
-        console.log(currentshotdata.firevolume);
         let thisfirevolume = Number(parseFloat(currentshotdata.firevolume).toFixed(2));
         let firepercent = parseInt(thisfirevolume*100).toFixed(0);
         runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
         runBrowserActions(`document.querySelector('.html5-video-player').setVolume(${firepercent});`);
       };
-  
-    } else {
-      console.log("Current Shot From Admin Is False");
+    } else { console.log("Current Shot From Admin Is False");
       console.log(e.detail.fromId);
     };
   });
 
   firescenev2.On("user-joined", e => {
-    // When a user Joins the space, Check their UserID against the list
-    if (e.detail.isLocal) { // e.detail.uid
-      // Setup Hand Controls only on the first run if enabled
+    if (e.detail.isLocal) { // Setup Hand Controls only on the first run if enabled
       if (p_handbuttons == "true" && firstrunhandcontrolsv2 === true) {
-        firstrunhandcontrolsv2 = false;
-        console.log("FIRESCREEN2: Enabling Hand Controls");
-        playersuseridv2 = e.detail.uid;
-        setupHandControls();
+        firstrunhandcontrolsv2 = false; playersuseridv2 = e.detail.uid;
+        console.log("FIRESCREEN2: Enabling Hand Controls"); setupHandControls();
       };
       console.log("FIRESCREEN2: user-joined");
     };
@@ -407,38 +331,35 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localPosition = new BS.Vector3(-0.01,-0.006,0.020);
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
-    
+    // Hand Volume Up Button
     const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(1);
-      updateButtonColor(hvolUpButton, new BS.Vector4(1,1,1,0.8), thebuttonscolor);
-    });
+      updateButtonColor(hvolUpButton, thebuttonscolor); });
     const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), thebuttonscolor, plane20Object, () => { adjustVolume(-1);
-      updateButtonColor(hvolDownButton, new BS.Vector4(1,1,1,0.8), thebuttonscolor);
-    });
+      updateButtonColor(hvolDownButton, thebuttonscolor); });
+    // Hand Mute Button
     const hmuteButton = await createHandButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), thebuttonscolor, plane20Object, () => {
       browsermuted = !browsermuted;
       runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
-      muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : thebuttonscolor;
-    });
+      muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : thebuttonscolor; });
+    // Hand Lock Button
     const hlockButton = await createHandButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
-      playerislockedv2 = !playerislockedv2;
-      playerislockedv2 ? lockPlayer() : unlockPlayer();
+      playerislockedv2 = !playerislockedv2; playerislockedv2 ? lockPlayer() : unlockPlayer();
       let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
-      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7);
-    });
-    console.log("FIRESCREEN2: Hand Click Stuff END");
+      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); });
+    console.log("FIRESCREEN2: Hand Setup Stuff END");
   };
-
   let waitingforunity = true;
-  if (waitingforunity) {
-  screeninterval = setInterval(function() {
-    if (firescenev2.unityLoaded) {
-      waitingforunity = false;
-      clearInterval(screeninterval);
+  if (waitingforunity) { screeninterval = setInterval(function() {
+    if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
       if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); };
     };
   }, 500); };
-
+  // browser-message - Fired when a message is received from a browser in the space.  
+  firebrowser.On("browser-message", e => { console.log(e) });
+  firescenev2.On("browser-message", e => { console.log(e) });
+  firebrowser.On("menu-browser-message", e => { console.log(e) });
+  firescenev2.On("menu-browser-message", e => { console.log(e) });
 };
 
 function getV3FromStr(strVector3) {
@@ -448,36 +369,25 @@ function getV3FromStr(strVector3) {
 };
 
 function getV4FromStr(strVector4) {
-  if (strVector4 == "false" || strVector4 === false) {
-    return strVector4;
-  } else {
-    var aresult = strVector4.split(" ");
+  if (strVector4 == "false" || strVector4 === false) { return strVector4;
+  } else {  var aresult = strVector4.split(" ");
     let thisX = aresult[0]; let thisY = aresult[1]; let thisZ = aresult[2]; let thisW= aresult[3];
     return new BS.Vector4(thisX,thisY,thisZ,thisW);
   };
 };
 
-function getAttrOrDef(pScript, pAttr, pDefault) {
-  if (pScript.hasAttribute(pAttr)) {
-    return pScript.getAttribute(pAttr);
-  } else {
-    return pDefault;
-  };
-};
+function getAttrOrDef(pScript, pAttr, pDefault) { if (pScript.hasAttribute(pAttr)) { return pScript.getAttribute(pAttr); } else { return pDefault; }; };
 
-var volinterval2 = null;
 var soundlevel2firstrun = true;
-function keepsoundlevel2() {
+function keepsoundlevel2() { var volinterval2;
   if (fireScreen2On && soundlevel2firstrun) {
 	console.log("FIRESCREEN2: keepsoundlevel loop");
 	soundlevel2firstrun = false;
   // Loop to keep sound level set, runs every set second(s)
     volinterval2 = setInterval(function() {
-
-    let firepercent = (firevolume * 100).toFixed(0);
-    runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
-    runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
-
+      let firepercent = (firevolume * 100).toFixed(0);
+      runBrowserActions("document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + firevolume + ");");
+      runBrowserActions("document.querySelector('.html5-video-player').setVolume(" + firepercent + ");");
     }, 3000); } else if (fireScreen2On) { } else { clearInterval(volinterval2); }
 };
 
@@ -486,11 +396,8 @@ function announcerstufffunc() {
   // Setup the Announcer only on the first run if enabled
   if (announcerfirstrunv2 === true ) {
     setTimeout(() => { 
-      if (typeof announcerscene === 'undefined') {
-        console.log('FIRESCREEN2: announcerscene is not defined, Setting up');
-
-        announcerfirstrunv2 = false;
-        console.log("FIRESCREEN2: Adding the Announcer Script");
+      if (typeof announcerscene === 'undefined') { announcerfirstrunv2 = false;
+        console.log("FIRESCREEN2: announcerscene is not defined, Adding the Announcer Script");
         const announcerscript = document.createElement("script");
         announcerscript.id = "fires-announcer";
         announcerscript.setAttribute("src", announcerscripturlv2);
@@ -504,17 +411,12 @@ function announcerstufffunc() {
           announcerscript.setAttribute("announce-events", the_announceevents);
         };
         document.querySelector("body").appendChild(announcerscript);
-
-      } else {
-        console.log('FIRESCREEN2: announcerscene is defined, Moving on');
-      };
+      } else { console.log('FIRESCREEN2: announcerscene is defined, Moving on'); };
     }, 1000);
   };
 
-  setTimeout(() => { 
-    if (announcerfirstrunv2 === false) {  timenow = Date.now(); };
-  }, 1000);
-}
+  setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
+};
 
 setupfirescreen2();
 
