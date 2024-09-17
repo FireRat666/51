@@ -249,7 +249,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
       buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
         config.icon, config.position, config.color, parent, config.clickHandler, config.rotation);
-        console.log(`buttonsObjectsThing${name}`);
     } return buttonsObjectsThing;
   };
   let uiButtons = await createUIButtons(screenObject);
