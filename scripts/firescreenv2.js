@@ -122,7 +122,7 @@ function setupfirescreen2() {
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
       backdrop: "true", "hand-controls": "false", "disable-interaction": "false", announce: "false", "announce-420": "false", "announce-events": "undefined",
-      "button-color": "0 1 0 1", "backdrop-color": "0 0 0 0.9", "volup-color": false, "voldown-color": false, "mute-color": false, "button-position": "0 0 0",
+      "button-color": "0 1 0 1", "backdrop-color": "0.9 0.9 0.9 0.9", "volup-color": "0 1 0 1", "voldown-color": "1 1 0 1", "mute-color": "1 1 1 1", "button-position": "0 0 0",
       "icon-mute-url": "https://firer.at/files/VolumeMute.png", "icon-volup-url": "https://firer.at/files/VolumeHigh.png",
       "icon-voldown-url": "https://firer.at/files/VolumeLow.png", "icon-direction-url": "https://firer.at/files/Arrow.png",
       "custom-button01-url": "false", "custom-button01-text": "Custom Button 01",
