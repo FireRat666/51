@@ -138,39 +138,39 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
 
 function extractConfig(script) {
   return {
-    position: getV3FromStrV2(getAttrOrDef(script, "position", "0 2 0")),
-    rotation: getV3FromStrV2(getAttrOrDef(script, "rotation", "0 0 0")),
-    scale: getV3FromStrV2(getAttrOrDef(script, "scale", "1 1 1")),
-    volume: getAttrOrDef(script, "volumelevel", "0.25"),
-    url: getAttrOrDef(script, "website", "https://firer.at/pages/games.html"),
-    mipMaps: getAttrOrDef(script, "mipmaps", "0"),
-    pixelsPerUnit: getAttrOrDef(script, "pixelsperunit", "1200"),
-    pageWidth: getAttrOrDef(script, "width", "1024"),
-    pageHeight: getAttrOrDef(script, "height", "576"),
-    backdrop: getAttrOrDef(script, "backdrop", "true"),
-    handButtons: getAttrOrDef(script, "hand-controls", "false"),
-    disableInteraction: getAttrOrDef(script, "disable-interaction", "false"),
-    announce: getAttrOrDef(script, "announce", "false"),
-    announce420: getAttrOrDef(script, "announce-420", "false"),
-    announceEvents: getAttrOrDef(script, "announce-events", "undefined"),
-    buttonColor: getV4FromStr(getAttrOrDef(script, "button-color", "0 1 0 1")),
-    backdropColor: getV4FromStr(getAttrOrDef(script, "backdrop-color", "0 0 0 0.9")),
-    volUpColor: getV4FromStr(getAttrOrDef(script, "volup-color", "false")),
-    volDownColor: getV4FromStr(getAttrOrDef(script, "voldown-color", "false")),
-    muteColor: getV4FromStr(getAttrOrDef(script, "mute-color", "false")),
-    buttonPosition: getAttrOrDef(script, "button-position", "0 0 0"),
-    iconMuteUrl: getAttrOrDef(script, "icon-mute-url", "https://firer.at/files/VolumeMute.png"),
-    iconVolUpUrl: getAttrOrDef(script, "icon-volup-url", "https://firer.at/files/VolumeHigh.png"),
-    iconVolDownUrl: getAttrOrDef(script, "icon-voldown-url", "https://firer.at/files/VolumeLow.png"),
-    iconDirectionUrl: getAttrOrDef(script, "icon-direction-url", "https://firer.at/files/Arrow.png"),
-    customButton01Url: getAttrOrDef(script, "custom-button01-url", "false"),
-    customButton01Text: getAttrOrDef(script, "custom-button01-text", "Custom Button 01"),
-    customButton02Url: getAttrOrDef(script, "custom-button02-url", "false"),
-    customButton02Text: getAttrOrDef(script, "custom-button02-text", "Custom Button 02"),
-    customButton03Url: getAttrOrDef(script, "custom-button03-url", "false"),
-    customButton03Text: getAttrOrDef(script, "custom-button03-text", "Custom Button 03"),
-    customButton04Url: getAttrOrDef(script, "custom-button04-url", "false"),
-    customButton04Text: getAttrOrDef(script, "custom-button04-text", "Custom Button 04"),
+    position: getV3FromStrV2(getAttrOrDefV2(script, "position", "0 2 0")),
+    rotation: getV3FromStrV2(getAttrOrDefV2(script, "rotation", "0 0 0")),
+    scale: getV3FromStrV2(getAttrOrDefV2(script, "scale", "1 1 1")),
+    volume: getAttrOrDefV2(script, "volumelevel", "0.25"),
+    url: getAttrOrDefV2(script, "website", "https://firer.at/pages/games.html"),
+    mipMaps: getAttrOrDefV2(script, "mipmaps", "0"),
+    pixelsPerUnit: getAttrOrDefV2(script, "pixelsperunit", "1200"),
+    pageWidth: getAttrOrDefV2(script, "width", "1024"),
+    pageHeight: getAttrOrDefV2(script, "height", "576"),
+    backdrop: getAttrOrDefV2(script, "backdrop", "true"),
+    handButtons: getAttrOrDefV2(script, "hand-controls", "false"),
+    disableInteraction: getAttrOrDefV2(script, "disable-interaction", "false"),
+    announce: getAttrOrDefV2(script, "announce", "false"),
+    announce420: getAttrOrDefV2(script, "announce-420", "false"),
+    announceEvents: getAttrOrDefV2(script, "announce-events", "undefined"),
+    buttonColor: getV4FromStr(getAttrOrDefV2(script, "button-color", "0 1 0 1")),
+    backdropColor: getV4FromStr(getAttrOrDefV2(script, "backdrop-color", "0 0 0 0.9")),
+    volUpColor: getV4FromStr(getAttrOrDefV2(script, "volup-color", "false")),
+    volDownColor: getV4FromStr(getAttrOrDefV2(script, "voldown-color", "false")),
+    muteColor: getV4FromStr(getAttrOrDefV2(script, "mute-color", "false")),
+    buttonPosition: getAttrOrDefV2(script, "button-position", "0 0 0"),
+    iconMuteUrl: getAttrOrDefV2(script, "icon-mute-url", "https://firer.at/files/VolumeMute.png"),
+    iconVolUpUrl: getAttrOrDefV2(script, "icon-volup-url", "https://firer.at/files/VolumeHigh.png"),
+    iconVolDownUrl: getAttrOrDefV2(script, "icon-voldown-url", "https://firer.at/files/VolumeLow.png"),
+    iconDirectionUrl: getAttrOrDefV2(script, "icon-direction-url", "https://firer.at/files/Arrow.png"),
+    customButton01Url: getAttrOrDefV2(script, "custom-button01-url", "false"),
+    customButton01Text: getAttrOrDefV2(script, "custom-button01-text", "Custom Button 01"),
+    customButton02Url: getAttrOrDefV2(script, "custom-button02-url", "false"),
+    customButton02Text: getAttrOrDefV2(script, "custom-button02-text", "Custom Button 02"),
+    customButton03Url: getAttrOrDefV2(script, "custom-button03-url", "false"),
+    customButton03Text: getAttrOrDefV2(script, "custom-button03-text", "Custom Button 03"),
+    customButton04Url: getAttrOrDefV2(script, "custom-button04-url", "false"),
+    customButton04Text: getAttrOrDefV2(script, "custom-button04-text", "Custom Button 04"),
   };
 };
 
@@ -476,13 +476,13 @@ const getV4FromStr = (strVector4) => {
   return new BS.Vector4(x, y, z, w);
 };
 
-const getAttrOrDef = (script, attr, defaultValue) => 
+const getAttrOrDefV2 = (script, attr, defaultValue) => 
   script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue;
 
 const allScripts = document.getElementsByTagName("script");
 for (let script of allScripts) {
   console.log('FIRESCREEN2: Stuff...');
-  if (getAttrOrDef(script, "src", "") === CONFIG.fireScreenUrl) {
+  if (getAttrOrDefV2(script, "src", "") === CONFIG.fireScreenUrl) {
     const config = extractConfig(script);
     setupFireScreen2(config);
     console.log('FIRESCREEN2: config');
