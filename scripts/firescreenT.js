@@ -490,6 +490,7 @@ const getAttrOrDef = (script, attr, defaultValue) =>
 
 const allScripts = document.getElementsByTagName("script");
 for (let script of allScripts) {
+  console.log('FIRESCREEN2: Stuff...');
   if (getAttrOrDef(script, "src", "") === CONFIG.fireScreenUrl) {
     const config = extractConfig(script);
     setupFireScreen2(config);
