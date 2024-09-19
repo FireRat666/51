@@ -21,7 +21,7 @@ var the_announceevents = null;
 var defaulTransparent = 'Unlit/DiffuseTransparent';
 var customButShader = 'Unlit/Diffuse';
 var thebuttonscolor;
-var buttonsObjectsThing = [];
+let customButtonObjects = [];
 var clickedColour = new BS.Vector4(1,1,1,0.7);
 var whiteColour = new BS.Vector4(1,1,1,1);
 var theNumberofBrowsers = 0;
