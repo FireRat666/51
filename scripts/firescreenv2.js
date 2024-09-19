@@ -130,7 +130,7 @@ function setupfirescreen2() {
       "custom-button04-url": "false", "custom-button04-text": "Custom Button 04"
     };
 
-    const numberAttributes = { position: getV3FromStr, rotation: getV3FromStr, scale: getV3FromStr, "button-color": getV4FromStr, "backdrop-color": getV4FromStr, "volup-color": getV4FromStr, "voldown-color": getV4FromStr, "mute-color": getV4FromStr };
+    const numberAttributes = { position: getV3FromStrv2, rotation: getV3FromStrv2, scale: getV3FromStrv2, "button-color": getV4FromStr, "backdrop-color": getV4FromStr, "volup-color": getV4FromStr, "voldown-color": getV4FromStr, "mute-color": getV4FromStr };
     // Function to get or convert attribute
     const getParam = (key) => { const attr = script.getAttribute(key);
       const value = attr !== null ? attr : defaultParams[key];
@@ -376,7 +376,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   keepsoundlevel2()
 };
 
-function getV3FromStr(strVector3) {
+function getV3FromStrv2(strVector3) {
   const [x, y, z] = strVector3.split(" ").map(Number);
   return new BS.Vector3(x, y, z);
 };
