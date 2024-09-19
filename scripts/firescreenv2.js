@@ -387,7 +387,7 @@ function getV4FromStr(strVector4) {
   return new BS.Vector4(x, y, z, w);
 };
 
-function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue };
+// function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue };
 
 if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
   console.log("FIRESCREEN2: Initializing the script");
