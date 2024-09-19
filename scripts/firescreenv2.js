@@ -113,11 +113,6 @@ function createButtonAction(buttonObject, clickHandler) {
   buttonObject.On('click', (e) => { clickHandler(e); });
 };
 
-async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
-  const button = await createUIButton(name, iconUrl, position, color, parentObject, false, new BS.Vector3(180, 0, 0), 1, 1, defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
-  createButtonAction(button, clickHandler); return button;
-};
-
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   const allscripts = document.querySelectorAll("script[src='" + firescreenurlv2 + "']");
@@ -308,18 +303,18 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
     // Hand Volume Up Button
-    const hvolUpButton = await createHandButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustVolume(firebrowser, 1);
+    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustVolume(firebrowser, 1);
       updateButtonColor(hvolUpButton, p_volupcolor); });
-    const hvolDownButton = await createHandButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustVolume(firebrowser, -1);
+    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustVolume(firebrowser, -1);
       updateButtonColor(hvolDownButton, p_voldowncolor); });
     // Hand Mute Button
-    const hmuteButton = await createHandButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => {
+    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => {
       browsermuted = !browsermuted;
       runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
       muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : p_mutecolor; });
     // Hand Lock Button
-    const hlockButton = await createHandButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
+    const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
       playerislockedv2 = !playerislockedv2; playerislockedv2 ? lockPlayer() : unlockPlayer();
       let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); });
