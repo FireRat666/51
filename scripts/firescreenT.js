@@ -138,9 +138,9 @@ async function createHandButton(name, iconUrl, position, color, parentObject, cl
 
 function extractConfig(script) {
   return {
-    position: getV3FromStr(getAttrOrDef(script, "position", "0 2 0")),
-    rotation: getV3FromStr(getAttrOrDef(script, "rotation", "0 0 0")),
-    scale: getV3FromStr(getAttrOrDef(script, "scale", "1 1 1")),
+    position: getV3FromStrV2(getAttrOrDef(script, "position", "0 2 0")),
+    rotation: getV3FromStrV2(getAttrOrDef(script, "rotation", "0 0 0")),
+    scale: getV3FromStrV2(getAttrOrDef(script, "scale", "1 1 1")),
     volume: getAttrOrDef(script, "volumelevel", "0.25"),
     url: getAttrOrDef(script, "website", "https://firer.at/pages/games.html"),
     mipMaps: getAttrOrDef(script, "mipmaps", "0"),
@@ -465,7 +465,7 @@ function startSoundLevelLoop() {
     setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
   };
 
-const getV3FromStr = (strVector3) => {
+const getV3FromStrV2 = (strVector3) => {
   const [x, y, z] = strVector3.split(" ").map(Number);
   return new BS.Vector3(x, y, z);
 };
