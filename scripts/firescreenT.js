@@ -1,7 +1,7 @@
 const CONFIG = {
   defaultShader: 'Unlit/DiffuseTransparent',
-  fireScreenUrl: "https://firer.at/scripts/firescreenT.js",
-  announcerScriptUrl: "https://firer.at/scripts/announcer.js",
+  fireScreenUrl: "https://51.firer.at/scripts/firescreenT.js",
+  announcerScriptUrl: "https://51.firer.at/scripts/announcer.js",
   defaultButtonColor: new BS.Vector4(1,1,0,1),
   defaultBackdropColor: new BS.Vector4(0,0,0,0.9),
 };
