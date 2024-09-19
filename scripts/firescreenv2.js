@@ -187,17 +187,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   await geometryObject.SetLayer(20);
   const firerigidBody = await geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0,0,0), "Discrete", false, false, false, false, false, false, new BS.Vector3(0,0,0), new BS.Vector3(0,0,0)));
 
-  // If Backdrop is disabled, Hide it
-  if (p_backdrop !== "true") { p_backdropcolor = new BS.Vector4(0,0,0,0); };
+  if (p_backdrop !== "true") { p_backdropcolor = new BS.Vector4(0,0,0,0); }; // If Backdrop is disabled, Hide it
   const material = await createMaterial(geometryObject, { color: p_backdropcolor });
   // firebrowser Transform Stuff
   const browsertransform = await screenObject.AddComponent(new BS.Transform());
   browsertransform.position = new BS.Vector3(0,0,-0.02);
   browsertransform.localScale = new BS.Vector3(1,1,1);
-  // Make the screen a child of the Main Geometry Object
-  await screenObject.SetParent(geometryObject, false);
-  // ADD FRICTION 
-  const dynamicFriction = 100; const staticFriction = 100;
+  await screenObject.SetParent(geometryObject, false); // Make the screen a child of the Main Geometry Object
+  const dynamicFriction = 100; const staticFriction = 100;  // ADD FRICTION
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
   let BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,0.38,0), color: thebuttonscolor,
@@ -259,26 +256,20 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (p_custombuttonurl01 !== "false") {  console.log("p_custombuttonurl01 is true");
     await createCustomButton("CustomButton01", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.3,0), p_custombutton01text, new BS.Vector3(1.59,-0.188,-0.005), p_custombuttonurl01, () => {});
     console.log(p_custombuttonurl01); };
-
   if (p_custombuttonurl02 !== "false") { console.log("p_custombuttonurl02 is true");
     await createCustomButton("CustomButton02", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.25,0), p_custombutton02text, new BS.Vector3(1.59,-0.237,-0.005), p_custombuttonurl02, () => {});
     console.log(p_custombuttonurl02); };
-
   if (p_custombuttonurl03 !== "false") { console.log("p_custombuttonurl03 is true");
     await createCustomButton("CustomButton03", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.20,0), p_custombutton03text, new BS.Vector3(1.59,-0.287,-0.005), p_custombuttonurl03, () => {});
     console.log(p_custombuttonurl03); };
-
   if (p_custombuttonurl04 !== "false") { console.log("p_custombuttonurl04 is true");
     await createCustomButton("CustomButton04", firebrowser, screenObject, customButtonObjects, new BS.Vector3(0.68,0.15,0), p_custombutton04text, new BS.Vector3(1.59,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04); };
-  // Bill Board the geometryObject
-  const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));
-  // SET THE SCALE FOR THE SCREEN
-  geometrytransform.localScale = p_sca;
-  // When user Grabs the Browser, Make it moveable
-  firerigidBody.gameObject.On('grab', () => {console.log("GRABBED!"); firerigidBody.isKinematic = false; });
-  // When user Drops the Browser, Lock it in place
-  firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; });
+
+  const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));  // Bill Board the geometryObject
+  geometrytransform.localScale = p_sca; // SET THE SCALE FOR THE SCREEN
+  firerigidBody.gameObject.On('grab', () => {console.log("GRABBED!"); firerigidBody.isKinematic = false; });  // When user Grabs the Browser, Make it moveable
+  firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; }); // When user Drops the Browser, Lock it in place
 
   firescenev2.On("one-shot", e => { console.log(e)
     const data = JSON.parse(e.detail.data);
