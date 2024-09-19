@@ -325,7 +325,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   var screeninterval;
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
-      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerstufffunc(); };
+      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); };
     }; console.log(`FIRESCREEN2: waitingforunity ${waitingforunity}, firescenev2.unityLoaded:${firescenev2.unityLoaded}`);
   }, 500); };
   // browser-message - Fired when a message is received from a browser in the space.  
@@ -350,26 +350,24 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   function announcerstufffunc() {
     console.log("FIRESCREEN2: Announcer Script Called");
     // Setup the Announcer only on the first run if enabled
-    if (announcerfirstrunv2 === true ) {
-      setTimeout(() => { 
-        if (typeof announcerscene === 'undefined') { announcerfirstrunv2 = false;
-          console.log("FIRESCREEN2: announcerscene is not defined, Adding the Announcer Script");
-          const announcerscript = document.createElement("script");
-          announcerscript.id = "fires-announcer";
-          announcerscript.setAttribute("src", announcerscripturlv2);
-          announcerscript.setAttribute("announce", the_announce);
-          announcerscript.setAttribute("announce-420", the_announce420);
-          if (the_announceevents === "undefined" && the_announce === "true") {
-            announcerscript.setAttribute("announce-events", "true");
-          } else if (the_announceevents === "undefined") {
-            announcerscript.setAttribute("announce-events", "false");
-          } else {
-            announcerscript.setAttribute("announce-events", the_announceevents);
-          };
-          document.querySelector("body").appendChild(announcerscript);
-        } else { console.log('FIRESCREEN2: announcerscene is defined, Moving on'); };
-      }, 1000);
-    };
+    setTimeout(() => { 
+      if (typeof announcerscene === 'undefined') { announcerfirstrunv2 = false;
+        console.log("FIRESCREEN2: announcerscene is not defined, Adding the Announcer Script");
+        const announcerscript = document.createElement("script");
+        announcerscript.id = "fires-announcer";
+        announcerscript.setAttribute("src", announcerscripturlv2);
+        announcerscript.setAttribute("announce", the_announce);
+        announcerscript.setAttribute("announce-420", the_announce420);
+        if (the_announceevents === "undefined" && the_announce === "true") {
+          announcerscript.setAttribute("announce-events", "true");
+        } else if (the_announceevents === "undefined") {
+          announcerscript.setAttribute("announce-events", "false");
+        } else {
+          announcerscript.setAttribute("announce-events", the_announceevents);
+        };
+        document.querySelector("body").appendChild(announcerscript);
+      } else { console.log('FIRESCREEN2: announcerscene is defined, Moving on'); };
+    }, 1000);
     setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
   };
   keepsoundlevel2()
