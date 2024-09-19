@@ -1041,6 +1041,7 @@ function firescreenloadstuff() {
 
 
   let waitingforunity = true;
+  var fscreeninterval;
   if (waitingforunity) {
 
   fscreeninterval = setInterval(function() {
