@@ -284,15 +284,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; });
 
   firescenev2.On("one-shot", e => { console.log(e)
-    let currentshotdata = JSON.parse(e.detail.data);
+    const data = JSON.parse(e.detail.data);
     if (e.detail.fromAdmin) { console.log("Current Shot From Admin Is True");
-      if (currentshotdata.fireurl) { firebrowser.url = currentshotdata.fireurl; };
-      if (currentshotdata.firevolume) {
-        let thisfirevolume = Number(parseFloat(currentshotdata.firevolume).toFixed(2));
-        let firepercent = parseInt(thisfirevolume*100).toFixed(0);
-        runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
-        runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
-      };
+      if (data.fireurl) firebrowser.url = data.fireurl;
+      if (data.firevolume) {
+        const thisfirevolume = Number(parseFloat(data.firevolume).toFixed(2));
+        const firepercent = (thisfirevolume * 100).toFixed(0);
+        runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume = ${thisfirevolume});
+          document.querySelector('.html5-video-player')?.setVolume(${firepercent});`);};
     } else { console.log("Current Shot From Admin Is False");
       console.log(e.detail.fromId);
     };
@@ -300,7 +299,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   firescenev2.On("user-joined", e => {
     if (e.detail.isLocal) { // Setup Hand Controls only on the first run if enabled
-      if (p_handbuttons == "true" && firstrunhandcontrolsv2 === true) {
+      if (p_handbuttons === "true" && firstrunhandcontrolsv2) {
         firstrunhandcontrolsv2 = false; playersuseridv2 = e.detail.uid;
         console.log("FIRESCREEN2: Enabling Hand Controls"); setupHandControls();
       };
