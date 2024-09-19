@@ -322,6 +322,20 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log("FIRESCREEN2: Hand Setup Stuff END");
   };
 
+  let waitingforunity = true;
+  var screeninterval;
+  console.log(`screeninterval The Number of Browsers is : ${theNumberofBrowsers}`)
+  if (waitingforunity) { screeninterval = setInterval(function() {
+    if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
+      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); };
+    }; console.log(`FIRESCREEN2: waitingforunity ${waitingforunity}, firescenev2.unityLoaded:${firescenev2.unityLoaded}`);
+  }, theNumberofBrowsers * 1000); };
+  // browser-message - Fired when a message is received from a browser in the space.  
+  firebrowser.On("browser-message", e => { console.log(e) });
+  firescenev2.On("browser-message", e => { console.log(e) });
+  firebrowser.On("menu-browser-message", e => { console.log(e) });
+  firescenev2.On("menu-browser-message", e => { console.log(e) });
+
   var soundlevel2firstrun = true;
   function keepsoundlevel2() { var volinterval2;
     if (fireScreen2On && soundlevel2firstrun) {
@@ -378,22 +392,9 @@ function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? 
 if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
   console.log("FIRESCREEN2: Initializing the script");
   setupfirescreen2();
-  let waitingforunity = true;
-  var screeninterval;
-  if (waitingforunity) { screeninterval = setInterval(function() {
-    if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
-      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); };
-    }; console.log(`FIRESCREEN2: waitingforunity ${waitingforunity}, firescenev2.unityLoaded:${firescenev2.unityLoaded}`);
-  }, 500); };
 } else {
   console.log("FIRESCREEN2: Script already enabled/loading, skipping...");
 };
-
-  // browser-message - Fired when a message is received from a browser in the space.  
-  firebrowser.On("browser-message", e => { console.log(e) });
-  firescenev2.On("browser-message", e => { console.log(e) });
-  firebrowser.On("menu-browser-message", e => { console.log(e) });
-  firescenev2.On("menu-browser-message", e => { console.log(e) });
 
 // screenboxCollider = await firescenev2.Find("MyBrowser");
 
