@@ -25,6 +25,7 @@ var buttonsObjectsThing = [];
 var clickedColour = new BS.Vector4(1,1,1,0.7);
 var whiteColour = new BS.Vector4(1,1,1,1);
 var theNumberofBrowsers = 0;
+var announcerfirstrunv2 = true;
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
