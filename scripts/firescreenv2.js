@@ -386,24 +386,13 @@ function getV4FromStr(strVector4) {
 
 function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue };
 
-var firstbrowserrunv2 = true;
-function firescreenloadstuffv2() {
 
-	const firescene = BS.BanterScene.GetInstance();
-
-  let waitingforunity = true;
-  var fscreeninterval2;
-  if (waitingforunity) { fscreeninterval2 = setInterval(function() {
-    if (firescene.unityLoaded) { waitingforunity = false; clearInterval(fscreeninterval2);
-      if (firstbrowserrunv2) { firstbrowserrunv2 = false; console.log("FIRESCREEN: unity-loaded"); setupfirescreen2(); } else {
-        console.log("FIRESCREEN: Should already be enabled/loading");
-      };
-    };
-  }, 500); };
-
+if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
+  console.log("FIRESCREEN2: Initializing the script");
+  setupfirescreen2();
+} else {
+  console.log("FIRESCREEN2: Script already enabled/loading, skipping...");
 };
-
-firescreenloadstuffv2();
 
 // screenboxCollider = await firescenev2.Find("MyBrowser");
 
