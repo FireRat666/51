@@ -1,17 +1,17 @@
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
-let scriptsource = "https://51.firer.at/scripts/announcer.js";
-let theusersname = "";
-let timevariable = 0;
-let theusersid = "";
-let announcefirstrun = true;
-let announce = "true";
-let announceevents = "true";
-let announce420 = "false";
-let readytospeak = true;
+var scriptsource = "https://51.firer.at/scripts/announcer.js";
+var theusersname = "";
+var timevariable = 0;
+var theusersid = "";
+var announcefirstrun = true;
+var announce = "true";
+var announceevents = "true";
+var announce420 = "false";
+var readytospeak = true;
 
-let announceraudiovolume = 0.08;
-const announcerAudioObject = new BS.GameObject("MyAudioSource"); 
-let announcerAudioSource = null;
+var announceraudiovolume = 0.08;
+var announcerAudioObject = new BS.GameObject("MyAudioSource"); 
+var announcerAudioSource = null;
 
 // // Main Speak Function, Thank you Elin and everyone
 async function speak(text) {
@@ -129,8 +129,8 @@ function load420() {
 };
 
 
-const thescripts = document.getElementsByTagName("script");
-const announcerscene = BS.BanterScene.GetInstance();
+var thescripts = document.getElementsByTagName("script");
+var announcerscene = BS.BanterScene.GetInstance();
 var timenow = 9999999999999; // Set Now to a Really Big Number, so if user-joined is called before unity-loaded, it wont spam user joined messages for users that were already in the space
 // Welcome message for user entering the space
 function announcerloadtest() {
@@ -818,7 +818,7 @@ async function playaudiofile(text) {
 
 };
 
-let audiofilemuted = false
+var audiofilemuted = false
 async function muteaudiofile(text) {
   if (audiofilemuted) {
     console.log("ANNOUNCER: UN-MUTED");
