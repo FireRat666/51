@@ -174,6 +174,8 @@ function extractConfig(script) {
 
 async function setupFireScreen2(config) {
   console.log("FIRESCREEN2: Setting up");
+  console.log("FIRESCREEN2: config:", config);
+  console.log(config);
   
   screenObject = await new BS.GameObject("MyBrowser");
   firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(config.url, config.mipMaps, config.pixelsPerUnit, config.pageWidth, config.pageHeight));
@@ -183,7 +185,7 @@ async function setupFireScreen2(config) {
   }
 
   const geometryObject = await createGeometryObject(config);
-  await setupScreenObject(geometryObject, config);
+  await setupScreenObject(geometryObject, screenObject, config);
   await createButtons(config);
   
   if (config.handButtons === "true") {
@@ -192,15 +194,12 @@ async function setupFireScreen2(config) {
 
 };
 
-async function setupScreenObject(geometryObject, config) {
+async function setupScreenObject(geometryObject, screenObject, config) {
   const browserTransform = await screenObject.AddComponent(new BS.Transform());
   browserTransform.position = new BS.Vector3(0,0,-0.01);
   browserTransform.localScale = new BS.Vector3(1,1,1);
   await screenObject.SetParent(geometryObject, false);
-
-  const smoothing = 0;
-  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(smoothing, true, true, true));
-
+  firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, true, true, true));
   setupRigidBodyEvents(geometryObject.GetComponent(BS.ComponentType.BanterRigidbody));
 }
 
@@ -424,7 +423,6 @@ function startSoundLevelLoop() {
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); });
     console.log("FIRESCREEN2: Hand Setup Stuff END");
   };
-
 
   let waitingforunity = true;
   var screeninterval;
