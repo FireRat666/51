@@ -1,3 +1,11 @@
+const CONFIG = {
+  defaultShader: 'Unlit/DiffuseTransparent',
+  fireScreenUrl: "https://firer.at/scripts/firescreenv2.js",
+  announcerScriptUrl: "https://firer.at/scripts/announcer.js",
+  defaultButtonColor: new BS.Vector4(1,1,0,1),
+  defaultBackdropColor: new BS.Vector4(0,0,0,0.9),
+};
+
 var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
 var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 var fireScreen2On = false;
@@ -392,22 +400,19 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   keepsoundlevel2()
 };
 
-function getV3FromStr(strVector3) {
-  var aresult = strVector3.split(" ");
-  let thisX = aresult[0]; let thisY = aresult[1]; let thisZ = aresult[2];
-  return new BS.Vector3(thisX,thisY,thisZ);
+const getV3FromStr = (strVector3) => {
+  const [x, y, z] = strVector3.split(" ").map(Number);
+  return new BS.Vector3(x, y, z);
 };
 
-function getV4FromStr(strVector4) {
-  if (strVector4 == "false" || strVector4 === false) { return strVector4;
-  } else {  var aresult = strVector4.split(" ");
-    let thisX = aresult[0]; let thisY = aresult[1]; let thisZ = aresult[2]; let thisW= aresult[3];
-    return new BS.Vector4(thisX,thisY,thisZ,thisW);
-  };
+const getV4FromStr = (strVector4) => {
+  if (strVector4 === "false") return false;
+  const [x, y, z, w] = strVector4.split(" ").map(Number);
+  return new BS.Vector4(x, y, z, w);
 };
 
-function getAttrOrDef(pScript, pAttr, pDefault) { if (pScript.hasAttribute(pAttr)) { return pScript.getAttribute(pAttr); } else { return pDefault; }; };
-
+const getAttrOrDef = (script, attr, defaultValue) => 
+  script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue;
 
 setupfirescreen2();
 
