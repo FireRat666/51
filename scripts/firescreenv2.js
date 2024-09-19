@@ -396,10 +396,10 @@ function firescreenloadstuff() {
   let waitingforunity = true;
   if (waitingforunity) {
 
-  fscreeninterval = setInterval(function() {
+  fscreeninterval2 = setInterval(function() {
     if (firescene.unityLoaded) {
       waitingforunity = false;
-      clearInterval(fscreeninterval);
+      clearInterval(fscreeninterval2);
       if (firstbrowserrunv2) { firstbrowserrunv2 = false; console.log("FIRESCREEN: unity-loaded"); setupfirescreen2(); } else {
         console.log("FIRESCREEN: Should already be enabled/loading");
       };
