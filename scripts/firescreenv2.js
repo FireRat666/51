@@ -387,7 +387,7 @@ function getV4FromStr(strVector4) {
 function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue };
 
 var firstbrowserrunv2 = true;
-function firescreenloadstuff() {
+function firescreenloadstuffv2() {
 
 	const firescene = BS.BanterScene.GetInstance();
 
@@ -403,7 +403,7 @@ function firescreenloadstuff() {
 
 };
 
-firescreenloadstuff();
+firescreenloadstuffv2();
 
 // screenboxCollider = await firescenev2.Find("MyBrowser");
 
