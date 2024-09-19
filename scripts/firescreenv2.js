@@ -1,11 +1,3 @@
-const CONFIG = {
-  defaultShader: 'Unlit/DiffuseTransparent',
-  fireScreenUrl: "https://firer.at/scripts/firescreenv2.js",
-  announcerScriptUrl: "https://firer.at/scripts/announcer.js",
-  defaultButtonColor: new BS.Vector4(1,1,0,1),
-  defaultBackdropColor: new BS.Vector4(0,0,0,0.9),
-};
-
 var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
 var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 var fireScreen2On = false;
@@ -400,19 +392,18 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   keepsoundlevel2()
 };
 
-const getV3FromStr = (strVector3) => {
+function getV3FromStr(strVector3) {
   const [x, y, z] = strVector3.split(" ").map(Number);
   return new BS.Vector3(x, y, z);
 };
 
-const getV4FromStr = (strVector4) => {
+function getV4FromStr(strVector4) {
   if (strVector4 === "false") return false;
   const [x, y, z, w] = strVector4.split(" ").map(Number);
   return new BS.Vector4(x, y, z, w);
 };
 
-const getAttrOrDef = (script, attr, defaultValue) => 
-  script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue;
+function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue };
 
 setupfirescreen2();
 
