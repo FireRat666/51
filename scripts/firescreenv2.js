@@ -324,7 +324,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   let waitingforunity = true;
   var screeninterval;
   console.log(`screeninterval The Number of Browsers is : ${theNumberofBrowsers}`);
-  if (theNumberofBrowsers < 1) {theNumberofBrowsers = 1}; 
+  if (theNumberofBrowsers < 1) {theNumberofBrowsers++}; 
   console.log(`screeninterval The Number of Browsers is : ${theNumberofBrowsers}`);
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
