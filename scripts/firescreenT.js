@@ -263,22 +263,16 @@ async function createButtons(config) {
 async function createGeometryObject(config) {
   const geometryObject = new BS.GameObject("MyGeometry");
   await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
-  
   const geometryTransform = await geometryObject.AddComponent(new BS.Transform());
   geometryTransform.position = config.position;
   geometryTransform.eulerAngles = config.rotation;
   geometryTransform.localScale = config.scale;
-
   const boxCollider = await geometryObject.AddComponent(new BS.BoxCollider(false, new BS.Vector3(0,0,0), new BS.Vector3(1.09,0.64,0.01)));
   await geometryObject.SetLayer(20);
-
   const fireRigidBody = await geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0,0,0), "Discrete", false, false, false, false, false, false, new BS.Vector3(0,0,0), new BS.Vector3(0,0,0)));
-
   const backdropColor = config.backdrop === "true" ? config.backdropColor : new BS.Vector4(0,0,0,0);
   await createMaterial(geometryObject, { color: backdropColor });
-
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(100, 100));
-
   return geometryObject;
 };
 
@@ -299,14 +293,13 @@ function toggleButtonVisibility() {
     const material = hideShowButton.GetComponent(BS.ComponentType.BanterMaterial);
     material.color = buttonsVisible ? CONFIG.defaultButtonColor : new BS.Vector4(1, 1, 1, 0.5);
   }
-  
   const buttonsToToggle = screenObject.GetComponentsInChildren(BS.ComponentType.BanterMaterial);
   buttonsToToggle.forEach(button => {
     if (button.gameObject.name !== "HideShowButton") {
       button.gameObject.SetActive(buttonsVisible);
     }
   });
-}
+};
 
 function toggleMute() {
   browserMuted = !browserMuted;
@@ -315,8 +308,8 @@ function toggleMute() {
   if (muteButton) {
     const material = muteButton.GetComponent(BS.ComponentType.BanterMaterial);
     material.color = browserMuted ? new BS.Vector4(1,0,0,1) : CONFIG.defaultButtonColor;
-  }
-}
+  };
+};
 
 function toggleBillboard() {
   isBillboarded = !isBillboarded;
@@ -326,7 +319,7 @@ function toggleBillboard() {
   if (billboardButton) {
     const material = billboardButton.GetComponent(BS.ComponentType.BanterMaterial);
     material.color = isBillboarded ? CONFIG.defaultButtonColor : new BS.Vector4(1,1,1,1);
-  }
+  };
 };
 
 function adjustScale(direction) {
@@ -381,10 +374,8 @@ function handleUserJoined(e) {
 
 function startSoundLevelLoop() {
   if (fireScreen2On && !soundlevel2firstrun) return;
-  
   console.log("FIRESCREEN2: keepsoundlevel loop");
   soundlevel2firstrun = false;
-  
   clearInterval(volinterval2);
   volinterval2 = setInterval(() => {
     const firepercent = (firevolume * 100).toFixed(0);
