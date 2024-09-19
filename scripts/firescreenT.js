@@ -6,6 +6,7 @@ const CONFIG = {
   defaultBackdropColor: new BS.Vector4(0,0,0,0.9),
 };
 
+var firescenev2 = BS.BanterScene.GetInstance();
 var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
 var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 var fireScreen2On = false;
