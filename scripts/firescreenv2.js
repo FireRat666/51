@@ -6,7 +6,6 @@ var firevolume = 1;
 var playersuseridv2 = null;
 
 var the_announce = null;
-var the_announcer = null;
 var the_announce420 = null;
 var the_announceevents = null;
 var defaulTransparent = 'Unlit/DiffuseTransparent';
@@ -61,7 +60,7 @@ function adjustScale(geometrytransform, direction) {
 };
 
 async function createCustomButton(name, firebrowser, screenObject, buttonObjects, position, text, textposition, url, clickHandler) {
-  const buttonObject = await createUIButton(name, null, position, textPlaneColour, screenObject, "false", 1, 1, customButShader, customButtonSize);
+  const buttonObject = await createUIButton(name, null, position, textPlaneColour, screenObject, false, "false", 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   const textObject = new BS.GameObject(`${name}Text`);
   const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
@@ -74,7 +73,7 @@ async function createCustomButton(name, firebrowser, screenObject, buttonObjects
   });
 };
 
-async function createUIButton(name, thetexture, position, thecolor, thisparent, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = new BS.GameObject(name);
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
@@ -82,12 +81,10 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position; buttonTransform.localScale = localScale;
   rotation ? buttonTransform.localEulerAngles = rotation : rotation; buttonObject.SetLayer(5); // UI Layer
-  await buttonObject.SetParent(thisparent, false); return buttonObject;
-};
-
-async function createButton(name, thetexture, position, thecolor, thisparent, clickHandler, rotation = false) {
-  const button = await createUIButton(name, thetexture, position, thecolor, thisparent, rotation);
-  createButtonAction(button, clickHandler); return button;
+  await buttonObject.SetParent(thisparent, false);
+  if (clickHandler) {
+    createButtonAction(buttonObject, clickHandler);
+  }; return buttonObject;
 };
 
 function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume Pass 1 to increase the volume
@@ -117,7 +114,7 @@ function createButtonAction(buttonObject, clickHandler) {
 };
 
 async function createHandButton(name, iconUrl, position, color, parentObject, clickHandler) {
-  const button = await createUIButton(name, iconUrl, position, color, parentObject, new BS.Vector3(180, 0, 0), 1, 1, defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
+  const button = await createUIButton(name, iconUrl, position, color, parentObject, false, new BS.Vector3(180, 0, 0), 1, 1, defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
   createButtonAction(button, clickHandler); return button;
 };
 
@@ -247,7 +244,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   async function createUIButtons(parent) {
     buttonsObjectsThing = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
-      buttonsObjectsThing[name] = await createButton( `FireButton_${name}`,
+      buttonsObjectsThing[name] = await createUIButton( `FireButton_${name}`,
         config.icon, config.position, config.color, parent, config.clickHandler, config.rotation);
     } return buttonsObjectsThing;
   };
