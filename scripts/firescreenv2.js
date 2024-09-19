@@ -393,13 +393,11 @@ function firescreenloadstuff() {
 
 	const firescene = BS.BanterScene.GetInstance();
 
-  let waitingforunity = true;
-  if (waitingforunity) {
 
-  fscreeninterval2 = setInterval(function() {
-    if (firescene.unityLoaded) {
-      waitingforunity = false;
-      clearInterval(fscreeninterval2);
+  let waitingforunity = true;
+  var fscreeninterval2;
+  if (waitingforunity) { fscreeninterval2 = setInterval(function() {
+    if (firescene.unityLoaded) { waitingforunity = false; clearInterval(fscreeninterval2);
       if (firstbrowserrunv2) { firstbrowserrunv2 = false; console.log("FIRESCREEN: unity-loaded"); setupfirescreen2(); } else {
         console.log("FIRESCREEN: Should already be enabled/loading");
       };
