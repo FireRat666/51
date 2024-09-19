@@ -229,7 +229,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       clickHandler: () => { console.log("Forward Clicked!"); firebrowser.RunActions(JSON.stringify({"actions":[{"actionType": "goforward"}]}));
       updateButtonColor(uiButtons.pageForward, thebuttonscolor); }, rotation: new BS.Vector3(0,0,180)
     }, volUp: { icon: p_iconvolupurl, position: new BS.Vector3(0.495,0.38,0), color: p_volupcolor,
-      clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(firebrowser, 1);
+      clickHandler: () => { console.log("Volume Up Clicked!"); adjustVolume(firebrowser, 1);
       updateButtonColor(uiButtons.volUp, p_volupcolor ? p_volupcolor : thebuttonscolor); }
     }, billboard: { icon: "https://firer.at/files/Rot.png", position: new BS.Vector3(-0.6,-0.3,0), color: isbillboarded ? thebuttonscolor : whiteColour,
       clickHandler: () => {isbillboarded = !isbillboarded; console.log("Billboard Clicked!");
