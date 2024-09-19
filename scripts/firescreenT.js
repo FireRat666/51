@@ -179,8 +179,8 @@ async function setupFireScreen2(config) {
   console.log("FIRESCREEN2: config:", config);
   console.log(config);
   
-  screenObject = await new BS.GameObject("MyBrowser");
-  firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(config.url, config.mipMaps, config.pixelsPerUnit, config.pageWidth, config.pageHeight));
+  const screenObject = await new BS.GameObject("MyBrowser");
+  const firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(config.url, config.mipMaps, config.pixelsPerUnit, config.pageWidth, config.pageHeight));
 
   if (config.disableInteraction === "false") {
     firebrowser.ToggleInteraction(true);
