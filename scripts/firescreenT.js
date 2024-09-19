@@ -1,13 +1,13 @@
 const CONFIG = {
   defaultShader: 'Unlit/DiffuseTransparent',
-  fireScreenUrl: "https://firer.at/scripts/firescreenv2.js",
+  fireScreenUrl: "https://firer.at/scripts/firescreenT.js",
   announcerScriptUrl: "https://firer.at/scripts/announcer.js",
   defaultButtonColor: new BS.Vector4(1,1,0,1),
   defaultBackdropColor: new BS.Vector4(0,0,0,0.9),
 };
 
 var firescenev2 = BS.BanterScene.GetInstance();
-var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
+var firescreenurlv2 = "https://51.firer.at/scripts/firescreenT.js"; // "https://51.firer.at/scripts/firescreenv2.js";
 var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 var fireScreen2On = false;
 var firstrunhandcontrolsv2 = true;
@@ -493,6 +493,8 @@ for (let script of allScripts) {
   if (getAttrOrDef(script, "src", "") === CONFIG.fireScreenUrl) {
     const config = extractConfig(script);
     setupFireScreen2(config);
+    console.log('FIRESCREEN2: config');
+    console.log(config);
     break;
   }
 };
