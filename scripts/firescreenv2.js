@@ -393,7 +393,6 @@ function firescreenloadstuff() {
 
 	const firescene = BS.BanterScene.GetInstance();
 
-
   let waitingforunity = true;
   var fscreeninterval2;
   if (waitingforunity) { fscreeninterval2 = setInterval(function() {
