@@ -34,8 +34,9 @@
       var thisintervalvar;
       if (waitingforthing) { thisintervalvar = setInterval(function() {
         if (window.user === 'undefined') {/* Do Nothing */} else { waitingforthing = false; clearInterval(thisintervalvar);
-          console.log(`Index.html: waitingforthing ${waitingforthing}, window.user.id:${window.user.id}`)
-        }; console.log(`Index.html: waitingforthing ${waitingforthing}, window.user.id:${window.user}`);
+          console.log(`Index.html: waitingforthing ${waitingforthing}, window.user:${window.user}`);
+          console.log(`Index.html: waitingforthing ${waitingforthing}, window.user.id:${window.user.id}`);
+        }; console.log(`Index.html: waitingforthing ${waitingforthing}, window.user:${window.user}`);
       }, 1000); };
     </script>
 </head>
