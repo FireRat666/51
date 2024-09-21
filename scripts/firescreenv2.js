@@ -295,7 +295,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     console.log("FIRESCREEN2: Hand Control Stuff");
     const plane20Object = new BS.GameObject("handContainer");
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.PlaneGeometry);
-    const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
+    const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,1)));
     const plane20material = await createMaterial(plane20Object, { shaderName: defaulTransparent, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
     firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
@@ -304,20 +304,20 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
     // Hand Volume Up Button
     const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustVolume(firebrowser, 1);
-      updateButtonColor(hvolUpButton, p_volupcolor); });
+      updateButtonColor(hvolUpButton, p_volupcolor); }, new BS.Vector3(180,0,0),1,1,defaultshader, new BS.Vector3(0.4,0.4,0.4));
     const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustVolume(firebrowser, -1);
-      updateButtonColor(hvolDownButton, p_voldowncolor); });
+      updateButtonColor(hvolDownButton, p_voldowncolor); }, new BS.Vector3(180,0,0),1,1,defaultshader, new BS.Vector3(0.4,0.4,0.4));
     // Hand Mute Button
     const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => {
       browsermuted = !browsermuted;
       runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browsermuted});`);
       let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
-      muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : p_mutecolor; });
+      muteMaterial.color = browsermuted ? new BS.Vector4(1, 0, 0, 1) : p_mutecolor; }, new BS.Vector3(180,0,0),1,1,defaultshader, new BS.Vector3(0.4,0.4,0.4));
     // Hand Lock Button
     const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
       playerislockedv2 = !playerislockedv2; playerislockedv2 ? lockPlayer() : unlockPlayer();
       let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
-      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); });
+      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1,defaultshader, new BS.Vector3(0.4,0.4,0.4));
     console.log("FIRESCREEN2: Hand Setup Stuff END");
   };
 
