@@ -147,7 +147,6 @@ function setupfirescreen2() {
 };
 
 async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
-  console.log(`The Number of Browsers is : ${theNumberofBrowsers}`)
   // create a reference to the banter scene
   const firescenev2 = BS.BanterScene.GetInstance();
   the_announce = p_announce;
@@ -325,13 +324,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
 
   let waitingforunity = true;
   var screeninterval;
-  console.log(`screeninterval The Number of Browsers is : ${theNumberofBrowsers}`);
   if (theNumberofBrowsers < 1) {theNumberofBrowsers++}; 
-  console.log(`screeninterval The Number of Browsers is : ${theNumberofBrowsers}`);
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
-      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); };
-    }; console.log(`FIRESCREEN2: waitingforunity ${waitingforunity}, firescenev2.unityLoaded:${firescenev2.unityLoaded}`);
+      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); }; };
   }, theNumberofBrowsers * 1000); };
   // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => { console.log(e) });
