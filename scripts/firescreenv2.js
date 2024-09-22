@@ -189,7 +189,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));
 
   let TButPos = 0.38; let LButPos = -0.6; let RButPos = 0.6;
-  if (Number(p_height) === 720) {TButPos += 0.1; LButPos += -0.1; RButPos += 0.1;} else if (Number(p_height) === 1080) {TButPos += 0.3; LButPos += -0.3; RButPos += 0.3;};
+  if (Number(p_height) === 720) {TButPos += 0.07; LButPos += -0.15; RButPos += 0.15;} else if (Number(p_height) === 1080) {TButPos += 0.3; LButPos += -0.3; RButPos += 0.3;};
 
   let BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,TButPos,0), color: thebuttonscolor,
       clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = p_website;
@@ -250,7 +250,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   });
   
   let RCButPos = 0.68; let RCTexPos = 1.59;
-  if (Number(p_height) === 720) {RCButPos += 0.1; RCTexPos += 0.1;} else if (Number(p_height) === 1080) {RCButPos += 0.3; RCTexPos += -0.3;};
+  if (Number(p_height) === 720) {RCButPos += 0.15; RCTexPos += 0.15;} else if (Number(p_height) === 1080) {RCButPos += 0.3; RCTexPos += -0.3;};
 
   if (p_custombuttonurl01 !== "false") {  console.log("p_custombuttonurl01 is true");
     await createCustomButton("CustomButton01", firebrowser, screenObject, customButtonObjects, new BS.Vector3(RCButPos,0.3,0), p_custombutton01text, new BS.Vector3(RCTexPos,-0.188,-0.005), p_custombuttonurl01, () => {});
