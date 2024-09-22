@@ -305,6 +305,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     // Hand Volume Up Button
     const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustVolume(firebrowser, 1);
       updateButtonColor(hvolUpButton, p_volupcolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
+    // Hand Volume Down Button
     const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustVolume(firebrowser, -1);
       updateButtonColor(hvolDownButton, p_voldowncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Mute Button
@@ -318,8 +319,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       playerislockedv2 = !playerislockedv2; playerislockedv2 ? lockPlayer() : unlockPlayer();
       let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
+    // Hand Home Button
+    const hhomeButton = await createUIButton("hHomeButton", "https://firer.at/files/Home.png", new BS.Vector3(-1,-0.4,0.3), thebuttonscolor, plane20Object, () => { firebrowser.url = p_website;
+      updateButtonColor(hhomeButton, thebuttonscolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     console.log("FIRESCREEN2: Hand Setup Stuff END");
-  };
+  }; // hhomeButton old position: "-1 -0.4 -0.4",
 
   let waitingforunity = true;
   var screeninterval;
