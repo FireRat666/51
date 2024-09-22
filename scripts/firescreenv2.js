@@ -4,19 +4,15 @@ var fireScreen2On = false;
 var firstrunhandcontrolsv2 = true;
 var firevolume = 1;
 var playersuseridv2 = null;
-
 var the_announce = null;
 var the_announce420 = null;
 var the_announceevents = null;
-var defaulTransparent = 'Unlit/DiffuseTransparent';
 var customButShader = 'Unlit/Diffuse';
+var defaulTransparent = 'Unlit/DiffuseTransparent';
 var thebuttonscolor;
-var buttonsObjectsThing = [];
-var clickedColour = new BS.Vector4(1,1,1,0.7);
 var whiteColour = new BS.Vector4(1,1,1,1);
 var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
-var textClickColour = new BS.Vector4(0.3,0.3,0.3,1);
 var theNumberofBrowsers = 0;
 
 // This Function adds geometry to the given game Object
@@ -42,7 +38,7 @@ async function createMaterial(objectThing, options = {}) {
 
 function updateButtonColor(buttonObject, revertColour) {
   let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-  material.color = clickedColour; setTimeout(() => { material.color = revertColour; }, 100);
+  material.color = new BS.Vector4(1,1,1,0.7); setTimeout(() => { material.color = revertColour; }, 100);
 };
   
 function adjustScale(geometrytransform, direction) {
@@ -68,7 +64,7 @@ async function createCustomButton(name, firebrowser, screenObject, buttonObjects
   textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
   buttonObjects.push(textObject);
   buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
-      firebrowser.url = url; material.color = textClickColour;
+      firebrowser.url = url; material.color = new BS.Vector4(0.3,0.3,0.3,1);
       setTimeout(() => { material.color = textPlaneColour; }, 100); if (clickHandler) clickHandler();
   });
 };
@@ -233,6 +229,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
     }
   };
 
+  var buttonsObjectsThing = [];
+  
   async function createUIButtons(parent) {
     buttonsObjectsThing = {};
     for (const [name, config] of Object.entries(BUTTON_CONFIGS)) {
