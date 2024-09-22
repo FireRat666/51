@@ -320,10 +320,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
       let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Home Button
-    const hhomeButton = await createUIButton("hHomeButton", "https://firer.at/files/Home.png", new BS.Vector3(-1,-0.4,0.3), thebuttonscolor, plane20Object, () => { firebrowser.url = p_website;
+    const hhomeButton = await createUIButton("hHomeButton", "https://firer.at/files/Home.png", new BS.Vector3(0.4,-0.1,0.3), thebuttonscolor, plane20Object, () => { firebrowser.url = p_website;
       updateButtonColor(hhomeButton, thebuttonscolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     console.log("FIRESCREEN2: Hand Setup Stuff END");
-  }; // hhomeButton old position: "-1 -0.4 -0.4",
+  };
 
   let waitingforunity = true;
   var screeninterval;
