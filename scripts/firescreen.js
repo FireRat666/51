@@ -1199,73 +1199,40 @@ class handButtonCrap{
 
 	};
 
-	setupHandControls() {
-		console.log("HAND-CONTROLS: Setting up Hand Controls")
+  setupHandControls() {
+    console.log("HAND-CONTROLS: Setting up Hand Controls");
 		// This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
-		const handControlsContainer = document.createElement("a-entity");
-		handControlsContainer.setAttribute("scale", "0.1 0.1 0.1");
-		handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
-		if (playersuserid != false) {
-			handControlsContainer.setAttribute("sq-lefthand", "whoToShow: " + playersuserid);
-		} else {
-			handControlsContainer.setAttribute("sq-lefthand", "whoToShow: " + window.user.id);
-		};
-		[
-			{
-			image: IconVolUpUrl,
-			position: "-1 0.2 -0.4",
-			colour: volupcolor, 
-			class: "firevolbutc", 
-			id: "firevolupbut", 
-			callback: () => this.volumecontrolup()
-			},
-			{
-			image: IconVolDownUrl,
-			position: "-1 0.2 0",
-			colour: voldowncolor,
-			class: "firevolbutc",
-			id: "firevoldownbut", 
-			callback: () => this.volumecontroldown()
-			},
-			{
-			image: "https://firer.at/files/lock.png",
-			position: "-1 -0.4 0",
-			colour: thebuttoncolor,
-			class: "firelockpbutc",
-			id: "firelockpbut", 
-			callback: () => this.lockplayerfunc()
-			},
-			{
-			image: "https://firer.at/files/Home.png",
-			position: "-1 -0.4 -0.4",
-			colour: thebuttoncolor,
-			class: "firehomepbutc",
-			id: "firehomepbut", 
-			callback: () => this.homefunc()
-			},
-			{
-			image: IconMuteUrl,
-			position: "-1 0.2 0.4", 
-			colour: "#FFFFFF", 
-			class: "firemutebutc", 
-			id: "firemutebut", 
-			callback: () => this.mute()
-			}
-		].forEach(item => {
-			const button = document.createElement("a-plane");
-			button.setAttribute("sq-interactable", "");
-			button.setAttribute("sq-collider", "");
-			button.setAttribute("scale", "0.4 0.4 0.4");
-			button.setAttribute("rotation", "0 -90 180");
-			button.setAttribute("src", item.image);
-			button.setAttribute("color", item.colour);
-			button.setAttribute("transparent", true);
-			button.setAttribute("position", item.position);
-			button.setAttribute("class", item.class);
-			button.setAttribute("id", item.id);
-			button.addEventListener("click", () => item.callback());
-			handControlsContainer.appendChild(button);
-		})
-		document.querySelector("a-scene").appendChild(handControlsContainer);
-	}
+    const handControlsContainer = document.createElement("a-entity");
+    handControlsContainer.setAttribute("scale", "0.1 0.1 0.1");
+    handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
+    handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || window.user.id}`);
+  
+    const buttons = [
+      { image: IconVolUpUrl, position: "-1 0.2 -0.4", colour: volupcolor, id: "firevolupbut", callback: this.volumecontrolup },
+      { image: IconVolDownUrl, position: "-1 0.2 0", colour: voldowncolor, id: "firevoldownbut", callback: this.volumecontroldown },
+      { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", colour: thebuttoncolor, id: "firelockpbut", callback: this.lockplayerfunc },
+      { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", colour: thebuttoncolor, id: "firehomepbut", callback: this.homefunc },
+      { image: IconMuteUrl, position: "-1 0.2 0.4", colour: "#FFFFFF", id: "firemutebut", callback: this.mute }
+    ];
+  
+    buttons.forEach(({ image, position, colour, id, callback }) => {
+      const button = document.createElement("a-plane");
+      Object.assign(button, {
+        setAttribute: button.setAttribute.bind(button),
+        addEventListener: button.addEventListener.bind(button)
+      });
+      button.setAttribute("sq-interactable", "");
+      button.setAttribute("sq-collider", "");
+      button.setAttribute("scale", "0.4 0.4 0.4");
+      button.setAttribute("rotation", "0 -90 180");
+      button.setAttribute("src", image);
+      button.setAttribute("color", colour);
+      button.setAttribute("transparent", true);
+      button.setAttribute("position", position);
+      button.setAttribute("id", id);
+      button.addEventListener("click", callback.bind(this));
+      handControlsContainer.appendChild(button);
+    });
+    document.querySelector("a-scene").appendChild(handControlsContainer);
+  };
 };
