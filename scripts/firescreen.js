@@ -176,6 +176,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	};
 
   let [ButRotX, ButRotY, ButRotZ] = p_buttonrot.split(" ").map(Number);
+  let TheButRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ);
 	if (p_castmode == "false") {
 		// lock/unlock button to toggle the screen collider 
 		let firelockbutton = document.createElement("a-plane");
@@ -331,8 +332,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		let forwardbutpos = "-0.4 0.38 0"
 		let fireforward = document.createElement("a-plane");
 		const forwardArray = p_buttonpos.split(" ");
-		// const forwardRotArray = p_buttonrot.split(" ");
-    let forwardRotZ = ButRotZ + 180;
+    let forwardButRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ + 180);
 		const forwardposArray = forwardbutpos.split(" ");
 		forwardbutpos = (Number(forwardArray[0]) + Number(forwardposArray[0])) + " " + (Number(forwardArray[1]) + Number(forwardposArray[1])) + " " + (Number(forwardArray[2]) + Number(forwardposArray[2]));
 		fireforward.setAttribute("position", forwardbutpos);
@@ -345,7 +345,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		fireforward.setAttribute("class", "buttons");
 		fireforward.setAttribute("src", p_icondirectionurl);
 		fireforward.setAttribute("navigate-browser", "action: goforward");
-		fireforward.setAttribute("rotation", `${ButRotX},${ButRotY},${forwardRotZ}`);
+		fireforward.setAttribute("rotation", forwardButRot);
 		firescreen.appendChild(fireforward);
 		// Google Button
 		let firegooglebut = document.createElement("a-plane");
@@ -381,7 +381,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firehomebut.setAttribute("class", "buttons");
 	firehomebut.setAttribute("src", "https://firer.at/files/Home.png");
 	firehomebut.setAttribute("click-url", "url:" + p_website);
-  firehomebut.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
+  firehomebut.setAttribute("rotation", TheButRot);
 	firescreen.appendChild(firehomebut);
 
 	// Go Back Button
@@ -400,7 +400,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firebackward.setAttribute("class", "buttons");
 	firebackward.setAttribute("src", p_icondirectionurl);
 	firebackward.setAttribute("navigate-browser", "action: goback");
-  firebackward.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
+  firebackward.setAttribute("rotation", TheButRot);
 	firescreen.appendChild(firebackward); 
 	// Mute/UnMute Button
 	let mutebutpos = "0.2 0.38 0";
@@ -419,7 +419,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firemutebut.setAttribute("src", p_iconmuteurl);
 	firemutebut.setAttribute("toggle-mute");
 	firemutebut.setAttribute("class", "firemutebutc buttons");
-  firemutebut.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
+  firemutebut.setAttribute("rotation", TheButRot);
 	firescreen.appendChild(firemutebut);
 	// Volume Up Button
 	let volupbutpos = "0.5 0.38 0";
@@ -443,7 +443,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firevolup.setAttribute("class", "buttons");
 	firevolup.setAttribute("src", p_iconvolupurl);
 	firevolup.setAttribute("volume-level", "vvalue: 0.05");
-  firevolup.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
+  firevolup.setAttribute("rotation", TheButRot);
 	firescreen.appendChild(firevolup);
 	// Volume Down Button
 	let voldownbutpos = "0.35 0.38 0";
@@ -467,7 +467,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firevoldown.setAttribute("class", "buttons");
 	firevoldown.setAttribute("src", p_iconvoldownurl);
 	firevoldown.setAttribute("volume-level", "vvalue: -0.05");
-  firevolup.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
+  firevoldown.setAttribute("rotation", TheButRot);
 	firescreen.appendChild(firevoldown);
 
 
