@@ -117,7 +117,7 @@ function setupfirescreen2() {
   console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
   const allscripts = document.querySelectorAll(`script[src^='${firescreenurlv2}']`);
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
-  allscripts.forEach(script => {
+  allscripts.forEach((script, index) => {
     if (script.dataset.processed) { console.log(`FIRESCREEN2: Script ${index + 1} already processed, skipping...`); return; }; 
     theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${theNumberofBrowsers}`); script.dataset.processed = 'true';
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", volumelevel: "0.25",
