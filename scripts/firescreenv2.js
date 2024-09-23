@@ -177,6 +177,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
   const geometryObject = new BS.GameObject(`MainParentObject${window.theNumberofBrowsers}`);
+  console.log(`MainParentObject${window.theNumberofBrowsers}`);
+  console.log(geometryObject);
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
   // geometry Transform Stuff
   const geometrytransform = await geometryObject.AddComponent(new BS.Transform());
@@ -389,8 +391,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   keepsoundlevel2();
   console.log(`screenObject`);
   console.log(screenObject);
-  console.log(`geometryObject`);
-  console.log(geometryObject);
 
 };
 
