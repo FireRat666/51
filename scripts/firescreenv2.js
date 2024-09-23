@@ -112,7 +112,8 @@ function createButtonAction(buttonObject, clickHandler) {
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
-  const allscripts = document.querySelectorAll("script[src='" + firescreenurlv2 + "']");
+  const allscripts = document.querySelectorAll(`script[src^='${firescreenurlv2}']`);
+  console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
   allscripts.forEach(script => { theNumberofBrowsers++;
     console.log("FIRESCREEN2: Loading");
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", volumelevel: "0.25",
