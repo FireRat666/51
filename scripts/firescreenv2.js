@@ -14,8 +14,11 @@ var thebuttonscolor;
 var whiteColour = new BS.Vector4(1,1,1,1);
 var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
-var theNumberofBrowsers = 0;
 var fireScreenSetup = false;
+if (typeof window.numberOfBrowsers === 'undefined') {
+  window.theNumberofBrowsers = 0; // Initialize only once
+  console.log("FIRESCREEN2: Setting up theNumberofBrowsers.");
+}
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -60,7 +63,7 @@ function adjustScale(geometrytransform, direction) {
 async function createCustomButton(name, firebrowser, parentObject, buttonObjects, position, text, textposition, url, clickHandler) {
   const buttonObject = await createUIButton(name, null, position, textPlaneColour, parentObject, false, "false", 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-  const textObject = new BS.GameObject(`${name}Text${theNumberofBrowsers}`);
+  const textObject = new BS.GameObject(`${name}Text${window.theNumberofBrowsers}`);
   const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
   const textTransform = await textObject.AddComponent(new BS.Transform());
   textTransform.localPosition = textposition; await textObject.SetParent(parentObject, false);
@@ -119,7 +122,7 @@ function setupfirescreen2() {
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
   allscripts.forEach((script, index) => {
     if (script.dataset.processed) { console.log(`FIRESCREEN2: Script ${index + 1} already processed, skipping...`); return; }; 
-    theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${theNumberofBrowsers}`); script.dataset.processed = 'true';
+    window.theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${window.theNumberofBrowsers}`); script.dataset.processed = 'true';
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
       backdrop: "true", "hand-controls": "false", "disable-interaction": "false", "disable-rotation": false, announce: "false", "announce-420": "false", "announce-events": "undefined",
@@ -164,15 +167,15 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let browsermuted = false;
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
-  const screenObject = await new BS.GameObject(`MyBrowser${theNumberofBrowsers}`);
-  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${theNumberofBrowsers}`);
+  const screenObject = await new BS.GameObject(`MyBrowser${window.theNumberofBrowsers}`);
+  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${window.theNumberofBrowsers}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   let isbillboarded;
   p_disableRotation ? isbillboarded = false : isbillboarded = true;
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
-  geometryObject = new BS.GameObject(`MainParentObject${theNumberofBrowsers}`);
+  geometryObject = new BS.GameObject(`MainParentObject${window.theNumberofBrowsers}`);
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
   // geometry Transform Stuff
   const geometrytransform = await geometryObject.AddComponent(new BS.Transform());
@@ -335,11 +338,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
 
   let waitingforunity = true;
   var screeninterval;
-  if (theNumberofBrowsers < 1) {theNumberofBrowsers++}; 
+  if (window.theNumberofBrowsers < 1) {window.theNumberofBrowsers++}; 
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
       if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); }; };
-  }, theNumberofBrowsers * 1000); };
+  }, window.theNumberofBrowsers * 1000); };
   // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => { console.log(e) });
   firescenev2.On("browser-message", e => { console.log(e) });
