@@ -122,7 +122,7 @@ function setupfirescreen2() {
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
   allscripts.forEach((script, index) => {
     if (script.dataset.processed) { console.log(`FIRESCREEN2: Script ${index + 1} already processed, skipping...`); 
-    setTimeout(() => { return; }, 1000); }; 
+    setTimeout(() => { }, 1000); return; }; 
     window.theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${window.theNumberofBrowsers}`); script.dataset.processed = 'true';
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
