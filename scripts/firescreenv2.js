@@ -168,7 +168,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
   const screenObject = await new BS.GameObject(`MyBrowser${window.theNumberofBrowsers}`);
-  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${window.theNumberofBrowsers}`);
+  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${window.theNumberofBrowsers}, Pos:${p_pos}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   let isbillboarded;
@@ -385,7 +385,12 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     }, 1000);
     setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
   };
-  keepsoundlevel2()
+  keepsoundlevel2();
+  console.log(`screenObject`);
+  console.log(screenObject);
+  console.log(`geometryObject`);
+  console.log(geometryObject);
+
 };
 
 function getV3FromStrv2(strVector3) {
