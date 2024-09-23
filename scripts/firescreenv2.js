@@ -411,9 +411,11 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
   console.log("FIRESCREEN2: Initializing the script");
   setupfirescreen2();
 } else {
-  // console.log("FIRESCREEN2: Script already enabled/loading, skipping...");
-  console.log("FIRESCREEN2: Script already initialized, running setupfirescreen2 again");
-  setupfirescreen2();
+  setTimeout(() => {  
+    // console.log("FIRESCREEN2: Script already enabled/loading, skipping...");
+    console.log("FIRESCREEN2: Script already initialized, running setupfirescreen2 again");
+    setupfirescreen2();
+  }, 2000);
 };
 
 // if (!fireScreenSetup) {
