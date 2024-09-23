@@ -175,7 +175,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   p_disableRotation ? isbillboarded = false : isbillboarded = true;
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
-  geometryObject = new BS.GameObject(`MainParentObject${window.theNumberofBrowsers}`);
+  const geometryObject = new BS.GameObject(`MainParentObject${window.theNumberofBrowsers}`);
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
   // geometry Transform Stuff
   const geometrytransform = await geometryObject.AddComponent(new BS.Transform());
