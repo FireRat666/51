@@ -56,13 +56,13 @@ function adjustScale(geometrytransform, direction) {
   return adjustment;
 };
 
-async function createCustomButton(name, firebrowser, screenObject, buttonObjects, position, text, textposition, url, clickHandler) {
-  const buttonObject = await createUIButton(name, null, position, textPlaneColour, screenObject, false, "false", 1, 1, customButShader, customButtonSize);
+async function createCustomButton(name, firebrowser, parentObject, buttonObjects, position, text, textposition, url, clickHandler) {
+  const buttonObject = await createUIButton(name, null, position, textPlaneColour, parentObject, false, "false", 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   const textObject = new BS.GameObject(`${name}Text${theNumberofBrowsers}`);
   const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
   const textTransform = await textObject.AddComponent(new BS.Transform());
-  textTransform.localPosition = textposition; await textObject.SetParent(screenObject, false);
+  textTransform.localPosition = textposition; await textObject.SetParent(parentObject, false);
   buttonObjects.push(textObject);
   buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
       firebrowser.url = url; material.color = new BS.Vector4(0.3,0.3,0.3,1);
@@ -242,10 +242,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
         config.icon, config.position, config.color, parent, config.clickHandler, config.rotation);
     } return buttonsObjectsThing;
   };
-  let uiButtons = await createUIButtons(screenObject);
+  let uiButtons = await createUIButtons(geometryObject);
 
   let buttonsvisible = true;
-  const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(LButPos,0,0), thebuttonscolor, screenObject);
+  const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(LButPos,0,0), thebuttonscolor, geometryObject);
   createButtonAction(hideShowObject, () => { console.log("HideShow Clicked!");buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), customButtonObjects, buttonsvisible ? 1 : 0)
     hideShowObject.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? thebuttonscolor : new BS.Vector4(1, 1, 1, 0.5);
   });
@@ -254,16 +254,16 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_volume, p_mipmaps, p_pixelsperun
   if (Number(p_height) === 720) {RCButPos += 0.14; RCTexPos += 0.14;} else if (Number(p_height) === 1080) {RCButPos += 0.4; RCTexPos += 0.4;};
 
   if (p_custombuttonurl01 !== "false") {  console.log("p_custombuttonurl01 is true");
-    await createCustomButton("CustomButton01", firebrowser, screenObject, customButtonObjects, new BS.Vector3(RCButPos,0.3,0), p_custombutton01text, new BS.Vector3(RCTexPos,-0.188,-0.005), p_custombuttonurl01, () => {});
+    await createCustomButton("CustomButton01", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.3,0), p_custombutton01text, new BS.Vector3(RCTexPos,-0.188,-0.005), p_custombuttonurl01, () => {});
     console.log(p_custombuttonurl01); };
   if (p_custombuttonurl02 !== "false") { console.log("p_custombuttonurl02 is true");
-    await createCustomButton("CustomButton02", firebrowser, screenObject, customButtonObjects, new BS.Vector3(RCButPos,0.25,0), p_custombutton02text, new BS.Vector3(RCTexPos,-0.237,-0.005), p_custombuttonurl02, () => {});
+    await createCustomButton("CustomButton02", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.25,0), p_custombutton02text, new BS.Vector3(RCTexPos,-0.237,-0.005), p_custombuttonurl02, () => {});
     console.log(p_custombuttonurl02); };
   if (p_custombuttonurl03 !== "false") { console.log("p_custombuttonurl03 is true");
-    await createCustomButton("CustomButton03", firebrowser, screenObject, customButtonObjects, new BS.Vector3(RCButPos,0.20,0), p_custombutton03text, new BS.Vector3(RCTexPos,-0.287,-0.005), p_custombuttonurl03, () => {});
+    await createCustomButton("CustomButton03", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.20,0), p_custombutton03text, new BS.Vector3(RCTexPos,-0.287,-0.005), p_custombuttonurl03, () => {});
     console.log(p_custombuttonurl03); };
   if (p_custombuttonurl04 !== "false") { console.log("p_custombuttonurl04 is true");
-    await createCustomButton("CustomButton04", firebrowser, screenObject, customButtonObjects, new BS.Vector3(RCButPos,0.15,0), p_custombutton04text, new BS.Vector3(RCTexPos,-0.336,-0.005), p_custombuttonurl04, () => {});
+    await createCustomButton("CustomButton04", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.15,0), p_custombutton04text, new BS.Vector3(RCTexPos,-0.336,-0.005), p_custombuttonurl04, () => {});
     console.log(p_custombuttonurl04); };
 
   const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));  // Bill Board the geometryObject
