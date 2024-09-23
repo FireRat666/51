@@ -49,7 +49,7 @@ function enableFireScreen() {
       const pVolDownColor = getAttrOrDef(scripts[i], "voldown-color", "null");
       const pMuteColor = getAttrOrDef(scripts[i], "mute-color", "#FFFFFF");
       const pButtonPos = getAttrOrDef(scripts[i], "button-position", "0 0 0");
-      const pButtonRot = getAttrOrDef(scripts[i], "button-rotation", "0 0 180");
+      const pButtonRot = getAttrOrDef(scripts[i], "button-rotation", "0 0 0");
       const pIconMuteUrl = getAttrOrDef(scripts[i], "icon-mute-url", "https://firer.at/files/VolumeMute.png");
       const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
       const pIconVolDownUrl = getAttrOrDef(scripts[i], "icon-voldown-url", "https://firer.at/files/VolumeLow.png");
