@@ -162,7 +162,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
   const screenObject = await new BS.GameObject(`MyBrowser${theNumberofBrowsers}`);
-  console.log(`FireScreen2: p_width:${p_width}, p_height:${p_height}`);
+  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${theNumberofBrowsers}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
   let isbillboarded;
