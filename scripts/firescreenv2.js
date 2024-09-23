@@ -15,6 +15,7 @@ var whiteColour = new BS.Vector4(1,1,1,1);
 var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 var theNumberofBrowsers = 0;
+var fireScreenSetup = false;
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -112,10 +113,13 @@ function createButtonAction(buttonObject, clickHandler) {
 
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
+  const allScriptTags = document.getElementsByTagName('script');
+  console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
   const allscripts = document.querySelectorAll(`script[src^='${firescreenurlv2}']`);
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
-  allscripts.forEach(script => { theNumberofBrowsers++;
-    console.log("FIRESCREEN2: Loading");
+  allscripts.forEach(script => {
+    if (script.dataset.processed) { console.log(`FIRESCREEN2: Script ${index + 1} already processed, skipping...`); return; }; 
+    theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${theNumberofBrowsers}`); script.dataset.processed = 'true';
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
       backdrop: "true", "hand-controls": "false", "disable-interaction": "false", "disable-rotation": false, announce: "false", "announce-420": "false", "announce-events": "undefined",
@@ -138,8 +142,6 @@ function setupfirescreen2() {
     const {
       position, rotation, scale, "screen-position": screenPosition, "screen-rotation": screenRotation, volumelevel, mipmaps, pixelsperunit, backdrop, website, "button-color": buttonColor, announce, "announce-420": announce420, "backdrop-color": backdropColor, "icon-mute-url": iconMuteUrl, "icon-volup-url": iconVolUpUrl, "icon-voldown-url": iconVolDownUrl, "icon-direction-url": iconDirectionUrl, "volup-color": volUpColor, "voldown-color": volDownColor, "mute-color": muteColor, "disable-interaction": disableInteraction, "disable-rotation": disableRotation, "button-position": buttonPosition, "hand-controls": handControls, width, height, "announce-events": announceEvents, "custom-button01-url": customButton01Url, "custom-button01-text": customButton01Text, "custom-button02-url": customButton02Url, "custom-button02-text": customButton02Text, "custom-button03-url": customButton03Url, "custom-button03-text": customButton03Text, "custom-button04-url": customButton04Url, "custom-button04-text": customButton04Text
     } = params;
-
-    const pURL = `url: ${website}; mipMaps: ${mipmaps}; pixelsPerUnit: ${pixelsperunit}; pageWidth: ${width}; pageHeight: ${height}; mode: local;`;
 
     sdk2tests(position, rotation, scale, screenPosition, screenRotation, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
       backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor,
@@ -400,8 +402,18 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
   console.log("FIRESCREEN2: Initializing the script");
   setupfirescreen2();
 } else {
-  console.log("FIRESCREEN2: Script already enabled/loading, skipping...");
+  // console.log("FIRESCREEN2: Script already enabled/loading, skipping...");
+  console.log("FIRESCREEN2: Script already initialized, running setupfirescreen2 again");
+  setupfirescreen2();
 };
+
+// if (!fireScreenSetup) {
+//   setupfirescreen2();
+//   fireScreenSetup = true;
+// } else {
+//   console.log("FIRESCREEN2: Script already initialized, running setupfirescreen2 again");
+//   setupfirescreen2();
+// }
 
 // screenboxCollider = await firescenev2.Find("MyBrowser");
 
