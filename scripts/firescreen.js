@@ -49,6 +49,7 @@ function enableFireScreen() {
       const pVolDownColor = getAttrOrDef(scripts[i], "voldown-color", "null");
       const pMuteColor = getAttrOrDef(scripts[i], "mute-color", "#FFFFFF");
       const pButtonPos = getAttrOrDef(scripts[i], "button-position", "0 0 0");
+      const pButtonRot = getAttrOrDef(scripts[i], "button-rotation", "0 0 180");
       const pIconMuteUrl = getAttrOrDef(scripts[i], "icon-mute-url", "https://firer.at/files/VolumeMute.png");
       const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
       const pIconVolDownUrl = getAttrOrDef(scripts[i], "icon-voldown-url", "https://firer.at/files/VolumeLow.png");
@@ -62,7 +63,7 @@ function enableFireScreen() {
       const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
       createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pCastMode, pWebsite, pButtonColor, pAnnouncer, pAnnounce, pAnnounce420, pAnnounceEvents,
 		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor, pMuteColor,
-		pDisableInteraction, pButtonPos, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text,
+		pDisableInteraction, pButtonPos, pButtonRot, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text,
 		pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text);
     }
   };
@@ -85,7 +86,7 @@ function disableFireScreen() {
 
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_castmode, p_website, p_buttoncolor, p_announcer, p_announce, p_announce420, p_announceevents,
 	p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
-	p_disableinteraction, p_buttonpos, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
+	p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
 	p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
 		// Setup Hand Controls only on the first run if enabled
         if (p_handbuttons == "true" && firstrunhandcontrols === true) {
@@ -387,6 +388,9 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		let forwardbutpos = "-0.4 0.38 0"
 		let fireforward = document.createElement("a-plane");
 		const forwardArray = p_buttonpos.split(" ");
+		// const forwardRotArray = p_buttonrot.split(" ");
+    let [ButRotX, ButRotY, ButRotZ] = p_buttonrot.split(" ").map(Number);
+    let forwardRotZ = ButRotZ + 180;
 		const forwardposArray = forwardbutpos.split(" ");
 		forwardbutpos = (Number(forwardArray[0]) + Number(forwardposArray[0])) + " " + (Number(forwardArray[1]) + Number(forwardposArray[1])) + " " + (Number(forwardArray[2]) + Number(forwardposArray[2]));
 		fireforward.setAttribute("position", forwardbutpos);
@@ -399,7 +403,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		fireforward.setAttribute("class", "buttons");
 		fireforward.setAttribute("src", p_icondirectionurl);
 		fireforward.setAttribute("navigate-browser", "action: goforward");
-		fireforward.setAttribute("rotation", "0 0 180");
+		fireforward.setAttribute("rotation", `${ButRotX},${ButRotY},${forwardRotZ}`);
 		firescreen.appendChild(fireforward);
 		// Google Button
 		let firegooglebut = document.createElement("a-plane");
@@ -435,6 +439,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firehomebut.setAttribute("class", "buttons");
 	firehomebut.setAttribute("src", "https://firer.at/files/Home.png");
 	firehomebut.setAttribute("click-url", "url:" + p_website);
+  firehomebut.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
 	firescreen.appendChild(firehomebut);
 
 	// Go Back Button
@@ -453,6 +458,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firebackward.setAttribute("class", "buttons");
 	firebackward.setAttribute("src", p_icondirectionurl);
 	firebackward.setAttribute("navigate-browser", "action: goback");
+  firebackward.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
 	firescreen.appendChild(firebackward); 
 	// Mute/UnMute Button
 	let mutebutpos = "0.2 0.38 0";
@@ -471,6 +477,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firemutebut.setAttribute("src", p_iconmuteurl);
 	firemutebut.setAttribute("toggle-mute");
 	firemutebut.setAttribute("class", "firemutebutc buttons");
+  firemutebut.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
 	firescreen.appendChild(firemutebut);
 	// Volume Up Button
 	let volupbutpos = "0.5 0.38 0";
@@ -494,6 +501,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firevolup.setAttribute("class", "buttons");
 	firevolup.setAttribute("src", p_iconvolupurl);
 	firevolup.setAttribute("volume-level", "vvalue: 0.05");
+  firevolup.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
 	firescreen.appendChild(firevolup);
 	// Volume Down Button
 	let voldownbutpos = "0.35 0.38 0";
@@ -517,6 +525,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 	firevoldown.setAttribute("class", "buttons");
 	firevoldown.setAttribute("src", p_iconvoldownurl);
 	firevoldown.setAttribute("volume-level", "vvalue: -0.05");
+  firevolup.setAttribute("rotation", `${ButRotX},${ButRotY},${ButRotZ}`);
 	firescreen.appendChild(firevoldown);
 
 
