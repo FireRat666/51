@@ -175,6 +175,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		firescreen.appendChild(firebackdrop);
 	};
 
+  let [ButRotX, ButRotY, ButRotZ] = p_buttonrot.split(" ").map(Number);
 	if (p_castmode == "false") {
 		// lock/unlock button to toggle the screen collider 
 		let firelockbutton = document.createElement("a-plane");
@@ -331,7 +332,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 		let fireforward = document.createElement("a-plane");
 		const forwardArray = p_buttonpos.split(" ");
 		// const forwardRotArray = p_buttonrot.split(" ");
-    let [ButRotX, ButRotY, ButRotZ] = p_buttonrot.split(" ").map(Number);
     let forwardRotZ = ButRotZ + 180;
 		const forwardposArray = forwardbutpos.split(" ");
 		forwardbutpos = (Number(forwardArray[0]) + Number(forwardposArray[0])) + " " + (Number(forwardArray[1]) + Number(forwardposArray[1])) + " " + (Number(forwardArray[2]) + Number(forwardposArray[2]));
