@@ -15,7 +15,7 @@ var whiteColour = new BS.Vector4(1,1,1,1);
 var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 var fireScreenSetup = false;
-if (typeof window.numberOfBrowsers === 'undefined') {
+if (typeof window.theNumberofBrowsers === 'undefined') {
   window.theNumberofBrowsers = 0; // Initialize only once
   console.log("FIRESCREEN2: Setting up theNumberofBrowsers.");
 }
