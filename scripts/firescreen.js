@@ -1134,37 +1134,31 @@ class handButtonCrap{
 
 	}
 
-	volumecontroldown() {
-		let thisloopnumber = 0;
-		document.querySelectorAll('.firescreenc')
-		.forEach((firescreenc) => {
-			thisloopnumber++
-			let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
-      volume = Number(volume);
-      if (volume < 0.1) {
-        volume += Number(-0.01);
-      } else if (volume < 0.5) {
-        volume += Number(-0.02);
-      } else {
-        volume += Number(-0.05);
-      };
-      volume = parseFloat(volume).toFixed(2);
-			if (volume < 0) {volume = 0};
-			console.log("HAND-CONTROLS: FireScreen " + thisloopnumber + "'s Volume is: " + volume);
-      let firepercent = parseInt(volume*100).toFixed(0);
-			firescreenc.setAttribute("volumelevel", volume);
-			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
-			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelector('.html5-video-player').setVolume(" + firepercent + ");", }, ]);
-		});
-
-			let firevolbut = document.getElementById("firevoldownbut");
-			let butcolour = firevolbut.getAttribute("color");
-			firevolbut.setAttribute("color", "#FFFFFF"); 
-			setTimeout(() => {  firevolbut.setAttribute("color", butcolour); }, 100);
-
-	}
+  volumecontroldown() {
+    const decreaseVolume = (volume) => {
+      if (volume < 0.1) return volume - 0.01;
+      if (volume < 0.5) return volume - 0.02;
+      return volume - 0.05;
+    };
+    document.querySelectorAll('.firescreenc').forEach((firescreenc, index) => {
+      let volume = Math.max(0, decreaseVolume(parseFloat(firescreenc.getAttribute("volumelevel"))));
+      volume = parseFloat(volume.toFixed(2));
+      console.log(`HAND-CONTROLS: FireScreen ${index + 1}'s Volume is: ${volume}`);
+      firescreenc.setAttribute("volumelevel", volume);
+      const percent = Math.round(volume * 100);
+      const browserComponent = firescreenc.components["sq-browser"];
+      browserComponent.runActions([{ actionType: "runscript",
+        strparam1: `document.querySelectorAll('video, audio').forEach(elem => elem.volume = ${volume});`
+      }]);
+      browserComponent.runActions([{ actionType: "runscript",
+        strparam1: `document.querySelector('.html5-video-player').setVolume(${percent});`
+      }]);
+    });
+    const firevolbut = document.getElementById("firevoldownbut");
+    const originalColor = firevolbut.getAttribute("color");
+    firevolbut.setAttribute("color", "#FFFFFF");
+    setTimeout(() => firevolbut.setAttribute("color", originalColor), 100);
+  };
 
 	lockplayerfunc() {
 		let firelockbut = document.getElementById("firelockpbut");
@@ -1195,8 +1189,6 @@ class handButtonCrap{
 		});
     firehomebut.setAttribute("color", "#FFFFFF"); 
     setTimeout(() => {  firehomebut.setAttribute("color", thebuttoncolor); }, 100);
-
-
 	};
 
   setupHandControls() {
