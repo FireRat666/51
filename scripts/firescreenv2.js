@@ -122,7 +122,7 @@ function setupfirescreen2() {
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
   allscripts.forEach((script, index) => {setTimeout(() => { 
     if (script.dataset.processed) { console.log(`FIRESCREEN2: Script ${index + 1} already processed, skipping...`); return; }; 
-    window.theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${window.theNumberofBrowsers}`); script.dataset.processed = 'true';
+    window.theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${window.theNumberofBrowsers}`); script.dataset.processed = 'true';const thisBrowserNumber = window.theNumberofBrowsers;
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
       backdrop: "true", "hand-controls": "false", "disable-interaction": "false", "disable-rotation": false, announce: "false", "announce-420": "false", "announce-events": "undefined",
@@ -148,12 +148,12 @@ function setupfirescreen2() {
 
     sdk2tests(position, rotation, scale, screenPosition, screenRotation, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
       backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor,
-      disableInteraction, disableRotation, buttonPosition, handControls, width, height, announceEvents, customButton01Url, customButton01Text,
+      disableInteraction, disableRotation, buttonPosition, handControls, width, height, announceEvents, thisBrowserNumber, customButton01Url, customButton01Text,
       customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text);
     }, 2000);});
 };
 
-async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
+async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_buttonpos, p_handbuttons, p_width, p_height, p_announceevents, p_thisBrowserNumber, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text) {
   // create a reference to the banter scene
   const firescenev2 = BS.BanterScene.GetInstance();
   the_announce = p_announce;
@@ -167,8 +167,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let browsermuted = false;
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
-  const screenObject = await new BS.GameObject(`MyBrowser${window.theNumberofBrowsers}`);
-  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${window.theNumberofBrowsers}, Pos:`);
+  const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`);
+  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, Pos:`);
   console.log(p_pos);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
 
@@ -176,8 +176,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   p_disableRotation ? isbillboarded = false : isbillboarded = true;
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
-  const geometryObject = new BS.GameObject(`MainParentObject${window.theNumberofBrowsers}`);
-  console.log(`MainParentObject${window.theNumberofBrowsers}`);
+  const geometryObject = new BS.GameObject(`MainParentObject${p_thisBrowserNumber}`);
+  console.log(`MainParentObject${p_thisBrowserNumber}`);
   console.log(geometryObject);
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
   // geometry Transform Stuff
@@ -341,11 +341,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
 
   let waitingforunity = true;
   var screeninterval;
-  if (window.theNumberofBrowsers < 1) {window.theNumberofBrowsers++}; 
+  if (p_thisBrowserNumber < 1) {p_thisBrowserNumber++}; 
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
       if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); }; };
-  }, window.theNumberofBrowsers * 1000); };
+  }, p_thisBrowserNumber * 1000); };
   // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => { console.log(e) });
   firescenev2.On("browser-message", e => { console.log(e) });
