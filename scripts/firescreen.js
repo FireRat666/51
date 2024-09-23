@@ -1200,14 +1200,14 @@ class handButtonCrap{
     handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || window.user.id}`);
   
     const buttons = [
-      { image: IconVolUpUrl, position: "-1 0.2 -0.4", colour: volupcolor, id: "firevolupbut", callback: this.volumecontrolup },
-      { image: IconVolDownUrl, position: "-1 0.2 0", colour: voldowncolor, id: "firevoldownbut", callback: this.volumecontroldown },
-      { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", colour: thebuttoncolor, id: "firelockpbut", callback: this.lockplayerfunc },
-      { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", colour: thebuttoncolor, id: "firehomepbut", callback: this.homefunc },
-      { image: IconMuteUrl, position: "-1 0.2 0.4", colour: "#FFFFFF", id: "firemutebut", callback: this.mute }
+      { image: IconVolUpUrl, position: "-1 0.2 -0.4", colour: volupcolor, bclass: "firevolbutc", id: "firevolupbut", callback: this.volumecontrolup },
+      { image: IconVolDownUrl, position: "-1 0.2 0", colour: voldowncolor, bclass: "firevolbutc", id: "firevoldownbut", callback: this.volumecontroldown },
+      { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", colour: thebuttoncolor, bclass: "firelockpbutc", id: "firelockpbut", callback: this.lockplayerfunc },
+      { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", colour: thebuttoncolor, bclass: "firehomepbutc", id: "firehomepbut", callback: this.homefunc },
+      { image: IconMuteUrl, position: "-1 0.2 0.4", colour: "#FFFFFF", bclass: "firemutebutc", id: "firemutebut", callback: this.mute }
     ];
   
-    buttons.forEach(({ image, position, colour, id, callback }) => {
+    buttons.forEach(({ image, position, colour, bclass, id, callback }) => {
       const button = document.createElement("a-plane");
       Object.assign(button, {
         setAttribute: button.setAttribute.bind(button),
@@ -1221,6 +1221,7 @@ class handButtonCrap{
       button.setAttribute("color", colour);
       button.setAttribute("transparent", true);
       button.setAttribute("position", position);
+      button.setAttribute("class", bclass);
       button.setAttribute("id", id);
       button.addEventListener("click", callback.bind(this));
       handControlsContainer.appendChild(button);
