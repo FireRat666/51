@@ -175,7 +175,7 @@ function announcerloadtest() {
     if (theusersid === "4255792aebfae3cea1086f2963c33fdc") {theusersname = "Rabbit"}; // Rabbit
     if (theusersid === "ee95ee1ae0cd0d67066a4519e665911e") {theusersname = "Zelrainer"}; //  Zelrainer
     if (theusersid === "32c3e6ac83b78872be370cb10f0c9729") {theusersname = "Cast Casey Away"}; //  "caseycastaway"
-    if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {theusersname = "Pancake Man"}; //  "WaffleMan"
+    if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {theusersname = "Waffle Man"}; //  "WaffleMan"
     if (theusersid === "3dbca1090fad5dff35543697ca007066") {theusersname = "Sebek"}; //  "Sebek"
     if (theusersid === "f3da86e3752aa16d8f574777cc5ed842") {theusersname = "Irish Jesus"}; //  "Scottish.Jesus"
     if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = "Static Threat"}; //  "staticthreat"
@@ -701,8 +701,9 @@ function announcerloadtest() {
         let psudorandomvar = GETPRNGF(welcomeMessages.length);
         let message = welcomeMessages[GETPRNGF(welcomeMessages.length)]; 
 
-        if (theusersid === "3dbca1090fad5dff35543697ca007066") {message = "Bow to your King Seb eck the Mirror Creator"} //  "Sebek"
-        else if (theusersid === "no-220a4b971b3edb376cbc956f5539b8a5") {message = "Big John is here everybody hide your snack packs"}; // Big John
+        if (theusersid === "3dbca1090fad5dff35543697ca007066") {message = "Bow to your King Seb eck the Mirror Creator"}; //  "Sebek"
+        if (theusersid === "no-220a4b971b3edb376cbc956f5539b8a5") {message = "Big John is here everybody hide your snack packs"}; // Big John
+        if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {message = "Don't Die it's bad for your health, Waffle Man is here"}; // WaffleMan
 
         speak(message);
       } else if (announcefirstrun) {
