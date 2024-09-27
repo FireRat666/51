@@ -3,7 +3,6 @@ var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https:/
 var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 var fireScreen2On = false;
 var firstrunhandcontrolsv2 = true;
-var firevolume = 1;
 var playersuseridv2 = null;
 var the_announce = null;
 var the_announce420 = null;
@@ -88,6 +87,7 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
 };
 
 function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume Pass 1 to increase the volume
+  let firevolume = firebrowser.volumeLevel;
   let currentVolume = Number(firevolume); let adjustment;
   if (currentVolume < 0.1) { adjustment = 0.01; // Tiny adjustment for low volume
   } else if (currentVolume < 0.5) { adjustment = 0.03; // Medium adjustment for medium volume
@@ -95,6 +95,7 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   firevolume = currentVolume + (change * adjustment);
   firevolume = Math.max(0, Math.min(firevolume, 1)).toFixed(2);
   let firepercent = (firevolume * 100).toFixed(0);
+  firebrowser.volumeLevel = firevolume;
   runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume});`);
   runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
@@ -158,7 +159,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   the_announce = p_announce;
   the_announce420 = p_announce420;
   the_announceevents = p_announceevents;
-  firevolume = p_volume;
+  let firevolume = p_volume;
   fireScreen2On = true;
   let keyboardstate = false;
   let playerislockedv2 = false;
@@ -170,7 +171,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   console.log(p_pos);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
   firebrowser.homePage = p_website; // Set variable for default Home Page for later use
-  firebrowser.buttonColour = p_buttoncolor; // Set variable for default Button Colour for later use
+  firebrowser.volumeLevel = p_volume; // Set variable for Volume Level for later use
   let isbillboarded;
   p_disableRotation ? isbillboarded = false : isbillboarded = true;
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
