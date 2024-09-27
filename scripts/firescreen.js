@@ -1004,12 +1004,11 @@ function firescreenloadstuff() {
 
   firescene.On("one-shot", e => { console.log(e)
     const data = JSON.parse(e.detail.data);
-    if (e.detail.fromAdmin) { console.log("Current Shot From Admin Is True");
+    const isAdminOrLocalUser = e.detail.fromAdmin || e.detail.fromId === firescene.localUser.uid;
+    if (isAdminOrLocalUser) { console.log(isAdminOrLocalUser ? "Current Shot is from Admin" : "Current Shot is from Local User");
       if (data.fireurl) setfirepageurls(data.fireurl);
     } else if (e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {
       if (data.fireurl) setfirepageurls(data.fireurl);
-    } else { console.log("Current Shot From Admin Is False");
-      console.log(e.detail.fromId);
     };
   });
 
