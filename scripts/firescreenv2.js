@@ -169,7 +169,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, Pos:`);
   console.log(p_pos);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
-
+  firebrowser.homePage = p_website; // Set variable for default Home Page for later use
   let isbillboarded;
   p_disableRotation ? isbillboarded = false : isbillboarded = true;
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
@@ -421,6 +421,20 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
     console.log("FIRESCREEN2: Script already initialized, running setupfirescreen2 again");
     setupfirescreen2();
   }, 1500);
+};
+
+async function testFireScreensv2() {
+	let thisloopnumber = 0;
+	while (thisloopnumber < window.theNumberofBrowsers) {
+		thisloopnumber++
+		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
+    let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+		if (thebrowserpart) {
+			console.log(`FIRESCREEN: Detected ${thisloopnumber}`); 
+			console.log(thebrowserpart); 
+			console.log(thebrowserpart.homePage); 
+		};
+	};
 };
 
 // if (!fireScreenSetup) {
