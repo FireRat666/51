@@ -409,7 +409,7 @@ function keepsoundlevel2(firebrowser) { var volinterval2;
   // Loop to keep sound level set, runs every set second(s)
     volinterval2 = setInterval(function() {
       let thisfirevolume = firebrowser.volumeLevel;
-      let firepercent = (firevolume * 100).toFixed(0);
+      let firepercent = (thisfirevolume * 100).toFixed(0);
       runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
       runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
     }, 5000); } else if (fireScreen2On) { } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
