@@ -170,6 +170,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   console.log(p_pos);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
   firebrowser.homePage = p_website; // Set variable for default Home Page for later use
+  firebrowser.buttonColour = p_buttoncolor; // Set variable for default Button Colour for later use
   let isbillboarded;
   p_disableRotation ? isbillboarded = false : isbillboarded = true;
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
@@ -423,20 +424,38 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
   }, 1500);
 };
 
-async function testFireScreensv2() {
+async function v2GoHome() {
 	let thisloopnumber = 0;
 	while (thisloopnumber < window.theNumberofBrowsers) {
 		thisloopnumber++
 		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
     let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-		if (thebrowserpart) {
-			console.log(`FIRESCREEN: Detected ${thisloopnumber}`); 
-			console.log(thebrowserpart); 
-			console.log(thebrowserpart.homePage); 
-		};
+		if (thebrowserpart) { thebrowserpart.url = thebrowserpart.homePage; };
 	};
 };
 
+async function allVolumeGoUp() {
+	let thisloopnumber = 0;
+	while (thisloopnumber < window.theNumberofBrowsers) {
+		thisloopnumber++
+		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
+    let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+		if (thebrowserpart) { adjustVolume(thebrowserpart, 1); };
+	};
+};
+
+async function allVolumeGoDown() {
+	let thisloopnumber = 0;
+	while (thisloopnumber < window.theNumberofBrowsers) {
+		thisloopnumber++
+		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
+    let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+		if (thebrowserpart) { adjustVolume(thebrowserpart, -1); };
+	};
+};
+
+
+// adjustVolume(firebrowser, change)
 // if (!fireScreenSetup) {
 //   setupfirescreen2();
 //   fireScreenSetup = true;
