@@ -359,20 +359,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   firebrowser.On("menu-browser-message", e => { console.log(e) });
   firescenev2.On("menu-browser-message", e => { console.log(e) });
 
-  var soundlevel2firstrun = true;
-  function keepsoundlevel2() { var volinterval2;
-    if (fireScreen2On && soundlevel2firstrun) {
-    console.log("FIRESCREEN2: keepsoundlevel loop");
-    soundlevel2firstrun = false;
-    // Loop to keep sound level set, runs every set second(s)
-      volinterval2 = setInterval(function() {
-        let thisfirevolume = firebrowser.volumeLevel;
-        let firepercent = (firevolume * 100).toFixed(0);
-        runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
-        runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
-      }, 5000); } else if (fireScreen2On) { } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
-  };
-
   function announcerstufffunc() {
     console.log("FIRESCREEN2: Announcer Script Called");
     // Setup the Announcer only on the first run if enabled
@@ -396,7 +382,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     }, 1000);
     setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
   };
-  keepsoundlevel2();
+  keepsoundlevel2(firebrowser);
   console.log(`screenObject`);
   console.log(screenObject);
 
@@ -414,6 +400,20 @@ function getV4FromStr(strVector4) {
 };
 
 // function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue };
+
+var soundlevel2firstrun = true;
+function keepsoundlevel2(firebrowser) { var volinterval2;
+  if (fireScreen2On && soundlevel2firstrun) {
+  console.log("FIRESCREEN2: keepsoundlevel loop");
+  soundlevel2firstrun = false;
+  // Loop to keep sound level set, runs every set second(s)
+    volinterval2 = setInterval(function() {
+      let thisfirevolume = firebrowser.volumeLevel;
+      let firepercent = (firevolume * 100).toFixed(0);
+      runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
+      runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
+    }, 5000); } else if (fireScreen2On) { } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
+};
 
 if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
   console.log("FIRESCREEN2: Initializing the script");
