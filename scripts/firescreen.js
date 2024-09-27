@@ -896,9 +896,7 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
   } else {
     return pDefault;
   }
-}
-
-
+};
 
 // Create screen After Unity load 
 var firstbrowserrun = true;
@@ -1004,6 +1002,16 @@ function firescreenloadstuff() {
     };
   }, 500); };
 
+  firescene.On("one-shot", e => { console.log(e)
+    const data = JSON.parse(e.detail.data);
+    if (e.detail.fromAdmin) { console.log("Current Shot From Admin Is True");
+      if (data.fireurl) setfirepageurls(data.fireurl);
+    } else if (e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {
+      if (data.fireurl) setfirepageurls(data.fireurl);
+    } else { console.log("Current Shot From Admin Is False");
+      console.log(e.detail.fromId);
+    };
+  });
 
 	// firescene.On("unity-loaded", () => {
 	// 	console.log("FIRESCREEN: unity-loaded");
@@ -1228,4 +1236,13 @@ class handButtonCrap{
     });
     document.querySelector("a-scene").appendChild(handControlsContainer);
   };
+};
+
+function setfirepageurls(thedata) {
+  document.querySelectorAll('.firescreenc')
+  .forEach((firescreenc) => {
+    let ThisHomePage = firescreenc.getAttribute("sq-browser");
+    console.log(ThisHomePage);
+    firescreenc.setAttribute("sq-browser", { url: thedata, pixelsPerUnit: 1200, mipMaps: 0, mode: "local", });
+  });
 };

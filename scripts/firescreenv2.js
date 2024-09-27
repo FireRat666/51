@@ -287,6 +287,13 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
         const firepercent = (thisfirevolume * 100).toFixed(0);
         runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume = ${thisfirevolume});
           document.querySelector('.html5-video-player')?.setVolume(${firepercent});`);};
+    } else if (e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {
+      if (data.fireurl) firebrowser.url = data.fireurl;
+      if (data.firevolume) {
+        const thisfirevolume = Number(parseFloat(data.firevolume).toFixed(2));
+        const firepercent = (thisfirevolume * 100).toFixed(0);
+        runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume = ${thisfirevolume});
+          document.querySelector('.html5-video-player')?.setVolume(${firepercent});`);};
     } else { console.log("Current Shot From Admin Is False");
       console.log(e.detail.fromId);
     };
