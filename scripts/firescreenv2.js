@@ -368,7 +368,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     }, 1000);
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
-  keepsoundlevel2(firebrowser);
+  // keepsoundlevel2();
 
 };
 
