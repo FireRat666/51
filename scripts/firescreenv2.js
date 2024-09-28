@@ -401,13 +401,9 @@ function keepsoundlevel2(firebrowser) { var volinterval2;
 
 if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
   console.log("FIRESCREEN2: Initializing the script");
-  setupfirescreen2();
+  setTimeout(() => { setupfirescreen2(); }, 500);
 } else {
-  setTimeout(() => {  
-    // console.log("FIRESCREEN2: Script already enabled/loading, skipping...");
-    console.log("FIRESCREEN2: Script already initialized, running setupfirescreen2 again");
-    setupfirescreen2();
-  }, 1500);
+  setTimeout(() => { setupfirescreen2(); }, 1500);
 };
 
 async function adjustForAll(action, change) {
