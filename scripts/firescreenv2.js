@@ -318,7 +318,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustForAll("adjustVolume", -1);
       updateButtonColor(hvolDownButton, p_voldowncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Mute Button
-    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => { adjustForAll("muteBrowsers");
+    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => { adjustForAll("toggleMute");
       let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
       muteMaterial.color = firebrowser.muteState ? p_mutecolor : new BS.Vector4(1, 0, 0, 1); }, new BS.Vector3(180,0,0),1,1,defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Lock Button
@@ -419,7 +419,7 @@ async function adjustForAll(action, change) {
 		if (action === "adjustVolume") adjustVolume(thebrowserpart, change);
 		if (action === "soundLevels") keepsoundlevel2(thebrowserpart);
 		if (action === "goHome") thebrowserpart.url = thebrowserpart.homePage;
-		if (action === "muteBrowsers") {
+		if (action === "toggleMute") {
       thebrowserpart.muteState = !thebrowserpart.muteState; thebrowserpart.muteState ? muteState = "mute" : muteState = "unMute";
       runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});`);
       runBrowserActions(thebrowserpart, `document.querySelector('.html5-video-player').${muteState}();`);
