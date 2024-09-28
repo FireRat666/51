@@ -1,7 +1,8 @@
 // SDK2 Based FireScreen, V0.69 Beta 3 -- Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
 // FireScreen Tablet for Screen Casts / live streams with volume controls or a portable browser for any website.
-var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
-var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
+var thisScriptLocation = `https://51.firer.at/scripts/`; // CHANGE THIS URL IF MAKING A COPY OF THIS SCRIPT AND THE ONES BELOW
+var fireScriptName = `${thisScriptLocation}firescreenv2.js`;
+var announcerscripturlv2 = `${thisScriptLocation}announcer.js`;
 var fireScreen2On = false;
 var firstrunhandcontrolsv2 = true;
 var playersuseridv2 = null;
@@ -115,7 +116,7 @@ function createButtonAction(buttonObject, clickHandler) {
 function setupfirescreen2() {
   const allScriptTags = document.getElementsByTagName('script');
   // console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
-  const allscripts = document.querySelectorAll(`script[src^='${firescreenurlv2}']`);
+  const allscripts = document.querySelectorAll(`script[src^='${fireScriptName}']`);
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
   allscripts.forEach((script, index) => { if (script.dataset.processed) { return; }; 
     window.theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${window.theNumberofBrowsers}`); script.dataset.processed = 'true';const thisBrowserNumber = window.theNumberofBrowsers;
