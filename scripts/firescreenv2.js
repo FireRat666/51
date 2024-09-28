@@ -163,7 +163,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let browsermuted = false;
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
-  let ProtectedSpaceUrl = getSpaceStateStuff();
+  let ProtectedSpaceUrl = getSpaceStateStuff('fireurl');
   if (ProtectedSpaceUrl !== null && p_spacesync === 'true') {p_website = ProtectedSpaceUrl};
   const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`);
   console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, URL:${p_website}`);
@@ -405,13 +405,6 @@ function keepsoundlevel2() {
     }, 5000); } else if (fireScreen2On) { console.log("FIRESCREEN2: ALREADY SET soundlevel loop"); } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
 };
 
-if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
-  console.log("FIRESCREEN2: Initializing the script");
-  setTimeout(() => { setupfirescreen2(); }, 500);
-} else {
-  setTimeout(() => { setupfirescreen2(); }, 1500);
-};
-
 async function adjustForAll(action, change) {
 	let thisloopnumber = 0;
 	while (thisloopnumber < window.theNumberofBrowsers) {
@@ -430,21 +423,25 @@ async function adjustForAll(action, change) {
 	};
 };
 
-function getSpaceStateStuff() {
+function getSpaceStateStuff(argument) {
   let SpaceStateScene = BS.BanterScene.GetInstance().spaceState;
-  let PublicSpacestatethings = SpaceStateScene.public;
   let ProtectedSpacestatethings = SpaceStateScene.protected;
-
-  for (const [key, value] of Object.entries(PublicSpacestatethings)) {
-    console.log(`Public Space State Key: ${key}, Value: ${value}`);
-  };
-
+  // let PublicSpacestatethings = SpaceStateScene.public;
+  // for (const [key, value] of Object.entries(PublicSpacestatethings)) {
+  //   console.log(`Public Space State Key: ${key}, Value: ${value}`);
+  // };
   for (const [key, value] of Object.entries(ProtectedSpacestatethings)) {
-    console.log(`Protected Space State Key: ${key}, Value: ${value}`);
-    if (key === 'fireurl') { console.log(`Return Space State Key fireurl`); return value; };
+    // console.log(`Protected Space State Key: ${key}, Value: ${value}`);
+    if (key === argument) { console.log(`Return Space State Key ${key}`); return value; };
   };
-
   return null;
+};
+
+if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
+  console.log("FIRESCREEN2: Initializing the script");
+  setTimeout(() => { setupfirescreen2(); }, 500);
+} else {
+  setTimeout(() => { setupfirescreen2(); }, 1500);
 };
 
 // setProtectedSpaceProp('fireurl', "https://firer.at/");
