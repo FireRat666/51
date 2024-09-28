@@ -13,10 +13,7 @@ var whiteColour = new BS.Vector4(1,1,1,1);
 var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 var fireScreenSetup = false;
-if (typeof window.theNumberofBrowsers === 'undefined') {
-  window.theNumberofBrowsers = 0; // Initialize only once
-  console.log("FIRESCREEN2: Setting up theNumberofBrowsers.");
-}
+if (typeof window.theNumberofBrowsers === 'undefined') { window.theNumberofBrowsers = 0; } // Initialize only once 
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -115,13 +112,11 @@ function createButtonAction(buttonObject, clickHandler) {
 };
 
 function setupfirescreen2() {
-  console.log("FIRESCREEN2: Setting up");
   const allScriptTags = document.getElementsByTagName('script');
   // console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
   const allscripts = document.querySelectorAll(`script[src^='${firescreenurlv2}']`);
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
-  allscripts.forEach((script, index) => {
-    if (script.dataset.processed) { console.log(`FIRESCREEN2: Script ${index + 1} already processed, skipping...`); return; }; 
+  allscripts.forEach((script, index) => { if (script.dataset.processed) { return; }; 
     window.theNumberofBrowsers++; console.log(`FIRESCREEN2: Loading browser ${window.theNumberofBrowsers}`); script.dataset.processed = 'true';const thisBrowserNumber = window.theNumberofBrowsers;
     const defaultParams = { position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", volumelevel: "0.25",
       website: "https://firer.at/pages/games.html", mipmaps: "1", pixelsperunit: "1200", width: "1024", height: "576",
@@ -260,18 +255,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let RCButPos = 0.68; let RCTexPos = 1.59;
   if (Number(p_height) === 720) {RCButPos += 0.14; RCTexPos += 0.14;} else if (Number(p_height) === 1080) {RCButPos += 0.4; RCTexPos += 0.4;};
 
-  if (p_custombuttonurl01 !== "false") {  console.log("p_custombuttonurl01 is true");
-    await createCustomButton("CustomButton01", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.3,0), p_custombutton01text, new BS.Vector3(RCTexPos,-0.188,-0.005), p_custombuttonurl01, () => {});
-    console.log(p_custombuttonurl01); };
-  if (p_custombuttonurl02 !== "false") { console.log("p_custombuttonurl02 is true");
-    await createCustomButton("CustomButton02", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.25,0), p_custombutton02text, new BS.Vector3(RCTexPos,-0.237,-0.005), p_custombuttonurl02, () => {});
-    console.log(p_custombuttonurl02); };
-  if (p_custombuttonurl03 !== "false") { console.log("p_custombuttonurl03 is true");
-    await createCustomButton("CustomButton03", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.20,0), p_custombutton03text, new BS.Vector3(RCTexPos,-0.287,-0.005), p_custombuttonurl03, () => {});
-    console.log(p_custombuttonurl03); };
-  if (p_custombuttonurl04 !== "false") { console.log("p_custombuttonurl04 is true");
-    await createCustomButton("CustomButton04", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.15,0), p_custombutton04text, new BS.Vector3(RCTexPos,-0.336,-0.005), p_custombuttonurl04, () => {});
-    console.log(p_custombuttonurl04); };
+  if (p_custombuttonurl01 !== "false") {  console.log(`p_custombuttonurl01 ${p_custombuttonurl01}`);
+    await createCustomButton("CustomButton01", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.30,0), p_custombutton01text, new BS.Vector3(RCTexPos,-0.188,-0.005), p_custombuttonurl01, () => {});};
+  if (p_custombuttonurl02 !== "false") { console.log(`p_custombuttonurl02 ${p_custombuttonurl02}`);
+    await createCustomButton("CustomButton02", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.25,0), p_custombutton02text, new BS.Vector3(RCTexPos,-0.237,-0.005), p_custombuttonurl02, () => {});};
+  if (p_custombuttonurl03 !== "false") { console.log(`p_custombuttonurl03 ${p_custombuttonurl03}`);
+    await createCustomButton("CustomButton03", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.20,0), p_custombutton03text, new BS.Vector3(RCTexPos,-0.287,-0.005), p_custombuttonurl03, () => {});};
+  if (p_custombuttonurl04 !== "false") { console.log(`p_custombuttonurl04 ${p_custombuttonurl04}`);
+    await createCustomButton("CustomButton04", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.15,0), p_custombutton04text, new BS.Vector3(RCTexPos,-0.336,-0.005), p_custombuttonurl04, () => {});};
 
   const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));  // Bill Board the geometryObject
   geometrytransform.localScale = p_sca; // SET THE SCALE FOR THE SCREEN
@@ -311,7 +302,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
 
   async function setupHandControls() {
     // THE CONTAINER FOR THE HAND BUTTONS
-    console.log("FIRESCREEN2: Hand Control Stuff");
     const plane20Object = new BS.GameObject("handContainer");
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.PlaneGeometry);
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,1)));
@@ -339,7 +329,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     // Hand Home Button
     const hhomeButton = await createUIButton("hHomeButton", "https://firer.at/files/Home.png", new BS.Vector3(0.4,-0.1,0.3), p_buttoncolor, plane20Object, () => { adjustForAll("goHome");
       updateButtonColor(hhomeButton, p_buttoncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
-    console.log("FIRESCREEN2: Hand Setup Stuff END");
+    console.log("FIRESCREEN2: Hand Buttons Setup Complete");
   };
 
   let waitingforunity = true;
