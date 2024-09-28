@@ -324,10 +324,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
     // Hand Volume Up Button
-    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustVolumeAll(1);
+    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustForAll("adjustVolume", 1);
       updateButtonColor(hvolUpButton, p_volupcolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Volume Down Button
-    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustVolumeAll(-1);
+    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustForAll("adjustVolume", -1);
       updateButtonColor(hvolDownButton, p_voldowncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Mute Button
     const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => {
@@ -341,7 +341,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
       let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Home Button
-    const hhomeButton = await createUIButton("hHomeButton", "https://firer.at/files/Home.png", new BS.Vector3(0.4,-0.1,0.3), p_buttoncolor, plane20Object, () => { firebrowser.url = p_website;
+    const hhomeButton = await createUIButton("hHomeButton", "https://firer.at/files/Home.png", new BS.Vector3(0.4,-0.1,0.3), p_buttoncolor, plane20Object, () => { adjustForAll("goHome");
       updateButtonColor(hhomeButton, p_buttoncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     console.log("FIRESCREEN2: Hand Setup Stuff END");
   };
@@ -426,33 +426,15 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
   }, 1500);
 };
 
-async function v2GoHome() {
+async function adjustForAll(action, change) {
 	let thisloopnumber = 0;
 	while (thisloopnumber < window.theNumberofBrowsers) {
 		thisloopnumber++
 		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
     let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-		if (thebrowserpart) { thebrowserpart.url = thebrowserpart.homePage; };
-	};
-};
-
-async function adjustVolumeAll(change) {
-	let thisloopnumber = 0;
-	while (thisloopnumber < window.theNumberofBrowsers) {
-		thisloopnumber++
-		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
-    let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-		if (thebrowserpart) { adjustVolume(thebrowserpart, change); };
-	};
-};
-
-async function soundLevelsTest() {
-	let thisloopnumber = 0;
-	while (thisloopnumber < window.theNumberofBrowsers) {
-		thisloopnumber++
-		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
-    let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-		if (thebrowserpart) { keepsoundlevel2(thebrowserpart); };
+		if (action === "adjustVolume") adjustVolume(thebrowserpart, change);
+		if (action === "soundLevels") keepsoundlevel2(thebrowserpart);
+		if (action === "goHome") thebrowserpart.url = thebrowserpart.homePage;
 	};
 };
 
