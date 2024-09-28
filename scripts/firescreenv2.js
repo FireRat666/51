@@ -1,4 +1,5 @@
-// SDK2 Based FireScreen, V0.69 Beta 2
+// SDK2 Based FireScreen, V0.69 Beta 3 -- Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
+// FireScreen Tablet for Screen Casts / live streams with volume controls or a portable browser for any website.
 var firescreenurlv2 = "https://51.firer.at/scripts/firescreenv2.js"; // "https://51.firer.at/scripts/firescreenv2.js";
 var announcerscripturlv2 = "https://51.firer.at/scripts/announcer.js";
 var fireScreen2On = false;
