@@ -428,6 +428,18 @@ async function adjustForAll(action, change) {
 	};
 };
 
+function getSpaceStateStuff() {
+  let SpaceStateScene = BS.BanterScene.GetInstance().spaceState;
+  let PublicSpacestatethings = SpaceStateScene.public;
+  let ProtectedSpacestatethings = SpaceStateScene.protected;
+  Object.entries(PublicSpacestatethings).forEach(([key, value]) => {
+    console.log(`Public Space State Key: ${key}, Value: ${value}`);
+  });
+  Object.entries(ProtectedSpacestatethings).forEach(([key, value]) => {
+    console.log(`Protected Space State Key: ${key}, Value: ${value}`);
+  });
+};
+
 // await firescenev2.OneShot(JSON.stringify({firevolume: "0.5"}));
 // await firescenev2.OneShot(JSON.stringify({fireurl: "https://firer.at/"}));
 
