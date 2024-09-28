@@ -368,7 +368,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     }, 1000);
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
-  setTimeout(() => {  adjustForAll("adjustVolume", 0) }, 5000); // attempt to set default sound level for the page
+  setTimeout(() => {  adjustVolume(firebrowser, 0) }, 5000); // attempt to set default sound level for the page
 };
 
 function getV3FromStrv2(strVector3) {
