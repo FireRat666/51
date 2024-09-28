@@ -426,19 +426,6 @@ async function adjustForAll(action, change) {
 	};
 };
 
-// adjustVolume(firebrowser, change)
-// if (!fireScreenSetup) {
-//   setupfirescreen2();
-//   fireScreenSetup = true;
-// } else {
-//   console.log("FIRESCREEN2: Script already initialized, running setupfirescreen2 again");
-//   setupfirescreen2();
-// }
-
-// screenboxCollider = await firescenev2.Find("MyBrowser");
-
-// await firescenev2.OneShot(data: any, allInstances = true);
-// await firescenev2.OneShot({videovolume: "0.5"});
 // await firescenev2.OneShot(JSON.stringify({firevolume: "0.5"}));
 // await firescenev2.OneShot(JSON.stringify({fireurl: "https://firer.at/"}));
 
