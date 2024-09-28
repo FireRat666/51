@@ -385,18 +385,15 @@ function getV4FromStr(strVector4) {
 
 // function getAttrOrDef(script, attr, defaultValue) { script.hasAttribute(attr) ? script.getAttribute(attr) : defaultValue };
 
-var soundlevel2firstrun = true;
-function keepsoundlevel2(firebrowser) { var volinterval2;
-  if (fireScreen2On && soundlevel2firstrun) {
+function keepsoundlevel2() { 
+  var volinterval2;
+  if (fireScreen2On && !window.NotRunKeepSoundLoop) {
   console.log("FIRESCREEN2: keepsoundlevel loop");
-  soundlevel2firstrun = false;
+  window.NotRunKeepSoundLoop = true;
   // Loop to keep sound level set, runs every set second(s)
     volinterval2 = setInterval(function() {
-      let thisfirevolume = firebrowser.volumeLevel;
-      let firepercent = (thisfirevolume * 100).toFixed(0);
-      runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thisfirevolume});`);
-      runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
-    }, 5000); } else if (fireScreen2On) { } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
+      adjustForAll("adjustVolume", 0);
+    }, 5000); } else if (fireScreen2On) { console.log("FIRESCREEN2: ALREADY SET soundlevel loop"); } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
 };
 
 if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = true;
