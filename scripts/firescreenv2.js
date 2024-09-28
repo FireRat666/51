@@ -435,9 +435,13 @@ async function adjustForAll(action, change) {
 		if (action === "adjustVolume") adjustVolume(thebrowserpart, change);
 		if (action === "soundLevels") keepsoundlevel2(thebrowserpart);
 		if (action === "goHome") thebrowserpart.url = thebrowserpart.homePage;
+		if (action === "muteBrowsers") {
+      thebrowserpart.muteState = !thebrowserpart.muteState; thebrowserpart.muteState ? muteState = "mute" : muteState = "unMute";
+      runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});`);
+      runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').${muteState}();`);
+    };
 	};
 };
-
 
 // adjustVolume(firebrowser, change)
 // if (!fireScreenSetup) {
