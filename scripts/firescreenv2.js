@@ -391,8 +391,14 @@ function keepsoundlevel2() {
   console.log("FIRESCREEN2: keepsoundlevel loop");
   window.NotRunKeepSoundLoop = true;
   // Loop to keep sound level set, runs every set second(s)
-    volinterval2 = setInterval(function() {
-      adjustForAll("adjustVolume", 0);
+    volinterval2 = setInterval(async function() {
+      let thisloopnumber = 0;
+      while (thisloopnumber < window.theNumberofBrowsers) { thisloopnumber++
+        let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
+        let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+        runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel});`);
+        runBrowserActions(thebrowserpart, `document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)});`);
+      };
     }, 5000); } else if (fireScreen2On) { console.log("FIRESCREEN2: ALREADY SET soundlevel loop"); } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
 };
 
