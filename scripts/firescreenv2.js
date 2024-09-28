@@ -437,9 +437,11 @@ function getSpaceStateStuff() {
   });
   Object.entries(ProtectedSpacestatethings).forEach(([key, value]) => {
     console.log(`Protected Space State Key: ${key}, Value: ${value}`);
+    if (key === 'fireurl') return value;
   });
 };
 
+// setProtectedSpaceProp('fireurl', "https://firer.at/");
 // await firescenev2.OneShot(JSON.stringify({firevolume: "0.5"}));
 // await firescenev2.OneShot(JSON.stringify({fireurl: "https://firer.at/"}));
 
