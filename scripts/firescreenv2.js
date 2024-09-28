@@ -117,7 +117,7 @@ function createButtonAction(buttonObject, clickHandler) {
 function setupfirescreen2() {
   console.log("FIRESCREEN2: Setting up");
   const allScriptTags = document.getElementsByTagName('script');
-  console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
+  // console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
   const allscripts = document.querySelectorAll(`script[src^='${firescreenurlv2}']`);
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
   allscripts.forEach((script, index) => {
@@ -167,8 +167,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
   const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`);
-  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, Pos:`);
-  console.log(p_pos);
+  console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
   firebrowser.homePage = p_website; // Set variable for default Home Page for later use
   firebrowser.volumeLevel = p_volume; // Set variable for Volume Level for later use
@@ -178,8 +177,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   if (p_disableinteraction === "false") { firebrowser.ToggleInteraction(true); }
 
   const geometryObject = new BS.GameObject(`MainParentObject${p_thisBrowserNumber}`);
-  console.log(`MainParentObject${p_thisBrowserNumber}`);
-  console.log(geometryObject);
   const geometry = await createGeometry(geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: 1.09, theheight: 0.64 });
   // geometry Transform Stuff
   const geometrytransform = await geometryObject.AddComponent(new BS.Transform());
@@ -382,8 +379,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
   keepsoundlevel2(firebrowser);
-  console.log(`screenObject`);
-  console.log(screenObject);
 
 };
 
@@ -439,6 +434,7 @@ async function adjustForAll(action, change) {
       runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});`);
       runBrowserActions(thebrowserpart, `document.querySelector('.html5-video-player').${muteState}();`);
     };
+    console.log(action);
 	};
 };
 
