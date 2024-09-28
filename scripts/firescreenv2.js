@@ -163,7 +163,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let browsermuted = false;
   let announcerfirstrunv2 = true;
   let customButtonObjects = [];
-  let ProtectedSpaceUrl = getSpaceStateStuff('fireurl');
+  let ProtectedSpaceUrl = await getSpaceStateStuff('fireurl');
   if (ProtectedSpaceUrl !== null && p_spacesync === 'true') {p_website = ProtectedSpaceUrl};
   const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`);
   console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, URL:${p_website}`);
