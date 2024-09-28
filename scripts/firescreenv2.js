@@ -432,13 +432,17 @@ function getSpaceStateStuff() {
   let SpaceStateScene = BS.BanterScene.GetInstance().spaceState;
   let PublicSpacestatethings = SpaceStateScene.public;
   let ProtectedSpacestatethings = SpaceStateScene.protected;
-  Object.entries(PublicSpacestatethings).forEach(([key, value]) => {
+
+  for (const [key, value] of Object.entries(PublicSpacestatethings)) {
     console.log(`Public Space State Key: ${key}, Value: ${value}`);
-  });
-  Object.entries(ProtectedSpacestatethings).forEach(([key, value]) => {
+  };
+
+  for (const [key, value] of Object.entries(ProtectedSpacestatethings)) {
     console.log(`Protected Space State Key: ${key}, Value: ${value}`);
-    if (key === 'fireurl') return value;
-  });
+    if (key === 'fireurl') { console.log(`Return Space State Key fireurl`); return value; };
+  };
+  
+  return null;
 };
 
 // setProtectedSpaceProp('fireurl', "https://firer.at/");
