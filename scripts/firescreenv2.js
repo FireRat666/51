@@ -156,13 +156,13 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   the_announce = p_announce;
   the_announce420 = p_announce420;
   the_announceevents = p_announceevents;
-  let firevolume = p_volume;
   fireScreen2On = true;
   let keyboardstate = false;
   let playerislockedv2 = false;
+  let customButtonObjects = [];
+  let firevolume = p_volume;
   let browsermuted = false;
   let announcerfirstrunv2 = true;
-  let customButtonObjects = [];
   let ProtectedSpaceUrl = await getSpaceStateStuff('fireurl');
   if (ProtectedSpaceUrl !== null && p_spacesync === 'true') {p_website = ProtectedSpaceUrl};
   const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`);
@@ -433,7 +433,8 @@ function getSpaceStateStuff(argument) {
   for (const [key, value] of Object.entries(ProtectedSpacestatethings)) {
     // console.log(`Protected Space State Key: ${key}, Value: ${value}`);
     if (key === argument) { console.log(`Return Space State Key ${key}`); return value; };
-  };
+  }; 
+  console.log(`Return NULL State Key`);
   return null;
 };
 
