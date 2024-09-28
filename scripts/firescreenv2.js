@@ -350,7 +350,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   if (p_thisBrowserNumber < 1) {p_thisBrowserNumber++}; 
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
-      if (announcerfirstrunv2) { console.log("FIRESCREEN2: announcerfirstrunv2 true"); announcerfirstrunv2 = false; announcerstufffunc(); }; };
+      if (!window.announcerScriptInitialized) { window.announcerScriptInitialized = true; console.log("FIRESCREEN2: Announcer Initialising"); announcerstufffunc(); }; };
   }, p_thisBrowserNumber * 1000); };
   // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => { console.log(e) });
@@ -379,7 +379,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
         document.querySelector("body").appendChild(announcerscript);
       } else { console.log('FIRESCREEN2: announcerscene is defined, Moving on'); };
     }, 1000);
-    setTimeout(() => { if (announcerfirstrunv2 === false) {  timenow = Date.now(); }; }, 1000);
+    setTimeout(() => { timenow = Date.now(); }, 1000);
   };
   keepsoundlevel2(firebrowser);
   console.log(`screenObject`);
