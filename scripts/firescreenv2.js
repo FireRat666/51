@@ -255,13 +255,13 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let RCButPos = 0.68; let RCTexPos = 1.59;
   if (Number(p_height) === 720) {RCButPos += 0.14; RCTexPos += 0.14;} else if (Number(p_height) === 1080) {RCButPos += 0.4; RCTexPos += 0.4;};
 
-  if (p_custombuttonurl01 !== "false") {  console.log(`p_custombuttonurl01 ${p_custombuttonurl01}`);
+  if (p_custombuttonurl01 !== "false") {  console.log(`${p_custombutton01text} : ${p_custombuttonurl01}`);
     await createCustomButton("CustomButton01", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.30,0), p_custombutton01text, new BS.Vector3(RCTexPos,-0.188,-0.005), p_custombuttonurl01, () => {});};
-  if (p_custombuttonurl02 !== "false") { console.log(`p_custombuttonurl02 ${p_custombuttonurl02}`);
+  if (p_custombuttonurl02 !== "false") { console.log(`${p_custombutton02text} : ${p_custombuttonurl02}`);
     await createCustomButton("CustomButton02", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.25,0), p_custombutton02text, new BS.Vector3(RCTexPos,-0.237,-0.005), p_custombuttonurl02, () => {});};
-  if (p_custombuttonurl03 !== "false") { console.log(`p_custombuttonurl03 ${p_custombuttonurl03}`);
+  if (p_custombuttonurl03 !== "false") { console.log(`${p_custombutton03text} : ${p_custombuttonurl03}`);
     await createCustomButton("CustomButton03", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.20,0), p_custombutton03text, new BS.Vector3(RCTexPos,-0.287,-0.005), p_custombuttonurl03, () => {});};
-  if (p_custombuttonurl04 !== "false") { console.log(`p_custombuttonurl04 ${p_custombuttonurl04}`);
+  if (p_custombuttonurl04 !== "false") { console.log(`${p_custombutton04text} : ${p_custombuttonurl04}`);
     await createCustomButton("CustomButton04", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.15,0), p_custombutton04text, new BS.Vector3(RCTexPos,-0.336,-0.005), p_custombuttonurl04, () => {});};
 
   const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));  // Bill Board the geometryObject
