@@ -437,7 +437,7 @@ async function adjustForAll(action, change) {
 		if (action === "muteBrowsers") {
       thebrowserpart.muteState = !thebrowserpart.muteState; thebrowserpart.muteState ? muteState = "mute" : muteState = "unMute";
       runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});`);
-      runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').${muteState}();`);
+      runBrowserActions(thebrowserpart, `document.querySelector('.html5-video-player').${muteState}();`);
     };
 	};
 };
