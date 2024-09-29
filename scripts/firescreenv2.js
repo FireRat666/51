@@ -163,8 +163,6 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   let firevolume = p_volume;
   let browsermuted = false;
   let announcerfirstrunv2 = true;
-  let ProtectedSpaceUrl = await getSpaceStateStuff('fireurl');
-  if (ProtectedSpaceUrl !== null && p_spacesync === 'true') {p_website = ProtectedSpaceUrl};
   const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`);
   console.log(`FireScreen2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, URL:${p_website}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
@@ -372,7 +370,9 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     }, 1000);
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
-  setTimeout(() => {  adjustVolume(firebrowser, 0) }, 5000); // attempt to set default sound level for the page
+  setTimeout(async () => { adjustVolume(firebrowser, 0); // attempt to set default sound level for the page
+    if (p_spacesync === 'true') {firebrowser.url = await getSpaceStateStuff('fireurl');};
+  }, 5000);
 };
 
 function getV3FromStrv2(strVector3) {
@@ -423,13 +423,23 @@ async function adjustForAll(action, change) {
 	};
 };
 
-function getSpaceStateStuff(argument) {
+async function getSpaceStateStuff(argument) {
+  return new Promise((resolve) => {
+    const thisintervalvar = setInterval(async () => {
+      if (window.user && window.user.id !== undefined) { clearInterval(thisintervalvar);
+        const result = await spaceStateStuff(argument); resolve(result); }
+    }, 100);
+  });
+};
+
+function spaceStateStuff(argument) {
   let SpaceStateScene = BS.BanterScene.GetInstance().spaceState;
   let ProtectedSpacestatethings = SpaceStateScene.protected;
-  // let PublicSpacestatethings = SpaceStateScene.public;
-  // for (const [key, value] of Object.entries(PublicSpacestatethings)) {
-  //   console.log(`Public Space State Key: ${key}, Value: ${value}`);
-  // };
+  let PublicSpacestatethings = SpaceStateScene.public;
+  for (const [key, value] of Object.entries(PublicSpacestatethings)) {
+    console.log(`Public Space State Key: ${key}, Value: ${value}`);
+    if (key === argument) { console.log(`Return Public Space State Key ${key}`); return value; };
+  };
   for (const [key, value] of Object.entries(ProtectedSpacestatethings)) {
     // console.log(`Protected Space State Key: ${key}, Value: ${value}`);
     if (key === argument) { console.log(`Return Space State Key ${key}`); return value; };
