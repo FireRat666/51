@@ -9,6 +9,7 @@ a.buttonW { color: #FFFFFF; }
 a.buttonss { 
 	padding: 0.8vh 0.8vw; border: 0.1vh outset buttonborder; border-radius: 1vh;
 	background-color: #101010; text-decoration: none; margin:2px; line-height: 2.2;
+  white-space: nowrap;
 }
 
 .button {
