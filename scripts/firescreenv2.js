@@ -370,7 +370,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     }, 1000);
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
-  if (p_spacesync === 'true') {firebrowser.url = await getSpaceStateStuff('fireurl');};
+  if (p_spacesync === 'true') {let syncedurl = await getSpaceStateStuff('fireurl'); firebrowser.url = syncedurl;
+    await createCustomButton("SpaceSyncButton", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.10,0), "Synced Button", new BS.Vector3(RCTexPos,-0.385,-0.005), syncedurl, async () => {
+      firebrowser.url = await getSpaceStateStuff('fireurl');
+    });
+  };
   setTimeout(async () => { adjustVolume(firebrowser, 0); // attempt to set default sound level for the page
   }, 5000);
 };
