@@ -371,7 +371,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
   if (p_spacesync === 'true') {let syncedurl = await getSpaceStateStuff('fireurl'); firebrowser.url = syncedurl;
-    await createCustomButton("SpaceSyncButton", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.10,0), "Synced Button", new BS.Vector3(RCTexPos,-0.385,-0.005), syncedurl, async () => {
+    await createCustomButton("SpaceSyncButton", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.35,0), "Synced Button", new BS.Vector3(RCTexPos,-0.139,-0.005), syncedurl, async () => {
       firebrowser.url = await getSpaceStateStuff('fireurl');
     });
   };
