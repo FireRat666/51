@@ -370,8 +370,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     }, 1000);
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
+  if (p_spacesync === 'true') {firebrowser.url = await getSpaceStateStuff('fireurl');};
   setTimeout(async () => { adjustVolume(firebrowser, 0); // attempt to set default sound level for the page
-    if (p_spacesync === 'true') {firebrowser.url = await getSpaceStateStuff('fireurl');};
   }, 5000);
 };
 
