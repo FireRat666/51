@@ -441,7 +441,7 @@ function spaceStateStuff(argument) {
     // if (key === argument) { console.log(`Return Public Space State Key ${key}`); return value; };
   };
   for (const [key, value] of Object.entries(ProtectedSpacestatethings)) {
-    // console.log(`Protected Space State Key: ${key}, Value: ${value}`);
+    console.log(`Protected Space State Key: ${key}, Value: ${value}`);
     if (key === argument) { console.log(`Return Space State Key ${key}`); return value; };
   }; 
   console.log(`Return NULL State Key`);
