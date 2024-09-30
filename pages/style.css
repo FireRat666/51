@@ -7,9 +7,9 @@ a.buttonR { color: #FF0000; }
 a.buttonW { color: #FFFFFF; }
 /* Button styles */
 a.buttonss { 
-	padding: 0.8vh 0.8vw; border: 0.6vh outset hsl(0, 0%, 43%); border-radius: 2vh;
+	padding: 0.8vh 0.8vw;  border: 2px solid #989898; border-radius: 2vh;
 	background-color: #050505; text-decoration: none; margin:2px; line-height: 2.2;
-  white-space: nowrap; display: inline-block;
+  white-space: nowrap;
 }
 
 .button {
