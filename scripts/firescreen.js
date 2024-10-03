@@ -264,16 +264,7 @@ function keepsoundlevel() {
 			"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
 			theBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 			"document.querySelector('.html5-video-player').setVolume(" + firepercent + ");", }, ]);
-			// document.querySelectorAll('.firescreenc')
-			//   .forEach((firescreenc) => {
-			// 	setTimeout(() => { 
-			// 		let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
-			// 		firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			// 		"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
-			// 	}, 1000);
-			//   });
-
-		}
+		};
     }, 5000); } else if (fireScreenOn) { } else { clearInterval(volinterval); }
 };
 
@@ -290,29 +281,21 @@ function setupBrowsers() {
 			let browserpageHeight = theBrowser.getAttribute("pageHeight");
 			theBrowser.browser.pageWidth=browserpageWidth;
 			theBrowser.browser.pageHeight=browserpageHeight;
-			
 			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.eulerAngles]); // Test Watch Properties
-			// console.log(`FIRESCREEN: Position: ${JSON.stringify(theBrowser.transform.position)} Rotation: ${JSON.stringify(theBrowser.transform.rotation)}`);
-
 			let x = theBrowser.object3D.rotation.x;
 			let y = theBrowser.object3D.rotation.y;
 			let z = theBrowser.object3D.rotation.z;
-			// theBrowser.transform.lerpRotation = true;
 			theBrowser.transform.eulerAngles = new BS.Vector3(x, y, z); 
-
 			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
-
 			if (announcerfirstrun === false) {
 			announcefirstrun = false;
 			timenow = Date.now(); 
-			}
+			};
 		};
 	};
-}
-
+};
 
 // Enables Interaction for all the browser windows by HBR
-
 	AFRAME.registerComponent("enable-interaction", { init: async function() { await window.AframeInjection.waitFor(this.el, "browser");
 		this.el.browser.ToggleInteraction(true) 			} });
 			
@@ -346,11 +329,7 @@ function setupBrowsers() {
 			};
 			ColliderScreen.setAttribute("visible","false");
 		} else {
-			// if (thisbuttoncolor === "#00FF00") {
-			// 	lockToggle.setAttribute("color","#FFFF00");
-			// } else { 
 				lockToggle.setAttribute("color","#00FF00");
-			// };
 			ColliderScreen.setAttribute("visible","true");
 	  }		});  }, 	});
 
@@ -435,14 +414,9 @@ function setupBrowsers() {
 	  this.el.addEventListener("click", () => {
 		let browserRotation = this.el.parentElement;
 		let thisbuttoncolor = browserRotation.getAttribute("button-color");
-		// let x = browserRotation.object3D.rotation.x;
-		// let y = browserRotation.object3D.rotation.y;
-		// let z = browserRotation.object3D.rotation.z;
-		// let w = browserRotation.transform.rotation.w;
 		let x = browserRotation.transform.eulerAngles.x;
 		let y = browserRotation.transform.eulerAngles.y;
 		let z = browserRotation.transform.eulerAngles.z;
-		// console.log("X:" + x + " Y:" + y + " Z:" + z);
 		switch (this.data.axis) {
 			case "x":
 				x += this.data.amount;
@@ -458,11 +432,7 @@ function setupBrowsers() {
 			break;
 		}
 		this.el.setAttribute("color","#AAAAAA");
-		// browserRotation.setAttribute("rotation", x + " " + y + " " + z); 
-		// browserRotation.transform.rotation = new BS.Vector3(x, y, z); 
-		// browserRotation.transform.rotation = new BS.Quaternion(x, y, z, w); 
 		browserRotation.transform.eulerAngles = new BS.Vector3(x, y, 0); 
-		// console.log("SET X:" + x + " Y:" + y + " Z:" + z);
 		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100); 
 		});        },      });
 
@@ -486,7 +456,6 @@ function setupBrowsers() {
 			});
 		}		});  }, 	});
 		
-	
 	// Toggle for hiding and showing buttons By Fire with help from HBR
   AFRAME.registerComponent("hidebuttons", {
 	init: function () {
@@ -514,11 +483,9 @@ function setupBrowsers() {
 	},
 	init: function () {
 	  this.el.addEventListener("click", () => {  
-
 		var screenVolume = this.el.parentElement;
 		let thisbuttoncolor = this.el.getAttribute("color");
 		let volume = parseFloat(screenVolume.getAttribute("volumelevel"));
-
 
     if (this.data.vvalue > 0) {
       volume = Number(volume);
@@ -545,19 +512,13 @@ function setupBrowsers() {
       if (volume < 0) {volume = 0};
     };
 
-		// volume += this.data.vvalue;
-		// volume = volume.toFixed(2);
-		// if (volume > 1) {volume = 1};
-
 		screenVolume.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
 	"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
 		this.el.setAttribute("color","#AAAAAA");
 		screenVolume.setAttribute("volumelevel", volume);
 		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
-
 		});		},		});
 		
-	
 	// Navigates browser page Backwards/Forward
   AFRAME.registerComponent("navigate-browser", {
   schema: {
@@ -596,9 +557,7 @@ function getAttrOrDef(pScript, pAttr, pDefault) {
 // Create screen After Unity load 
 var firstbrowserrun = true;
 function firescreenloadstuff() {
-
 	const firescene = BS.BanterScene.GetInstance();
-
   firescene.On("user-joined", e => {
     if (e.detail.isLocal) {
       console.log("HAND-CONTROLS: Local User Joined");
@@ -652,7 +611,6 @@ function firescreenloadstuff() {
       aframescript.id = "aframe-script";
       aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
       document.querySelector("head").appendChild(aframescript);
-
     };
 
     // Check if html body is present, if Not, Add it
@@ -676,13 +634,10 @@ function firescreenloadstuff() {
     } else {
       console.log("FIRESCREEN: A Scene Detected, NOT Adding A Scene");
     };
-    
     console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
-
   } else {
     // console.log("FIRESCREEN: Thing Detected, NOT Adding Thing");
   };
-
 
   let waitingforunity = true;
   if (waitingforunity) {
@@ -706,7 +661,6 @@ function firescreenloadstuff() {
       if (data.fireurl) setfirepageurls(data.fireurl);
     };
   });
-
 };
 
 firescreenloadstuff()
@@ -714,7 +668,6 @@ firescreenloadstuff()
 var handscene = BS.BanterScene.GetInstance();
 
 class handButtonCrap{
-	
 	constructor() {
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 		setTimeout(() => { 
