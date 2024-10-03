@@ -233,7 +233,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   if (p_handbuttons === "true" && firstrunhandcontrols === true) {
     firstrunhandcontrols = false;
     console.log("FIRESCREEN: Enabling Hand Controls");
-    const handbuttonstuff = new handButtonCrap();
+    const handbuttonstuff = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor);
   };
   console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 
@@ -667,7 +667,10 @@ firescreenloadstuff()
 var handscene = BS.BanterScene.GetInstance();
 
 class handButtonCrap{
-	constructor() {
+  constructor(p_voldowncolor, p_volupcolor, p_mutecolor) {
+    this.volDownColor = p_voldowncolor;
+    this.volUpColor = p_volupcolor;
+    this.muteColor = p_mutecolor;
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 		setTimeout(() => { 
 			if (handcontrolsdisabled) {
@@ -703,6 +706,8 @@ class handButtonCrap{
   toggleMute() {  handbuttonmutestate = !handbuttonmutestate;
     this.runActionOnElements('.firescreenc', handbuttonmutestate ? "false" : "true", "muted");
     this.updateButtonColors('.firemutebutc', handbuttonmutestate);
+    const fireMuteBut = document.getElementById("firemutebut");
+    fireMuteBut.setAttribute("color", handbuttonmutestate ? "#FF0000" : this.muteColor);
   };
 
   runActionOnElements(selector, state, attr) { document.querySelectorAll(selector).forEach(element => {
@@ -772,11 +777,11 @@ class handButtonCrap{
       handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || window.user.id}`);
 
       const buttons = [
-        { image: IconVolUpUrl, position: "-1 0.2 -0.4", color: volupcolor, id: "firevolupbut", callback: this.volumeControlUp.bind(this) },
-        { image: IconVolDownUrl, position: "-1 0.2 0", color: voldowncolor, id: "firevoldownbut", callback: this.volumeControlDown.bind(this) },
+        { image: IconVolUpUrl, position: "-1 0.2 -0.4", color: this.volUpColor, id: "firevolupbut", callback: this.volumeControlUp.bind(this) },
+        { image: IconVolDownUrl, position: "-1 0.2 0", color: this.volDownColor, id: "firevoldownbut", callback: this.volumeControlDown.bind(this) },
         { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", color: thebuttoncolor, id: "firelockpbut", callback: this.lockPlayer.bind(this) },
         { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", color: thebuttoncolor, id: "firehomepbut", callback: this.navigateHome.bind(this) },
-        { image: IconMuteUrl, position: "-1 0.2 0.4", color: "#FFFFFF", id: "firemutebut", callback: this.toggleMute.bind(this) }
+        { image: IconMuteUrl, position: "-1 0.2 0.4", color: this.muteColor, id: "firemutebut", callback: this.toggleMute.bind(this) }
       ];
 
       buttons.forEach(({ image, position, color, id, callback }) => {
