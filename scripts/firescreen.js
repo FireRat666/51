@@ -583,40 +583,41 @@ function firescreenloadstuff() {
   let firething = document.querySelector("#firething");
   if (!firething) { console.log("FIRESCREEN: Setting up.");
 
-  // Add firething
-  const firetag = document.createElement("firething"); firetag.id = "firething"; document.querySelector("head").appendChild(firetag);
+    // Add firething
+    const firetag = document.createElement("firething"); firetag.id = "firething"; document.querySelector("head").appendChild(firetag);
 
-  // A-Frame versions to check
-  const aframeVersions = [
-    "https://aframe.io/releases/1.6.0/aframe.min.js",
-    "https://aframe.io/releases/1.5.0/aframe.min.js",
-    "https://aframe.io/releases/1.4.2/aframe.min.js",
-    "https://aframe.io/releases/1.4.1/aframe.min.js",
-    "https://aframe.io/releases/1.4.0/aframe.min.js",
-    "https://aframe.io/releases/1.3.0/aframe.min.js",
-    "https://aframe.io/releases/1.2.0/aframe.min.js",
-    "https://aframe.io/releases/1.1.0/aframe.min.js"
-  ];
+    // A-Frame versions to check
+    const aframeVersions = [
+      "https://aframe.io/releases/1.6.0/aframe.min.js",
+      "https://aframe.io/releases/1.5.0/aframe.min.js",
+      "https://aframe.io/releases/1.4.2/aframe.min.js",
+      "https://aframe.io/releases/1.4.1/aframe.min.js",
+      "https://aframe.io/releases/1.4.0/aframe.min.js",
+      "https://aframe.io/releases/1.3.0/aframe.min.js",
+      "https://aframe.io/releases/1.2.0/aframe.min.js",
+      "https://aframe.io/releases/1.1.0/aframe.min.js"
+    ];
 
-  // Check if any A-Frame version is already present
-  let aframedetected = isAFrameScriptPresent(aframeVersions);
+    // Check if any A-Frame version is already present
+    let aframedetected = isAFrameScriptPresent(aframeVersions);
 
-  // Add A-Frame if not detected
-  if (!aframedetected) {
-    console.log("FIRESCREEN: AFrame Was NOT Detected, Adding AFrame 1.4.0");
-    const aframescript = document.createElement("script");
-    aframescript.id = "aframe-script";
-    aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
-    document.querySelector("head").appendChild(aframescript);
+    // Add A-Frame if not detected
+    if (!aframedetected) {
+      console.log("FIRESCREEN: AFrame Was NOT Detected, Adding AFrame 1.4.0");
+      const aframescript = document.createElement("script");
+      aframescript.id = "aframe-script";
+      aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
+      document.querySelector("head").appendChild(aframescript);
+    };
+
+    // Ensure body exists
+    appendIfNotExists("body", "body", document.querySelector("head"));
+
+    // Ensure a-scene exists
+    appendIfNotExists("a-scene", "a-scene", document.querySelector("body"));
+
+    console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
   }
-
-  // Ensure body exists
-  appendIfNotExists("body", "body", document.querySelector("head"));
-
-  // Ensure a-scene exists
-  appendIfNotExists("a-scene", "a-scene", document.querySelector("body"));
-
-  console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 
   let waitingforunity = true;
   if (waitingforunity) {
@@ -642,7 +643,7 @@ function firescreenloadstuff() {
   });
 };
 
-firescreenloadstuff()
+firescreenloadstuff();
 
 var handscene = BS.BanterScene.GetInstance();
 
