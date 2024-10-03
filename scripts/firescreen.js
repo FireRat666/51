@@ -101,8 +101,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       button.setAttribute("class", buttonClass);
       button.setAttribute("src", src);
       button.setAttribute("visible", visible);
-      if (rotation) {  button.setAttribute("rotation", rotation); };
-      for (let [key, value] of Object.entries(attributes)) { button.setAttribute(key, value); }
+      if (rotation) { button.setAttribute("rotation", rotation); };
+      for (let [key, value] of Object.entries(attributes)) { button.setAttribute(key, value); };
       return button;
   };
 
@@ -177,16 +177,16 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.appendChild(createButton("0.6 0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/expand.png", {"scale-screen": "size: shrink; avalue: 0.1"}, TheButRot));
       firescreen.appendChild(createButton("0.6 -0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/shrink.png", {"scale-screen": "size: shrink; avalue: -0.1"}, TheButRot));
       // Rotate and Tilt buttons
-      firescreen.appendChild(createButton("-0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RL.png", {"rotate": "axis: y; amount: 5"}, null, false));
-      firescreen.appendChild(createButton("0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RR.png", {"rotate": "axis: y; amount: -5"}, null, false));
-      firescreen.appendChild(createButton("-0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TF.png", {"rotate": "axis: x; amount: -5"}, null, false));
-      firescreen.appendChild(createButton("0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TB.png", {"rotate": "axis: x; amount: 5"}, null, false));
+      firescreen.appendChild(createButton("-0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RL.png", {"rotate": "axis: y; amount: 5"}, null, false, "tilt"));
+      firescreen.appendChild(createButton("0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RR.png", {"rotate": "axis: y; amount: -5"}, null, false, "tilt"));
+      firescreen.appendChild(createButton("-0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TF.png", {"rotate": "axis: x; amount: -5"}, null, false, "tilt"));
+      firescreen.appendChild(createButton("0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TB.png", {"rotate": "axis: x; amount: 5"}, null, false, "tilt"));
       // Toggle rotation button
       firescreen.appendChild(createButton("-0.6 -0.3 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Rot.png", {"enablerot": "false"}, TheButRot));
       // Hide/Show keyboard button
       firescreen.appendChild(createButton("-0.6 -0.15 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Keyboard.png", {"forcekeyboard": "false"}, TheButRot));
       // Hide/Show buttons toggle
-      firescreen.appendChild(createButton("-0.6 0 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Eye.png", {"hidebuttons": ""}, TheButRot));
+      firescreen.appendChild(createButton("-0.6 0 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Eye.png", {"hidebuttons": ""}, TheButRot, true, ""));
       // Home button
       let homeButtonPos = computeButtonPosition(p_buttonpos, "-0.27 0.38 0");
       firescreen.appendChild(createButton(homeButtonPos, "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FF0000" : thebuttoncolor, "https://firer.at/files/Home.png", {"click-url": `url:${p_website}`}, TheButRot));
@@ -199,7 +199,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
   };
 
-  let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot);
+  let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot, true, "firemutebutc");
   firescreen.appendChild(muteButton);
   let volUpButton = createButton("0.5 0.38 0", "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 0.05"}, TheButRot);
   firescreen.appendChild(volUpButton);
