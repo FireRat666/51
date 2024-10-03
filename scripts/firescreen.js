@@ -685,7 +685,7 @@ class handButtonCrap{
 	};
 
   toggleMute() {  handbuttonmutestate = !handbuttonmutestate;
-    this.runActionOnElements('.firescreenc', handbuttonmutestate ? "false" : "true", "muted");
+    this.runActionOnElements('.firescreenc', handbuttonmutestate ? "true" : "false", "muted");
     this.updateButtonColors('.firemutebutc', handbuttonmutestate);
     const fireMuteBut = document.getElementById("firemutebut");
     fireMuteBut.setAttribute("color", handbuttonmutestate ? "#FF0000" : this.muteColor);
