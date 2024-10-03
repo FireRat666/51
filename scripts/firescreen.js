@@ -187,18 +187,18 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.appendChild(createButton("-0.6 -0.15 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Keyboard.png", {"forcekeyboard": "false"}, TheButRot));
       // Hide/Show buttons toggle
       firescreen.appendChild(createButton("-0.6 0 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Eye.png", {"hidebuttons": ""}, TheButRot, true, ""));
-      // Home button
-      let homeButtonPos = computeButtonPosition(p_buttonpos, "-0.27 0.38 0");
-      firescreen.appendChild(createButton(homeButtonPos, "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FF0000" : thebuttoncolor, "https://firer.at/files/Home.png", {"click-url": `url:${p_website}`}, TheButRot));
-      // Forward button
-      let forwardButtonPos = computeButtonPosition(p_buttonpos, "-0.4 0.38 0");
-      let forwardButtonRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ + 180);
-      firescreen.appendChild(createButton(forwardButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goforward"}, forwardButtonRot));
-      // Backward button
-      let backButtonPos = computeButtonPosition(p_buttonpos, "-0.5 0.38 0");
-      firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
   };
 
+  // Home button
+  let homeButtonPos = computeButtonPosition(p_buttonpos, "-0.27 0.38 0");
+  firescreen.appendChild(createButton(homeButtonPos, "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FF0000" : thebuttoncolor, "https://firer.at/files/Home.png", {"click-url": `url:${p_website}`}, TheButRot));
+  // Forward button
+  let forwardButtonPos = computeButtonPosition(p_buttonpos, "-0.4 0.38 0");
+  let forwardButtonRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ + 180);
+  firescreen.appendChild(createButton(forwardButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goforward"}, forwardButtonRot));
+  // Backward button
+  let backButtonPos = computeButtonPosition(p_buttonpos, "-0.5 0.38 0");
+  firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
   let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot, true, "firemutebutc buttons");
   firescreen.appendChild(muteButton);
   let volUpButton = createButton("0.5 0.38 0", "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 0.05"}, TheButRot);
