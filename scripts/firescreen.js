@@ -199,11 +199,17 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   // Backward button
   let backButtonPos = computeButtonPosition(p_buttonpos, "-0.5 0.38 0");
   firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
-  let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot, true, "firemutebutc buttons");
+  // Mute Toggle Button
+  let muteButtonPos = computeButtonPosition(p_buttonpos, "0.2 0.38 0");
+  let muteButton = createButton(muteButtonPos, "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot, true, "firemutebutc buttons");
   firescreen.appendChild(muteButton);
-  let volUpButton = createButton("0.5 0.38 0", "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 0.05"}, TheButRot);
+  // volUp Button
+  let volUpButtonPos = computeButtonPosition(p_buttonpos, "0.5 0.38 0");
+  let volUpButton = createButton(volUpButtonPos, "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 0.05"}, TheButRot);
   firescreen.appendChild(volUpButton);
-  let volDownButton = createButton("0.35 0.38 0", "0.1", "0.1", p_voldowncolor || thebuttoncolor, p_iconvoldownurl, {"volume-level": "vvalue: -0.05"}, TheButRot);
+  // volDown Button
+  let volDownButtonPos = computeButtonPosition(p_buttonpos, "0.35 0.38 0");
+  let volDownButton = createButton(volDownButtonPos, "0.1", "0.1", p_voldowncolor || thebuttoncolor, p_iconvoldownurl, {"volume-level": "vvalue: -0.05"}, TheButRot);
   firescreen.appendChild(volDownButton);
 
   function addCustomButton(url, text, position) {
