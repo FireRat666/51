@@ -564,79 +564,59 @@ function firescreenloadstuff() {
     };
   });
 
-  let afirething = document.querySelector("firething");
-  if (afirething === null) {
-    console.log("FIRESCREEN: Setting up.");
-    const afiretag = document.createElement("firething");
-    afiretag.id = "firething";
-    document.querySelector("head").appendChild(afiretag);
-
-  // Check if A Frame already exists on the page, if not, Add it
-  const thesescripts = document.getElementsByTagName("script");
-  for (let i = 0; i < thesescripts.length; i++) {
-    if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.6.0/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.6.0 Detected")
-      aframedetected = true;
-    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.5.0/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.5.0 Detected")
-      aframedetected = true;
-    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.2/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.4.2 Detected")
-      aframedetected = true;
-    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.1/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.4.1 Detected")
-      aframedetected = true;
-    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.4.0/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.4.0 Detected")
-      aframedetected = true;
-    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.3.0/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.3.0 Detected")
-      aframedetected = true;
-    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.2.0/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.2.0 Detected")
-      aframedetected = true;
-    } else if (getAttrOrDef(thesescripts[i], "src", "") === "https://aframe.io/releases/1.1.0/aframe.min.js" ) { 
-      console.log("FIRESCREEN: AFrame 1.1.0 Detected")
-      aframedetected = true;
-    };
+ // Function to check if a given script is already present
+ function isAFrameScriptPresent(scriptUrls) { const scripts = document.getElementsByTagName("script");
+    for (let i = 0; i < scripts.length; i++) { const src = getAttrOrDef(scripts[i], "src", "");
+      if (scriptUrls.includes(src)) { console.log(`FIRESCREEN: AFrame ${src.match(/(\d+\.\d+\.\d+)/)[0]} Detected`); return true; };
+    } return false;
   };
-      
-    if (aframedetected) {
-      console.log("FIRESCREEN: AFrame Was Detected");
-    } else if (aframedetected === false) {
-      aframedetected = true
-      console.log("FIRESCREEN: AFrame Was NOT Detected, Adding AFrame 1.4.0");
-      const aframescript = document.createElement("script");
-      aframescript.id = "aframe-script";
-      aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
-      document.querySelector("head").appendChild(aframescript);
-    };
 
-    // Check if html body is present, if Not, Add it
-    let abodything = document.querySelector("body");
-    if (abodything === null) {
-      console.log("FIRESCREEN: Body NOT Detected, Adding Body");
-      const abodytag = document.createElement("body");
-      abodytag.id = "body";
-      document.querySelector("head").appendChild(abodytag);
-    } else {
-      console.log("FIRESCREEN: Body Detected, NOT Adding Body");
-    };
+  // Function to safely append an element if it doesn't exist
+  function appendIfNotExists(selector, tagName, parent, id) { let element = document.querySelector(selector);
+    if (!element) { console.log(`FIRESCREEN: ${tagName.toUpperCase()} NOT Detected, Adding ${tagName.toUpperCase()}`);
+      element = document.createElement(tagName); if (id) element.id = id; parent.appendChild(element);
+    } else { console.log(`FIRESCREEN: ${tagName.toUpperCase()} Detected, NOT Adding ${tagName.toUpperCase()}`);
+    } return element;
+  }
 
-    // Check if A-Scene is present, if Not, Add it
-    let ascenething = document.querySelector("a-scene");
-    if (ascenething === null) {
-      console.log("FIRESCREEN: A Scene NOT Detected, Adding A Scene");
-      const ascenetag = document.createElement("a-scene");
-      ascenetag.id = "ascene";
-      document.querySelector("body").appendChild(ascenetag);
-    } else {
-      console.log("FIRESCREEN: A Scene Detected, NOT Adding A Scene");
-    };
-    console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
-  } else {
-    // console.log("FIRESCREEN: Thing Detected, NOT Adding Thing");
-  };
+  // Check if firething exists
+  let firething = document.querySelector("#firething");
+  if (!firething) { console.log("FIRESCREEN: Setting up.");
+
+  // Add firething
+  const firetag = document.createElement("firething"); firetag.id = "firething"; document.querySelector("head").appendChild(firetag);
+
+  // A-Frame versions to check
+  const aframeVersions = [
+    "https://aframe.io/releases/1.6.0/aframe.min.js",
+    "https://aframe.io/releases/1.5.0/aframe.min.js",
+    "https://aframe.io/releases/1.4.2/aframe.min.js",
+    "https://aframe.io/releases/1.4.1/aframe.min.js",
+    "https://aframe.io/releases/1.4.0/aframe.min.js",
+    "https://aframe.io/releases/1.3.0/aframe.min.js",
+    "https://aframe.io/releases/1.2.0/aframe.min.js",
+    "https://aframe.io/releases/1.1.0/aframe.min.js"
+  ];
+
+  // Check if any A-Frame version is already present
+  let aframedetected = isAFrameScriptPresent(aframeVersions);
+
+  // Add A-Frame if not detected
+  if (!aframedetected) {
+    console.log("FIRESCREEN: AFrame Was NOT Detected, Adding AFrame 1.4.0");
+    const aframescript = document.createElement("script");
+    aframescript.id = "aframe-script";
+    aframescript.setAttribute("src", "https://aframe.io/releases/1.4.0/aframe.min.js");
+    document.querySelector("head").appendChild(aframescript);
+  }
+
+  // Ensure body exists
+  appendIfNotExists("body", "body", document.querySelector("head"));
+
+  // Ensure a-scene exists
+  appendIfNotExists("a-scene", "a-scene", document.querySelector("body"));
+
+  console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
 
   let waitingforunity = true;
   if (waitingforunity) {

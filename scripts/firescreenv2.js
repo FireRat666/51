@@ -468,3 +468,5 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
 // oneShot({fireurl: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_5MB.mp4"});
 // oneShot({firevolume: "0.5"});
 // oneShot({firevolume: "0"});
+
+// oneShot({browseraction: "action"});
