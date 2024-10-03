@@ -18,7 +18,7 @@ var handcontrolsdisabled = true;
 var aframedetected = false;
 var playerislocked = false;
 var playersuserid = false;
-var handbuttonmutestate = true;
+var handbuttonmutestate = false;
 
 function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");
