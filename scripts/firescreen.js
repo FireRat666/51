@@ -199,7 +199,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
   };
 
-  let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot, true, "firemutebutc");
+  let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot, true, "firemutebutc buttons");
   firescreen.appendChild(muteButton);
   let volUpButton = createButton("0.5 0.38 0", "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 0.05"}, TheButRot);
   firescreen.appendChild(volUpButton);
