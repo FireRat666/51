@@ -106,12 +106,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       return button;
   };
 
-  if (p_handbuttons === "true" && firstrunhandcontrols === true) {
-      firstrunhandcontrols = false;
-      console.log("FIRESCREEN: Enabling Hand Controls");
-      const handbuttonstuff = new handButtonCrap();
-  };
-
   // Setup the Announcer only on the first run if enabled
   if (announcerfirstrun === true && typeof announcerscene === 'undefined') {
       announcerfirstrun = false;
@@ -236,6 +230,11 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       keepsoundlevel();
   }, 1000);
 
+  if (p_handbuttons === "true" && firstrunhandcontrols === true) {
+    firstrunhandcontrols = false;
+    console.log("FIRESCREEN: Enabling Hand Controls");
+    const handbuttonstuff = new handButtonCrap();
+  };
   console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 
   function computeButtonPosition(basePos, offsetPos) {
@@ -673,27 +672,23 @@ class handButtonCrap{
 		setTimeout(() => { 
 			if (handcontrolsdisabled) {
 				console.log("HAND-CONTROLS: handcontrolsdisabled still true");
-				handcontrolsdisabled = false;
-				this.setupHandControls();
-			}
+				handcontrolsdisabled = false; this.setupHandControls();
+			};
 		}, 20000); 
 	  
 		handscene.On("user-joined", e => {
 			if (e.detail.isLocal) {
-				console.log("HAND-CONTROLS: Local User Joined 2");
+				console.log("HAND-CONTROLS: Local User Joined");
 				if (handcontrolsdisabled) {
 					handcontrolsdisabled = false;
 					playersuserid = e.detail.uid;
 					this.setupHandControls();
-				}
-			}
+				};
+			};
 		});
 
-		handscene.On("user-left", e => {
-			if (e.detail.isLocal) {
-				handcontrolsdisabled = true;
-				console.log("HAND-CONTROLS: Local User Left, Resetting variable to maybe setup hand controls again on rejoin");
-			};
+		handscene.On("user-left", e => { if (e.detail.isLocal) { handcontrolsdisabled = true;
+				console.log("HAND-CONTROLS: Local User Left, Resetting variable"); };
 		});
 
 		if (playersuserid != false && handcontrolsdisabled) {
@@ -703,178 +698,115 @@ class handButtonCrap{
 		} else {
       console.log("HAND-CONTROLS: Too Early, Waiting.");
     }
-
-	}
-
-	mute() {
-		if (handbuttonmutestate) {
-		handbuttonmutestate = false;
-		} else {
-		handbuttonmutestate = true;
-		};
-		document.querySelectorAll('.firescreenc')
-		.forEach((firescreenc) => {
-			if(handbuttonmutestate) {
-			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false); ", }, ]);
-			} else {
-			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true); ", }, ]);
-			}
-		});
-		document.querySelectorAll('.firemutebutc')
-		.forEach((firemutebutc) => {                 
-			const TheBrowser = firemutebutc.parentElement;
-			let thisbuttoncolor = TheBrowser.getAttribute("mute-color");
-			if(handbuttonmutestate) {
-				if (thisbuttoncolor === null) {
-					firemutebutc.setAttribute("color","#FFFFFF");
-				} else {
-					firemutebutc.setAttribute("color", thisbuttoncolor);
-				};
-			} else {
-				if (thisbuttoncolor === "#FF0000") {
-					firemutebutc.setAttribute("color","#FFFF00");
-				} else { 
-					firemutebutc.setAttribute("color","#FF0000");
-				};
-			};
-		});
 	};
 
-	volumecontrolup() {
-		let thisloopnumber = 0;
-		document.querySelectorAll('.firescreenc')
-		.forEach((firescreenc) => {
-			thisloopnumber++
-			let volume = parseFloat(firescreenc.getAttribute("volumelevel"));
-      volume = Number(volume);
-      if (volume < 0.1) {
-        volume += Number(0.01);
-      } else if (volume < 0.5) {
-        volume += Number(0.02);
-      } else {
-        volume += Number(0.05);
-      };
-      volume = parseFloat(volume).toFixed(2);
-      if (volume > 1) {volume = 1};
-			console.log("HAND-CONTROLS: FireScreen " + thisloopnumber + "'s Volume is: " + volume);
-      let firepercent = parseInt(volume*100).toFixed(0);
-			firescreenc.setAttribute("volumelevel", volume);
-			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
-			firescreenc.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelector('.html5-video-player').setVolume(" + firepercent + ");", }, ]);
-		});
-
-			let firevolupbut = document.getElementById("firevolupbut");
-			let butcolour = firevolupbut.getAttribute("color");
-			firevolupbut.setAttribute("color", "#FFFFFF"); 
-			setTimeout(() => {  firevolupbut.setAttribute("color", butcolour); }, 100);
-
-	}
-
-  volumecontroldown() {
-    const decreaseVolume = (volume) => {
-      if (volume < 0.1) return volume - 0.01;
-      if (volume < 0.5) return volume - 0.02;
-      return volume - 0.05;
-    };
-    document.querySelectorAll('.firescreenc').forEach((firescreenc, index) => {
-      let volume = Math.max(0, decreaseVolume(parseFloat(firescreenc.getAttribute("volumelevel"))));
-      volume = parseFloat(volume.toFixed(2));
-      console.log(`HAND-CONTROLS: FireScreen ${index + 1}'s Volume is: ${volume}`);
-      firescreenc.setAttribute("volumelevel", volume);
-      const percent = Math.round(volume * 100);
-      const browserComponent = firescreenc.components["sq-browser"];
-      browserComponent.runActions([{ actionType: "runscript",
-        strparam1: `document.querySelectorAll('video, audio').forEach(elem => elem.volume = ${volume});`
-      }]);
-      browserComponent.runActions([{ actionType: "runscript",
-        strparam1: `document.querySelector('.html5-video-player').setVolume(${percent});`
-      }]);
-    });
-    const firevolbut = document.getElementById("firevoldownbut");
-    const originalColor = firevolbut.getAttribute("color");
-    firevolbut.setAttribute("color", "#FFFFFF");
-    setTimeout(() => firevolbut.setAttribute("color", originalColor), 100);
+  toggleMute() {  handbuttonmutestate = !handbuttonmutestate;
+    this.runActionOnElements('.firescreenc', handbuttonmutestate ? "false" : "true", "muted");
+    this.updateButtonColors('.firemutebutc', handbuttonmutestate);
   };
 
-	lockplayerfunc() {
-		let firelockbut = document.getElementById("firelockpbut");
-		if (playerislocked) {
-			playerislocked = false;
-			unlockPlayer();
-			firelockbut.setAttribute("color", thebuttoncolor); 
-		} else {
-			playerislocked = true;
-			lockPlayer();
-			if (thebuttoncolor === "#FF0000") {
-				firelockbut.setAttribute("color", "#FFFF00"); 
-			} else {
-			firelockbut.setAttribute("color", "#FF0000"); 
-			}
-		};
-	};
+  runActionOnElements(selector, state, attr) { document.querySelectorAll(selector).forEach(element => {
+      element.components["sq-browser"].runActions([ { actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach(elem => elem.${attr}=${state});` } ]);
+    });
+  };
 
-	homefunc() {
-		let firehomebut = document.getElementById("firehomepbut");
+  updateButtonColors(selector, isActive) {
+    document.querySelectorAll(selector).forEach(button => { const TheBrowser = button.parentElement;
+      const thisButtonColor = TheBrowser.getAttribute("mute-color") || "#FFFFFF";
+      button.setAttribute("color", isActive ? thisButtonColor : (thisButtonColor === "#FF0000" ? "#FFFF00" : "#FF0000"));
+    });
+  };
 
-		document.querySelectorAll('.firescreenc')
-		.forEach((firescreenc) => {
-      let ThisHomePage = firescreenc.getAttribute("sq-browser");
-      console.log(ThisHomePage);
-      firescreenc.setAttribute("sq-browser", ThisHomePage);
+  adjustVolume(increment) {
+    document.querySelectorAll('.firescreenc').forEach((element, index) => {
+      let volume = parseFloat(element.getAttribute("volumelevel"));
+      volume = Math.min(Math.max(0, (volume + increment).toFixed(2)), 1);
+      this.updateVolume(element, volume, index + 1);
+    });
+  };
 
-		});
-    firehomebut.setAttribute("color", "#FFFFFF"); 
-    setTimeout(() => {  firehomebut.setAttribute("color", thebuttoncolor); }, 100);
-	};
+  updateVolume(element, volume, index) {
+    const firePercent = Math.round(volume * 100);
+    element.setAttribute("volumelevel", volume);
+    console.log(`HAND-CONTROLS: FireScreen ${index}'s Volume is: ${volume}`);
+    element.components["sq-browser"].runActions([
+      { actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach(elem => elem.volume=${volume});` },
+      { actionType: "runscript", strparam1: `document.querySelector('.html5-video-player').setVolume(${firePercent});` }
+    ]);
+  };
+
+  volumeControlUp() { this.adjustVolume(0.02); this.flashButton("firevolupbut"); };
+
+  volumeControlDown() { this.adjustVolume(-0.02); this.flashButton("firevoldownbut"); };
+
+  flashButton(buttonId) {
+    const button = document.getElementById(buttonId);
+    const originalColor = button.getAttribute("color");
+    button.setAttribute("color", "#FFFFFF");
+    setTimeout(() => button.setAttribute("color", originalColor), 100);
+  };
+
+  lockPlayer() {
+    const fireLockBut = document.getElementById("firelockpbut");
+    playerislocked = !playerislocked;
+    if (playerislocked) lockPlayer();
+    else unlockPlayer();
+    fireLockBut.setAttribute("color", playerislocked ? "#FF0000" : "#FFFF00");
+  };
+
+  navigateHome() {
+    document.querySelectorAll('.firescreenc').forEach(element => {
+      const homePage = element.getAttribute("sq-browser");
+      element.setAttribute("sq-browser", homePage);
+    });
+    this.flashButton("firehomepbut");
+  };
 
   setupHandControls() {
-    console.log("HAND-CONTROLS: Setting up Hand Controls");
+    if (!handcontrolsdisabled) {
+      console.log("HAND-CONTROLS: Setting up Hand Controls");
 		// This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
-    const handControlsContainer = document.createElement("a-entity");
-    handControlsContainer.setAttribute("scale", "0.1 0.1 0.1");
-    handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
-    handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || window.user.id}`);
-  
-    const buttons = [
-      { image: IconVolUpUrl, position: "-1 0.2 -0.4", colour: volupcolor, bclass: "firevolbutc", id: "firevolupbut", callback: this.volumecontrolup },
-      { image: IconVolDownUrl, position: "-1 0.2 0", colour: voldowncolor, bclass: "firevolbutc", id: "firevoldownbut", callback: this.volumecontroldown },
-      { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", colour: thebuttoncolor, bclass: "firelockpbutc", id: "firelockpbut", callback: this.lockplayerfunc },
-      { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", colour: thebuttoncolor, bclass: "firehomepbutc", id: "firehomepbut", callback: this.homefunc },
-      { image: IconMuteUrl, position: "-1 0.2 0.4", colour: "#FFFFFF", bclass: "firemutebutc", id: "firemutebut", callback: this.mute }
-    ];
-  
-    buttons.forEach(({ image, position, colour, bclass, id, callback }) => {
-      const button = document.createElement("a-plane");
-      Object.assign(button, {
-        setAttribute: button.setAttribute.bind(button),
-        addEventListener: button.addEventListener.bind(button)
+      const handControlsContainer = document.createElement("a-entity");
+      handControlsContainer.setAttribute("scale", "0.1 0.1 0.1");
+      handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
+      handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || window.user.id}`);
+
+      const buttons = [
+        { image: IconVolUpUrl, position: "-1 0.2 -0.4", color: volupcolor, id: "firevolupbut", callback: this.volumeControlUp.bind(this) },
+        { image: IconVolDownUrl, position: "-1 0.2 0", color: voldowncolor, id: "firevoldownbut", callback: this.volumeControlDown.bind(this) },
+        { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", color: thebuttoncolor, id: "firelockpbut", callback: this.lockPlayer.bind(this) },
+        { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", color: thebuttoncolor, id: "firehomepbut", callback: this.navigateHome.bind(this) },
+        { image: IconMuteUrl, position: "-1 0.2 0.4", color: "#FFFFFF", id: "firemutebut", callback: this.toggleMute.bind(this) }
+      ];
+
+      buttons.forEach(({ image, position, color, id, callback }) => {
+        const button = this.createButton(image, position, color, id, callback);
+        handControlsContainer.appendChild(button);
       });
-      button.setAttribute("sq-interactable", "");
-      button.setAttribute("sq-collider", "");
-      button.setAttribute("scale", "0.4 0.4 0.4");
-      button.setAttribute("rotation", "0 -90 180");
-      button.setAttribute("src", image);
-      button.setAttribute("color", colour);
-      button.setAttribute("transparent", true);
-      button.setAttribute("position", position);
-      button.setAttribute("class", bclass);
-      button.setAttribute("id", id);
-      button.addEventListener("click", callback.bind(this));
-      handControlsContainer.appendChild(button);
-    });
-    document.querySelector("a-scene").appendChild(handControlsContainer);
+      document.querySelector("a-scene").appendChild(handControlsContainer);
+    } else {
+      console.log("HAND-CONTROLS: Already set up, skipping re-initialization.");
+    };
+  };
+
+  createButton(image, position, color, id, callback) {
+    const button = document.createElement("a-plane");
+    button.setAttribute("sq-interactable", "");
+    button.setAttribute("sq-collider", "");
+    button.setAttribute("scale", "0.4 0.4 0.4");
+    button.setAttribute("rotation", "0 -90 180");
+    button.setAttribute("src", image);
+    button.setAttribute("color", color);
+    button.setAttribute("transparent", true);
+    button.setAttribute("position", position);
+    button.setAttribute("id", id);
+    button.addEventListener("click", callback);
+    return button;
   };
 };
 
-function setfirepageurls(thedata) {
-  document.querySelectorAll('.firescreenc')
-  .forEach((firescreenc) => {
-    let ThisHomePage = firescreenc.getAttribute("sq-browser");
-    console.log(ThisHomePage);
-    firescreenc.setAttribute("sq-browser", { url: thedata, pixelsPerUnit: 1200, mipMaps: 0, mode: "local", });
+function setFirePageUrls(thedata) {
+  document.querySelectorAll('.firescreenc').forEach(firescreenc => {
+    firescreenc.setAttribute("sq-browser", { url: thedata, pixelsPerUnit: 1200, mipMaps: 0, mode: "local" });
   });
 };
