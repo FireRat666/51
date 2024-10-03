@@ -89,23 +89,30 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
   p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
 
-  function createButton(position, width, height, color, material, src, customAttributes = {}, rotation = null) {
+  function createButton(position, width, height, color, src, attributes = {}, rotation = null, visible = true, buttonClass = "buttons") {
       let button = document.createElement("a-plane");
       button.setAttribute("position", position);
       button.setAttribute("width", width);
       button.setAttribute("height", height);
       button.setAttribute("color", color || thebuttoncolor);
-      button.setAttribute("material", material || "transparent: true");
+      button.setAttribute("material", "transparent: true");
       button.setAttribute("sq-collider");
       button.setAttribute("sq-interactable");
-      if (src) button.setAttribute("src", src);
-      if (rotation) button.setAttribute("rotation", rotation);
-      Object.entries(customAttributes).forEach(([key, value]) => {
-          button.setAttribute(key, value);
-      });
+      button.setAttribute("class", buttonClass);
+      button.setAttribute("src", src);
+      button.setAttribute("visible", visible);
+      if (rotation) {  button.setAttribute("rotation", rotation); };
+      for (let [key, value] of Object.entries(attributes)) { button.setAttribute(key, value); }
       return button;
   };
 
+  if (p_handbuttons === "true" && firstrunhandcontrols === true) {
+      firstrunhandcontrols = false;
+      console.log("FIRESCREEN: Enabling Hand Controls");
+      const handbuttonstuff = new handButtonCrap();
+  };
+
+  // Setup the Announcer only on the first run if enabled
   if (announcerfirstrun === true && typeof announcerscene === 'undefined') {
       announcerfirstrun = false;
       console.log("FIRESCREEN: Adding the Announcer Script");
@@ -146,8 +153,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.setAttribute("sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
   };
 
-  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", "transparent: true", null, {"sq-boxcollider": "", "sq-grabbable": ""});
-  firecollider.setAttribute("visible", "false");
+  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": ""}, null, false, "collider");
   firescreen.appendChild(firecollider);
 
   if (p_backdrop == "true") {
@@ -163,83 +169,74 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 
   let [ButRotX, ButRotY, ButRotZ] = p_buttonrot.split(" ").map(Number);
   let TheButRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ);
+
   if (p_castmode == "false") {
-    // Lock/Unlock button
-    firescreen.appendChild(createButton("0 0.38 0", "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FFFF00" : thebuttoncolor, null, {"lockbutton": ""}, TheButRot));
-    // Grow and Shrink buttons
-    firescreen.appendChild(createButton("0.6 0.06 0", "0.1", "0.1", thebuttoncolor, null, {"scale-screen": "size: shrink; avalue: 0.1"}, TheButRot));
-    firescreen.appendChild(createButton("0.6 -0.06 0", "0.1", "0.1", thebuttoncolor, null, {"scale-screen": "size: shrink; avalue: -0.1"}, TheButRot));
-    // Rotate and Tilt buttons
-    firescreen.appendChild(createButton("-0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"rotate": "axis: y; amount: 5"}));
-    firescreen.appendChild(createButton("0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"rotate": "axis: y; amount: -5"}));
-    firescreen.appendChild(createButton("-0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"rotate": "axis: x; amount: -5"}));
-    firescreen.appendChild(createButton("0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"rotate": "axis: x; amount: 5"}));
-    // Toggle rotation button
-    firescreen.appendChild(createButton("-0.6 -0.3 0", "0.1", "0.1", "#FFFFFF", null, {"enablerot": "false"}, TheButRot, "https://firer.at/files/Rot.png"));
-    // Hide/Show keyboard button
-    firescreen.appendChild(createButton("-0.6 -0.15 0", "0.1", "0.1", "#FFFFFF", null, {"forcekeyboard": "false"}, TheButRot, "https://firer.at/files/Keyboard.png"));
-    // Hide/Show buttons toggle
-    firescreen.appendChild(createButton("-0.6 0 0", "0.1", "0.1", "#FFFFFF", null, {"hidebuttons": ""}, TheButRot, "https://firer.at/files/Eye.png"));
-    // Home button
-    let homeButtonPos = computeButtonPosition(p_buttonpos, "-0.27 0.38 0");
-    firescreen.appendChild(createButton(homeButtonPos, "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FF0000" : thebuttoncolor, null, {"click-url": `url:${p_website}`}, TheButRot, "https://firer.at/files/Home.png"));
-    // Forward button
-    let forwardButtonPos = computeButtonPosition(p_buttonpos, "-0.4 0.38 0");
-    let forwardButtonRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ + 180);
-    firescreen.appendChild(createButton(forwardButtonPos, "0.1", "0.1", thebuttoncolor, null, {"navigate-browser": "action: goforward"}, forwardButtonRot, p_icondirectionurl));
-    // Backward button
-    let backButtonPos = computeButtonPosition(p_buttonpos, "-0.5 0.38 0");
-    firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, null, {"navigate-browser": "action: goback"}, TheButRot, p_icondirectionurl));
-};
-
-// Volume and Mute buttons
-let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, null, {"toggle-mute": ""}, TheButRot, p_iconmuteurl);
-firescreen.appendChild(muteButton);
-let volUpButton = createButton("0.5 0.38 0", "0.1", "0.1", p_volupcolor || thebuttoncolor, null, {"volume-level": "vvalue: 0.05"}, TheButRot, p_iconvolupurl);
-firescreen.appendChild(volUpButton);
-let volDownButton = createButton("0.35 0.38 0", "0.1", "0.1", p_voldowncolor || thebuttoncolor, null, {"volume-level": "vvalue: -0.05"}, TheButRot, p_iconvoldownurl);
-firescreen.appendChild(volDownButton);
-
-// Add custom buttons if URLs are provided
-function addCustomButton(url, text, position) {
-    if (url !== "false") {
-        let button = createButton(position, "0.2", "0.04", "#000000", null, {"click-url": `url:${url}`});
-        let buttonText = document.createElement("a-text");
-        buttonText.setAttribute("value", text);
-        buttonText.setAttribute("position", "0 0 0.005");
-        buttonText.setAttribute("scale", "0.11 0.11 0.11");
-        buttonText.setAttribute("color", "#FFFFFF");
-        buttonText.setAttribute("align", "center");
-        button.appendChild(buttonText);
-        firescreen.appendChild(button);
-    };
-};
-
-addCustomButton(p_custombutton01url, p_custombutton01text, "0.68 0.3 0");
-addCustomButton(p_custombutton02url, p_custombutton02text, "0.68 0.25 0");
-addCustomButton(p_custombutton03url, p_custombutton03text, "0.68 -0.3 0");
-
-document.querySelector("a-scene").appendChild(firescreen);
-setTimeout(() => {
-    setupBrowsers();
-    keepsoundlevel();
-}, 1000);
-
-console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
-
-// Helper function to compute button positions
-function computeButtonPosition(basePos, offsetPos) {
-    const baseArray = basePos.split(" ").map(Number);
-    const offsetArray = offsetPos.split(" ").map(Number);
-    return baseArray.map((base, i) => base + offsetArray[i]).join(" ");
-};
-
-  if (p_handbuttons === "true" && firstrunhandcontrols === true) {
-      firstrunhandcontrols = false;
-      console.log("FIRESCREEN: Enabling Hand Controls");
-      const handbuttonstuff = new handButtonCrap();
+      // Lock/Unlock button
+      firescreen.appendChild(createButton("0 0.38 0", "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FFFF00" : thebuttoncolor, "https://firer.at/files/HG2.png", {"lockbutton": ""}, TheButRot));
+      // Grow and Shrink buttons
+      firescreen.appendChild(createButton("0.6 0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/expand.png", {"scale-screen": "size: shrink; avalue: 0.1"}, TheButRot));
+      firescreen.appendChild(createButton("0.6 -0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/shrink.png", {"scale-screen": "size: shrink; avalue: -0.1"}, TheButRot));
+      // Rotate and Tilt buttons
+      firescreen.appendChild(createButton("-0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RL.png", {"rotate": "axis: y; amount: 5"}, null, false));
+      firescreen.appendChild(createButton("0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RR.png", {"rotate": "axis: y; amount: -5"}, null, false));
+      firescreen.appendChild(createButton("-0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TF.png", {"rotate": "axis: x; amount: -5"}, null, false));
+      firescreen.appendChild(createButton("0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TB.png", {"rotate": "axis: x; amount: 5"}, null, false));
+      // Toggle rotation button
+      firescreen.appendChild(createButton("-0.6 -0.3 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Rot.png", {"enablerot": "false"}, TheButRot));
+      // Hide/Show keyboard button
+      firescreen.appendChild(createButton("-0.6 -0.15 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Keyboard.png", {"forcekeyboard": "false"}, TheButRot));
+      // Hide/Show buttons toggle
+      firescreen.appendChild(createButton("-0.6 0 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Eye.png", {"hidebuttons": ""}, TheButRot));
+      // Home button
+      let homeButtonPos = computeButtonPosition(p_buttonpos, "-0.27 0.38 0");
+      firescreen.appendChild(createButton(homeButtonPos, "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FF0000" : thebuttoncolor, "https://firer.at/files/Home.png", {"click-url": `url:${p_website}`}, TheButRot));
+      // Forward button
+      let forwardButtonPos = computeButtonPosition(p_buttonpos, "-0.4 0.38 0");
+      let forwardButtonRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ + 180);
+      firescreen.appendChild(createButton(forwardButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goforward"}, forwardButtonRot));
+      // Backward button
+      let backButtonPos = computeButtonPosition(p_buttonpos, "-0.5 0.38 0");
+      firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
   };
 
+  let muteButton = createButton("0.2 0.38 0", "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot);
+  firescreen.appendChild(muteButton);
+  let volUpButton = createButton("0.5 0.38 0", "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 0.05"}, TheButRot);
+  firescreen.appendChild(volUpButton);
+  let volDownButton = createButton("0.35 0.38 0", "0.1", "0.1", p_voldowncolor || thebuttoncolor, p_iconvoldownurl, {"volume-level": "vvalue: -0.05"}, TheButRot);
+  firescreen.appendChild(volDownButton);
+
+  function addCustomButton(url, text, position) {
+      if (url !== "false") {
+          let button = createButton(position, "0.2", "0.04", "#000000", null, {"click-url": `url:${url}`});
+          let buttonText = document.createElement("a-text");
+          buttonText.setAttribute("value", text);
+          buttonText.setAttribute("position", "0 0 0.005");
+          buttonText.setAttribute("scale", "0.11 0.11 0.11");
+          buttonText.setAttribute("color", "#FFFFFF");
+          buttonText.setAttribute("align", "center");
+          button.appendChild(buttonText);
+          firescreen.appendChild(button);
+      };
+  };
+
+  addCustomButton(p_custombutton01url, p_custombutton01text, "0.68 0.3 0");
+  addCustomButton(p_custombutton02url, p_custombutton02text, "0.68 0.25 0");
+  addCustomButton(p_custombutton03url, p_custombutton03text, "0.68 -0.3 0");
+
+  document.querySelector("a-scene").appendChild(firescreen);
+  setTimeout(() => {
+      setupBrowsers();
+      keepsoundlevel();
+  }, 1000);
+
+  console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
+
+  function computeButtonPosition(basePos, offsetPos) {
+      const baseArray = basePos.split(" ").map(Number);
+      const offsetArray = offsetPos.split(" ").map(Number);
+      return baseArray.map((base, i) => base + offsetArray[i]).join(" ");
+  };
 };
 
 // Sets the default sound level probably
