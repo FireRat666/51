@@ -701,22 +701,7 @@ function firescreenloadstuff() {
     };
   });
 
-	// firescene.On("unity-loaded", () => {
-	// 	console.log("FIRESCREEN: unity-loaded");
-	// 	setTimeout(() => { 
-	// 		if (firstbrowserrun) {
-	// 			firstbrowserrun = false;
-	// 			enableFireScreen();
-	// 		} else {
-	// 			console.log("FIRESCREEN: Should already be enabled/loading");
-	// 		};
-	// 	}, 3000);
-	// });
-	
-	// firescene.On("loaded", () => {
-	// 	console.log("FIRESCREEN: scene loaded");
-	// 	})
-}
+};
 
 firescreenloadstuff()
 
