@@ -147,12 +147,12 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.setAttribute("sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
   };
 
-  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": "", "scale" : "1.0 0.55 0.05"}, null, false, "collider");
+  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": "", "scale" : "1.0 0.55 0.05", "enableLock" : "false"}, null, false, "collider");
   firescreen.appendChild(firecollider);
 
-  firecollider.makeGameObject();
-  firecollider.gameObject.On('grab', () => {console.log("GRABBED!"); }); // When user Grabs the Browser
-  firecollider.gameObject.On('drop', () => {console.log("DROPPED!"); }); // When user Drops the Browser
+  // firecollider.makeGameObject();
+  // firecollider.gameObject.On('grab', () => {console.log("GRABBED!"); }); // When user Grabs the Browser
+  // firecollider.gameObject.On('drop', () => {console.log("DROPPED!"); }); // When user Drops the Browser
 
   if (p_backdrop == "true") {
       let firebackdrop = document.createElement("a-box");
@@ -328,25 +328,41 @@ function setupBrowsers() {
 		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
 		if (ColliderScreen.getAttribute("visible")) {
       lockToggle.setAttribute("color", (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor));
-			ColliderScreen.setAttribute("visible","false");
+			ColliderScreen.setAttribute("enableLock","false");
 		} else {
       lockToggle.setAttribute("color","#00FF00");
-			ColliderScreen.setAttribute("visible","true");
+			ColliderScreen.setAttribute("enableLock","true");
 	  }		});  }, 	});
+
+
+
+  function updateLockState(state) {
+    document.querySelectorAll('.firescreenc').forEach(element => {
+
+      // const homePage = element.getAttribute("sq-browser");
+      // element.setAttribute("sq-browser", homePage);
+
+      const ColliderScreen = element.children[0];
+      if (ColliderScreen.getAttribute("enableLock")) {
+        ColliderScreen.setAttribute("visible",`${state}`);
+        console.log(ColliderScreen);
+      }
+
+    });
+    
+  };
+  
 
  // Toggle Button Thing for locking and unlocking either screen By Fire with help from HBR
   window.buttonPressCallback = (button) => {        
-    // const elTabletCollider = document.getElementById("TabletCollider");
     switch (button) {
       case "RightGrip":
       case "LeftGrip":
-        console.log(button);
-        // elTabletCollider.setAttribute("visible","true");
+        updateLockState(true);
         break;
       case "RightGripRelease":
       case "LeftGripRelease":
-      console.log(button);
-        // elTabletCollider.setAttribute("visible","false");
+        updateLockState(false);
         break;
     }
   };
