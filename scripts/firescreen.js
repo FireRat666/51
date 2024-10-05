@@ -441,6 +441,7 @@ init: function () { this.el.addEventListener("click", () => {
   browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});`,}]);
   this.el.setAttribute("color", "#AAAAAA");
   browserElement.setAttribute("volumelevel", volume);
+  console.log(`FIRESCREEN: Volume Is : ${volume}`)
   setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
 }); }, });
 		
