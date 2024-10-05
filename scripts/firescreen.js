@@ -685,15 +685,15 @@ class handButtonCrap{
 	};
 
   toggleMute() {  handbuttonmutestate = !handbuttonmutestate;
-    this.runActionOnElements('.firescreenc', handbuttonmutestate ? "true" : "false", "muted");
+    this.runActionOnElements('.firescreenc', handbuttonmutestate ? true : false);
     this.updateButtonColors('.firemutebutc', handbuttonmutestate);
     console.log(handbuttonmutestate);
     const fireMuteBut = document.getElementById("firemutebut");
     fireMuteBut.setAttribute("color", handbuttonmutestate ? "#FF0000" : this.muteColor);
   };
 
-  runActionOnElements(selector, state, attr) { document.querySelectorAll(selector).forEach(element => {
-      element.components["sq-browser"].runActions([ { actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach(elem => elem.${attr}=${state});` } ]);
+  runActionOnElements(selector, state) { document.querySelectorAll(selector).forEach(element => {
+      element.components["sq-browser"].runActions([ { actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach(elem => elem.muted=${state});` } ]);
     });
   };
 
