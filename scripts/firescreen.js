@@ -148,7 +148,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.setAttribute("sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
   };
 
-  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": ""}, null, false, "collider", "0.01");
+  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", "https://firer.at/files/90percTblack.png", {"sq-boxcollider": "", "sq-grabbable": ""}, null, false, "collider", "0.01");
   firescreen.appendChild(firecollider);
 
   if (p_backdrop == "true") {
