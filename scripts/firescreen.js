@@ -689,8 +689,12 @@ class handButtonCrap{
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 		setTimeout(() => { 
 			if (handcontrolsdisabled) {
-				console.log("HAND-CONTROLS: handcontrolsdisabled still true");
-				handcontrolsdisabled = false; this.setupHandControls();
+      const thisintervalvar = setInterval(() => {
+        if (window.user && window.user.id !== undefined) { clearInterval(thisintervalvar);
+          console.log("HAND-CONTROLS: handcontrolsdisabled still true");
+          handcontrolsdisabled = false; this.setupHandControls();
+        };
+      }, 200);
 			};
 		}, 20000); 
 	  
