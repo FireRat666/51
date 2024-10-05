@@ -330,6 +330,7 @@ function setupBrowsers() {
     const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
     lockToggle.setAttribute("color", newColor);
     ColliderScreen.setAttribute("enableLock", isLockEnabled ? "false" : "true");
+    console.log(ColliderScreen.getAttribute("enableLock"));
   });  }, 	});
 
   function updateLockState(state) {
