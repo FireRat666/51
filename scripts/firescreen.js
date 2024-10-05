@@ -332,7 +332,7 @@ function setupBrowsers() {
     const isLockEnabled = ColliderScreen.getAttribute("enableLock") === "true";
     const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
     lockToggle.setAttribute("color", newColor);
-    ColliderScreen.setAttribute("enableLock", isLockEnabled ? "false" : "true");
+    ColliderScreen.setAttribute("enableLock", isLockEnabled);
     
   });  }, 	});
 
@@ -344,8 +344,10 @@ function setupBrowsers() {
       const ColliderScreen = element.children[0];
       if (ColliderScreen.getAttribute("enableLock")) {
         ColliderScreen.setAttribute("visible",`${state}`);
+        console.log(`true enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
+      } else {
+        console.log(`false enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
       }
-      console.log(`enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
 
     });
     
