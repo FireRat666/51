@@ -11,7 +11,6 @@ var voldowncolor = "";
 var IconVolUpUrl = "";
 var IconVolDownUrl = "";
 var IconMuteUrl = "";
-var numberofbrowsers = 0;
 var announcerfirstrun = true;
 var firstrunhandcontrols = true;
 var handcontrolsdisabled = true;
@@ -19,12 +18,15 @@ var aframedetected = false;
 var playerislocked = false;
 var playersuserid = false;
 var handbuttonmutestate = false;
+if (typeof window.NumberofBrowsers === 'undefined') { window.NumberofBrowsers = 0; } // Initialize only once 
 
 async function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");
-  const scripts = document.getElementsByTagName("script");
-  for (let script of scripts) {
-    if (getAttrOrDef(script, "src", "") === thisscriptsurl) {
+  const firescripts = document.querySelectorAll(`script[src^='${thisscriptsurl}']`);
+  console.log(`FIRESCREEN: Found ${firescripts.length} matching scripts`);
+  firescripts.forEach((script) => { if (script.dataset.processed) { return; }; 
+    window.NumberofBrowsers++; console.log(`FIRESCREEN: Loading browser ${window.NumberofBrowsers}`); script.dataset.processed = 'true';const thisBrowserNumber = window.NumberofBrowsers;
+
       const defaults = {
         position: "1 2 -1",
         rotation: "0 0 0",
@@ -64,14 +66,13 @@ async function enableFireScreen() {
       const params = Object.fromEntries( Object.entries(defaults).map(([key, defaultValue]) => [ key, getAttrOrDef(script, key, defaultValue), ]) );
       const pPos = getV3FromStr(params.position); const pRot = getV3FromStr(params.rotation); const pSca = getV3FromStr(params.scale);
       const pURL = `url: ${params.website}; mipMaps: ${params.mipmaps}; pixelsPerUnit: ${params.pixelsperunit}; pageWidth: ${params.width}; pageHeight: ${params.height}; mode: local;`;
-      await createFireScreen(pPos, pRot, pSca, params.volumelevel, pURL, params.backdrop, params.castmode, params.website, params["button-color"], params.announcer, params.announce, params["announce-420"], params["announce-events"], params["backdrop-color"], params["icon-mute-url"], params["icon-volup-url"], params["icon-voldown-url"], params["icon-direction-url"], params["volup-color"], params["voldown-color"], params["mute-color"], params["disable-interaction"], params["button-position"], params["button-rotation"], params["hand-controls"], params.width, params.height, params["custom-button01-url"], params["custom-button01-text"], params["custom-button02-url"], params["custom-button02-text"], params["custom-button03-url"], params["custom-button03-text"]);
-    }
-  };
-}
+      createFireScreen(pPos, pRot, pSca, params.volumelevel, pURL, params.backdrop, params.castmode, params.website, params["button-color"], params.announcer, params.announce, params["announce-420"], params["announce-events"], params["backdrop-color"], params["icon-mute-url"], params["icon-volup-url"], params["icon-voldown-url"], params["icon-direction-url"], params["volup-color"], params["voldown-color"], params["mute-color"], params["disable-interaction"], params["button-position"], params["button-rotation"], params["hand-controls"], params.width, params.height, params["custom-button01-url"], params["custom-button01-text"], params["custom-button02-url"], params["custom-button02-text"], params["custom-button03-url"], params["custom-button03-text"]),thisBrowserNumber;
+  })
+};
 
 function disableFireScreen() {
 	let thisloopnumber = 0;
-	while (thisloopnumber < numberofbrowsers) {
+	while (thisloopnumber < window.NumberofBrowsers) {
 		thisloopnumber++
 		let firescreen = document.getElementById("fires-browser" + thisloopnumber);
 		if (firescreen) {
@@ -104,7 +105,7 @@ function createButton(position, width, height, color, src, attributes = {}, rota
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_castmode, p_website, p_buttoncolor, p_announcer, p_announce, p_announce420, p_announceevents,
   p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
   p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
-  p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
+  p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text, p_thisBrowserNumber) {
 
 
   // Setup the Announcer only on the first run if enabled
@@ -120,14 +121,13 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       document.querySelector("body").appendChild(announcerscript);
   };
 
-  numberofbrowsers++;
   thebuttoncolor = p_buttoncolor;
   IconVolUpUrl = p_iconvolupurl;
   IconVolDownUrl = p_iconvoldownurl;
   IconMuteUrl = p_iconmuteurl;
 
   let firescreen = document.createElement("a-entity");
-  firescreen.id = "fires-browser" + numberofbrowsers;
+  firescreen.id = `fires-browser${p_thisBrowserNumber}`;
   firescreen.setAttribute("position", p_pos);
   firescreen.setAttribute("rotation", p_rot);
   firescreen.setAttribute("scale", p_sca);
@@ -243,7 +243,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
     firstrunhandcontrols = false; console.log("FIRESCREEN: Enabling Hand Controls");
     const handControl  = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor); handControl.initialize();
   };
-  console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
+  console.log(`FIRESCREEN: ${p_thisBrowserNumber} screen(s) Enabled`);
 };
 
 function computeButtonPosition(basePos, offsetPos) {
@@ -262,7 +262,7 @@ function keepsoundlevel() {
   // Loop to keep sound level set, runs every second
     volinterval = setInterval(function() {
 		let thisloopnumber = 0;
-		while (thisloopnumber < numberofbrowsers) {
+		while (thisloopnumber < window.NumberofBrowsers) {
 			thisloopnumber++
 			let theBrowser = document.getElementById("fires-browser" + thisloopnumber);
 			let volume = parseFloat(theBrowser.getAttribute("volumelevel"));
@@ -280,7 +280,7 @@ var notalreadysetup = true;
 async function setupBrowsers() {
 	if (notalreadysetup) {
 		notalreadysetup = false;
-    for (let i = 1; i <= numberofbrowsers; i++) {
+    for (let i = 1; i <= window.NumberofBrowsers; i++) {
       const browserElement = document.getElementById("fires-browser" + i);
       const browserPageWidth = browserElement.getAttribute("pageWidth");
       const browserPageHeight = browserElement.getAttribute("pageHeight");
