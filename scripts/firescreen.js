@@ -84,27 +84,28 @@ function disableFireScreen() {
 	keepsoundlevel();
 };
 
+function createButton(position, width, height, color, src, attributes = {}, rotation = null, visible = true, buttonClass = "buttons") {
+  let button = document.createElement("a-plane");
+  button.setAttribute("position", position);
+  button.setAttribute("width", width);
+  button.setAttribute("height", height);
+  button.setAttribute("color", color || thebuttoncolor);
+  button.setAttribute("material", "transparent: true");
+  button.setAttribute("sq-collider");
+  button.setAttribute("sq-interactable");
+  button.setAttribute("class", buttonClass);
+  button.setAttribute("src", src);
+  button.setAttribute("visible", visible);
+  if (rotation) { button.setAttribute("rotation", rotation); };
+  for (let [key, value] of Object.entries(attributes)) { button.setAttribute(key, value); };
+  return button;
+};
+
 function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_castmode, p_website, p_buttoncolor, p_announcer, p_announce, p_announce420, p_announceevents,
   p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
   p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
   p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
 
-  function createButton(position, width, height, color, src, attributes = {}, rotation = null, visible = true, buttonClass = "buttons") {
-      let button = document.createElement("a-plane");
-      button.setAttribute("position", position);
-      button.setAttribute("width", width);
-      button.setAttribute("height", height);
-      button.setAttribute("color", color || thebuttoncolor);
-      button.setAttribute("material", "transparent: true");
-      button.setAttribute("sq-collider");
-      button.setAttribute("sq-interactable");
-      button.setAttribute("class", buttonClass);
-      button.setAttribute("src", src);
-      button.setAttribute("visible", visible);
-      if (rotation) { button.setAttribute("rotation", rotation); };
-      for (let [key, value] of Object.entries(attributes)) { button.setAttribute(key, value); };
-      return button;
-  };
 
   // Setup the Announcer only on the first run if enabled
   if (announcerfirstrun === true && typeof announcerscene === 'undefined') {
@@ -239,17 +240,16 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   }, 1000);
 
   if (p_handbuttons === "true" && firstrunhandcontrols === true) {
-    firstrunhandcontrols = false;
-    console.log("FIRESCREEN: Enabling Hand Controls");
+    firstrunhandcontrols = false; console.log("FIRESCREEN: Enabling Hand Controls");
     const handControl  = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor); handControl.initialize();
   };
   console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
+};
 
-  function computeButtonPosition(basePos, offsetPos) {
-      const baseArray = basePos.split(" ").map(Number);
-      const offsetArray = offsetPos.split(" ").map(Number);
-      return baseArray.map((base, i) => base + offsetArray[i]).join(" ");
-  };
+function computeButtonPosition(basePos, offsetPos) {
+    const baseArray = basePos.split(" ").map(Number);
+    const offsetArray = offsetPos.split(" ").map(Number);
+    return baseArray.map((base, i) => base + offsetArray[i]).join(" ");
 };
 
 // Sets the default sound level probably
