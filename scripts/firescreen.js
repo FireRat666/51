@@ -347,21 +347,15 @@ function setupBrowsers() {
   };
 
  // Toggle Button for Keyboard By Fire with help from HBR
- AFRAME.registerComponent("forcekeyboard", {
-	init: function () {
-	  this.el.addEventListener("click", () => {                         
-    	const TheBrowser = this.el.parentElement;
-		let keyboardstate = this.el.getAttribute("forcekeyboard");
-		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
-		if (keyboardstate == "true") {
-			TheBrowser.browser.ToggleKeyboard(0)
-			this.el.setAttribute("forcekeyboard", "false");
-			this.el.setAttribute("color","#FFFFFF");
-		} else {
-      TheBrowser.browser.ToggleKeyboard(1)
-      this.el.setAttribute("forcekeyboard", "true");
-      this.el.setAttribute("color", thisbuttoncolor);
-	  }		});  }, 	});
+AFRAME.registerComponent("forcekeyboard", {
+  init: function () { this.el.addEventListener("click", () => {
+    const TheBrowser = this.el.parentElement;
+    const isKeyboardActive = this.el.getAttribute("forcekeyboard") === "true";
+    const buttonColor = TheBrowser.getAttribute("button-color");
+    TheBrowser.browser.ToggleKeyboard(isKeyboardActive ? 0 : 1);
+    this.el.setAttribute("forcekeyboard", !isKeyboardActive);
+    this.el.setAttribute("color", isKeyboardActive ? "#FFFFFF" : buttonColor);
+}); }, });
 
 // Toggle Sound for browser screen By Fire with help from HBR
   AFRAME.registerComponent("toggle-mute", {
