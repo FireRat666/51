@@ -438,7 +438,8 @@ init: function () { this.el.addEventListener("click", () => {
     return Math.max(0, Math.min(1, volume + delta * adjustment));
   };
   volume = Number((this.data.vvalue > 0 ? adjustVolume(volume, 1) : adjustVolume(volume, -1)).toFixed(2));
-  browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});`,}]);
+  let firepercent = (firevolume * 100).toFixed(0);
+  browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});document.querySelector('.html5-video-player').setVolume(${firepercent});`,}]);
   this.el.setAttribute("color", "#AAAAAA");
   browserElement.setAttribute("volumelevel", volume);
   console.log(`FIRESCREEN: Volume Is : ${volume}`)
