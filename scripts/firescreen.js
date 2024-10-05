@@ -405,12 +405,19 @@ AFRAME.registerComponent("rotate", {
       this.el.setAttribute("color", "#AAAAAA");
       browserRotation.transform.eulerAngles = new BS.Vector3(newRotation.x, newRotation.y, 0);
       setTimeout(() => { this.el.setAttribute("color", initialColor); }, 100);
+      console.log(browserRotation);
+      console.log(browserRotation.transform.eulerAngles);
+      console.log(newRotation);
+      console.log(initialColor);
+
 }); }, });
 
 	// Toggle for hiding and showing the rotation buttons By Fire with help from HBR
   AFRAME.registerComponent("enablerot", {
 	init: function () {
 	  this.el.addEventListener("click", () => {
+      console.log("EnableRot");
+      console.log(rotatebutton.getAttribute("visible"));
 		const rotats = this.el;
 		let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
 		const rotatebutton = rotats.parentElement.children[6];
