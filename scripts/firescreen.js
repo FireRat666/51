@@ -237,7 +237,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   setTimeout(() => {
       setupBrowsers();
       keepsoundlevel();
-  }, 1000);
+  }, 2000);
 
   if (p_handbuttons === "true" && firstrunhandcontrols === true) {
     firstrunhandcontrols = false; console.log("FIRESCREEN: Enabling Hand Controls");
