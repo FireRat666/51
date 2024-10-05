@@ -365,8 +365,7 @@ function setupBrowsers() {
 
 // Toggle Sound for browser screen By Fire with help from HBR
   AFRAME.registerComponent("toggle-mute", {
-    init: function () { this.el.addEventListener("click", () => this.toggleMute()); },
-    toggleMute: function () {
+    init: function () { this.el.addEventListener("click", () => { 
         const browserElement = this.el.parentElement; const muteButton = this.el;
         const isMuted = browserElement.getAttribute("datamuted") === "true";
         const muteColor = browserElement.getAttribute("mute-color");
@@ -375,7 +374,7 @@ function setupBrowsers() {
         muteButton.setAttribute("color", newColor);
         browserElement.setAttribute("datamuted", String(newMutedState));
         browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.muted = ${newMutedState});` }]);
-    }
+    })}
   });
 
 		  
