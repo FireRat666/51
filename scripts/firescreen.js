@@ -147,7 +147,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.setAttribute("sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
   };
 
-  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": "", "scale" : "1.0 0.55 0.05", "enableLock" : false}, null, false, "collider");
+  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": "", "scale" : "1.0 0.55 0.05", "enableLock" : "false"}, null, false, "collider");
   firescreen.appendChild(firecollider);
 
   // firecollider.makeGameObject();
@@ -331,10 +331,10 @@ function setupBrowsers() {
 
 		if (ColliderScreen.getAttribute("enableLock")) {
       lockToggle.setAttribute("color", (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor));
-			ColliderScreen.setAttribute("enableLock", false);
+			ColliderScreen.setAttribute("enableLock", "false");
 		} else {
       lockToggle.setAttribute("color","#00FF00");
-			ColliderScreen.setAttribute("enableLock", true);
+			ColliderScreen.setAttribute("enableLock", "true");
 	  }		});  }, 	});
 
 
