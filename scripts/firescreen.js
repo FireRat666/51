@@ -278,25 +278,17 @@ var notalreadysetup = true;
 function setupBrowsers() {
 	if (notalreadysetup) {
 		notalreadysetup = false;
-		let thisloopnumber = 0;
-		while (thisloopnumber < numberofbrowsers) {
-			thisloopnumber++
-			let theBrowser = document.getElementById("fires-browser" + thisloopnumber);
-			let browserpageWidth = theBrowser.getAttribute("pageWidth");
-			let browserpageHeight = theBrowser.getAttribute("pageHeight");
-			theBrowser.browser.pageWidth=browserpageWidth;
-			theBrowser.browser.pageHeight=browserpageHeight;
-			theBrowser.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.eulerAngles]); // Test Watch Properties
-			let x = theBrowser.object3D.rotation.x;
-			let y = theBrowser.object3D.rotation.y;
-			let z = theBrowser.object3D.rotation.z;
-			theBrowser.transform.eulerAngles = new BS.Vector3(x, y, z); 
-			console.log("FIRESCREEN: " + thisloopnumber + " Width is: " + browserpageWidth + " and Height: " + browserpageHeight);
-			if (announcerfirstrun === false) {
-			announcefirstrun = false;
-			timenow = Date.now(); 
-			};
-		};
+    for (let i = 1; i <= numberofbrowsers; i++) {
+      const browserElement = document.getElementById("fires-browser" + i);
+      const browserPageWidth = browserElement.getAttribute("pageWidth");
+      const browserPageHeight = browserElement.getAttribute("pageHeight");
+      browserElement.browser.pageWidth = browserPageWidth; browserElement.browser.pageHeight = browserPageHeight;
+      browserElement.transform.WatchProperties([BS.PropertyName.position, BS.PropertyName.eulerAngles]); // Test Watch Properties
+      const { rotation } = browserElement.object3D;
+      browserElement.transform.eulerAngles = new BS.Vector3(rotation.x, rotation.y, rotation.z);
+      console.log(`FIRESCREEN: ${i} Width is: ${browserPageWidth} and Height: ${browserPageHeight}`);
+      if (!announcerfirstrun) { timenow = Date.now(); }
+    };
 	};
 };
 
@@ -372,27 +364,20 @@ function setupBrowsers() {
 	  }		});  }, 	});
 
 // Toggle Sound for browser screen By Fire with help from HBR
-	AFRAME.registerComponent("toggle-mute", {
-	init: function () {
-		this.el.addEventListener("click", () => {
-		const TheBrowser = this.el.parentElement;
-		const MuteButton = this.el;
-		let thisbuttoncolor = TheBrowser.getAttribute("mute-color");
-		if(TheBrowser.getAttribute("datamuted")=="true") {
-			MuteButton.setAttribute("color", thisbuttoncolor);
-			TheBrowser.setAttribute("datamuted", "false");
-			TheBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-				"document.querySelectorAll('video, audio').forEach((elem) => elem.muted=false);", }, ]);
-		} else {
-			if (thisbuttoncolor === "#FF0000") {
-				MuteButton.setAttribute("color", "#FFFF00");
-			} else {
-				MuteButton.setAttribute("color", "#FF0000");
-			}
-			TheBrowser.setAttribute("datamuted", "true")
-			TheBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-				  "document.querySelectorAll('video, audio').forEach((elem) => elem.muted=true);",
-			  },			]);		  }		});	  },	});
+  AFRAME.registerComponent("toggle-mute", {
+    init: function () { this.el.addEventListener("click", () => this.toggleMute()); },
+    toggleMute: function () {
+        const browserElement = this.el.parentElement; const muteButton = this.el;
+        const isMuted = browserElement.getAttribute("datamuted") === "true";
+        const muteColor = browserElement.getAttribute("mute-color");
+        const newMutedState = !isMuted;
+        const newColor = newMutedState ? (muteColor === "#FF0000" ? "#FFFF00" : "#FF0000") : muteColor;
+        muteButton.setAttribute("color", newColor);
+        browserElement.setAttribute("datamuted", String(newMutedState));
+        browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.muted = ${newMutedState});` }]);
+    }
+  });
+
 		  
 // Changes Scale of either Screen when button clicked with help from HBR
   AFRAME.registerComponent("scale-screen", {
