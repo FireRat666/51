@@ -411,6 +411,9 @@ AFRAME.registerComponent("rotate", {
 AFRAME.registerComponent("enablerot", {
 init: function () { this.el.addEventListener("click", () => {
   const isVisible = this.el.parentElement.children[6].getAttribute("visible") === "true";
+  console.log(isVisible);
+  console.log(this.el.parentElement.children[6]);
+  console.log(this.el.parentElement);
   const newColor = isVisible ? "#FFFFFF" : this.el.parentElement.getAttribute("button-color");
   const visibilityState = isVisible ? "false" : "true";
   this.el.setAttribute("color", newColor);
