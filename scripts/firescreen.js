@@ -293,60 +293,59 @@ function setupBrowsers() {
 };
 
 // Enables Interaction for all the browser windows by HBR
-	AFRAME.registerComponent("enable-interaction", { init: async function() { await window.AframeInjection.waitFor(this.el, "browser");
-		this.el.browser.ToggleInteraction(true) 			} });
-			
+AFRAME.registerComponent("enable-interaction", { init: async function() { await window.AframeInjection.waitFor(this.el, "browser"); this.el.browser.ToggleInteraction(true) } });
+    
 // Listens for button clicks to open the urls on either Screen by HBR
-  AFRAME.registerComponent("click-url", {
-	schema: { url: { type: "string", default: "" }, },
-	init: function () {
-	  this.el.addEventListener("click", () => {                         
-		const TheBrowser = this.el.parentElement;
-		let thisbuttoncolor = this.el.getAttribute("color");
-		if (thisbuttoncolor != null) {
-			this.el.setAttribute("color", (thisbuttoncolor === "#FFFFFF" ? "#00FF00" : "#FFFFFF")); 
-			setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
-		};
-		TheBrowser.setAttribute("sq-browser", { url: this.data.url, pixelsPerUnit: 1600, mipMaps: 1, mode: "local", });		
-		});		},		});
+AFRAME.registerComponent("click-url", {
+schema: { url: { type: "string", default: "" }, },
+init: function () {
+  this.el.addEventListener("click", () => {                         
+  const TheBrowser = this.el.parentElement;
+  let thisbuttoncolor = this.el.getAttribute("color");
+  if (thisbuttoncolor != null) {
+    this.el.setAttribute("color", (thisbuttoncolor === "#FFFFFF" ? "#00FF00" : "#FFFFFF")); 
+    setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
+  };
+  TheBrowser.setAttribute("sq-browser", { url: this.data.url, pixelsPerUnit: 1600, mipMaps: 1, mode: "local", });		
+});		},		});
 		
- // Toggle Button for locking and unlocking either screen By Fire with help from HBR
-  AFRAME.registerComponent("lockbutton", {
-	init: function () {
-	  this.el.addEventListener("click", () => {                         
-		const TheBrowser = this.el.parentElement;
-		const lockToggle = this.el;
-		const ColliderScreen = lockToggle.parentElement.children[0];
-		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
-    const isLockEnabled = ColliderScreen.getAttribute("enableLock") === "true";
-    const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
-    lockToggle.setAttribute("color", newColor);
-    ColliderScreen.setAttribute("enableLock", isLockEnabled ? "false" : "true");
-  });  }, 	});
+// Toggle Button for locking and unlocking either screen By Fire with help from HBR
+AFRAME.registerComponent("lockbutton", {
+init: function () {
+  this.el.addEventListener("click", () => {                         
+  const TheBrowser = this.el.parentElement;
+  const lockToggle = this.el;
+  const ColliderScreen = lockToggle.parentElement.children[0];
+  let thisbuttoncolor = TheBrowser.getAttribute("button-color");
+  const isLockEnabled = ColliderScreen.getAttribute("enableLock") === "true";
+  const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
+  lockToggle.setAttribute("color", newColor);
+  ColliderScreen.setAttribute("enableLock", isLockEnabled ? "false" : "true");
+});  }, 	});
 
-  function updateLockState(state) {
-    document.querySelectorAll('.firescreenc').forEach(element => {
-      const ColliderScreen = element.children[0];
-      if (ColliderScreen.getAttribute("enableLock") === "true") { ColliderScreen.setAttribute("visible", state);
-      } else if (ColliderScreen.getAttribute("visible")) { ColliderScreen.setAttribute("visible", false); };
-    });
-  };
-  
- // Toggle Button Thing for locking and unlocking either screen By Fire with help from HBR
-  window.buttonPressCallback = (button) => {        
-    switch (button) {
-      case "RightGrip":
-      case "LeftGrip":
-        updateLockState(true);
-        break;
-      case "RightGripRelease":
-      case "LeftGripRelease":
-        updateLockState(false);
-        break;
-    }
-  };
+function updateLockState(state) {
+  document.querySelectorAll('.firescreenc').forEach(element => {
+    const ColliderScreen = element.children[0];
+    if (ColliderScreen.getAttribute("enableLock") === "true") { ColliderScreen.setAttribute("visible", state);
+    } else if (ColliderScreen.getAttribute("visible")) { ColliderScreen.setAttribute("visible", false); };
+  });
+};
 
- // Toggle Button for Keyboard By Fire with help from HBR
+// Toggle Button Thing for locking and unlocking either screen By Fire with help from HBR
+window.buttonPressCallback = (button) => {        
+  switch (button) {
+    case "RightGrip":
+    case "LeftGrip":
+      updateLockState(true);
+      break;
+    case "RightGripRelease":
+    case "LeftGripRelease":
+      updateLockState(false);
+      break;
+  }
+};
+
+// Toggle Button for Keyboard By Fire with help from HBR
 AFRAME.registerComponent("forcekeyboard", {
   init: function () { this.el.addEventListener("click", () => {
     const TheBrowser = this.el.parentElement;
@@ -358,50 +357,37 @@ AFRAME.registerComponent("forcekeyboard", {
 }); }, });
 
 // Toggle Sound for browser screen By Fire with help from HBR
-  AFRAME.registerComponent("toggle-mute", {
-    init: function () { this.el.addEventListener("click", () => { 
-        const browserElement = this.el.parentElement; const muteButton = this.el;
-        const isMuted = browserElement.getAttribute("datamuted") === "true";
-        const muteColor = browserElement.getAttribute("mute-color");
-        const newMutedState = !isMuted;
-        const newColor = newMutedState ? (muteColor === "#FF0000" ? "#FFFF00" : "#FF0000") : muteColor;
-        muteButton.setAttribute("color", newColor);
-        browserElement.setAttribute("datamuted", String(newMutedState));
-        browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.muted = ${newMutedState});` }]);
-    })}
-  });
+AFRAME.registerComponent("toggle-mute", {
+  init: function () { this.el.addEventListener("click", () => { 
+      const browserElement = this.el.parentElement; const muteButton = this.el;
+      const isMuted = browserElement.getAttribute("datamuted") === "true";
+      const muteColor = browserElement.getAttribute("mute-color");
+      const newMutedState = !isMuted;
+      const newColor = newMutedState ? (muteColor === "#FF0000" ? "#FFFF00" : "#FF0000") : muteColor;
+      muteButton.setAttribute("color", newColor);
+      browserElement.setAttribute("datamuted", String(newMutedState));
+      browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.muted = ${newMutedState});` }]);
+  })}
+});
 
 		  
 // Changes Scale of either Screen when button clicked with help from HBR
-  AFRAME.registerComponent("scale-screen", {
-	schema: {
-	  size: { type: "string" },
-	  avalue: { type: "number" },
-	},
-	init: function () {
-	  this.el.addEventListener("click", () => {  
-		var screenScale = this.el.parentElement;
-		let thisbuttoncolor = this.el.getAttribute("color");
-		let scaleX = screenScale.object3D.scale.x;
-		let scaleY = screenScale.object3D.scale.y;
-		switch (this.data.size) {
-		  case "grow":
-			scaleX += this.data.avalue;
-			scaleY += this.data.avalue;
-			break;
-		  case "shrink":
-			scaleX += this.data.avalue;
-			scaleY += this.data.avalue;
-			break;
-		}
-		  scaleX = scaleX.toFixed(2);
-		  scaleY = scaleY.toFixed(2);
-      if (scaleX <= 0) {scaleX = 0.05};
-      if (scaleY <= 0) {scaleY = 0.05};
-		this.el.setAttribute("color","#AAAAAA");
-		screenScale.setAttribute("scale", scaleX + " " + scaleY + " 1");
-		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
-		});		},		});
+AFRAME.registerComponent("scale-screen", {
+schema: {
+  size: { type: "string" },
+  avalue: { type: "number" },
+},
+init: function () { this.el.addEventListener("click", () => {
+  const screenScale = this.el.parentElement;
+  const initialColor = this.el.getAttribute("color");
+  let { scale } = screenScale.object3D;
+  const delta = this.data.size === "grow" ? this.data.avalue : -this.data.avalue;
+  let newScaleX = Math.max(0.05, (scale.x + delta).toFixed(2));
+  let newScaleY = Math.max(0.05, (scale.y + delta).toFixed(2));
+  this.el.setAttribute("color", "#AAAAAA");
+  screenScale.setAttribute("scale", `${newScaleX} ${newScaleY} 1`);
+  setTimeout(() => { this.el.setAttribute("color", initialColor); }, 100);
+});		},		});
 		
   // Rotate either screen when buttons clicked by HBR
   AFRAME.registerComponent("rotate", {
