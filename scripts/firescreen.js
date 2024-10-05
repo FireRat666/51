@@ -457,9 +457,8 @@ AFRAME.registerComponent("navigate-browser", {
 }); }, });
 
 function getV3FromStr(strVector3) {
-  var aresult = strVector3.split(" ");
-  let X = aresult[0]; let Y = aresult[1]; let Z = aresult[2];
-  return new BS.Vector3(X,Y,Z);
+  const [x, y, z] = strVector3.split(" ").map(Number);
+  return new BS.Vector3(x,y,z);
 };
 
 function getAttrOrDef(pScript, pAttr, pDefault) { return pScript.hasAttribute(pAttr) ? pScript.getAttribute(pAttr) : pDefault; };
