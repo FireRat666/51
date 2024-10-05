@@ -416,22 +416,24 @@ AFRAME.registerComponent("rotate", {
   AFRAME.registerComponent("enablerot", {
 	init: function () {
 	  this.el.addEventListener("click", () => {
+      const rotatebutton = rotats.parentElement.children[6];
+
       console.log("EnableRot");
       console.log(rotatebutton.getAttribute("visible"));
-		const rotats = this.el;
-		let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
-		const rotatebutton = rotats.parentElement.children[6];
-		var els = document.getElementsByClassName("tilt");
-		if (rotatebutton.getAttribute("visible")) {
-			  rotats.setAttribute("color","#FFFFFF");
-			[].forEach.call(els, function (el) {
-				el.setAttribute("visible","false");
-			});
-		} else {
-			  rotats.setAttribute("color", thisbuttoncolor);
-			[].forEach.call(els, function (el) {
-				el.setAttribute("visible","true");
-			});
+      
+      const rotats = this.el;
+      let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
+      var els = document.getElementsByClassName("tilt");
+      if (rotatebutton.getAttribute("visible")) {
+          rotats.setAttribute("color","#FFFFFF");
+        [].forEach.call(els, function (el) {
+          el.setAttribute("visible","false");
+        });
+      } else {
+          rotats.setAttribute("color", thisbuttoncolor);
+        [].forEach.call(els, function (el) {
+          el.setAttribute("visible","true");
+        });
 		}		});  }, 	});
 		
 	// Toggle for hiding and showing buttons By Fire with help from HBR
