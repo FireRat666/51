@@ -450,10 +450,10 @@ init: function () { this.el.addEventListener("click", () => {
 AFRAME.registerComponent("navigate-browser", {
   schema: { action: { type: "string", default: "goback" } },
   init: function () { this.el.addEventListener("click", () => {
-      let initialButtonColor = this.el.getAttribute("color");
-      this.el.setAttribute("color", "#AAAAAA");
-      this.el.parentElement.components['sq-browser'].runActions([{ actionType: this.data.action }]);
-      setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
+    let initialButtonColor = this.el.getAttribute("color");
+    this.el.setAttribute("color", "#AAAAAA");
+    this.el.parentElement.components['sq-browser'].runActions([{ actionType: this.data.action }]);
+    setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
 }); }, });
 
 function getV3FromStr(strVector3) {
