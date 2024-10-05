@@ -516,12 +516,6 @@ async function firescreenloadstuff() {
     console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
   }
 
-  let waitingforunity = true;
-  if (waitingforunity) {
-    const waitForUnity = async () => { while (!firescene.unityLoaded) { await new Promise(resolve => setTimeout(resolve, 500)); } };
-    await waitForUnity(); enableFireScreen(); waitingforunity = false;
-  };
-
   firescene.On("one-shot", e => { console.log(e)
     const data = JSON.parse(e.detail.data);
     const isAdminOrLocalUser = e.detail.fromAdmin || e.detail.fromId === firescene.localUser.uid;
@@ -531,6 +525,10 @@ async function firescreenloadstuff() {
       if (data.fireurl) setfirepageurls(data.fireurl);
     };
   });
+
+  const waitForUnity = async () => { while (!firescene.unityLoaded) { await new Promise(resolve => setTimeout(resolve, 500)); } };
+  await waitForUnity(); enableFireScreen();
+  
 };
 
 firescreenloadstuff();
