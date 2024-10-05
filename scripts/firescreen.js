@@ -295,9 +295,7 @@ async function setupBrowsers() {
 };
 
 function handleButtonClick(element) {
-  console.log(element);
   const buttonColor = element.getAttribute("color");
-  console.log(buttonColor);
   element.setAttribute("color", (buttonColor === "#FFFFFF" ? "#00FF00" : "#FFFFFF"));
   setTimeout(() => {
     element.setAttribute("color", buttonColor);
@@ -311,7 +309,7 @@ AFRAME.registerComponent("enable-interaction", { init: async function() { await 
 AFRAME.registerComponent("click-url", {
 schema: { url: { type: "string", default: "" }, },
 init: function () { this.el.addEventListener("click", () => {
-  const TheBrowser = this.el.parentElement; handleButtonClick(TheBrowser);
+  const TheBrowser = this.el.parentElement; handleButtonClick(this.el);
   TheBrowser.setAttribute("sq-browser", { url: this.data.url, pixelsPerUnit: 1600, mipMaps: 1, mode: "local", });		
 });		},		});
 		
@@ -388,7 +386,7 @@ init: function () { this.el.addEventListener("click", () => {
   const delta = this.data.size === "grow" ? -this.data.avalue : this.data.avalue;
   let newScaleX = Math.max(0.05, (scale.x + delta).toFixed(2));
   let newScaleY = Math.max(0.05, (scale.y + delta).toFixed(2));
-  handleButtonClick(screenScale);
+  handleButtonClick(this.el);
   screenScale.setAttribute("scale", `${newScaleX} ${newScaleY} 1`);
 });		},		});
 		
@@ -402,7 +400,7 @@ AFRAME.registerComponent("rotate", {
       const newRotation = { x, y, z };
       if (this.data.axis === "x") { newRotation.x += this.data.amount;
       } else if (this.data.axis === "y") { newRotation.y += this.data.amount; };
-      handleButtonClick(browserRotation);
+      handleButtonClick(this.el);
       browserRotation.transform.eulerAngles = new BS.Vector3(newRotation.x, newRotation.y, 0);
 }); }, });
 
@@ -441,14 +439,14 @@ init: function () { this.el.addEventListener("click", () => {
   browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});document.querySelector('.html5-video-player').setVolume(${firepercent});`,}]);
   browserElement.setAttribute("volumelevel", volume);
   console.log(`FIRESCREEN: Volume Is : ${volume}`);
-  handleButtonClick(browserElement);
+  handleButtonClick(this.el);
 }); }, });
 		
 // Navigates browser page Backwards/Forward
 AFRAME.registerComponent("navigate-browser", {
   schema: { action: { type: "string", default: "goback" } },
   init: function () { this.el.addEventListener("click", () => {
-    handleButtonClick(this.el.parentElement); this.el.parentElement.components['sq-browser'].runActions([{ actionType: this.data.action }]);
+    handleButtonClick(this.el); this.el.parentElement.components['sq-browser'].runActions([{ actionType: this.data.action }]);
 }); }, });
 
 function getV3FromStr(strVector3) {
