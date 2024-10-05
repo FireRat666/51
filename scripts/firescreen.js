@@ -89,11 +89,12 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
   p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text) {
 
-  function createButton(position, width, height, color, src, attributes = {}, rotation = null, visible = true, buttonClass = "buttons") {
+  function createButton(position, width, height, color, src, attributes = {}, rotation = null, visible = true, buttonClass = "buttons", depth = 1) {
       let button = document.createElement("a-plane");
       button.setAttribute("position", position);
       button.setAttribute("width", width);
       button.setAttribute("height", height);
+      button.setAttribute("depth", depth);
       button.setAttribute("color", color || thebuttoncolor);
       button.setAttribute("material", "transparent: true");
       button.setAttribute("sq-collider");
@@ -147,7 +148,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.setAttribute("sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
   };
 
-  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": ""}, null, false, "collider");
+  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": ""}, null, false, "collider", "0.05");
   firescreen.appendChild(firecollider);
 
   if (p_backdrop == "true") {
