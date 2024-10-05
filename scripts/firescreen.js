@@ -411,12 +411,8 @@ AFRAME.registerComponent("rotate", {
 AFRAME.registerComponent("enablerot", {
 init: function () { this.el.addEventListener("click", () => {
   const isVisible = this.el.parentElement.children[7].getAttribute("visible");
-  console.log(`isVisible:${isVisible}`);
-  console.log(this.el.parentElement.children[7]);
   const newColor = isVisible ? "#FFFFFF" : this.el.parentElement.getAttribute("button-color");
-  const visibilityState = isVisible ? "false" : "true";
-  console.log(`visibilityState:${visibilityState}`);
-  this.el.setAttribute("color", newColor);
+  const visibilityState = isVisible ? "false" : "true"; this.el.setAttribute("color", newColor);
   document.querySelectorAll(".tilt").forEach(el => el.setAttribute("visible", visibilityState));
 });  }, 	});
 		
