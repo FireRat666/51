@@ -207,11 +207,11 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   firescreen.appendChild(muteButton);
   // volUp Button
   let volUpButtonPos = computeButtonPosition(p_buttonpos, "0.5 0.38 0");
-  let volUpButton = createButton(volUpButtonPos, "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 0.05"}, TheButRot);
+  let volUpButton = createButton(volUpButtonPos, "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 1"}, TheButRot);
   firescreen.appendChild(volUpButton);
   // volDown Button
   let volDownButtonPos = computeButtonPosition(p_buttonpos, "0.35 0.38 0");
-  let volDownButton = createButton(volDownButtonPos, "0.1", "0.1", p_voldowncolor || thebuttoncolor, p_iconvoldownurl, {"volume-level": "vvalue: -0.05"}, TheButRot);
+  let volDownButton = createButton(volDownButtonPos, "0.1", "0.1", p_voldowncolor || thebuttoncolor, p_iconvoldownurl, {"volume-level": "vvalue: -1"}, TheButRot);
   firescreen.appendChild(volDownButton);
 
   function addCustomButton(url, text, position) {
@@ -427,47 +427,22 @@ init: function () { this.el.addEventListener("click", () => {
 });  }, 	});
 		
 // Changes Volume of the Screen when button clicked By Fire with help from HBR
-  AFRAME.registerComponent("volume-level", {
-	schema: {
-	  vvalue: { type: "number" },
-	},
-	init: function () {
-	  this.el.addEventListener("click", () => {  
-		var screenVolume = this.el.parentElement;
-		let thisbuttoncolor = this.el.getAttribute("color");
-		let volume = parseFloat(screenVolume.getAttribute("volumelevel"));
-
-    if (this.data.vvalue > 0) {
-      volume = Number(volume);
-      if (volume < 0.1) {
-        volume += Number(0.01);
-      } else if (volume < 0.5) {
-        volume += Number(0.02);
-      } else {
-        volume += Number(0.05);
-      };
-      volume = parseFloat(volume).toFixed(2);
-      if (volume > 1) {volume = 1};
-
-    } else {
-      volume = Number(volume);
-      if (volume < 0.1) {
-        volume += Number(-0.01);
-      } else if (volume < 0.5) {
-        volume += Number(-0.02);
-      } else {
-        volume += Number(-0.05);
-      };
-      volume = parseFloat(volume).toFixed(2);
-      if (volume < 0) {volume = 0};
-    };
-
-		screenVolume.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-	"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
-		this.el.setAttribute("color","#AAAAAA");
-		screenVolume.setAttribute("volumelevel", volume);
-		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
-		});		},		});
+AFRAME.registerComponent("volume-level", {
+schema: { vvalue: { type: "number" }, },
+init: function () { this.el.addEventListener("click", () => {  
+  const browserElement = this.el.parentElement;
+  const initialButtonColor = this.el.getAttribute("color");
+  let volume = parseFloat(browserElement.getAttribute("volumelevel"));
+  const adjustVolume = (volume, delta) => {
+    const adjustment = volume < 0.1 ? 0.01 : (volume < 0.5 ? 0.02 : 0.05);
+    return Math.max(0, Math.min(1, volume + delta * adjustment));
+  };
+  volume = Number((this.data.vvalue > 0 ? adjustVolume(volume, 1) : adjustVolume(volume, -1)).toFixed(2));
+  browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});`,}]);
+  this.el.setAttribute("color", "#AAAAAA");
+  browserElement.setAttribute("volumelevel", volume);
+  setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
+}); }, });
 		
 	// Navigates browser page Backwards/Forward
   AFRAME.registerComponent("navigate-browser", {
