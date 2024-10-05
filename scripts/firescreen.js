@@ -327,7 +327,7 @@ function setupBrowsers() {
 		const ColliderScreen = lockToggle.parentElement.children[0];
 		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
 
-    console.log(`lockbutton enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
+    console.log(`lockbutton enableLock: ${ColliderScreen.getAttribute("enableLock")} isLockEnabled: ${isLockEnabled ? "false" : "true"}`);
 
     const isLockEnabled = ColliderScreen.getAttribute("enableLock") === "true";
     const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
