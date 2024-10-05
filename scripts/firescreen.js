@@ -389,37 +389,21 @@ init: function () { this.el.addEventListener("click", () => {
   setTimeout(() => { this.el.setAttribute("color", initialColor); }, 100);
 });		},		});
 		
-  // Rotate either screen when buttons clicked by HBR
-  AFRAME.registerComponent("rotate", {
-	schema: {
-	  axis: { type: "string" },
-	  amount: { type: "number" },
-	},
-	init: function () {
-	  this.el.addEventListener("click", () => {
-		let browserRotation = this.el.parentElement;
-		let thisbuttoncolor = browserRotation.getAttribute("button-color");
-		let x = browserRotation.transform.eulerAngles.x;
-		let y = browserRotation.transform.eulerAngles.y;
-		let z = browserRotation.transform.eulerAngles.z;
-		switch (this.data.axis) {
-			case "x":
-				x += this.data.amount;
-			break;
-			case "y":
-				y += this.data.amount;
-			break;
-			case "z":
-				z += this.data.amount;
-			break;
-			case "w":
-				w += this.data.amount;
-			break;
-		}
-		this.el.setAttribute("color","#AAAAAA");
-		browserRotation.transform.eulerAngles = new BS.Vector3(x, y, 0); 
-		setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100); 
-		});        },      });
+// Rotate either screen when buttons clicked by HBR
+AFRAME.registerComponent("rotate", {
+  schema: { axis: { type: "string" }, amount: { type: "number" }, },
+  init: function () {
+    this.el.addEventListener("click", () => {
+      const browserRotation = this.el.parentElement;
+      const initialColor = browserRotation.getAttribute("button-color");
+      const { x, y, z } = browserRotation.transform.eulerAngles;
+      const newRotation = { x, y, z };
+      if (this.data.axis === "x") { newRotation.x += this.data.amount;
+      } else if (this.data.axis === "y") { newRotation.y += this.data.amount; };
+      this.el.setAttribute("color", "#AAAAAA");
+      browserRotation.transform.eulerAngles = new BS.Vector3(newRotation.x, newRotation.y, 0);
+      setTimeout(() => { this.el.setAttribute("color", initialColor); }, 100);
+}); }, });
 
 	// Toggle for hiding and showing the rotation buttons By Fire with help from HBR
   AFRAME.registerComponent("enablerot", {
