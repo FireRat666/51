@@ -405,38 +405,17 @@ AFRAME.registerComponent("rotate", {
       this.el.setAttribute("color", "#AAAAAA");
       browserRotation.transform.eulerAngles = new BS.Vector3(newRotation.x, newRotation.y, 0);
       setTimeout(() => { this.el.setAttribute("color", initialColor); }, 100);
-      console.log(browserRotation);
-      console.log(browserRotation.transform.eulerAngles);
-      console.log(newRotation);
-      console.log(initialColor);
-
 }); }, });
 
-	// Toggle for hiding and showing the rotation buttons By Fire with help from HBR
-  AFRAME.registerComponent("enablerot", {
-	init: function () {
-	  this.el.addEventListener("click", () => {
-      const rotats = this.el;
-      const rotatebutton = rotats.parentElement.children[7];
-
-      console.log("EnableRot");
-      console.log(rotats);
-      console.log(rotatebutton);
-      console.log(rotats.parentElement);
-      
-      let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
-      var els = document.getElementsByClassName("tilt");
-      if (rotatebutton.getAttribute("visible")) {
-          rotats.setAttribute("color","#FFFFFF");
-        [].forEach.call(els, function (el) {
-          el.setAttribute("visible","false");
-        });
-      } else {
-          rotats.setAttribute("color", thisbuttoncolor);
-        [].forEach.call(els, function (el) {
-          el.setAttribute("visible","true");
-        });
-		}		});  }, 	});
+// Toggle for hiding and showing the rotation buttons By Fire with help from HBR
+AFRAME.registerComponent("enablerot", {
+init: function () { this.el.addEventListener("click", () => {
+  const isVisible = this.el.parentElement.children[6].getAttribute("visible") === "true";
+  const newColor = isVisible ? "#FFFFFF" : this.el.parentElement.getAttribute("button-color");
+  const visibilityState = isVisible ? "false" : "true";
+  this.el.setAttribute("color", newColor);
+  document.querySelectorAll(".tilt").forEach(el => el.setAttribute("visible", visibilityState));
+});  }, 	});
 		
 	// Toggle for hiding and showing buttons By Fire with help from HBR
   AFRAME.registerComponent("hidebuttons", {
