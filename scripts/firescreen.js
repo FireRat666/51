@@ -22,49 +22,49 @@ var handbuttonmutestate = false;
 
 function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");
-  // window.enableControllerExtras(); // CAN REMOVE THIS LINE
   const scripts = document.getElementsByTagName("script");
-  for (let i = 0; i < scripts.length; i++) {
-    if (getAttrOrDef(scripts[i], "src", "") === thisscriptsurl ) {
-      const pPos = getV3FromStr(getAttrOrDef(scripts[i], "position", "1 2 -1"));
-      const pRot = getV3FromStr(getAttrOrDef(scripts[i], "rotation", "0 0 0"));
-      const pSca = getV3FromStr(getAttrOrDef(scripts[i], "scale", "1 1 1"));
-      const pVolume = getAttrOrDef(scripts[i], "volumelevel", "0.25");
-      const pWebsite = getAttrOrDef(scripts[i], "website", "https://firer.at/pages/games.html");
-      const pMipmaps = getAttrOrDef(scripts[i], "mipmaps", "1");
-      const pPixelsperunit = getAttrOrDef(scripts[i], "pixelsperunit", "1200");
-      const pWidth = getAttrOrDef(scripts[i], "width", "1024");
-      const pHeight = getAttrOrDef(scripts[i], "height", "576");
-      const pBackdrop = getAttrOrDef(scripts[i], "backdrop", "true");
-      const pCastMode = getAttrOrDef(scripts[i], "castmode", "false");
-      const pHandButtons = getAttrOrDef(scripts[i], "hand-controls", "false");
-      const pDisableInteraction = getAttrOrDef(scripts[i], "disable-interaction", "false");
-      const pAnnouncer = getAttrOrDef(scripts[i], "announcer", "false");
-      const pAnnounce = getAttrOrDef(scripts[i], "announce", "false");
-	    const pAnnounce420 = getAttrOrDef(scripts[i], "announce-420", "false");
-	    const pAnnounceEvents = getAttrOrDef(scripts[i], "announce-events", "undefined");
-      const pButtonColor = getAttrOrDef(scripts[i], "button-color", "#00FF00");
-      const pBackDropColor = getAttrOrDef(scripts[i], "backdrop-color", "#000000");
-      const pVolUpColor = getAttrOrDef(scripts[i], "volup-color", "null");
-      const pVolDownColor = getAttrOrDef(scripts[i], "voldown-color", "null");
-      const pMuteColor = getAttrOrDef(scripts[i], "mute-color", "#FFFFFF");
-      const pButtonPos = getAttrOrDef(scripts[i], "button-position", "0 0 0");
-      const pButtonRot = getAttrOrDef(scripts[i], "button-rotation", "0 0 0");
-      const pIconMuteUrl = getAttrOrDef(scripts[i], "icon-mute-url", "https://firer.at/files/VolumeMute.png");
-      const pIconVolUpUrl = getAttrOrDef(scripts[i], "icon-volup-url", "https://firer.at/files/VolumeHigh.png");
-      const pIconVolDownUrl = getAttrOrDef(scripts[i], "icon-voldown-url", "https://firer.at/files/VolumeLow.png");
-      const pIconDirectionUrl = getAttrOrDef(scripts[i], "icon-direction-url", "https://firer.at/files/Arrow.png");
-      const pCustomButton01Url = getAttrOrDef(scripts[i], "custom-button01-url", "false");
-      const pCustomButton01Text = getAttrOrDef(scripts[i], "custom-button01-text", "Custom Button 01");
-      const pCustomButton02Url = getAttrOrDef(scripts[i], "custom-button02-url", "false");
-      const pCustomButton02Text = getAttrOrDef(scripts[i], "custom-button02-text", "Custom Button 02");
-      const pCustomButton03Url = getAttrOrDef(scripts[i], "custom-button03-url", "false");
-      const pCustomButton03Text = getAttrOrDef(scripts[i], "custom-button03-text", "Custom Button 03");
-      const pURL = "url: " + pWebsite + "; mipMaps: " + pMipmaps + "; pixelsPerUnit: " + pPixelsperunit + "; pageWidth: " + pWidth + "; pageHeight: " + pHeight + "; mode: local;";
-      createFireScreen(pPos, pRot, pSca, pVolume, pURL, pBackdrop, pCastMode, pWebsite, pButtonColor, pAnnouncer, pAnnounce, pAnnounce420, pAnnounceEvents,
-		pBackDropColor, pIconMuteUrl, pIconVolUpUrl, pIconVolDownUrl, pIconDirectionUrl, pVolUpColor, pVolDownColor, pMuteColor,
-		pDisableInteraction, pButtonPos, pButtonRot, pHandButtons, pWidth, pHeight, pCustomButton01Url, pCustomButton01Text,
-		pCustomButton02Url, pCustomButton02Text, pCustomButton03Url, pCustomButton03Text);
+  for (let script of scripts) {
+    if (getAttrOrDef(script, "src", "") === thisscriptsurl) {
+      const defaults = {
+        position: "1 2 -1",
+        rotation: "0 0 0",
+        scale: "1 1 1",
+        volumelevel: "0.25",
+        website: "https://firer.at/pages/games.html",
+        mipmaps: "1",
+        pixelsperunit: "1200",
+        width: "1024",
+        height: "576",
+        backdrop: "true",
+        castmode: "false",
+        "hand-controls": "false",
+        "disable-interaction": "false",
+        announcer: "false",
+        announce: "false",
+        "announce-420": "false",
+        "announce-events": "undefined",
+        "button-color": "#00FF00",
+        "backdrop-color": "#000000",
+        "volup-color": "null",
+        "voldown-color": "null",
+        "mute-color": "#FFFFFF",
+        "button-position": "0 0 0",
+        "button-rotation": "0 0 0",
+        "icon-mute-url": "https://firer.at/files/VolumeMute.png",
+        "icon-volup-url": "https://firer.at/files/VolumeHigh.png",
+        "icon-voldown-url": "https://firer.at/files/VolumeLow.png",
+        "icon-direction-url": "https://firer.at/files/Arrow.png",
+        "custom-button01-url": "false",
+        "custom-button01-text": "Custom Button 01",
+        "custom-button02-url": "false",
+        "custom-button02-text": "Custom Button 02",
+        "custom-button03-url": "false",
+        "custom-button03-text": "Custom Button 03",
+      };
+      const params = Object.fromEntries( Object.entries(defaults).map(([key, defaultValue]) => [ key, getAttrOrDef(script, key, defaultValue), ]) );
+      const pPos = getV3FromStr(params.position); const pRot = getV3FromStr(params.rotation); const pSca = getV3FromStr(params.scale);
+      const pURL = `url: ${params.website}; mipMaps: ${params.mipmaps}; pixelsPerUnit: ${params.pixelsperunit}; pageWidth: ${params.width}; pageHeight: ${params.height}; mode: local;`;
+      createFireScreen(pPos, pRot, pSca, params.volumelevel, pURL, params.backdrop, params.castmode, params.website, params["button-color"], params.announcer, params.announce, params["announce-420"], params["announce-events"], params["backdrop-color"], params["icon-mute-url"], params["icon-volup-url"], params["icon-voldown-url"], params["icon-direction-url"], params["volup-color"], params["voldown-color"], params["mute-color"], params["disable-interaction"], params["button-position"], params["button-rotation"], params["hand-controls"], params.width, params.height, params["custom-button01-url"], params["custom-button01-text"], params["custom-button02-url"], params["custom-button02-text"], params["custom-button03-url"], params["custom-button03-text"]);
     }
   };
 }
