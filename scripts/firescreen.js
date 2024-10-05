@@ -295,7 +295,9 @@ async function setupBrowsers() {
 };
 
 function handleButtonClick(element) {
+  console.log(element);
   const buttonColor = element.getAttribute("color");
+  console.log(buttonColor);
   element.setAttribute("color", (buttonColor === "#FFFFFF" ? "#00FF00" : "#FFFFFF"));
   setTimeout(() => {
     element.setAttribute("color", buttonColor);
