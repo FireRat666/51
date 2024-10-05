@@ -329,13 +329,12 @@ function setupBrowsers() {
 
     console.log(`lockbutton enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
 
-		if (ColliderScreen.getAttribute("enableLock")) {
-      lockToggle.setAttribute("color", (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor));
-			ColliderScreen.setAttribute("enableLock", "false");
-		} else {
-      lockToggle.setAttribute("color","#00FF00");
-			ColliderScreen.setAttribute("enableLock", "true");
-	  }		});  }, 	});
+    const isLockEnabled = ColliderScreen.getAttribute("enableLock") === "true";
+    const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
+    lockToggle.setAttribute("color", newColor);
+    ColliderScreen.setAttribute("enableLock", isLockEnabled ? "false" : "true");
+    
+  });  }, 	});
 
 
 
