@@ -327,16 +327,29 @@ function setupBrowsers() {
 		const ColliderScreen = lockToggle.parentElement.children[0];
 		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
 		if (ColliderScreen.getAttribute("visible")) {
-			if (thisbuttoncolor === "#00FF00") {
-				lockToggle.setAttribute("color","#FFFF00");
-			} else { 
-				lockToggle.setAttribute("color", thisbuttoncolor);
-			};
+      lockToggle.setAttribute("color", (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor));
 			ColliderScreen.setAttribute("visible","false");
 		} else {
-				lockToggle.setAttribute("color","#00FF00");
+      lockToggle.setAttribute("color","#00FF00");
 			ColliderScreen.setAttribute("visible","true");
 	  }		});  }, 	});
+
+ // Toggle Button Thing for locking and unlocking either screen By Fire with help from HBR
+  window.buttonPressCallback = (button) => {        
+    // const elTabletCollider = document.getElementById("TabletCollider");
+    switch (button) {
+      case "RightGrip":
+      case "LeftGrip":
+        console.log(button);
+        // elTabletCollider.setAttribute("visible","true");
+        break;
+      case "RightGripRelease":
+      case "LeftGripRelease":
+      console.log(button);
+        // elTabletCollider.setAttribute("visible","false");
+        break;
+    }
+  };
 
  // Toggle Button for Keyboard By Fire with help from HBR
  AFRAME.registerComponent("forcekeyboard", {
