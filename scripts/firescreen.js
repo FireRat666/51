@@ -147,7 +147,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.setAttribute("sq-rigidbody", "useGravity: false; drag:10; angularDrag:10;");
   };
 
-  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": "", "scale" : "1.0 0.55 0.05", "enableLock" : "false", "opacity" : "0"}, null, false, "collider");
+  let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": "", "scale" : "1.0 0.55 0.05", "enableLock" : false, "opacity" : "0"}, null, false, "collider");
   firescreen.appendChild(firecollider);
 
   // firecollider.makeGameObject();
@@ -326,17 +326,16 @@ function setupBrowsers() {
 		const lockToggle = this.el;
 		const ColliderScreen = lockToggle.parentElement.children[0];
 		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
-    const isLockEnabled = ColliderScreen.getAttribute("enableLock") === "true";
+    const isLockEnabled = ColliderScreen.getAttribute("enableLock");
     const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
     lockToggle.setAttribute("color", newColor);
-    ColliderScreen.setAttribute("enableLock", isLockEnabled ? "false" : "true");
-    console.log(ColliderScreen.getAttribute("enableLock"));
+    ColliderScreen.setAttribute("enableLock", isLockEnabled ? false : true);
   });  }, 	});
 
   function updateLockState(state) {
     document.querySelectorAll('.firescreenc').forEach(element => {
       const ColliderScreen = element.children[0];
-      if (ColliderScreen.getAttribute("enableLock") === "true") { ColliderScreen.setAttribute("visible", state);
+      if (ColliderScreen.getAttribute("enableLock")) { ColliderScreen.setAttribute("visible", state);
       } else if (ColliderScreen.getAttribute("visible")) { ColliderScreen.setAttribute("visible", false); };
     });
   };
