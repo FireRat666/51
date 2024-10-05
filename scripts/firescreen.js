@@ -410,10 +410,7 @@ AFRAME.registerComponent("rotate", {
 // Toggle for hiding and showing the rotation buttons By Fire with help from HBR
 AFRAME.registerComponent("enablerot", {
 init: function () { this.el.addEventListener("click", () => {
-  const isVisible = this.el.parentElement.children[6].getAttribute("visible") === "true";
-  console.log(isVisible);
-  console.log(this.el.parentElement.children[6]);
-  console.log(this.el.parentElement);
+  const isVisible = this.el.parentElement.children[7].getAttribute("visible") === "true";
   const newColor = isVisible ? "#FFFFFF" : this.el.parentElement.getAttribute("button-color");
   const visibilityState = isVisible ? "false" : "true";
   this.el.setAttribute("color", newColor);
