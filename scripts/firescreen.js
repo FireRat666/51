@@ -326,6 +326,9 @@ function setupBrowsers() {
 		const lockToggle = this.el;
 		const ColliderScreen = lockToggle.parentElement.children[0];
 		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
+
+    console.log(`lockbutton enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
+
 		if (ColliderScreen.getAttribute("enableLock")) {
       lockToggle.setAttribute("color", (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor));
 			ColliderScreen.setAttribute("enableLock", false);
@@ -339,13 +342,11 @@ function setupBrowsers() {
   function updateLockState(state) {
     document.querySelectorAll('.firescreenc').forEach(element => {
 
-      // const homePage = element.getAttribute("sq-browser");
-      // element.setAttribute("sq-browser", homePage);
-
       const ColliderScreen = element.children[0];
       if (ColliderScreen.getAttribute("enableLock")) {
         ColliderScreen.setAttribute("visible",`${state}`);
       }
+      console.log(`enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
 
     });
     
