@@ -294,20 +294,22 @@ async function setupBrowsers() {
 	};
 };
 
+function handleButtonClick(element) {
+  const buttonColor = element.getAttribute("color");
+  element.setAttribute("color", (buttonColor === "#FFFFFF" ? "#00FF00" : "#FFFFFF"));
+  setTimeout(() => {
+    element.setAttribute("color", buttonColor);
+  }, 100);
+}
+
 // Enables Interaction for all the browser windows by HBR
 AFRAME.registerComponent("enable-interaction", { init: async function() { await window.AframeInjection.waitFor(this.el, "browser"); this.el.browser.ToggleInteraction(true) } });
     
 // Listens for button clicks to open the urls on either Screen by HBR
 AFRAME.registerComponent("click-url", {
 schema: { url: { type: "string", default: "" }, },
-init: function () {
-  this.el.addEventListener("click", () => {                         
-  const TheBrowser = this.el.parentElement;
-  let thisbuttoncolor = this.el.getAttribute("color");
-  if (thisbuttoncolor != null) {
-    this.el.setAttribute("color", (thisbuttoncolor === "#FFFFFF" ? "#00FF00" : "#FFFFFF")); 
-    setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
-  };
+init: function () { this.el.addEventListener("click", () => {
+  const TheBrowser = this.el.parentElement; handleButtonClick(TheBrowser);
   TheBrowser.setAttribute("sq-browser", { url: this.data.url, pixelsPerUnit: 1600, mipMaps: 1, mode: "local", });		
 });		},		});
 		
@@ -380,14 +382,12 @@ schema: {
 },
 init: function () { this.el.addEventListener("click", () => {
   const screenScale = this.el.parentElement;
-  const initialColor = this.el.getAttribute("color");
   let { scale } = screenScale.object3D;
   const delta = this.data.size === "grow" ? -this.data.avalue : this.data.avalue;
   let newScaleX = Math.max(0.05, (scale.x + delta).toFixed(2));
   let newScaleY = Math.max(0.05, (scale.y + delta).toFixed(2));
-  this.el.setAttribute("color", "#AAAAAA");
+  handleButtonClick(screenScale);
   screenScale.setAttribute("scale", `${newScaleX} ${newScaleY} 1`);
-  setTimeout(() => { this.el.setAttribute("color", initialColor); }, 100);
 });		},		});
 		
 // Rotate either screen when buttons clicked by HBR
@@ -396,14 +396,12 @@ AFRAME.registerComponent("rotate", {
   init: function () {
     this.el.addEventListener("click", () => {
       const browserRotation = this.el.parentElement;
-      const initialColor = browserRotation.getAttribute("button-color");
       const { x, y, z } = browserRotation.transform.eulerAngles;
       const newRotation = { x, y, z };
       if (this.data.axis === "x") { newRotation.x += this.data.amount;
       } else if (this.data.axis === "y") { newRotation.y += this.data.amount; };
-      this.el.setAttribute("color", "#AAAAAA");
+      handleButtonClick(browserRotation);
       browserRotation.transform.eulerAngles = new BS.Vector3(newRotation.x, newRotation.y, 0);
-      setTimeout(() => { this.el.setAttribute("color", initialColor); }, 100);
 }); }, });
 
 // Toggle for hiding and showing the rotation buttons By Fire with help from HBR
@@ -431,7 +429,6 @@ AFRAME.registerComponent("volume-level", {
 schema: { vvalue: { type: "number" }, },
 init: function () { this.el.addEventListener("click", () => {  
   const browserElement = this.el.parentElement;
-  const initialButtonColor = this.el.getAttribute("color");
   let volume = parseFloat(browserElement.getAttribute("volumelevel"));
   const adjustVolume = (volume, delta) => {
     const adjustment = volume < 0.1 ? 0.01 : (volume < 0.5 ? 0.02 : 0.05);
@@ -440,20 +437,16 @@ init: function () { this.el.addEventListener("click", () => {
   volume = Number((this.data.vvalue > 0 ? adjustVolume(volume, 1) : adjustVolume(volume, -1)).toFixed(2));
   let firepercent = (volume * 100).toFixed(0);
   browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});document.querySelector('.html5-video-player').setVolume(${firepercent});`,}]);
-  this.el.setAttribute("color", "#AAAAAA");
   browserElement.setAttribute("volumelevel", volume);
-  console.log(`FIRESCREEN: Volume Is : ${volume}`)
-  setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
+  console.log(`FIRESCREEN: Volume Is : ${volume}`);
+  handleButtonClick(browserElement);
 }); }, });
 		
 // Navigates browser page Backwards/Forward
 AFRAME.registerComponent("navigate-browser", {
   schema: { action: { type: "string", default: "goback" } },
   init: function () { this.el.addEventListener("click", () => {
-    let initialButtonColor = this.el.getAttribute("color");
-    this.el.setAttribute("color", "#AAAAAA");
-    this.el.parentElement.components['sq-browser'].runActions([{ actionType: this.data.action }]);
-    setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
+    handleButtonClick(this.el.parentElement); this.el.parentElement.components['sq-browser'].runActions([{ actionType: this.data.action }]);
 }); }, });
 
 function getV3FromStr(strVector3) {
