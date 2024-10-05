@@ -308,7 +308,7 @@ function setupBrowsers() {
 		const TheBrowser = this.el.parentElement;
 		let thisbuttoncolor = this.el.getAttribute("color");
 		if (thisbuttoncolor != null) {
-			this.el.setAttribute("color", (thisButtonColor === "#FFFFFF" ? "#00FF00" : "#FFFFFF")); 
+			this.el.setAttribute("color", (thisbuttoncolor === "#FFFFFF" ? "#00FF00" : "#FFFFFF")); 
 			setTimeout(() => {  this.el.setAttribute("color", thisbuttoncolor); }, 100);
 		};
 		TheBrowser.setAttribute("sq-browser", { url: this.data.url, pixelsPerUnit: 1600, mipMaps: 1, mode: "local", });		
