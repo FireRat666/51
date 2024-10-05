@@ -467,13 +467,7 @@ function getAttrOrDef(pScript, pAttr, pDefault) { return pScript.hasAttribute(pA
 var firstbrowserrun = true;
 async function firescreenloadstuff() {
 	const firescene = BS.BanterScene.GetInstance();
-  firescene.On("user-joined", e => {
-    if (e.detail.isLocal) {
-      console.log("HAND-CONTROLS: Local User Joined");
-        playersuserid = e.detail.uid;
-    };
-  });
-
+  firescene.On("user-joined", e => { if (e.detail.isLocal) playersuserid = e.detail.uid; });
  // Function to check if a given script is already present
  function isAFrameScriptPresent(scriptUrls) { const scripts = document.getElementsByTagName("script");
     for (let i = 0; i < scripts.length; i++) { const src = getAttrOrDef(scripts[i], "src", "");
