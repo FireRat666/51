@@ -413,7 +413,6 @@ init: function () { this.el.addEventListener("click", () => {
   const isVisible = this.el.parentElement.children[7].getAttribute("visible");
   console.log(`isVisible:${isVisible}`);
   console.log(this.el.parentElement.children[7]);
-  console.log(this.el.parentElement);
   const newColor = isVisible ? "#FFFFFF" : this.el.parentElement.getAttribute("button-color");
   const visibilityState = isVisible ? "false" : "true";
   console.log(`visibilityState:${visibilityState}`);
