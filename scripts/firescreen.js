@@ -381,7 +381,7 @@ init: function () { this.el.addEventListener("click", () => {
   const screenScale = this.el.parentElement;
   const initialColor = this.el.getAttribute("color");
   let { scale } = screenScale.object3D;
-  const delta = this.data.size === "grow" ? this.data.avalue : -this.data.avalue;
+  const delta = this.data.size === "grow" ? -this.data.avalue : this.data.avalue;
   let newScaleX = Math.max(0.05, (scale.x + delta).toFixed(2));
   let newScaleY = Math.max(0.05, (scale.y + delta).toFixed(2));
   this.el.setAttribute("color", "#AAAAAA");
