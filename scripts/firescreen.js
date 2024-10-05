@@ -328,23 +328,16 @@ function setupBrowsers() {
 		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
     const isLockEnabled = ColliderScreen.getAttribute("enableLock") === "true";
     const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
-    console.log(`lockbutton enableLock: ${ColliderScreen.getAttribute("enableLock")} newColor: ${newColor}`);
     lockToggle.setAttribute("color", newColor);
     ColliderScreen.setAttribute("enableLock", isLockEnabled ? "false" : "true");
   });  }, 	});
 
-
   function updateLockState(state) {
     document.querySelectorAll('.firescreenc').forEach(element => {
       const ColliderScreen = element.children[0];
-      if (ColliderScreen.getAttribute("enableLock") === "true") {
-        ColliderScreen.setAttribute("visible",`${state}`);
-        console.log(`true enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
-      } else {
-        ColliderScreen.setAttribute("visible",`false`);
-      };
+      if (ColliderScreen.getAttribute("enableLock") === "true") { ColliderScreen.setAttribute("visible", `${state}`);
+      } else if (ColliderScreen.getAttribute("visible") === "true") { ColliderScreen.setAttribute("visible", "false"); };
     });
-    
   };
   
  // Toggle Button Thing for locking and unlocking either screen By Fire with help from HBR
