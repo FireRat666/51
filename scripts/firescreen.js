@@ -340,6 +340,8 @@ function setupBrowsers() {
       if (ColliderScreen.getAttribute("enableLock") === "true") {
         ColliderScreen.setAttribute("visible",`${state}`);
         console.log(`true enableLock: ${ColliderScreen.getAttribute("enableLock")}`);
+      } else {
+        ColliderScreen.setAttribute("visible",`false`);
       };
     });
     
