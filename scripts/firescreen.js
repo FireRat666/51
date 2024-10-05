@@ -103,7 +103,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
   p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text, p_thisBrowserNumber) {
 
-
   // Setup the Announcer only on the first run if enabled
   if (announcerfirstrun === true && typeof announcerscene === 'undefined') {
       announcerfirstrun = false;
@@ -464,7 +463,6 @@ async function firescreenloadstuff() {
     } return element;
   };
 
-  
   let firething = document.querySelector("#firething"); // Check if firething exists
   if (!firething) { console.log("FIRESCREEN: Setting up."); // Add firething, If it doesn't exist
     const firetag = document.createElement("firething"); firetag.id = "firething"; document.querySelector("head").appendChild(firetag);
