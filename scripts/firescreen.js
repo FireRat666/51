@@ -526,7 +526,7 @@ async function firescreenloadstuff() {
   });
 
   const waitForUnity = async () => { while (!firescene.unityLoaded) { await new Promise(resolve => setTimeout(resolve, 500)); } };
-  await waitForUnity(); console.log("FIRESCREEN: Unity-Loaded"); enableFireScreen();
+  await waitForUnity(); console.log("FIRESCREEN: Unity-Loaded");  setTimeout(() => { enableFireScreen(); }, 1000);
 };
 
 firescreenloadstuff();
