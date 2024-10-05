@@ -6,18 +6,13 @@ var thisscriptsurl = thishostnameurl + "firescreen.js"; // CHANGE THIS
 var announcerscripturl = thishostnameurl + "announcer.js"; // CHANGE THIS
 var fireScreenOn = false;
 var thebuttoncolor = "";
-var volupcolor = "";
-var voldowncolor = "";
 var IconVolUpUrl = "";
 var IconVolDownUrl = "";
 var IconMuteUrl = "";
 var announcerfirstrun = true;
 var firstrunhandcontrols = true;
-var handcontrolsdisabled = true;
-var aframedetected = false;
-var playerislocked = false;
 var playersuserid = false;
-var handbuttonmutestate = false;
+if (typeof window.handcontrolsdisabled === 'undefined') { window.handcontrolsdisabled = true; } // Initialize only once 
 if (typeof window.NumberofBrowsers === 'undefined') { window.NumberofBrowsers = 0; } // Initialize only once 
 
 async function enableFireScreen() {
@@ -516,6 +511,7 @@ async function firescreenloadstuff() {
 
 firescreenloadstuff();
 
+var handbuttonmutestate = false;
 var handscene = BS.BanterScene.GetInstance();
 
 class handButtonCrap{
@@ -523,14 +519,15 @@ class handButtonCrap{
     this.volDownColor = p_voldowncolor;
     this.volUpColor = p_volupcolor;
     this.muteColor = p_mutecolor;
+    this.playerislocked = false;
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 	  
 		handscene.On("user-joined", e => {
-			if (e.detail.isLocal && handcontrolsdisabled) { console.log("HAND-CONTROLS: Local User Joined");
-				handcontrolsdisabled = false; playersuserid = e.detail.uid; this.setupHandControls(); };
+			if (e.detail.isLocal && window.handcontrolsdisabled) { console.log("HAND-CONTROLS: Local User Joined");
+				window.handcontrolsdisabled = false; playersuserid = e.detail.uid; this.setupHandControls(); };
 		});
 
-		handscene.On("user-left", e => { if (e.detail.isLocal) { handcontrolsdisabled = true;
+		handscene.On("user-left", e => { if (e.detail.isLocal) { window.handcontrolsdisabled = true;
 				console.log("HAND-CONTROLS: Local User Left, Resetting variable"); };
 		});
 
@@ -539,7 +536,7 @@ class handButtonCrap{
 		} else { console.log("HAND-CONTROLS: Too Early, Waiting."); }
 	};
 
-  async initialize() { await this.waitForUserId(); if (handcontrolsdisabled) { handcontrolsdisabled = false; this.setupHandControls(); } }
+  async initialize() { await this.waitForUserId(); if (window.handcontrolsdisabled) { window.handcontrolsdisabled = false; this.setupHandControls(); } }
 
   async waitForUserId() { while (!window.user || window.user.id === undefined) { await new Promise(resolve => setTimeout(resolve, 200)); } }
 
@@ -597,10 +594,10 @@ class handButtonCrap{
 
   lockPlayer() {
     const fireLockBut = document.getElementById("firelockpbut");
-    playerislocked = !playerislocked;
-    if (playerislocked) lockPlayer();
+    this.playerislocked = !this.playerislocked;
+    if (this.playerislocked) lockPlayer();
     else unlockPlayer();
-    fireLockBut.setAttribute("color", playerislocked ? "#FF0000" : "#FFFF00");
+    fireLockBut.setAttribute("color", this.playerislocked ? "#FF0000" : "#FFFF00");
   };
 
   navigateHome() {
@@ -612,7 +609,7 @@ class handButtonCrap{
   };
 
   setupHandControls() {
-    if (!handcontrolsdisabled) {
+    if (!window.handcontrolsdisabled) {
       console.log("HAND-CONTROLS: Setting up Hand Controls");
 		// This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
       const handControlsContainer = document.createElement("a-entity");
