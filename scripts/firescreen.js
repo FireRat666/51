@@ -20,7 +20,7 @@ var playerislocked = false;
 var playersuserid = false;
 var handbuttonmutestate = false;
 
-function enableFireScreen() {
+async function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");
   const scripts = document.getElementsByTagName("script");
   for (let script of scripts) {
@@ -64,7 +64,7 @@ function enableFireScreen() {
       const params = Object.fromEntries( Object.entries(defaults).map(([key, defaultValue]) => [ key, getAttrOrDef(script, key, defaultValue), ]) );
       const pPos = getV3FromStr(params.position); const pRot = getV3FromStr(params.rotation); const pSca = getV3FromStr(params.scale);
       const pURL = `url: ${params.website}; mipMaps: ${params.mipmaps}; pixelsPerUnit: ${params.pixelsperunit}; pageWidth: ${params.width}; pageHeight: ${params.height}; mode: local;`;
-      createFireScreen(pPos, pRot, pSca, params.volumelevel, pURL, params.backdrop, params.castmode, params.website, params["button-color"], params.announcer, params.announce, params["announce-420"], params["announce-events"], params["backdrop-color"], params["icon-mute-url"], params["icon-volup-url"], params["icon-voldown-url"], params["icon-direction-url"], params["volup-color"], params["voldown-color"], params["mute-color"], params["disable-interaction"], params["button-position"], params["button-rotation"], params["hand-controls"], params.width, params.height, params["custom-button01-url"], params["custom-button01-text"], params["custom-button02-url"], params["custom-button02-text"], params["custom-button03-url"], params["custom-button03-text"]);
+      await createFireScreen(pPos, pRot, pSca, params.volumelevel, pURL, params.backdrop, params.castmode, params.website, params["button-color"], params.announcer, params.announce, params["announce-420"], params["announce-events"], params["backdrop-color"], params["icon-mute-url"], params["icon-volup-url"], params["icon-voldown-url"], params["icon-direction-url"], params["volup-color"], params["voldown-color"], params["mute-color"], params["disable-interaction"], params["button-position"], params["button-rotation"], params["hand-controls"], params.width, params.height, params["custom-button01-url"], params["custom-button01-text"], params["custom-button02-url"], params["custom-button02-text"], params["custom-button03-url"], params["custom-button03-text"]);
     }
   };
 }
@@ -241,7 +241,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   if (p_handbuttons === "true" && firstrunhandcontrols === true) {
     firstrunhandcontrols = false;
     console.log("FIRESCREEN: Enabling Hand Controls");
-    const handbuttonstuff = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor);
+    const handControl  = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor); handControl.initialize();
   };
   console.log("FIRESCREEN: " + numberofbrowsers + " screen(s) Enabled");
 
@@ -277,7 +277,7 @@ function keepsoundlevel() {
 
 // Set the width and height of the screen(s)
 var notalreadysetup = true;
-function setupBrowsers() {
+async function setupBrowsers() {
 	if (notalreadysetup) {
 		notalreadysetup = false;
     for (let i = 1; i <= numberofbrowsers; i++) {
@@ -465,7 +465,7 @@ function getAttrOrDef(pScript, pAttr, pDefault) { return pScript.hasAttribute(pA
 
 // Create screen After Unity load 
 var firstbrowserrun = true;
-function firescreenloadstuff() {
+async function firescreenloadstuff() {
 	const firescene = BS.BanterScene.GetInstance();
   firescene.On("user-joined", e => {
     if (e.detail.isLocal) {
@@ -531,16 +531,9 @@ function firescreenloadstuff() {
 
   let waitingforunity = true;
   if (waitingforunity) {
-
-  fscreeninterval = setInterval(function() {
-    if (firescene.unityLoaded) {
-      waitingforunity = false;
-      clearInterval(fscreeninterval);
-      if (firstbrowserrun) { firstbrowserrun = false; console.log("FIRESCREEN: unity-loaded"); enableFireScreen(); } else {
-				console.log("FIRESCREEN: Should already be enabled/loading");
-			};
-    };
-  }, 500); };
+    const waitForUnity = async () => { while (!firescene.unityLoaded) { await new Promise(resolve => setTimeout(resolve, 500)); } };
+    await waitForUnity(); enableFireScreen(); waitingforunity = false;
+  };
 
   firescene.On("one-shot", e => { console.log(e)
     const data = JSON.parse(e.detail.data);
@@ -563,40 +556,24 @@ class handButtonCrap{
     this.volUpColor = p_volupcolor;
     this.muteColor = p_mutecolor;
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
-		setTimeout(() => { 
-			if (handcontrolsdisabled) {
-      const thisintervalvar = setInterval(() => {
-        if (window.user && window.user.id !== undefined) { clearInterval(thisintervalvar);
-          console.log("HAND-CONTROLS: handcontrolsdisabled still true");
-          handcontrolsdisabled = false; this.setupHandControls();
-        };
-      }, 200);
-			};
-		}, 20000); 
 	  
 		handscene.On("user-joined", e => {
-			if (e.detail.isLocal) {
-				console.log("HAND-CONTROLS: Local User Joined");
-				if (handcontrolsdisabled) {
-					handcontrolsdisabled = false;
-					playersuserid = e.detail.uid;
-					this.setupHandControls();
-				};
-			};
+			if (e.detail.isLocal && handcontrolsdisabled) { console.log("HAND-CONTROLS: Local User Joined");
+				handcontrolsdisabled = false; playersuserid = e.detail.uid; this.setupHandControls(); };
 		});
 
 		handscene.On("user-left", e => { if (e.detail.isLocal) { handcontrolsdisabled = true;
 				console.log("HAND-CONTROLS: Local User Left, Resetting variable"); };
 		});
 
-		if (playersuserid != false && handcontrolsdisabled) {
-      console.log("HAND-CONTROLS: Enabling");
-      handcontrolsdisabled = false;
-      this.setupHandControls();
-		} else {
-      console.log("HAND-CONTROLS: Too Early, Waiting.");
-    }
+		if (playersuserid != false && handcontrolsdisabled) { console.log("HAND-CONTROLS: Enabling");
+      handcontrolsdisabled = false; this.setupHandControls();
+		} else { console.log("HAND-CONTROLS: Too Early, Waiting."); }
 	};
+
+  async initialize() { await this.waitForUserId(); if (handcontrolsdisabled) { handcontrolsdisabled = false; this.setupHandControls(); } }
+
+  async waitForUserId() { while (!window.user || window.user.id === undefined) { await new Promise(resolve => setTimeout(resolve, 200)); } }
 
   toggleMute() {  handbuttonmutestate = !handbuttonmutestate;
     this.runActionOnElements('.firescreenc', handbuttonmutestate);
