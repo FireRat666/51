@@ -420,7 +420,8 @@ AFRAME.registerComponent("rotate", {
       const rotatebutton = rotats.parentElement.children[6];
 
       console.log("EnableRot");
-      console.log(rotatebutton.getAttribute("visible"));
+      console.log(rotats);
+      console.log(rotatebutton);
       
       let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
       var els = document.getElementsByClassName("tilt");
