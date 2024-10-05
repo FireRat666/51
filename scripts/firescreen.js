@@ -336,7 +336,7 @@ function setupBrowsers() {
   function updateLockState(state) {
     document.querySelectorAll('.firescreenc').forEach(element => {
       const ColliderScreen = element.children[0];
-      if (ColliderScreen.getAttribute("enableLock") === "true") { ColliderScreen.setAttribute("visible", `${state}`);
+      if (ColliderScreen.getAttribute("enableLock") === "true") { ColliderScreen.setAttribute("visible", state);
       } else if (ColliderScreen.getAttribute("visible")) { ColliderScreen.setAttribute("visible", false); };
     });
   };
