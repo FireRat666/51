@@ -71,14 +71,14 @@ async function enableFireScreen() {
 };
 
 function disableFireScreen() {
-	let thisloopnumber = 0;
-	while (thisloopnumber < window.NumberofBrowsers) {
-		thisloopnumber++
-		let firescreen = document.getElementById("fires-browser" + thisloopnumber);
-		if (firescreen) {
-			// Browser is on, remove it
+	// let thisloopnumber = 0;
+  for (let i = 1; i <= window.NumberofBrowsers; i++) {
+	// while (thisloopnumber < window.NumberofBrowsers) {
+		// thisloopnumber++
+		let firescreen = document.getElementById(`fires-browser${i}`);
+		if (firescreen) { // Browser is on, remove it
 			firescreen.parentElement.removeChild(firescreen);
-			console.log("FIRESCREEN: Fire screen Disabled"); 
+			console.log("FIRESCREEN: ${i} Fire Screen(s) Disabled"); 
 		}
 	}
 	fireScreenOn = false;
@@ -261,16 +261,15 @@ function keepsoundlevel() {
 	soundlevelfirstrun = false;
   // Loop to keep sound level set, runs every second
     volinterval = setInterval(function() {
-		let thisloopnumber = 0;
-		while (thisloopnumber < window.NumberofBrowsers) {
-			thisloopnumber++
-			let theBrowser = document.getElementById("fires-browser" + thisloopnumber);
+		// let thisloopnumber = 0;
+		// while (thisloopnumber < window.NumberofBrowsers) {
+    for (let i = 1; i <= window.NumberofBrowsers; i++) {
+			// thisloopnumber++
+			let theBrowser = document.getElementById(`fires-browser${i}`);
 			let volume = parseFloat(theBrowser.getAttribute("volumelevel"));
       let firepercent = parseInt(volume*100).toFixed(0);
 			theBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelectorAll('video, audio').forEach((elem) => elem.volume=" + volume + ");", }, ]);
-			theBrowser.components["sq-browser"].runActions([ { actionType: "runscript", strparam1:
-			"document.querySelector('.html5-video-player').setVolume(" + firepercent + ");", }, ]);
+			`document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});document.querySelector('.html5-video-player').setVolume("${firepercent});`, }, ]);
 		};
     }, 5000); } else if (fireScreenOn) { } else { clearInterval(volinterval); }
 };
@@ -281,7 +280,7 @@ async function setupBrowsers() {
 	if (notalreadysetup) {
 		notalreadysetup = false;
     for (let i = 1; i <= window.NumberofBrowsers; i++) {
-      const browserElement = document.getElementById("fires-browser" + i);
+      const browserElement = document.getElementById(`fires-browser${i}`);
       const browserPageWidth = browserElement.getAttribute("pageWidth");
       const browserPageHeight = browserElement.getAttribute("pageHeight");
       browserElement.browser.pageWidth = browserPageWidth; browserElement.browser.pageHeight = browserPageHeight;
