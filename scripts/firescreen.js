@@ -438,7 +438,7 @@ init: function () { this.el.addEventListener("click", () => {
     return Math.max(0, Math.min(1, volume + delta * adjustment));
   };
   volume = Number((this.data.vvalue > 0 ? adjustVolume(volume, 1) : adjustVolume(volume, -1)).toFixed(2));
-  let firepercent = (firevolume * 100).toFixed(0);
+  let firepercent = (volume * 100).toFixed(0);
   browserElement.components["sq-browser"].runActions([{ actionType: "runscript", strparam1: `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${volume});document.querySelector('.html5-video-player').setVolume(${firepercent});`,}]);
   this.el.setAttribute("color", "#AAAAAA");
   browserElement.setAttribute("volumelevel", volume);
@@ -460,15 +460,9 @@ function getV3FromStr(strVector3) {
   var aresult = strVector3.split(" ");
   let X = aresult[0]; let Y = aresult[1]; let Z = aresult[2];
   return new BS.Vector3(X,Y,Z);
-}
-
-function getAttrOrDef(pScript, pAttr, pDefault) {
-  if (pScript.hasAttribute(pAttr)) {
-    return pScript.getAttribute(pAttr);
-  } else {
-    return pDefault;
-  }
 };
+
+function getAttrOrDef(pScript, pAttr, pDefault) { return pScript.hasAttribute(pAttr) ? pScript.getAttribute(pAttr) : pDefault; };
 
 // Create screen After Unity load 
 var firstbrowserrun = true;
