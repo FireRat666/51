@@ -372,7 +372,6 @@ AFRAME.registerComponent("toggle-mute", {
   })}
 });
 
-		  
 // Changes Scale of either Screen when button clicked with help from HBR
 AFRAME.registerComponent("scale-screen", {
 schema: {
@@ -416,25 +415,16 @@ init: function () { this.el.addEventListener("click", () => {
   document.querySelectorAll(".tilt").forEach(el => el.setAttribute("visible", visibilityState));
 });  }, 	});
 		
-	// Toggle for hiding and showing buttons By Fire with help from HBR
-  AFRAME.registerComponent("hidebuttons", {
-	init: function () {
-	  this.el.addEventListener("click", () => {
-		const hidebut = this.el;
-		let thisbuttoncolor = this.el.parentElement.getAttribute("button-color");
-		const somebutton = hidebut.parentElement.children[2];
-		var buttons = document.getElementsByClassName("buttons");
-		if (somebutton.getAttribute("visible")) {
-			  hidebut.setAttribute("color", thisbuttoncolor);
-			[].forEach.call(buttons, function (el) {
-				el.setAttribute("visible","false");
-			});
-		} else {
-			  hidebut.setAttribute("color","#FFFFFF");
-			[].forEach.call(buttons, function (el) {
-				el.setAttribute("visible","true");
-			});
-		}		});  }, 	});
+// Toggle for hiding and showing buttons By Fire with help from HBR
+AFRAME.registerComponent("hidebuttons", {
+init: function () { this.el.addEventListener("click", () => {
+  const isVisible = this.el.parentElement.children[2].getAttribute("visible");
+  this.el.setAttribute("color", isVisible ? this.el.parentElement.getAttribute("button-color") : "#FFFFFF");
+  const visibility = isVisible ? "false" : "true";
+  Array.from(document.getElementsByClassName("buttons")).forEach((el) => {
+    el.setAttribute("visible", visibility);
+  });
+});  }, 	});
 		
 // Changes Volume of the Screen when button clicked By Fire with help from HBR
   AFRAME.registerComponent("volume-level", {
