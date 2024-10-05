@@ -689,7 +689,7 @@ class handButtonCrap{
     this.updateButtonColors('.firemutebutc', handbuttonmutestate);
     console.log(handbuttonmutestate);
     const fireMuteBut = document.getElementById("firemutebut");
-    fireMuteBut.setAttribute("color", handbuttonmutestate ? "#FF0000" : this.muteColor);
+    fireMuteBut.setAttribute("color", handbuttonmutestate ? this.muteColor : "#FF0000");
   };
 
   runActionOnElements(selector, state) { document.querySelectorAll(selector).forEach(element => {
@@ -700,7 +700,7 @@ class handButtonCrap{
   updateButtonColors(selector, isActive) {
     document.querySelectorAll(selector).forEach(button => { const TheBrowser = button.parentElement;
       const thisButtonColor = TheBrowser.getAttribute("mute-color") || "#FFFFFF";
-      button.setAttribute("color", isActive ? thisButtonColor : (thisButtonColor === "#FF0000" ? "#FFFF00" : "#FF0000"));
+      button.setAttribute("color", isActive ? (thisButtonColor === "#FF0000" ? "#FFFF00" : "#FF0000") : thisButtonColor);
     });
   };
 
