@@ -415,7 +415,7 @@ init: function () { this.el.addEventListener("click", () => {
   console.log(this.el.parentElement.children[7]);
   console.log(this.el.parentElement);
   const newColor = isVisible ? "#FFFFFF" : this.el.parentElement.getAttribute("button-color");
-  const visibilityState = isVisible ? "false" : "true";
+  const visibilityState = isVisible ? "true" : "false";
   this.el.setAttribute("color", newColor);
   document.querySelectorAll(".tilt").forEach(el => el.setAttribute("visible", visibilityState));
 });  }, 	});
