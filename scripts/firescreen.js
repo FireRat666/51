@@ -326,10 +326,10 @@ function setupBrowsers() {
 		const lockToggle = this.el;
 		const ColliderScreen = lockToggle.parentElement.children[0];
 		let thisbuttoncolor = TheBrowser.getAttribute("button-color");
-    const isLockEnabled = ColliderScreen.getAttribute("enableLock") === true;
+    const isLockEnabled = ColliderScreen.getAttribute("enableLock");
     const newColor = isLockEnabled ? (thisbuttoncolor === "#00FF00" ? "#FFFF00" : thisbuttoncolor) : "#00FF00";
     lockToggle.setAttribute("color", newColor);
-    ColliderScreen.setAttribute("enableLock", isLockEnabled ? false : true);
+    ColliderScreen.setAttribute("enableLock", !isLockEnabled);
   });  }, 	});
 
   function updateLockState(state) {
