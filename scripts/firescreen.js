@@ -173,6 +173,8 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       firescreen.appendChild(createButton("0 0.38 0", "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FFFF00" : thebuttoncolor, "https://firer.at/files/HG2.png", {"lockbutton": ""}, TheButRot));
       // Google button
       firescreen.appendChild(createButton("-0.6 0.16 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Google.png", {"click-url": "url:https://google.com/"}));
+      // Info button
+      firescreen.appendChild(createButton("-0.6 0.28 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/Info.png", {"click-url": "url:https://firer.at/pages/Info.html"}));
       // Grow and Shrink buttons
       firescreen.appendChild(createButton("0.6 0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/expand.png", {"scale-screen": "size: shrink; avalue: 0.1"}, TheButRot));
       firescreen.appendChild(createButton("0.6 -0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/shrink.png", {"scale-screen": "size: shrink; avalue: -0.1"}, TheButRot));
