@@ -446,26 +446,15 @@ init: function () { this.el.addEventListener("click", () => {
   setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
 }); }, });
 		
-	// Navigates browser page Backwards/Forward
-  AFRAME.registerComponent("navigate-browser", {
-  schema: {
-    action: { type: "string", default: "goback" }  // Default action is "goback"
-  },
-  init: function () {
-    const browserElement = this.el.parentElement;
-	let thisbuttoncolor = this.el.getAttribute("color");
-    this.el.addEventListener("click", () => {
-      const actionType = this.data.action;
+// Navigates browser page Backwards/Forward
+AFRAME.registerComponent("navigate-browser", {
+  schema: { action: { type: "string", default: "goback" } },
+  init: function () { this.el.addEventListener("click", () => {
+      let initialButtonColor = this.el.getAttribute("color");
       this.el.setAttribute("color", "#AAAAAA");
-      browserElement.components['sq-browser'].runActions([{
-        actionType: actionType
-      }]);
-      setTimeout(() => {
-        this.el.setAttribute("color", thisbuttoncolor);
-      }, 100);
-    });
-  },
-});
+      this.el.parentElement.components['sq-browser'].runActions([{ actionType: this.data.action }]);
+      setTimeout(() => { this.el.setAttribute("color", initialButtonColor); }, 100);
+}); }, });
 
 function getV3FromStr(strVector3) {
   var aresult = strVector3.split(" ");
