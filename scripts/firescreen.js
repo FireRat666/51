@@ -689,7 +689,7 @@ class handButtonCrap{
     this.updateButtonColors('.firemutebutc', handbuttonmutestate);
     console.log(handbuttonmutestate);
     const fireMuteBut = document.getElementById("firemutebut");
-    fireMuteBut.setAttribute("color", handbuttonmutestate ? this.muteColor : "#FF0000");
+    fireMuteBut.setAttribute("color", handbuttonmutestate ? "#FF0000" : this.muteColor);
   };
 
   runActionOnElements(selector, state) { document.querySelectorAll(selector).forEach(element => {
