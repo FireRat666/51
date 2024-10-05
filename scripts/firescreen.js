@@ -147,10 +147,6 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   let firecollider = createButton("0 0 -0.005", "1.0", "0.55", "#ff0000", null, {"sq-boxcollider": "", "sq-grabbable": "", "scale" : "1.0 0.55 0.05", "enableLock" : "false", "opacity" : "0"}, null, false, "collider");
   firescreen.appendChild(firecollider);
 
-  // firecollider.makeGameObject();
-  // firecollider.gameObject.On('grab', () => {console.log("GRABBED!"); }); // When user Grabs the Browser
-  // firecollider.gameObject.On('drop', () => {console.log("DROPPED!"); }); // When user Drops the Browser
-
   if (p_backdrop == "true") {
       let firebackdrop = document.createElement("a-box");
       firebackdrop.setAttribute("opacity", "0.9");
@@ -466,13 +462,11 @@ async function firescreenloadstuff() {
       element = document.createElement(tagName); if (id) element.id = id; parent.appendChild(element);
     } else { console.log(`FIRESCREEN: ${tagName.toUpperCase()} Detected, NOT Adding ${tagName.toUpperCase()}`);
     } return element;
-  }
+  };
 
-  // Check if firething exists
-  let firething = document.querySelector("#firething");
-  if (!firething) { console.log("FIRESCREEN: Setting up.");
-
-    // Add firething
+  
+  let firething = document.querySelector("#firething"); // Check if firething exists
+  if (!firething) { console.log("FIRESCREEN: Setting up."); // Add firething, If it doesn't exist
     const firetag = document.createElement("firething"); firetag.id = "firething"; document.querySelector("head").appendChild(firetag);
 
     // A-Frame versions to check
@@ -506,7 +500,7 @@ async function firescreenloadstuff() {
     appendIfNotExists("a-scene", "a-scene", document.querySelector("body"));
 
     console.log("FIRESCREEN: Waiting for Unity-Loaded Event");
-  }
+  };
 
   firescene.On("one-shot", e => { console.log(e)
     const data = JSON.parse(e.detail.data);
