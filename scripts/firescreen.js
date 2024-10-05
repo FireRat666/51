@@ -704,10 +704,13 @@ class handButtonCrap{
     });
   };
 
-  adjustVolume(increment) {
+  adjustVolume(change) {
     document.querySelectorAll('.firescreenc').forEach((element, index) => {
-      let volume = parseFloat(element.getAttribute("volumelevel"));
-      volume = Math.min(Math.max(0, (volume + increment).toFixed(2)), 1);
+      let volume = Number(parseFloat(element.getAttribute("volumelevel"))); let adjustment;
+      if (volume < 0.1) { adjustment = 0.01; // Tiny adjustment for low volume
+      } else if (volume < 0.5) { adjustment = 0.03; // Medium adjustment for medium volume
+      } else { adjustment = 0.05; } // Big adjustment for high volume
+      volume = Math.min(Math.max(0, (volume + (change * adjustment)).toFixed(2)), 1);
       this.updateVolume(element, volume, index + 1);
     });
   };
@@ -722,9 +725,9 @@ class handButtonCrap{
     ]);
   };
 
-  volumeControlUp() { this.adjustVolume(0.02); this.flashButton("firevolupbut"); };
+  volumeControlUp() { this.adjustVolume(1); this.flashButton("firevolupbut"); };
 
-  volumeControlDown() { this.adjustVolume(-0.02); this.flashButton("firevoldownbut"); };
+  volumeControlDown() { this.adjustVolume(-1); this.flashButton("firevoldownbut"); };
 
   flashButton(buttonId) {
     const button = document.getElementById(buttonId);
