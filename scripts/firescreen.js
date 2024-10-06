@@ -320,18 +320,22 @@ function updateLockState(state) {
 };
 
 // Toggle Button Thing for locking and unlocking either screen By Fire with help from HBR
-window.buttonPressCallback = (button) => {        
-  switch (button) {
-    case "RightGrip":
-    case "LeftGrip":
-      updateLockState(true);
-      break;
-    case "RightGripRelease":
-    case "LeftGripRelease":
-      updateLockState(false);
-      break;
-  }
-};
+BS.BanterScene.GetInstance().On("button-pressed", e => { if (e.detail.button === 1) { updateLockState(true); } });
+
+BS.BanterScene.GetInstance().On("button-released", e => { if (e.detail.button === 1) { updateLockState(false); } });
+
+// window.buttonPressCallback = (button) => {        
+//   switch (button) {
+//     case "RightGrip":
+//     case "LeftGrip":
+//       updateLockState(true);
+//       break;
+//     case "RightGripRelease":
+//     case "LeftGripRelease":
+//       updateLockState(false);
+//       break;
+//   }
+// };
 
 // Toggle Button for Keyboard By Fire with help from HBR
 AFRAME.registerComponent("forcekeyboard", {
