@@ -229,7 +229,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 
   if (p_handbuttons === "true" && window.firstrunhandcontrols) {
     window.firstrunhandcontrols = false; console.log("FIRESCREEN: Enabling Hand Controls");
-    const handControl  = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor, p_iconvolupurl, p_iconvoldownurl, p_iconmuteurl, p_buttoncolor); handControl.initialize();
+    let handControl = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor, p_iconvolupurl, p_iconvoldownurl, p_iconmuteurl, p_buttoncolor); handControl.initialize();
   };
   console.log(`FIRESCREEN: ${p_thisBrowserNumber} screen(s) Enabled`);
 };
