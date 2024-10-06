@@ -6,14 +6,18 @@ var thisscriptsurl = thishostnameurl + "firescreen.js"; // CHANGE THIS
 var announcerscripturl = thishostnameurl + "announcer.js"; // CHANGE THIS
 var fireScreenOn = false;
 var thebuttoncolor = "";
-var IconVolUpUrl = "";
-var IconVolDownUrl = "";
-var IconMuteUrl = "";
-var announcerfirstrun = true;
-var firstrunhandcontrols = true;
 var playersuserid = false;
-if (typeof window.handcontrolsdisabled === 'undefined') { window.handcontrolsdisabled = true; } // Initialize only once 
-if (typeof window.NumberofBrowsers === 'undefined') { window.NumberofBrowsers = 0; } // Initialize only once 
+
+const initialValues = {
+  announcerfirstrun: true,
+  firstrunhandcontrols: true,
+  handControlsDisabled: true,
+  NumberofBrowsers: 0,
+};
+
+for (const [key, value] of Object.entries(initialValues)) {
+  if (typeof window[key] === 'undefined') { window[key] = value; }; // Initialize Variables only once 
+}
 
 async function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");
@@ -97,24 +101,20 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
   p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
   p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text, p_thisBrowserNumber) {
-
+    
+    thebuttoncolor = p_buttoncolor;
   // Setup the Announcer only on the first run if enabled
-  if (announcerfirstrun === true && typeof announcerscene === 'undefined') {
-      announcerfirstrun = false;
-      console.log("FIRESCREEN: Adding the Announcer Script");
-      const announcerscript = document.createElement("script");
-      announcerscript.id = "fires-announcer";
-      announcerscript.setAttribute("src", announcerscripturl);
-      announcerscript.setAttribute("announce", p_announce);
-      announcerscript.setAttribute("announce-420", p_announce420);
-      announcerscript.setAttribute("announce-events", p_announceevents === "undefined" ? (p_announce === "true" ? "true" : "false") : p_announceevents);
-      document.querySelector("body").appendChild(announcerscript);
+  if (window.announcerfirstrun && typeof announcerscene === 'undefined') {
+    window.announcerfirstrun = false;
+    console.log("FIRESCREEN: Adding the Announcer Script");
+    const announcerscript = document.createElement("script");
+    announcerscript.id = "fires-announcer";
+    announcerscript.setAttribute("src", announcerscripturl);
+    announcerscript.setAttribute("announce", p_announce);
+    announcerscript.setAttribute("announce-420", p_announce420);
+    announcerscript.setAttribute("announce-events", p_announceevents === "undefined" ? (p_announce === "true" ? "true" : "false") : p_announceevents);
+    document.querySelector("body").appendChild(announcerscript);
   };
-
-  thebuttoncolor = p_buttoncolor;
-  IconVolUpUrl = p_iconvolupurl;
-  IconVolDownUrl = p_iconvoldownurl;
-  IconMuteUrl = p_iconmuteurl;
 
   let firescreen = document.createElement("a-entity");
   firescreen.id = `fires-browser${p_thisBrowserNumber}`;
@@ -157,19 +157,19 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 
   if (p_castmode == "false") {
       // Lock/Unlock button
-      firescreen.appendChild(createButton("0 0.38 0", "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FFFF00" : thebuttoncolor, "https://firer.at/files/HG2.png", {"lockbutton": ""}, TheButRot));
+      firescreen.appendChild(createButton("0 0.38 0", "0.1", "0.1", p_buttoncolor === "#00FF00" ? "#FFFF00" : p_buttoncolor, "https://firer.at/files/HG2.png", {"lockbutton": ""}, TheButRot));
       // Google button
       firescreen.appendChild(createButton("-0.6 0.16 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Google.png", {"click-url": "url:https://google.com/"}));
       // Info button
-      firescreen.appendChild(createButton("-0.6 0.28 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/Info.png", {"click-url": "url:https://firer.at/pages/Info.html"}));
+      firescreen.appendChild(createButton("-0.6 0.28 0", "0.1", "0.1", p_buttoncolor, "https://firer.at/files/Info.png", {"click-url": "url:https://firer.at/pages/Info.html"}));
       // Grow and Shrink buttons
-      firescreen.appendChild(createButton("0.6 0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/expand.png", {"scale-screen": "size: shrink; avalue: 0.1"}, TheButRot));
-      firescreen.appendChild(createButton("0.6 -0.06 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/shrink.png", {"scale-screen": "size: shrink; avalue: -0.1"}, TheButRot));
+      firescreen.appendChild(createButton("0.6 0.06 0", "0.1", "0.1", p_buttoncolor, "https://firer.at/files/expand.png", {"scale-screen": "size: shrink; avalue: 0.1"}, TheButRot));
+      firescreen.appendChild(createButton("0.6 -0.06 0", "0.1", "0.1", p_buttoncolor, "https://firer.at/files/shrink.png", {"scale-screen": "size: shrink; avalue: -0.1"}, TheButRot));
       // Rotate and Tilt buttons
-      firescreen.appendChild(createButton("-0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RL.png", {"rotate": "axis: y; amount: 5"}, null, false, "tilt"));
-      firescreen.appendChild(createButton("0.5 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/RR.png", {"rotate": "axis: y; amount: -5"}, null, false, "tilt"));
-      firescreen.appendChild(createButton("-0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TF.png", {"rotate": "axis: x; amount: -5"}, null, false, "tilt"));
-      firescreen.appendChild(createButton("0.4 -0.37 0", "0.1", "0.1", thebuttoncolor, "https://firer.at/files/TB.png", {"rotate": "axis: x; amount: 5"}, null, false, "tilt"));
+      firescreen.appendChild(createButton("-0.5 -0.37 0", "0.1", "0.1", p_buttoncolor, "https://firer.at/files/RL.png", {"rotate": "axis: y; amount: 5"}, null, false, "tilt"));
+      firescreen.appendChild(createButton("0.5 -0.37 0", "0.1", "0.1", p_buttoncolor, "https://firer.at/files/RR.png", {"rotate": "axis: y; amount: -5"}, null, false, "tilt"));
+      firescreen.appendChild(createButton("-0.4 -0.37 0", "0.1", "0.1", p_buttoncolor, "https://firer.at/files/TF.png", {"rotate": "axis: x; amount: -5"}, null, false, "tilt"));
+      firescreen.appendChild(createButton("0.4 -0.37 0", "0.1", "0.1", p_buttoncolor, "https://firer.at/files/TB.png", {"rotate": "axis: x; amount: 5"}, null, false, "tilt"));
       // Toggle rotation button
       firescreen.appendChild(createButton("-0.6 -0.3 0", "0.1", "0.1", "#FFFFFF", "https://firer.at/files/Rot.png", {"enablerot": "false"}, TheButRot));
       // Hide/Show keyboard button
@@ -180,25 +180,25 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 
   // Home button
   let homeButtonPos = computeButtonPosition(p_buttonpos, "-0.27 0.38 0");
-  firescreen.appendChild(createButton(homeButtonPos, "0.1", "0.1", thebuttoncolor === "#00FF00" ? "#FF0000" : thebuttoncolor, "https://firer.at/files/Home.png", {"click-url": `url:${p_website}`}, TheButRot));
+  firescreen.appendChild(createButton(homeButtonPos, "0.1", "0.1", p_buttoncolor === "#00FF00" ? "#FF0000" : p_buttoncolor, "https://firer.at/files/Home.png", {"click-url": `url:${p_website}`}, TheButRot));
   // Forward button
   let forwardButtonPos = computeButtonPosition(p_buttonpos, "-0.4 0.38 0");
   let forwardButtonRot = new BS.Vector3(ButRotX, ButRotY, ButRotZ + 180);
-  firescreen.appendChild(createButton(forwardButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goforward"}, forwardButtonRot));
+  firescreen.appendChild(createButton(forwardButtonPos, "0.1", "0.1", p_buttoncolor, p_icondirectionurl, {"navigate-browser": "action: goforward"}, forwardButtonRot));
   // Backward button
   let backButtonPos = computeButtonPosition(p_buttonpos, "-0.5 0.38 0");
-  firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", thebuttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
+  firescreen.appendChild(createButton(backButtonPos, "0.1", "0.1", p_buttoncolor, p_icondirectionurl, {"navigate-browser": "action: goback"}, TheButRot));
   // Mute Toggle Button
   let muteButtonPos = computeButtonPosition(p_buttonpos, "0.2 0.38 0");
   let muteButton = createButton(muteButtonPos, "0.1", "0.1", p_mutecolor, p_iconmuteurl, {"toggle-mute": ""}, TheButRot, true, "firemutebutc buttons");
   firescreen.appendChild(muteButton);
   // volUp Button
   let volUpButtonPos = computeButtonPosition(p_buttonpos, "0.5 0.38 0");
-  let volUpButton = createButton(volUpButtonPos, "0.1", "0.1", p_volupcolor || thebuttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 1"}, TheButRot);
+  let volUpButton = createButton(volUpButtonPos, "0.1", "0.1", p_volupcolor || p_buttoncolor, p_iconvolupurl, {"volume-level": "vvalue: 1"}, TheButRot);
   firescreen.appendChild(volUpButton);
   // volDown Button
   let volDownButtonPos = computeButtonPosition(p_buttonpos, "0.35 0.38 0");
-  let volDownButton = createButton(volDownButtonPos, "0.1", "0.1", p_voldowncolor || thebuttoncolor, p_iconvoldownurl, {"volume-level": "vvalue: -1"}, TheButRot);
+  let volDownButton = createButton(volDownButtonPos, "0.1", "0.1", p_voldowncolor || p_buttoncolor, p_iconvoldownurl, {"volume-level": "vvalue: -1"}, TheButRot);
   firescreen.appendChild(volDownButton);
 
   function addCustomButton(url, text, position) {
@@ -225,9 +225,9 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
       keepsoundlevel();
   }, 2000);
 
-  if (p_handbuttons === "true" && firstrunhandcontrols === true) {
-    firstrunhandcontrols = false; console.log("FIRESCREEN: Enabling Hand Controls");
-    const handControl  = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor); handControl.initialize();
+  if (p_handbuttons === "true" && window.firstrunhandcontrols) {
+    window.firstrunhandcontrols = false; console.log("FIRESCREEN: Enabling Hand Controls");
+    const handControl  = new handButtonCrap(p_voldowncolor, p_volupcolor, p_mutecolor, p_iconvolupurl, p_iconvoldownurl, p_iconmuteurl, p_buttoncolor); handControl.initialize();
   };
   console.log(`FIRESCREEN: ${p_thisBrowserNumber} screen(s) Enabled`);
 };
@@ -271,7 +271,7 @@ async function setupBrowsers() {
       const { rotation } = browserElement.object3D;
       browserElement.transform.eulerAngles = new BS.Vector3(rotation.x, rotation.y, rotation.z);
       console.log(`FIRESCREEN: ${i} Width is: ${browserPageWidth} and Height: ${browserPageHeight}`);
-      if (!announcerfirstrun) { timenow = Date.now(); }
+      if (!window.announcerfirstrun) { timenow = Date.now(); }
     };
 	};
 };
@@ -515,28 +515,33 @@ var handbuttonmutestate = false;
 var handscene = BS.BanterScene.GetInstance();
 
 class handButtonCrap{
-  constructor(p_voldowncolor, p_volupcolor, p_mutecolor) {
+  constructor(p_voldowncolor, p_volupcolor, p_mutecolor, p_iconvolupurl, p_iconvoldownurl, p_iconmuteurl, p_buttoncolor) {
     this.volDownColor = p_voldowncolor;
     this.volUpColor = p_volupcolor;
     this.muteColor = p_mutecolor;
+    this.buttoncolor = p_buttoncolor;
+    this.IconVolUpUrl = p_iconvolupurl;
+    this.IconVolDownUrl = p_iconvoldownurl;
+    this.IconMuteUrl = p_iconmuteurl;
+
     this.playerislocked = false;
 		console.log("HAND-CONTROLS: Delay Loading to avoid error");
 	  
 		handscene.On("user-joined", e => {
-			if (e.detail.isLocal && window.handcontrolsdisabled) { console.log("HAND-CONTROLS: Local User Joined");
-				window.handcontrolsdisabled = false; playersuserid = e.detail.uid; this.setupHandControls(); };
+			if (e.detail.isLocal && window.handControlsDisabled) { console.log("HAND-CONTROLS: Local User Joined");
+				window.handControlsDisabled = false; playersuserid = e.detail.uid; this.setupHandControls(); };
 		});
 
-		handscene.On("user-left", e => { if (e.detail.isLocal) { window.handcontrolsdisabled = true;
+		handscene.On("user-left", e => { if (e.detail.isLocal) { window.handControlsDisabled = true;
 				console.log("HAND-CONTROLS: Local User Left, Resetting variable"); };
 		});
 
-		if (playersuserid != false && handcontrolsdisabled) { console.log("HAND-CONTROLS: Enabling");
-      handcontrolsdisabled = false; this.setupHandControls();
+		if (playersuserid != false && handControlsDisabled) { console.log("HAND-CONTROLS: Enabling");
+      handControlsDisabled = false; this.setupHandControls();
 		} else { console.log("HAND-CONTROLS: Too Early, Waiting."); }
 	};
 
-  async initialize() { await this.waitForUserId(); if (window.handcontrolsdisabled) { window.handcontrolsdisabled = false; this.setupHandControls(); } }
+  async initialize() { await this.waitForUserId(); if (window.handControlsDisabled) { window.handControlsDisabled = false; this.setupHandControls(); } }
 
   async waitForUserId() { while (!window.user || window.user.id === undefined) { await new Promise(resolve => setTimeout(resolve, 200)); } }
 
@@ -609,7 +614,7 @@ class handButtonCrap{
   };
 
   setupHandControls() {
-    if (!window.handcontrolsdisabled) {
+    if (!window.handControlsDisabled) {
       console.log("HAND-CONTROLS: Setting up Hand Controls");
 		// This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
       const handControlsContainer = document.createElement("a-entity");
@@ -618,11 +623,11 @@ class handButtonCrap{
       handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || window.user.id}`);
 
       const buttons = [
-        { image: IconVolUpUrl, position: "-1 0.2 -0.4", color: this.volUpColor, id: "firevolupbut", callback: this.volumeControlUp.bind(this) },
-        { image: IconVolDownUrl, position: "-1 0.2 0", color: this.volDownColor, id: "firevoldownbut", callback: this.volumeControlDown.bind(this) },
-        { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", color: thebuttoncolor, id: "firelockpbut", callback: this.lockPlayer.bind(this) },
-        { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", color: thebuttoncolor, id: "firehomepbut", callback: this.navigateHome.bind(this) },
-        { image: IconMuteUrl, position: "-1 0.2 0.4", color: this.muteColor, id: "firemutebut", callback: this.toggleMute.bind(this) }
+        { image: this.IconVolUpUrl, position: "-1 0.2 -0.4", color: this.volUpColor, id: "firevolupbut", callback: this.volumeControlUp.bind(this) },
+        { image: this.IconVolDownUrl, position: "-1 0.2 0", color: this.volDownColor, id: "firevoldownbut", callback: this.volumeControlDown.bind(this) },
+        { image: "https://firer.at/files/lock.png", position: "-1 -0.4 0", color: this.buttoncolor, id: "firelockpbut", callback: this.lockPlayer.bind(this) },
+        { image: "https://firer.at/files/Home.png", position: "-1 -0.4 -0.4", color: this.buttoncolor, id: "firehomepbut", callback: this.navigateHome.bind(this) },
+        { image: this.IconMuteUrl, position: "-1 0.2 0.4", color: this.muteColor, id: "firemutebut", callback: this.toggleMute.bind(this) }
       ];
 
       buttons.forEach(({ image, position, color, id, callback }) => {
