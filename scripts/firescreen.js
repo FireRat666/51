@@ -8,16 +8,18 @@ var fireScreenOn = false;
 var thebuttoncolor = "";
 var playersuserid = false;
 
-const initialValues = {
-  announcerfirstrun: true,
-  firstrunhandcontrols: true,
-  handControlsDisabled: true,
-  NumberofBrowsers: 0,
-};
+(function() {
+  const initialValues = {
+    announcerfirstrun: true,
+    firstrunhandcontrols: true,
+    handControlsDisabled: true,
+    NumberofBrowsers: 0,
+  };
 
-for (const [key, value] of Object.entries(initialValues)) {
-  if (typeof window[key] === 'undefined') { window[key] = value; }; // Initialize Variables only once 
-}
+  for (const [key, value] of Object.entries(initialValues)) {
+    if (typeof window[key] === 'undefined') { window[key] = value; } // Initialize Variables only once 
+  }
+})();
 
 async function enableFireScreen() {
   console.log("FIRESCREEN: Enabling Screen(s)");
@@ -101,7 +103,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
   p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor,
   p_disableinteraction, p_buttonpos, p_buttonrot, p_handbuttons, p_width, p_height, p_custombutton01url, p_custombutton01text,
   p_custombutton02url, p_custombutton02text, p_custombutton03url, p_custombutton03text, p_thisBrowserNumber) {
-    
+
     thebuttoncolor = p_buttoncolor;
   // Setup the Announcer only on the first run if enabled
   if (window.announcerfirstrun && typeof announcerscene === 'undefined') {
