@@ -13,64 +13,64 @@ let isSpecialCharActive = false;
 // Create a parent object for the keyboard
 const keyboardParentObject = new BS.GameObject("KeyboardParent");
 const parentTransform = await keyboardParentObject.AddComponent(new BS.Transform());
-parentTransform.localPosition = new BS.Vector3(0, 2, -2); // Adjust keyboard position as needed
+parentTransform.position = new BS.Vector3(0, 2, -2); // Adjust keyboard position as needed
 
 // Create text object to display the input
 const textObject = new BS.GameObject("InputText");
 const inputText = await textObject.AddComponent(new BS.BanterText("", textColor, 0.5, 0, 1));
 const textTransform = await textObject.AddComponent(new BS.Transform());
-textTransform.localPosition = new BS.Vector3(0, 2, -2.5); // Position text display
 await textObject.SetParent(keyboardParentObject, false);
+textTransform.localPosition = new BS.Vector3(8.2, -1.4, 0); // Position text display
 
 // Function to create or retrieve a letter or special character button
 async function createOrRetrieveButton(label, position, isSpecial = false, clickHandler = null) {
-    // Check if the button already exists
-    if (buttonObjects[label]) {
-        // Update position and set active if it already exists
-        const button = buttonObjects[label];
-        const buttonTransform = button.GetComponent(BS.ComponentType.Transform);
-        buttonTransform.position = position;
-        button.SetActive(true);
-        return;
-    }
+  // Check if the button already exists
+  if (buttonObjects[label]) {
+      const button = buttonObjects[label];
+      const buttonTransform = button.GetComponent(BS.ComponentType.Transform);
+      buttonTransform.position = position;
+      button.SetActive(true);
+      return;
+  }
 
-    // Create a new button if it doesn't exist
-    const buttonObject = new BS.GameObject(`Button_${label}`);
-    const buttonGeometry = await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 0.5, 0.5));
-    const buttonMaterial = await buttonObject.AddComponent(new BS.BanterMaterial(buttonShader, null, buttonColor));
-    const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
-    const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true));
-    buttonObject.SetLayer(5); 
+  // Create a new button if it doesn't exist
+  const buttonObject = new BS.GameObject(`Button_${label}`);
+  const buttonGeometry = await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 0.5, 0.5));
+  const buttonMaterial = await buttonObject.AddComponent(new BS.BanterMaterial(buttonShader, null, buttonColor));
+  const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
+  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true));
+  buttonObject.SetLayer(5); 
 
-    buttonTransform.position = position;
-    buttonTransform.localScale = letterButtonSize;
+  buttonTransform.position = position;
+  buttonTransform.localScale = letterButtonSize;
 
-    // Add text to button
-    const textObject = new BS.GameObject(`${label}_Text`);
-    const banterText = await textObject.AddComponent(new BS.BanterText(label, textColor));
-    const textTransform = await textObject.AddComponent(new BS.Transform());
-    textTransform.localPosition = new BS.Vector3(0, 0, 0.01); // Slight offset to avoid z-fighting
-    await textObject.SetParent(buttonObject, false);
+  // Calculate offsets for the text based on button size
+  const textOffset = new BS.Vector3(9.95, -2.4, -0.01); // Adjust Y offset as needed
+  const textObject = new BS.GameObject(`${label}_Text`);
+  const banterText = await textObject.AddComponent(new BS.BanterText(label, textColor));
+  const textTransform = await textObject.AddComponent(new BS.Transform());
+  textTransform.localPosition = textOffset; // Use calculated offset for text position
+  await textObject.SetParent(buttonObject, false);
 
-    // Set button click behavior
-    if (isSpecial) {
-        buttonObject.On('click', () => {
-            clickHandler();
-            flashButton(buttonObject);
-            console.log(`Special button clicked: ${label}`);
-        });
-    } else {
-        buttonObject.On('click', () => {
-            updateInputText(label);
-            flashButton(buttonObject);
-            console.log(`Button clicked: ${label}`);
-        });
-    }
+  // Set button click behavior
+  if (isSpecial) {
+      buttonObject.On('click', () => {
+          clickHandler();
+          flashButton(buttonObject);
+          console.log(`Special button clicked: ${label}`);
+      });
+  } else {
+      buttonObject.On('click', () => {
+          updateInputText(label);
+          flashButton(buttonObject);
+          console.log(`Button clicked: ${label}`);
+      });
+  }
 
-    await buttonObject.SetParent(keyboardParentObject, false); // Set parent to keyboard for transformation
+  await buttonObject.SetParent(keyboardParentObject, false);
 
-    // Store the button for later reuse
-    buttonObjects[label] = buttonObject;
+  // Store the button for later reuse
+  buttonObjects[label] = buttonObject;
 }
 
 // Function to hide all buttons
