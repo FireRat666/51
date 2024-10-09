@@ -81,6 +81,16 @@ async function initializeKeyboard() {
 
     if (clickHandler) {
         buttonObject.On('click', () => {
+          // Reset Buttons after using them
+          if (isShiftActive && label !== "Shift") {
+            isShiftActive = false; // Deactivate Shift
+          }
+          if (isCapsLockActive && label !== "Caps") {
+            isCapsLockActive = false; // Deactivate Caps
+          }
+          if (isSpecialCharActive && label !== "Special") {
+            isSpecialCharActive = false; // Deactivate Special
+          }
             clickHandler();
             flashButton(buttonObject);
             console.log(`Special button clicked: ${label}`);
