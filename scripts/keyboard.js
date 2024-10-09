@@ -3,11 +3,14 @@ let upperCaseButtonObjects = {};
 let specialCharsButtonObjects = {};
 
 // Constants for setting up the keyboard
-const letterButtonSize = new BS.Vector3(0.3, 0.3, 0.3);
+const letterButtonSize = new BS.Vector3(0.3, 0.3, 1);
+const specialButtonSize = new BS.Vector3(0.3, 0.3, 1);
 const buttonColor = new BS.Vector4(0.1, 0.1, 0.1, 1);
 const textColor = new BS.Vector4(1, 1, 1, 1);
 const buttonShader = 'Unlit/Diffuse';
-const flashColor = new BS.Vector4(1, 1, 1, 0.5);
+const flashColor = new BS.Vector4(0.3, 0.3, 0.3, 0.5);
+const textOffset = new BS.Vector3(9.95, -2.4, -0.01); 
+const specialTextOffset = new BS.Vector3(9.8, -2.4, -0.01); 
 let isShiftActive = false;
 let isCapsLockActive = false;
 let isSpecialCharActive = false;
@@ -25,23 +28,22 @@ textTransform.localPosition = new BS.Vector3(8.2, -1.4, 0);
 await textObject.SetParent(keyboardParentObject, false);
 
 // Function to create a button with the correct text offset
-async function createButton(label, position, group, clickHandler = null) {
+async function createButton(label, position, group, clickHandler = null, buttonSize = letterButtonSize, width = 0.5, offset = textOffset) {
     const buttonObject = new BS.GameObject(`Button_${label}`);
-    await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 0.5, 0.5));
+    await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, width, 0.5));
     await buttonObject.AddComponent(new BS.BanterMaterial(buttonShader, null, buttonColor));
     const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
-    await buttonObject.AddComponent(new BS.BoxCollider(true));
+    await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), buttonSize));
     buttonObject.SetLayer(5);
 
     buttonTransform.position = position;
-    buttonTransform.localScale = letterButtonSize;
+    buttonTransform.localScale = buttonSize;
 
     // Correct the text offset as specified
-    const textOffset = new BS.Vector3(9.95, -2.4, -0.01); 
     const textObject = new BS.GameObject(`${label}_Text`);
     await textObject.AddComponent(new BS.BanterText(label, textColor));
     const textTransform = await textObject.AddComponent(new BS.Transform());
-    textTransform.localPosition = textOffset;
+    textTransform.localPosition = offset;
     await textObject.SetParent(buttonObject, false);
 
     // Set click behavior if provided
@@ -75,7 +77,7 @@ async function createButton(label, position, group, clickHandler = null) {
 
 // Function to create special buttons with behavior
 async function createSpecialButton(label, position, clickHandler) {
-    await createButton(label, position, 'special', clickHandler);
+    await createButton(label, position, 'special', clickHandler, specialButtonSize, 0.8, specialTextOffset);
     specialCharsButtonObjects[label].SetActive(true); // Ensure special buttons are always visible
 }
 
@@ -164,10 +166,10 @@ async function createKeyboard() {
     }
 
     // Create special buttons: Shift, Caps Lock, Special Characters, and Backspace
-    await createSpecialButton("Shift", new BS.Vector3(startX, startY + 3 * yOffset, 0), toggleShift);
-    await createSpecialButton("Caps", new BS.Vector3(startX + xOffset, startY + 3 * yOffset, 0), toggleCapsLock);
-    await createSpecialButton("Special", new BS.Vector3(startX + 2 * xOffset, startY + 3 * yOffset, 0), toggleSpecialChars);
-    await createSpecialButton("Backspace", new BS.Vector3(startX + 10 * xOffset, startY, 0), backspaceInputText);
+    await createSpecialButton("Shift", new BS.Vector3(startX + 0.03, startY + 3 * yOffset, 0), toggleShift);
+    await createSpecialButton("Caps", new BS.Vector3(startX + 0.14 + xOffset, startY + 3 * yOffset, 0), toggleCapsLock);
+    await createSpecialButton("Special", new BS.Vector3(startX + 0.5 + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars);
+    await createSpecialButton("Backspace", new BS.Vector3(startX + 10.5 * xOffset, startY, 0), backspaceInputText);
 
     // Default to showing lowercase letters
     toggleButtonGroup('lowercase');
