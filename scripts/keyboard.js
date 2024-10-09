@@ -29,6 +29,45 @@ async function initializeKeyboard() {
     textTransform.localPosition = new BS.Vector3(8.2, -1.4, 0);
     await textObject.SetParent(keyboardParentObject, false);
 
+    // Function to update the input text when a letter is clicked
+    function updateInputText(label) {
+        inputText.text += label;
+    }
+
+    // Function to remove the last character from the input text (for backspace)
+    function backspaceInputText() {
+        if (inputText.text.length > 0) {
+            inputText.text = inputText.text.slice(0, -1);
+        }
+    }
+
+    // Function to toggle shift state
+    function toggleShift() {
+        isShiftActive = !isShiftActive;
+        toggleButtonGroup(isShiftActive ? 'uppercase' : 'lowercase');
+    }
+
+    // Function to toggle caps lock state
+    function toggleCapsLock() {
+        isCapsLockActive = !isCapsLockActive;
+        toggleButtonGroup(isCapsLockActive ? 'uppercase' : 'lowercase');
+    }
+
+    // Function to switch to special characters
+    function toggleSpecialChars() {
+        isSpecialCharActive = !isSpecialCharActive;
+        toggleButtonGroup(isSpecialCharActive ? 'special' : 'lowercase');
+    }
+
+    // Function to flash button to provide feedback
+    function flashButton(buttonObject) {
+        const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+        material.color = flashColor;
+        setTimeout(() => {
+            material.color = buttonColor;
+        }, 100);
+    }
+
     // Function to create a button with the correct text offset
     async function createButton(label, position, group, clickHandler = null, buttonSize = letterButtonSize, width = 0.5, offset = textOffset) {
         const buttonObject = new BS.GameObject(`Button_${label}`);
@@ -81,6 +120,19 @@ async function initializeKeyboard() {
     async function createSpecialButton(label, position, clickHandler) {
         await createButton(label, position, 'special', clickHandler, specialButtonSize, 0.8, specialTextOffset);
         specialCharsButtonObjects[label].SetActive(true); // Ensure special buttons are always visible
+    }
+
+    // Function to toggle visibility of button groups
+    function toggleButtonGroup(showGroup) {
+        Object.values(lowerCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'lowercase'));
+        Object.values(upperCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'uppercase'));
+        Object.values(specialCharsButtonObjects).forEach(button => button.SetActive(showGroup === 'special'));
+
+        // Ensure the special control buttons are always visible
+        specialCharsButtonObjects["Shift"].SetActive(true);
+        specialCharsButtonObjects["Caps"].SetActive(true);
+        specialCharsButtonObjects["Special"].SetActive(true);
+        specialCharsButtonObjects["Backspace"].SetActive(true);
     }
 
     // Create the entire keyboard layout
