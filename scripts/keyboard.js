@@ -2,6 +2,7 @@ async function initializeKeyboard() {
   const lowerCaseButtonObjects = {};
   const upperCaseButtonObjects = {};
   const specialCharsButtonObjects = {};
+  const specialButtonsObjects = {};
 
   const letterButtonSize = new BS.Vector3(1, 1, 1);
   const specialButtonSize = new BS.Vector3(0.7, 0.7, 1);
@@ -111,24 +112,22 @@ async function initializeKeyboard() {
       } else if (group === 'special') {
           specialCharsButtonObjects[label] = buttonObject;
           buttonObject.SetActive(false);
-      }
+      } else if (group === 'specialButtons') {
+        specialButtonsObjects[label] = buttonObject;
+        buttonObject.SetActive(true);
+    }
   }
 
   async function createSpecialButton(label, position, clickHandler, width = 0.8, thisTextOffset = specialTextOffset) {
-      await createButton(label, position, 'special', clickHandler, specialButtonSize, width, 0.3, thisTextOffset);
-      specialCharsButtonObjects[label].SetActive(true);
+      await createButton(label, position, 'specialButtons', clickHandler, specialButtonSize, width, 0.3, thisTextOffset);
+      // specialButtonsObjects[label].SetActive(true);
   }
 
   function toggleButtonGroup(showGroup) {
       Object.values(lowerCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'lowercase'));
       Object.values(upperCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'uppercase'));
       Object.values(specialCharsButtonObjects).forEach(button => button.SetActive(showGroup === 'special'));
-
-      specialCharsButtonObjects["Shift"].SetActive(true);
-      specialCharsButtonObjects["Caps"].SetActive(true);
-      specialCharsButtonObjects["Special"].SetActive(true);
-      specialCharsButtonObjects["Backspace"].SetActive(true);
-      specialCharsButtonObjects["Space"].SetActive(true);
+      // Object.values(specialButtonsObjects).forEach(button => button.SetActive(true));
   }
 
   async function createKeyboard() {
@@ -194,7 +193,6 @@ async function initializeKeyboard() {
               position = new BS.Vector3(startX + (i - 21) * xOffset, startY + 2 * yOffset, 0); // Third row
           }
 
-          const position2 = new BS.Vector3((startX - 0.4) + (i % 11) * xOffset, startY + Math.floor(i / 11) * yOffset, 0);
           await createButton(label, position, 'special');
       }
 
