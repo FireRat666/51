@@ -304,6 +304,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
     };
   });
 
+  firescenev2.On("user-left", e => { if (e.detail.isLocal) { firstrunhandcontrolsv2 = true;
+      console.log("FIRESCREEN2: Local User Left, Resetting firstrunhandcontrolsv2 variable"); };
+  });
+
   async function setupHandControls() {
     // THE CONTAINER FOR THE HAND BUTTONS
     const plane20Object = new BS.GameObject("handContainer");

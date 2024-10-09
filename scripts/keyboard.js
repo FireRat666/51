@@ -1,4 +1,6 @@
-let buttonObjects = {}; // Store the button objects for toggling visibility
+let lowerCaseButtonObjects = {};
+let upperCaseButtonObjects = {};
+let specialCharsButtonObjects = {};
 
 // Constants for setting up the keyboard
 const letterButtonSize = new BS.Vector3(0.3, 0.3, 0.3);
@@ -13,71 +15,81 @@ let isSpecialCharActive = false;
 // Create a parent object for the keyboard
 const keyboardParentObject = new BS.GameObject("KeyboardParent");
 const parentTransform = await keyboardParentObject.AddComponent(new BS.Transform());
-parentTransform.position = new BS.Vector3(0, 2, -2); // Adjust keyboard position as needed
+parentTransform.localPosition = new BS.Vector3(0, 2, -2);
 
 // Create text object to display the input
 const textObject = new BS.GameObject("InputText");
 const inputText = await textObject.AddComponent(new BS.BanterText("", textColor, 0.5, 0, 1));
 const textTransform = await textObject.AddComponent(new BS.Transform());
+textTransform.localPosition = new BS.Vector3(8.2, -1.4, 0);
 await textObject.SetParent(keyboardParentObject, false);
-textTransform.localPosition = new BS.Vector3(8.2, -1.4, 0); // Position text display
 
-// Function to create or retrieve a letter or special character button
-async function createOrRetrieveButton(label, position, isSpecial = false, clickHandler = null) {
-  // Check if the button already exists
-  if (buttonObjects[label]) {
-      const button = buttonObjects[label];
-      const buttonTransform = button.GetComponent(BS.ComponentType.Transform);
-      buttonTransform.position = position;
-      button.SetActive(true);
-      return;
-  }
+// Function to create a button with the correct text offset
+async function createButton(label, position, group, clickHandler = null) {
+    const buttonObject = new BS.GameObject(`Button_${label}`);
+    await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 0.5, 0.5));
+    await buttonObject.AddComponent(new BS.BanterMaterial(buttonShader, null, buttonColor));
+    const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
+    await buttonObject.AddComponent(new BS.BoxCollider(true));
+    buttonObject.SetLayer(5);
 
-  // Create a new button if it doesn't exist
-  const buttonObject = new BS.GameObject(`Button_${label}`);
-  const buttonGeometry = await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 0.5, 0.5));
-  const buttonMaterial = await buttonObject.AddComponent(new BS.BanterMaterial(buttonShader, null, buttonColor));
-  const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
-  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true));
-  buttonObject.SetLayer(5); 
+    buttonTransform.position = position;
+    buttonTransform.localScale = letterButtonSize;
 
-  buttonTransform.position = position;
-  buttonTransform.localScale = letterButtonSize;
+    // Correct the text offset as specified
+    const textOffset = new BS.Vector3(9.95, -2.4, -0.01); 
+    const textObject = new BS.GameObject(`${label}_Text`);
+    await textObject.AddComponent(new BS.BanterText(label, textColor));
+    const textTransform = await textObject.AddComponent(new BS.Transform());
+    textTransform.localPosition = textOffset;
+    await textObject.SetParent(buttonObject, false);
 
-  // Calculate offsets for the text based on button size
-  const textOffset = new BS.Vector3(9.95, -2.4, -0.01); // Adjust Y offset as needed
-  const textObject = new BS.GameObject(`${label}_Text`);
-  const banterText = await textObject.AddComponent(new BS.BanterText(label, textColor));
-  const textTransform = await textObject.AddComponent(new BS.Transform());
-  textTransform.localPosition = textOffset; // Use calculated offset for text position
-  await textObject.SetParent(buttonObject, false);
+    // Set click behavior if provided
+    if (clickHandler) {
+        buttonObject.On('click', () => {
+            clickHandler();
+            flashButton(buttonObject);
+            console.log(`Special button clicked: ${label}`);
+        });
+    } else {
+        buttonObject.On('click', () => {
+            updateInputText(label);
+            flashButton(buttonObject);
+            console.log(`Button clicked: ${label}`);
+        });
+    }
 
-  // Set button click behavior
-  if (isSpecial) {
-      buttonObject.On('click', () => {
-          clickHandler();
-          flashButton(buttonObject);
-          console.log(`Special button clicked: ${label}`);
-      });
-  } else {
-      buttonObject.On('click', () => {
-          updateInputText(label);
-          flashButton(buttonObject);
-          console.log(`Button clicked: ${label}`);
-      });
-  }
+    await buttonObject.SetParent(keyboardParentObject, false);
 
-  await buttonObject.SetParent(keyboardParentObject, false);
-
-  // Store the button for later reuse
-  buttonObjects[label] = buttonObject;
+    // Store the button in the appropriate group
+    if (group === 'lowercase') {
+        lowerCaseButtonObjects[label] = buttonObject;
+    } else if (group === 'uppercase') {
+        upperCaseButtonObjects[label] = buttonObject;
+        buttonObject.SetActive(false);
+    } else if (group === 'special') {
+        specialCharsButtonObjects[label] = buttonObject;
+        buttonObject.SetActive(false);
+    }
 }
 
-// Function to hide all buttons
-function hideAllButtons() {
-    for (let label in buttonObjects) {
-        buttonObjects[label].SetActive(false);
-    }
+// Function to create special buttons with behavior
+async function createSpecialButton(label, position, clickHandler) {
+    await createButton(label, position, 'special', clickHandler);
+    specialCharsButtonObjects[label].SetActive(true); // Ensure special buttons are always visible
+}
+
+// Function to toggle visibility of button groups
+function toggleButtonGroup(showGroup) {
+    Object.values(lowerCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'lowercase'));
+    Object.values(upperCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'uppercase'));
+    Object.values(specialCharsButtonObjects).forEach(button => button.SetActive(showGroup === 'special'));
+
+    // Ensure the special control buttons are always visible
+    specialCharsButtonObjects["Shift"].SetActive(true);
+    specialCharsButtonObjects["Caps"].SetActive(true);
+    specialCharsButtonObjects["Special"].SetActive(true);
+    specialCharsButtonObjects["Backspace"].SetActive(true);
 }
 
 // Update the input text when a letter is clicked
@@ -101,122 +113,65 @@ function flashButton(buttonObject) {
     }, 100);
 }
 
-// Switch between lowercase and uppercase letters based on shift/caps lock state
-function getCurrentLetterSet() {
-    const lowercase = "qwertyuiopasdfghjklzxcvbnm";
-    const uppercase = "QWERTYUIOPASDFGHJKLZXCVBNM";
-    const specialChars = "`~!@#$%^&*()_-+=";
-
-    if (isSpecialCharActive) {
-        return specialChars;
-    }
-
-    if (isCapsLockActive) {
-        return uppercase;
-    }
-
-    return isShiftActive ? uppercase : lowercase;
-}
-
 // Toggle shift state
 function toggleShift() {
     isShiftActive = !isShiftActive;
-    refreshKeyboard(); // Re-render the keyboard with the new letter set
+    toggleButtonGroup(isShiftActive ? 'uppercase' : 'lowercase');
 }
 
 // Toggle caps lock state
 function toggleCapsLock() {
     isCapsLockActive = !isCapsLockActive;
-    refreshKeyboard(); // Re-render the keyboard with the new letter set
+    toggleButtonGroup(isCapsLockActive ? 'uppercase' : 'lowercase');
 }
 
 // Switch to special characters
 function toggleSpecialChars() {
     isSpecialCharActive = !isSpecialCharActive;
-    refreshKeyboard(); // Re-render the keyboard with special characters
+    toggleButtonGroup(isSpecialCharActive ? 'special' : 'lowercase');
 }
 
 // Create the entire keyboard layout
 async function createKeyboard() {
-    const rows = [
-        getCurrentLetterSet().slice(0, 10),  // Row 1
-        getCurrentLetterSet().slice(10, 19), // Row 2
-        getCurrentLetterSet().slice(19)      // Row 3
-    ];
+    const lowercase = "qwertyuiopasdfghjklzxcvbnm";
+    const uppercase = "QWERTYUIOPASDFGHJKLZXCVBNM";
+    const specialChars = "`~!@#$%^&*()_-+=";
 
-    let startX = -1.8; // Adjust starting X position as needed
-    let startY = 0.5;  // Adjust starting Y position as needed
+    let startX = -1.8;
+    let startY = 0.5;
     let xOffset = 0.25;
     let yOffset = -0.3;
 
-    // Create or retrieve letter buttons
-    for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-        const row = rows[rowIndex];
-        for (let i = 0; i < row.length; i++) {
-            const label = row[i];
-            const position = new BS.Vector3(startX + i * xOffset, startY + rowIndex * yOffset, 0);
-            await createOrRetrieveButton(label, position);
-        }
+    // Create lowercase buttons
+    for (let i = 0; i < lowercase.length; i++) {
+        const label = lowercase[i];
+        const position = new BS.Vector3(startX + (i % 10) * xOffset, startY + Math.floor(i / 10) * yOffset, 0);
+        await createButton(label, position, 'lowercase');
     }
 
-    // Create or retrieve special buttons: Shift, Caps Lock, Special Characters, and Backspace
-    await createOrRetrieveButton("Shift", new BS.Vector3(startX + 0 * xOffset, startY + 3 * yOffset, 0), true, toggleShift);
-    await createOrRetrieveButton("Caps", new BS.Vector3(startX + 1 * xOffset, startY + 3 * yOffset, 0), true, toggleCapsLock);
-    await createOrRetrieveButton("Special", new BS.Vector3(startX + 2 * xOffset, startY + 3 * yOffset, 0), true, toggleSpecialChars);
-    await createOrRetrieveButton("Backspace", new BS.Vector3(startX + 9 * xOffset, startY + 0 * yOffset, 0), true, backspaceInputText);
+    // Create uppercase buttons
+    for (let i = 0; i < uppercase.length; i++) {
+        const label = uppercase[i];
+        const position = new BS.Vector3(startX + (i % 10) * xOffset, startY + Math.floor(i / 10) * yOffset, 0);
+        await createButton(label, position, 'uppercase');
+    }
+
+    // Create special characters buttons
+    for (let i = 0; i < specialChars.length; i++) {
+        const label = specialChars[i];
+        const position = new BS.Vector3(startX + (i % 10) * xOffset, startY + Math.floor(i / 10) * yOffset, 0);
+        await createButton(label, position, 'special');
+    }
+
+    // Create special buttons: Shift, Caps Lock, Special Characters, and Backspace
+    await createSpecialButton("Shift", new BS.Vector3(startX, startY + 3 * yOffset, 0), toggleShift);
+    await createSpecialButton("Caps", new BS.Vector3(startX + xOffset, startY + 3 * yOffset, 0), toggleCapsLock);
+    await createSpecialButton("Special", new BS.Vector3(startX + 2 * xOffset, startY + 3 * yOffset, 0), toggleSpecialChars);
+    await createSpecialButton("Backspace", new BS.Vector3(startX + 10 * xOffset, startY, 0), backspaceInputText);
+
+    // Default to showing lowercase letters
+    toggleButtonGroup('lowercase');
 }
-
-// Refresh the keyboard layout by toggling visibility instead of destroying and recreating buttons
-async function refreshKeyboard() {
-  try {
-      // Iterate through all child objects (buttons)
-      keyboardParentObject.Traverse((child) => {
-          // Ensure it's not the special buttons (Shift, Caps, Special, Backspace) or the parent object itself
-          if (child.name !== "Button_Shift" && 
-              child.name !== "Button_Caps" && 
-              child.name !== "Button_Special" && 
-              child.name !== "Button_Backspace" &&
-              child !== keyboardParentObject) {
-              // Toggle visibility for other buttons
-              child.SetActive(false); // Hide all letter buttons initially
-          }
-      }, true);
-
-      // Now, update the visibility of only the necessary letter buttons based on the current keyboard state
-      const rows = [
-          getCurrentLetterSet().slice(0, 10),  // Row 1
-          getCurrentLetterSet().slice(10, 19), // Row 2
-          getCurrentLetterSet().slice(19)      // Row 3
-      ];
-
-      let startX = -1.8; // Adjust starting X position as needed
-      let startY = 0.5;  // Adjust starting Y position as needed
-      let xOffset = 0.25;
-      let yOffset = -0.3;
-
-      // Iterate through the letter buttons to make them visible again
-      for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-          const row = rows[rowIndex];
-          for (let i = 0; i < row.length; i++) {
-              const label = row[i];
-              const position = new BS.Vector3(startX + i * xOffset, startY + rowIndex * yOffset, 0);
-              const buttonObject = await keyboardParentObject.Find(`Button_${label}`);
-
-              if (buttonObject) {
-                  buttonObject.SetActive(true); // Show letter buttons
-                  const buttonTransform = buttonObject.GetComponent(BS.ComponentType.Transform);
-                  if (buttonTransform) {
-                      buttonTransform.position = position; // Update position for visibility
-                  }
-              }
-          }
-      }
-
-  } catch (error) {
-      console.error("Error during keyboard refresh:", error);
-  }
-}
-
 
 // Initialize the keyboard
 createKeyboard();
