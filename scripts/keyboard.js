@@ -42,7 +42,7 @@ async function initializeKeyboard() {
     } else {
         toggleButtonGroup('lowercase');
     }
-}
+  }
 
   function toggleCapsLock() {
       isCapsLockActive = !isCapsLockActive;
@@ -80,35 +80,25 @@ async function initializeKeyboard() {
     await textObject.SetParent(buttonObject, false);
 
     if (clickHandler) {
-        buttonObject.On('click', () => {
-          // Reset Buttons after using them
-          if (isShiftActive && label !== "Shift") {
-            isShiftActive = false; // Deactivate Shift
-          }
-          if (isCapsLockActive && label !== "Caps") {
-            isCapsLockActive = false; // Deactivate Caps
-          }
-          if (isSpecialCharActive && label !== "Special") {
-            isSpecialCharActive = false; // Deactivate Special
-          }
-            clickHandler();
-            flashButton(buttonObject);
-            console.log(`Special button clicked: ${label}`);
-        });
+      buttonObject.On('click', () => {
+        // Reset Buttons after using them
+        if (isShiftActive && label !== "Shift") { isShiftActive = false; } // Deactivate Shift
+        if (isCapsLockActive && label !== "Caps") { isCapsLockActive = false; } // Deactivate Caps
+        if (isSpecialCharActive && label !== "Special") { isSpecialCharActive = false; } // Deactivate Special
+        clickHandler();
+        flashButton(buttonObject);
+        console.log(`Special button clicked: ${label}`);
+      });
     } else {
-        buttonObject.On('click', () => {
-            if (isShiftActive) {
-                // If Shift is active, add uppercase letter
-                updateInputText(label);
-                isShiftActive = false; // Deactivate Shift
-                toggleButtonGroup('lowercase'); // Switch back to lowercase buttons
-            } else {
-                // Normal lowercase input
-                updateInputText(label);
-            }
-            flashButton(buttonObject);
-            console.log(`Button clicked: ${label}`);
-        });
+      buttonObject.On('click', () => {
+        if (isShiftActive) { // If Shift is active, add uppercase letter
+          updateInputText(label);
+          isShiftActive = false; // Deactivate Shift
+          toggleButtonGroup('lowercase'); // Switch back to lowercase buttons
+        } else { updateInputText(label); } // Normal lowercase input
+        flashButton(buttonObject);
+        console.log(`Button clicked: ${label}`);
+      });
     }
 
     await buttonObject.SetParent(keyboardParentObject, false);
