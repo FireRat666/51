@@ -26,41 +26,25 @@ async function initializeKeyboard() {
   textTransform.localPosition = new BS.Vector3(8.1, -1, 0);
   await textObject.SetParent(keyboardParentObject, false);
 
-  function updateInputText(label) {
-      inputText.text += label;
+  function updateInputText(label) { inputText.text += label; }
+
+  function backspaceInputText() { if (inputText.text.length > 0) { inputText.text = inputText.text.slice(0, -1); } }
+
+  function toggleShift() { isShiftActive = !isShiftActive;
+    if (isShiftActive) { toggleButtonGroup('uppercase'); } else { toggleButtonGroup('lowercase'); }
   }
 
-  function backspaceInputText() {
-      if (inputText.text.length > 0) {
-          inputText.text = inputText.text.slice(0, -1);
-      }
+  function toggleCapsLock() { isCapsLockActive = !isCapsLockActive;
+    toggleButtonGroup(isCapsLockActive ? 'uppercase' : 'lowercase');
   }
 
-  function toggleShift() {
-    isShiftActive = !isShiftActive;
-    if (isShiftActive) {
-        toggleButtonGroup('uppercase');
-    } else {
-        toggleButtonGroup('lowercase');
-    }
-  }
-
-  function toggleCapsLock() {
-      isCapsLockActive = !isCapsLockActive;
-      toggleButtonGroup(isCapsLockActive ? 'uppercase' : 'lowercase');
-  }
-
-  function toggleSpecialChars() {
-      isSpecialCharActive = !isSpecialCharActive;
-      toggleButtonGroup(isSpecialCharActive ? 'special' : 'lowercase');
+  function toggleSpecialChars() { isSpecialCharActive = !isSpecialCharActive;
+    toggleButtonGroup(isSpecialCharActive ? 'special' : 'lowercase');
   }
 
   function flashButton(buttonObject) {
-      const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-      material.color = flashColor;
-      setTimeout(() => {
-          material.color = buttonColor;
-      }, 100);
+    const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+    material.color = flashColor; setTimeout(() => { material.color = buttonColor; }, 100);
   }
 
   async function createButton(label, position, group, clickHandler = null, buttonSize = letterButtonSize, width = 0.3, height = 0.3, offset = textOffset) {
@@ -104,107 +88,78 @@ async function initializeKeyboard() {
 
     await buttonObject.SetParent(keyboardParentObject, false);
 
-      if (group === 'lowercase') {
-          lowerCaseButtonObjects[label] = buttonObject;
+      if (group === 'lowercase') { lowerCaseButtonObjects[label] = buttonObject;
       } else if (group === 'uppercase') {
-          upperCaseButtonObjects[label] = buttonObject;
-          buttonObject.SetActive(false);
+        upperCaseButtonObjects[label] = buttonObject; buttonObject.SetActive(false);
       } else if (group === 'special') {
-          specialCharsButtonObjects[label] = buttonObject;
-          buttonObject.SetActive(false);
+        specialCharsButtonObjects[label] = buttonObject; buttonObject.SetActive(false);
       } else if (group === 'specialButtons') {
-        specialButtonsObjects[label] = buttonObject;
-        buttonObject.SetActive(true);
+        specialButtonsObjects[label] = buttonObject; buttonObject.SetActive(true);
     }
   }
 
   async function createSpecialButton(label, position, clickHandler, width = 0.8, thisTextOffset = specialTextOffset) {
-      await createButton(label, position, 'specialButtons', clickHandler, specialButtonSize, width, 0.3, thisTextOffset);
-      // specialButtonsObjects[label].SetActive(true);
+    await createButton(label, position, 'specialButtons', clickHandler, specialButtonSize, width, 0.3, thisTextOffset);
   }
 
   function toggleButtonGroup(showGroup) {
-      Object.values(lowerCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'lowercase'));
-      Object.values(upperCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'uppercase'));
-      Object.values(specialCharsButtonObjects).forEach(button => button.SetActive(showGroup === 'special'));
-      // Object.values(specialButtonsObjects).forEach(button => button.SetActive(true));
+    Object.values(lowerCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'lowercase'));
+    Object.values(upperCaseButtonObjects).forEach(button => button.SetActive(showGroup === 'uppercase'));
+    Object.values(specialCharsButtonObjects).forEach(button => button.SetActive(showGroup === 'special'));
   }
 
   async function createKeyboard() {
-      const numbers = "1234567890";
-      const lowercase = "qwertyuiopasdfghjklzxcvbnm";
-      const uppercase = "QWERTYUIOPASDFGHJKLZXCVBNM";
-      const specialChars = "`~!@#$%^&*()_-+=[]{};:'\",.<>/\\?";
+    const numbers = "1234567890";
+    const lowercase = "qwertyuiopasdfghjklzxcvbnm";
+    const uppercase = "QWERTYUIOPASDFGHJKLZXCVBNM";
+    const specialChars = "`~!@#$%^&*()_-+=[]{};:'\",.<>/\\?";
 
-      let startX = -1.8;
-      let startY = 0.5;
-      let xOffset = 0.4;
-      let yOffset = -0.4;
+    let startX = -1.8; let startY = 0.5;
+    let xOffset = 0.4; let yOffset = -0.4;
 
-      // Create number buttons at the top row
-      for (let i = 0; i < numbers.length; i++) {
-          const label = numbers[i];
-          const position = new BS.Vector3(startX + (i % 10) * xOffset, (startY + 0.4), 0);
-          await createButton(label, position, 'number'); // Create number buttons
+    // Function to create buttons with specific positions based on layout
+    async function createButtons(characters, group, positionLogic) {
+      for (let i = 0; i < characters.length; i++) {
+        const label = characters[i];
+        const position = positionLogic(i, label);
+        await createButton(label, position, group);
       }
-
-      // Create lowercase buttons
-      for (let i = 0; i < lowercase.length; i++) {
-        const label = lowercase[i];
-        let position;
-        
-        if (i < 10) {
-            position = new BS.Vector3(startX + i * xOffset, startY, 0); // First row
-        } else if (i < 19) {
-            position = new BS.Vector3((startX + 0.2) + (i - 10) * xOffset, startY + yOffset, 0); // Second row
-        } else {
-            position = new BS.Vector3((startX + 0.4) + (i - 19) * xOffset, startY + 2 * yOffset, 0); // Third row
-        }
-        
-        await createButton(label, position, 'lowercase');
     }
 
-      // Create uppercase buttons
-      for (let i = 0; i < uppercase.length; i++) {
-        const label = uppercase[i];
-        let position;
-    
-        if (i < 10) {
-            position = new BS.Vector3(startX + i * xOffset, startY, 0); // First row
-        } else if (i < 19) {
-            position = new BS.Vector3((startX + 0.2) + (i - 10) * xOffset, startY + yOffset, 0); // Second row
-        } else {
-            position = new BS.Vector3((startX + 0.4) + (i - 19) * xOffset, startY + 2 * yOffset, 0); // Third row
-        }
-    
-        await createButton(label, position, 'uppercase');
+    function numberPositionLogic(i) { return new BS.Vector3(startX + (i % 10) * xOffset, startY + 0.4, 0); }
+
+    function letterPositionLogic(i) {
+      let position;
+      if (i < 10) { position = new BS.Vector3(startX + i * xOffset, startY, 0); // First row
+      } else if (i < 19) { position = new BS.Vector3(startX + 0.2 + (i - 10) * xOffset, startY + yOffset, 0); // Second row
+      } else { position = new BS.Vector3(startX + 0.4 + (i - 19) * xOffset, startY + 2 * yOffset, 0); } // Third row
+      return position;
     }
 
-      // Create special characters buttons
-      for (let i = 0; i < specialChars.length; i++) {
-          const label = specialChars[i];
-          let position;
-      
-          if (i < 10) {
-              position = new BS.Vector3(startX + i * xOffset, startY, 0); // First row
-          } else if (i < 21) {
-              position = new BS.Vector3(startX+ (i - 10) * xOffset, startY + yOffset, 0); // Second row
-          } else {
-              position = new BS.Vector3(startX + (i - 21) * xOffset, startY + 2 * yOffset, 0); // Third row
-          }
+    function specialCharsPositionLogic(i) {
+      let position;
+      if (i < 10) { position = new BS.Vector3(startX + i * xOffset, startY, 0); // First row
+      } else if (i < 21) { position = new BS.Vector3(startX + (i - 10) * xOffset, startY + yOffset, 0); // Second row
+      } else { position = new BS.Vector3(startX + (i - 21) * xOffset, startY + 2 * yOffset, 0); } // Third row
+      return position;
+    }
 
-          await createButton(label, position, 'special');
-      }
+    // Create buttons using the defined logic
+    await createButtons(numbers, 'number', numberPositionLogic);
+    await createButtons(lowercase, 'lowercase', letterPositionLogic);
+    await createButtons(uppercase, 'uppercase', letterPositionLogic);
+    await createButtons(specialChars, 'special', specialCharsPositionLogic);
 
-      // Create special buttons: Shift, Caps Lock, Special Characters, Backspace and Space
-      await createSpecialButton("Shift", new BS.Vector3(startX - 0.5, (startY) + 3 * yOffset, 0), toggleShift);
-      await createSpecialButton("Caps", new BS.Vector3((startX - 0.9) + xOffset, (startY + 0.4) + 3 * yOffset, 0), toggleCapsLock);
-      await createSpecialButton("Special", new BS.Vector3((startX - 0.2) + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars, 0.8, new BS.Vector3(9.65, -2.37, -0.01));
-      await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
-      await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
+    // Create special buttons: Shift, Caps Lock, Special Characters, Backspace, and Space
+    await createSpecialButton("Shift", new BS.Vector3(startX - 0.5, (startY) + 3 * yOffset, 0), toggleShift);
+    await createSpecialButton("Caps", new BS.Vector3((startX - 0.9) + xOffset, (startY + 0.4) + 3 * yOffset, 0), toggleCapsLock);
+    await createSpecialButton("Special", new BS.Vector3((startX - 0.2) + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars, 0.8, new BS.Vector3(9.65, -2.37, -0.01));
+    await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, (startY + 0.4), 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+    await createSpecialButton("Submit", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), () => { console.log(inputText.text); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+    await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
 
-      // Default to showing lowercase letters
-      toggleButtonGroup('lowercase');
+    // Default to showing lowercase letters
+    toggleButtonGroup('lowercase');
   }
 
   await createKeyboard();
