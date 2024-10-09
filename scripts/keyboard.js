@@ -99,7 +99,7 @@ async function initializeKeyboard() {
   }
 
   async function createSpecialButton(label, position, clickHandler, width = 0.8, thisTextOffset = specialTextOffset) {
-    await createButton(label, position, 'specialButtons', clickHandler, specialButtonSize, width, 0.3, thisTextOffset);
+    await createButton(label, position, 'specialButtons', clickHandler, specialButtonSize, width, 0.37, thisTextOffset);
   }
 
   function toggleButtonGroup(showGroup) {
