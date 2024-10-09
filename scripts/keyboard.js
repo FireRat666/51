@@ -166,9 +166,9 @@ async function initializeKeyboard() {
         if (i < 10) {
             position = new BS.Vector3(startX + i * xOffset, startY, 0); // First row
         } else if (i < 19) {
-            position = new BS.Vector3(startX + (i - 10) * xOffset, startY + yOffset, 0); // Second row
+            position = new BS.Vector3((startX + 0.2) + (i - 10) * xOffset, startY + yOffset, 0); // Second row
         } else {
-            position = new BS.Vector3(startX + (i - 19) * xOffset, startY + 2 * yOffset, 0); // Third row
+            position = new BS.Vector3((startX + 0.4) + (i - 19) * xOffset, startY + 2 * yOffset, 0); // Third row
         }
         
         await createButton(label, position, 'lowercase');
@@ -182,9 +182,9 @@ async function initializeKeyboard() {
         if (i < 10) {
             position = new BS.Vector3(startX + i * xOffset, startY, 0); // First row
         } else if (i < 19) {
-            position = new BS.Vector3(startX + (i - 10) * xOffset, startY + yOffset, 0); // Second row
+            position = new BS.Vector3((startX + 0.2) + (i - 10) * xOffset, startY + yOffset, 0); // Second row
         } else {
-            position = new BS.Vector3(startX + (i - 19) * xOffset, startY + 2 * yOffset, 0); // Third row
+            position = new BS.Vector3((startX + 0.4) + (i - 19) * xOffset, startY + 2 * yOffset, 0); // Third row
         }
     
         await createButton(label, position, 'uppercase');
