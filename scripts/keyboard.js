@@ -10,7 +10,7 @@ async function initializeKeyboard() {
   const buttonShader = 'Unlit/Diffuse';
   const flashColor = new BS.Vector4(0.3, 0.3, 0.3, 0.5);
   const textOffset = new BS.Vector3(9.94, -2.38, -0.01); 
-  const specialTextOffset = new BS.Vector3(9.8, -2.4, -0.01); 
+  const specialTextOffset = new BS.Vector3(9.8, -2.37, -0.01); 
   let isShiftActive = false;
   let isCapsLockActive = false;
   let isSpecialCharActive = false;
@@ -138,6 +138,7 @@ async function initializeKeyboard() {
       specialCharsButtonObjects["Caps"].SetActive(true);
       specialCharsButtonObjects["Special"].SetActive(true);
       specialCharsButtonObjects["Backspace"].SetActive(true);
+      specialCharsButtonObjects["Space"].SetActive(true);
   }
 
   async function createKeyboard() {
@@ -207,11 +208,12 @@ async function initializeKeyboard() {
           await createButton(label, position, 'special');
       }
 
-      // Create special buttons: Shift, Caps Lock, Special Characters, and Backspace
-      await createSpecialButton("Shift", new BS.Vector3(startX + 0.03, startY + 3 * yOffset, 0), toggleShift);
-      await createSpecialButton("Caps", new BS.Vector3(startX + 0.21 + xOffset, startY + 3 * yOffset, 0), toggleCapsLock);
-      await createSpecialButton("Special", new BS.Vector3(startX + 0.8 + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars, 0.8, new BS.Vector3(9.65, -2.4, -0.01));
-      await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.4, -0.01));
+      // Create special buttons: Shift, Caps Lock, Special Characters, Backspace and Space
+      await createSpecialButton("Shift", new BS.Vector3(startX - 0.5, (startY) + 3 * yOffset, 0), toggleShift);
+      await createSpecialButton("Caps", new BS.Vector3((startX - 0.9) + xOffset, (startY + 0.4) + 3 * yOffset, 0), toggleCapsLock);
+      await createSpecialButton("Special", new BS.Vector3((startX - 0.2) + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars, 0.8, new BS.Vector3(9.65, -2.37, -0.01));
+      await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+      await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
 
       // Default to showing lowercase letters
       toggleButtonGroup('lowercase');
