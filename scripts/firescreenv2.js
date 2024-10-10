@@ -271,7 +271,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   firerigidBody.gameObject.On('grab', () => {console.log("GRABBED!"); firerigidBody.isKinematic = false; });  // When user Grabs the Browser, Make it moveable
   firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; }); // When user Drops the Browser, Lock it in place
 
-  firescenev2.On("one-shot", e => { console.log(e)
+  firescenev2.On("one-shot", e => { console.log(e.detail)
     const data = JSON.parse(e.detail.data);
     if (e.detail.fromAdmin) { console.log("Current Shot From Admin Is True");
       if (data.fireurl) firebrowser.url = data.fireurl;
@@ -280,7 +280,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
         const firepercent = (thisfirevolume * 100).toFixed(0);
         runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume = ${thisfirevolume});
           document.querySelector('.html5-video-player')?.setVolume(${firepercent});`);};
-      if (data.browseraction) { runBrowserActions(firebrowser, data.browseraction); };
+      if (data.browseraction) { runBrowserActions(firebrowser, data.browseraction); console.log(data.browseraction); };
     } else if (e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {
       if (data.fireurl) firebrowser.url = data.fireurl;
       if (data.firevolume) {
@@ -288,7 +288,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
         const firepercent = (thisfirevolume * 100).toFixed(0);
         runBrowserActions(`document.querySelectorAll('video, audio').forEach((elem) => elem.volume = ${thisfirevolume});
           document.querySelector('.html5-video-player')?.setVolume(${firepercent});`);};
-      if (data.browseraction) { runBrowserActions(firebrowser, data.browseraction); };
+      if (data.browseraction) { runBrowserActions(firebrowser, data.browseraction); console.log(data.browseraction);};
     } else { console.log("Current Shot From Admin Is False");
       console.log(e.detail.fromId);
     };
@@ -476,6 +476,7 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
 // oneShot({firevolume: "0"});
 
 // oneShot({browseraction: "action"});
+// oneShot({browseraction: `window.bantermessage(window.alert('test'));`});
 
 // adjustForAll("browserAction", `window.bantermessage(window.alert('test'));`)
 
