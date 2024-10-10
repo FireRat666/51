@@ -95,8 +95,8 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   firevolume = Math.max(0, Math.min(firevolume, 1)).toFixed(2);
   let firepercent = (firevolume * 100).toFixed(0);
   firebrowser.volumeLevel = firevolume;
-  runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume});`);
-  runBrowserActions(firebrowser, `document.querySelector('.html5-video-player').setVolume(${firepercent});`);
+  runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
+    document.querySelector('.html5-video-player').setVolume(${firepercent});`);
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
 
@@ -409,8 +409,8 @@ function keepsoundlevel2() {
       while (thisloopnumber < window.theNumberofBrowsers) { thisloopnumber++
         let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
         let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-        runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel});`);
-        runBrowserActions(thebrowserpart, `document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)});`);
+        runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel}); 
+          document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)});`);
       };
     }, 5000); } else if (fireScreen2On) { console.log("FIRESCREEN2: ALREADY SET soundlevel loop"); } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
 };
@@ -485,3 +485,5 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
 // (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": 
 //   `window.bantermessage(window.alert('test'))` 
 // }]}));
+
+// `window.scrollBy(0,1000);`  `window.scrollBy(0,-1000);`
