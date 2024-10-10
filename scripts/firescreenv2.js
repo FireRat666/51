@@ -419,15 +419,17 @@ async function adjustForAll(action, change) {
 	let thisloopnumber = 0;
 	while (thisloopnumber < window.theNumberofBrowsers) {
 		thisloopnumber++
-		let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
-    let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+		// let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
+    let thebrowserpart = (await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`)).GetComponent(BS.ComponentType.BanterBrowser);
 		if (action === "adjustVolume") adjustVolume(thebrowserpart, change);
 		if (action === "soundLevels") keepsoundlevel2(thebrowserpart);
 		if (action === "goHome") thebrowserpart.url = thebrowserpart.homePage;
 		if (action === "toggleMute") {
       thebrowserpart.muteState = !thebrowserpart.muteState; thebrowserpart.muteState ? muteState = "mute" : muteState = "unMute";
-      runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});`);
-      runBrowserActions(thebrowserpart, `document.querySelector('.html5-video-player').${muteState}();`);
+      runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});document.querySelector('.html5-video-player').${muteState}();`);
+    };
+		if (action === "browserAction") {
+      runBrowserActions(thebrowserpart, `${change}`);
     };
     console.log(action);
 	};
@@ -474,3 +476,11 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
 // oneShot({firevolume: "0"});
 
 // oneShot({browseraction: "action"});
+
+// adjustForAll("browserAction", `window.bantermessage(window.alert('test'));`)
+
+// runBrowserActions((await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser), `window.bantermessage(window.alert('test'))`)
+
+// (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": 
+//   `window.bantermessage(window.alert('test'))` 
+// }]}));
