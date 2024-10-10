@@ -272,9 +272,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; }); // When user Drops the Browser, Lock it in place
 
   firescenev2.On("one-shot", e => { console.log(e.detail);
-    const data = JSON.parse(e.detail.data);
-    const isAdmin = e.detail.fromAdmin; const isTargetId = e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9";
-    if (isAdmin || isTargetId) {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
+    const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
+    if (isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
       if (data.fireurl) firebrowser.url = data.fireurl;
       if (data.firevolume) { const fireVolume = Number(parseFloat(data.firevolume).toFixed(2)); const firePercent = (fireVolume * 100).toFixed(0);
         runBrowserActions(`document.querySelectorAll('video, audio').forEach(elem => elem.volume = ${fireVolume});
