@@ -29,7 +29,8 @@ async function initializeKeyboard() {
   const messagesTextObject = new BS.GameObject(`messagesTextObject`);
   const messageBoardText = await messagesTextObject.AddComponent(new BS.BanterText("User:Message", new BS.Vector4(1,1,1,1), 1, 0, 1));
   const messageTextTransform = await messagesTextObject.AddComponent(new BS.Transform());
-  messageTextTransform.localPosition = new BS.Vector3(8, 1, 0); messageTextTransform.localScale = new BS.Vector3(2, 2, 2);
+  messageTextTransform.localPosition = new BS.Vector3(4, -1, 0); messageTextTransform.localScale = new BS.Vector3(3, 3, 1);
+  await textObject.SetParent(keyboardParentObject, false);
 
   function updateInputText(label) { inputText.text += label; }
 
