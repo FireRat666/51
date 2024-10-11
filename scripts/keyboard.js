@@ -26,6 +26,11 @@ async function initializeKeyboard() {
   textTransform.localPosition = new BS.Vector3(8.1, -1, 0);
   await textObject.SetParent(keyboardParentObject, false);
 
+  const messagesTextObject = new BS.GameObject(`messagesTextObject`);
+  const messageBoardText = await messagesTextObject.AddComponent(new BS.BanterText("User:Message", new BS.Vector4(1,1,1,1), 1, 0, 1));
+  const messageTextTransform = await messagesTextObject.AddComponent(new BS.Transform());
+  messageTextTransform.localPosition = new BS.Vector3(8, 1, 0); messageTextTransform.localScale = new BS.Vector3(2, 2, 2);
+
   function updateInputText(label) { inputText.text += label; }
 
   function backspaceInputText() { if (inputText.text.length > 0) { inputText.text = inputText.text.slice(0, -1); } }
@@ -155,7 +160,8 @@ async function initializeKeyboard() {
     await createSpecialButton("Caps", new BS.Vector3((startX - 0.9) + xOffset, (startY + 0.4) + 3 * yOffset, 0), toggleCapsLock);
     await createSpecialButton("Special", new BS.Vector3((startX - 0.2) + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars, 0.8, new BS.Vector3(9.65, -2.37, -0.01));
     await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, (startY + 0.4), 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
-    await createSpecialButton("Submit", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), () => { console.log(inputText.text); openPage(inputText.text); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+    await createSpecialButton("Submit", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), () => { console.log(inputText.text);
+      setPublicSpaceProp(`USERID:${BS.BanterScene.GetInstance().localUser.uid}:${BS.BanterScene.GetInstance().localUser.name}`, inputText.text.substring(0, 20).trim()); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
 
     await createSpecialButton("Paste", new BS.Vector3(startX + 10.8 * xOffset, startY + 1.0 * yOffset, 0), async () => {
@@ -178,7 +184,26 @@ async function initializeKeyboard() {
   }
 
   await createKeyboard();
+  await updateMessageBoard(messageBoardText); 
+
+  var thiscountervariable = 0;
+  AframeInjection.addEventListener('spaceStateChange', async e => {thiscountervariable++
+    console.log(`Space State Listener.${thiscountervariable}`); updateMessageBoard(messageBoardText); 
+    e.detail.changes.forEach(change => { console.log(change);})
+  });
 }
 
 // Call the function to initialize the keyboard
 initializeKeyboard();
+
+async function updateMessageBoard(thisText) { thisText.text = "User:Message";
+  let spacestatethings = Object.entries(BS.BanterScene.GetInstance().spaceState.public);
+  // Convert the entries to an array, sort by value, and then format the output
+  // let sortedEntries = Object.entries(BS.BanterScene.GetInstance().spaceState.public).sort((a, b) => a[1] - b[1]);
+  spacestatethings.forEach(([key, value]) => {
+    if (key.includes("USERID:")) {
+      const strippedKey = key.replace(/USERID:([a-f0-9]{32}):/, '');
+      thisText.text += "\n" + strippedKey.substring(0, 19).trim() + ": " + value.substring(0, 20).trim();
+    }
+  });              
+};
