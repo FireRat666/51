@@ -505,9 +505,9 @@ async function firescreenloadstuff() {
     const data = JSON.parse(e.detail.data);
     const isAdminOrLocalUser = e.detail.fromAdmin || e.detail.fromId === firescene.localUser.uid;
     if (isAdminOrLocalUser) { console.log(isAdminOrLocalUser ? "Current Shot is from Admin" : "Current Shot is from Local User");
-      if (data.fireurl) setfirepageurls(data.fireurl);
+      if (data.fireurl) setFirePageUrls(data.fireurl);
     } else if (e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {
-      if (data.fireurl) setfirepageurls(data.fireurl);
+      if (data.fireurl) setFirePageUrls(data.fireurl);
     };
   });
 
