@@ -415,6 +415,7 @@ async function adjustForAll(action, change) {
 		if (action === "adjustVolume") adjustVolume(thebrowserpart, change);
 		if (action === "soundLevels") keepsoundlevel2(thebrowserpart);
 		if (action === "goHome") thebrowserpart.url = thebrowserpart.homePage;
+		if (action === "goURL") thebrowserpart.url = change;
 		if (action === "toggleMute") {
       thebrowserpart.muteState = !thebrowserpart.muteState; thebrowserpart.muteState ? muteState = "mute" : muteState = "unMute";
       runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});document.querySelector('.html5-video-player').${muteState}();`);
