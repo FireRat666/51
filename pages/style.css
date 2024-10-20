@@ -31,7 +31,7 @@ body { font-size: 35px; color: #FFFFFF; margin: 0 100px; padding: 0; height: 100
 body::before {
   content: ''; position: absolute; top: 15%; left: 15%; right: 15%; bottom: 15%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url("https://firer.at/files/FireRat-Transparentv3.webp");
-  background-repeat: no-repeat; background-position: center; background-size: contain; background-attachment: fixed; z-index: -1;
+  background-repeat: no-repeat; background-position: center; background-size: contain; z-index: -1;
 }
 /* Larger screens */
 @media (min-width: 1200px) { body { font-size: 45px; background-color:#000000; color: #FFFFFF; } .button {font-size: 35px;} .form-thing {font-size: 50px;} } 
