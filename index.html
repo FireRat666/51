@@ -32,11 +32,14 @@
 		  gtag('js', new Date()); gtag('config', 'G-HSMS8JERQ2'); </script>
 		<!-- Analytics and Cookie Stuff END -->
     <script>
+      
+    if(window.isBanter) {
       const thisintervalvar = setInterval(() => {
         if (window.user && window.user.id !== undefined) { clearInterval(thisintervalvar);
           console.log(`Index.html: window.user.id: ${window.user.id}`);
         } else { console.log(`Index.html: window.user: ${window.user}`); };
       }, 1000);
+    } else {
 
   const images = [
     'https://firer.at/files/FireRat-Transparentv3.webp',
@@ -60,8 +63,9 @@
       );
     }
 
-  window.onload = setRandomBackground;
-
+    setRandomBackground();
+  // window.onload = setRandomBackground;
+}
     </script>
 </head>
 	<body id="body">
