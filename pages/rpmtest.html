@@ -3,33 +3,23 @@
   <head>
     <!-- <link rel="stylesheet" href="/pages/style.css" /> -->
   	<style>
-    :root { --background-image: url("https://firer.at/files/FireRat-Transparentv3.webp"); color-scheme: dark; }
-
-    .button {
-      background-color: #969696; border: none; color: white; padding: 8px 16px;
-      text-align: center; text-decoration: none; display: inline-block;
-      font-size: 15px; margin: 4px 2px; transition-duration: 0.4s; cursor: pointer; }
-    .button1 { background-color: black; color: white; border: 2px solid #00e613; }
-    .button1:hover { background-color: #007914; color: white; }
-    .button1:active { background-color: #004a0c; color: white; transform: translateY(4px); }
-
-    .url-form { width: 80%; border: 2px solid rgb(0, 130, 0);}
-    .url-thing { font-size: 35px; padding: 0.3em 0.5em; margin: 0.1em 0em; border-radius: 2vh; background-color: rgba(0, 0, 0, 0.6);}
-    .url-thing:hover { border: 2px solid rgb(0, 255, 0); }
-    .url-thing:focus { border: 3px solid rgb(0, 255, 0); }
-
-    body { font-size: 25px; color: #FFFFFF; margin: 0; padding: 0; height: 100vh; background-color:#000000; position: relative;}
-
-    body::before {
-      content: ''; position: fixed; top: 15%; left: 15%; right: 15%; bottom: 15%;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), var(--background-image);
-      background-repeat: no-repeat; background-position: center; background-size: contain; z-index: -1; pointer-events: none;
-    }
-    /* Larger screens */
-    @media (min-width: 1200px) { body { font-size: 35px; background-color:#000000; color: #FFFFFF; } .button {font-size: 35px;} .form-thing {font-size: 50px;} } 
-    /* Smaller tablets and mobiles */
-    @media (max-width: 900px) { body { font-size: 20px; background-color:#000000; color: #FFFFFF; } .button {font-size: 12px;} .form-thing {font-size: 30px;} }
-    input.url {font-size: 30px;}
+      :root { --background-image: url("https://firer.at/files/FireRat-Transparentv3.webp"); color-scheme: dark; }
+      .button {
+        background-color: #969696; border: none; color: white; padding: 8px 16px;
+        text-align: center; text-decoration: none; display: inline-block;
+        font-size: 15px; margin: 4px 2px; transition-duration: 0.4s; cursor: pointer; }
+      .button1 { background-color: black; color: white; border: 2px solid #00e613; }
+      .button1:hover { background-color: #007914; color: white; }
+      .button1:active { background-color: #004a0c; color: white; transform: translateY(4px); }
+      body { font-size: 25px; color: #FFFFFF; margin: 0; padding: 0; height: 100vh; background-color:#000000; position: relative;}
+      body::before {
+        content: ''; position: fixed; top: 15%; left: 15%; right: 15%; bottom: 15%;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), var(--background-image);
+        background-repeat: no-repeat; background-position: center; background-size: contain; z-index: -1; pointer-events: none;
+      }
+      @media (min-width: 1200px) { body { font-size: 35px; background-color:#000000; color: #FFFFFF; } .button {font-size: 35px;} .form-thing {font-size: 50px;} } 
+      @media (max-width: 900px) { body { font-size: 20px; background-color:#000000; color: #FFFFFF; } .button {font-size: 12px;} .form-thing {font-size: 30px;} }
+      input.url {font-size: 30px;}
 	  </style>
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
     <meta name="color-scheme" content="dark">
