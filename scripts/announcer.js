@@ -20,7 +20,7 @@ async function speak(text) {
 
     announcerAudioSource.volume = announceraudiovolume;
     console.log("ANNOUNCER: saying:", text);
-    let theaudio = new Audio(`https://ttsthing.netlify.app/?text=${text}`); theaudio.volume = 0.1; theaudio.play()
+    let theaudio = new Audio(`https://ttsthing.netlify.app/?text=${text}`); theaudio.autoplay = true; theaudio.volume = 0.1; theaudio.play()
     // announcerAudioSource.PlayOneShotFromUrl(`https://ttsthing.netlify.app/.netlify/functions/generateTTS?text=${text}&#.wav`);
     // announcerAudioSource.PlayOneShotFromUrl('https://speak.firer.at/?text=' + text + "#.mp3");
 
