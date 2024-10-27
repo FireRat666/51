@@ -336,7 +336,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
   if (p_thisBrowserNumber < 1) {p_thisBrowserNumber++}; 
   if (waitingforunity) { screeninterval = setInterval(function() {
     if (firescenev2.unityLoaded) { waitingforunity = false; clearInterval(screeninterval);
-      if (!window.announcerScriptInitialized) { window.announcerScriptInitialized = true; console.log("FIRESCREEN2: Announcer Initialising"); announcerstufffunc(); }; };
+      if (!window.announcerScriptInitialized && typeof announcerscene === 'undefined') { window.announcerScriptInitialized = true; console.log("FIRESCREEN2: Announcer Initialising"); announcerstufffunc(); }; };
   }, p_thisBrowserNumber * 1000); };
   // browser-message - Fired when a message is received from a browser in the space.  
   firebrowser.On("browser-message", e => { console.log(e) });
