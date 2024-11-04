@@ -151,13 +151,16 @@
 
       <!-- <a-entity sq-mirror position="-5 1 0" rotation="0 90 0" scale="3 3 1"></a-entity> -->
       <script>
+        async function BanterMirror() {
         const mirrorObject = new BS.GameObject("MyMirror");
         const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
         mirror.renderTextureSize = 2048;
         const mirrortransform = await mirrorObject.AddComponent(new BS.Transform());
-        mirrortransform.position = new BS.Vector3(-5,1,0);
-        mirrortransform.localEulerAngles = new BS.Vector3(0,90,0);
-    </script>
+        mirrortransform.position = new BS.Vector3(-5,1.4,0);
+        mirrortransform.localEulerAngles = new BS.Vector3(0,-90,0);
+        }
+        BanterMirror();
+      </script>
 
       <!-- <a-entity text-input="value: Type here; color: #FFF" position="0 1 -3" scale="1 1 1"></a-entity>
       <a-text id="displayText" value="Your text will appear here." position="0 1 -4" color="#FFF"></a-text> -->
