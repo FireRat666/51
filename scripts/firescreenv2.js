@@ -4,7 +4,6 @@ var thisScriptLocation = `https://51.firer.at/scripts/`; // CHANGE THIS URL IF M
 var fireScriptName = `${thisScriptLocation}firescreenv2.js`;
 var announcerscripturlv2 = `${thisScriptLocation}announcer.js`;
 var fireScreen2On = false;
-var firstrunhandcontrolsv2 = true;
 var playersuseridv2 = null;
 var the_announce = null;
 var the_announce420 = null;
@@ -15,7 +14,20 @@ var whiteColour = new BS.Vector4(1,1,1,1);
 var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 var fireScreenSetup = false;
-if (typeof window.theNumberofBrowsers === 'undefined') { window.theNumberofBrowsers = 0; } // Initialize only once 
+// if (typeof window.theNumberofBrowsers === 'undefined') { window.theNumberofBrowsers = 0; } // Initialize only once 
+
+
+(function() {
+  const initialValues = {
+    firstrunhandcontrols: true,
+    handControlsDisabled: true,
+    theNumberofBrowsers: 0,
+  };
+
+  for (const [key, value] of Object.entries(initialValues)) {
+    if (typeof window[key] === 'undefined') { window[key] = value; } // Initialize Variables only once 
+  }
+})();
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -284,22 +296,26 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_screenposition, p_screenrotation
       console.log(e.detail.fromId);
     };
   });
+  
+  async function initializeV2() { await waitForUserIdv2(); if (window.handControlsDisabled) { playersuseridv2 = window.user.id; window.handControlsDisabled = false; setupHandControlsV2(); } }
 
-  firescenev2.On("user-joined", e => {
-    if (e.detail.isLocal) { // Setup Hand Controls only on the first run if enabled
-      if (p_handbuttons === "true" && firstrunhandcontrolsv2) {
-        firstrunhandcontrolsv2 = false; playersuseridv2 = e.detail.uid;
-        console.log("FIRESCREEN2: Enabling Hand Controls"); setupHandControls();
-      };
-      console.log("FIRESCREEN2: user-joined");
-    };
+  async function waitForUserIdv2() { while (!window.user || window.user.id === undefined) { await new Promise(resolve => setTimeout(resolve, 200)); } }
+
+  // firescenev2.On("user-joined", e => {
+  //   if (e.detail.isLocal) { // Setup Hand Controls only on the first run if enabled
+  //     if (p_handbuttons === "true" && window.firstrunhandcontrols) {
+  //       window.firstrunhandcontrols = false; playersuseridv2 = e.detail.uid;
+  //       console.log("FIRESCREEN2: Enabling Hand Controls"); setupHandControlsV2();
+  //     };
+  //     console.log("FIRESCREEN2: user-joined");
+  //   };
+  // });
+
+  firescenev2.On("user-left", e => { if (e.detail.isLocal) { window.firstrunhandcontrols = true;
+      console.log("FIRESCREEN2: Local User Left, Resetting firstrunhandcontrols variable"); };
   });
 
-  firescenev2.On("user-left", e => { if (e.detail.isLocal) { firstrunhandcontrolsv2 = true;
-      console.log("FIRESCREEN2: Local User Left, Resetting firstrunhandcontrolsv2 variable"); };
-  });
-
-  async function setupHandControls() {
+  async function setupHandControlsV2() {
     // THE CONTAINER FOR THE HAND BUTTONS
     const plane20Object = new BS.GameObject("handContainer");
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.PlaneGeometry);
