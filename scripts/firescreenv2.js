@@ -370,14 +370,14 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_lockposition, p_screenposition, 
         const announcerscript = document.createElement("script");
         announcerscript.id = "fires-announcer";
         announcerscript.setAttribute("src", announcerscripturlv2);
-        announcerscript.setAttribute("announce", the_announce);
-        announcerscript.setAttribute("announce-420", the_announce420);
-        if (the_announceevents === "undefined" && the_announce === "true") {
+        announcerscript.setAttribute("announce", p_announce);
+        announcerscript.setAttribute("announce-420", p_announce420);
+        if (p_announceevents === "undefined" && p_announce === "true") {
           announcerscript.setAttribute("announce-events", "true");
-        } else if (the_announceevents === "undefined") {
+        } else if (p_announceevents === "undefined") {
           announcerscript.setAttribute("announce-events", "false");
         } else {
-          announcerscript.setAttribute("announce-events", the_announceevents);
+          announcerscript.setAttribute("announce-events", p_announceevents);
         };
         document.querySelector("body").appendChild(announcerscript);
       } else { console.log('FIRESCREEN2: announcerscene is defined, Moving on'); };
