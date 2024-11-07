@@ -564,7 +564,7 @@ var handscene = BS.BanterScene.GetInstance();
 
     async initialize() { await this.waitForUserId(); if (window.handControlsDisabled) { window.handControlsDisabled = false; this.setupHandControls(); } }
 
-    async waitForUserId() { while (!window.user || window.user.id === undefined) { await new Promise(resolve => setTimeout(resolve, 200)); } }
+    async waitForUserId() { while (!handscene.localUser || handscene.localUser.uid === undefined) { await new Promise(resolve => setTimeout(resolve, 200)); } }
 
     toggleMute() {  handbuttonmutestate = !handbuttonmutestate;
       this.runActionOnElements('.firescreenc', handbuttonmutestate);
@@ -641,7 +641,7 @@ var handscene = BS.BanterScene.GetInstance();
         const handControlsContainer = document.createElement("a-entity");
         handControlsContainer.setAttribute("scale", "0.1 0.1 0.1");
         handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
-        handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || window.user.id}`);
+        handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || handscene.localUser.uid}`);
 
         const buttons = [
           { image: this.IconVolUpUrl, position: "-1 0.2 -0.4", color: this.volUpColor, id: "firevolupbut", callback: this.volumeControlUp.bind(this) },
