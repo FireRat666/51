@@ -35,9 +35,9 @@
       
     if(window.isBanter) {
       const thisintervalvar = setInterval(() => {
-        if (window.user && window.user.id !== undefined) { clearInterval(thisintervalvar);
-          console.log(`Index.html: window.user.id: ${window.user.id}`);
-        } else { console.log(`Index.html: window.user: ${window.user}`); };
+        if (BS.BanterScene.GetInstance().localUser && BS.BanterScene.GetInstance().localUser.uid !== undefined) { clearInterval(thisintervalvar);
+          console.log(`Index.html: localUser.uid: ${BS.BanterScene.GetInstance().localUser.uid}`);
+        } else { console.log(`Index.html: localUser: ${BS.BanterScene.GetInstance().localUser}`); };
       }, 1000);
     } else {
       const images = [
