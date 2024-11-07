@@ -323,10 +323,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_lockposition, p_screenposition, 
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,1)));
     const plane20material = await createMaterial(plane20Object, { shaderName: defaulTransparent, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
-    firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND)
-    plane20transform.localPosition = new BS.Vector3(-0.01,-0.006,0.020);
+    plane20transform.localPosition = new BS.Vector3(-0.01,0.026,0.040);
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     plane20transform.localEulerAngles = new BS.Vector3(5,-95,0);
+    firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND);
     // Hand Volume Up Button
     const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustForAll("adjustVolume", 1);
       updateButtonColor(hvolUpButton, p_volupcolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
