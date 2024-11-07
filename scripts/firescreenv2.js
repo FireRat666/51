@@ -15,7 +15,7 @@ var customButtonSize = new BS.Vector3(0.2,0.04,1);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 var fireScreenSetup = false;
 // create a reference to the banter scene
-const firescenev2 = BS.BanterScene.GetInstance();
+var firescenev2 = BS.BanterScene.GetInstance();
 // if (typeof window.theNumberofBrowsers === 'undefined') { window.theNumberofBrowsers = 0; } // Initialize only once 
 
 
