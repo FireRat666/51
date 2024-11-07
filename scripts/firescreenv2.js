@@ -323,7 +323,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_lockposition, p_screenposition, 
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,1)));
     const plane20material = await createMaterial(plane20Object, { shaderName: defaulTransparent, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
-    plane20transform.localPosition = new BS.Vector3(-0.01,0.046,0.040);
+    plane20transform.localPosition = new BS.Vector3(0,0.046,0.030);
     plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     // plane20transform.eulerAngles = new BS.Vector3(5,-95,0);
     plane20transform.rotation = new BS.Vector4(0.25,0,0.8,1);
