@@ -320,7 +320,7 @@ function updateLockState(state) {
 };
 
 // Toggle Button Thing for locking and unlocking either screen By Fire with help from HBR
-BS.BanterScene.GetInstance().On("button-pressed", e => { if (e.detail.button === 1) { updateLockState(true); } });
+BS.BanterScene.GetInstance().On("button-pressed", e => { console.log(e.detail); if (e.detail.button === 1) { updateLockState(true); } });
 
 BS.BanterScene.GetInstance().On("button-released", e => { if (e.detail.button === 1) { updateLockState(false); } });
 
