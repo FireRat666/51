@@ -497,3 +497,5 @@ if (!window.fireScreenScriptInitialized) { window.fireScreenScriptInitialized = 
 // }]}));
 
 // `window.scrollBy(0,1000);`  `window.scrollBy(0,-1000);`
+
+// scene.SetPublicSpaceProps({'testing': 'test'});

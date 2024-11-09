@@ -1,7 +1,7 @@
 // create a reference to the banter scene
 const scene = BS.BanterScene.GetInstance();
 
-scene.GetInstance().On("unity-loaded", ()=>{
+scene.On("unity-loaded", ()=>{
   console.log("index.html setSceneSettings Loading...");
   // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
   const settings = new BS.SceneSettings();
