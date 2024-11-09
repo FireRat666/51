@@ -18,7 +18,7 @@ async function initializeKeyboard() {
 
   const keyboardParentObject = new BS.GameObject("KeyboardParent");
   const parentTransform = await keyboardParentObject.AddComponent(new BS.Transform());
-  parentTransform.localPosition = new BS.Vector3(0, 2, -0);
+  parentTransform.localPosition = new BS.Vector3(5, 2, -1);
 
   const textObject = new BS.GameObject("InputText");
   const inputText = await textObject.AddComponent(new BS.BanterText("", textColor));
