@@ -41,6 +41,28 @@ async function sdk2mirror() {
 
 };
 
+async function videoPlayerStuff() {
+  const thisObjectThing = new BS.GameObject("MyObjectName");
+  await thisObjectThing.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 1.6, 0.9)); // 1.6, 0.9 is setting the screen to 16:9 dimensions, width & height
+  await thisObjectThing.AddComponent(new BS.BanterMaterial('Unlit/Diffuse', null, new BS.Vector4(1, 1, 1, 1)));
+  await thisObjectThing.AddComponent(new BS.BanterBillboard(0, true, true, false)); // This is Optional
+  const aTransformThing = await thisObjectThing.AddComponent(new BS.Transform());
+  aTransformThing.position = new BS.Vector3(1,2,1); // THE POSITION OF THE SCREEN
+
+  const url = "https://small.fileditchstuff.me/s15/MBdxEMbKqWfgwQXCiA.mp4";
+  const thisVolume = 0.1;
+  const vidloop = false;
+  const playOnAwake = true;
+  const skipOnDrop = true;
+  const waitForFirstFrame = true;
+  const aVideoPlayerThing = await thisObjectThing.AddComponent(new BS.BanterVideoPlayer(url, thisVolume, vidloop, playOnAwake, skipOnDrop, waitForFirstFrame));
+
+  // aVideoPlayerThing.url = "https://small.fileditchstuff.me/s15/MBdxEMbKqWfgwQXCiA.mp4"
+  // aVideoPlayerThing.PlayToggle();
+  // aVideoPlayerThing.volume = 0.05;
+}
+
+// videoPlayerStuff();
 
 sdk2portal01();
 sdk2portal02();
