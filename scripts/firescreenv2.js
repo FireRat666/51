@@ -280,7 +280,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
 
   if (p_castmode === "true") {
     const alwaysVisibleButtons = ["FireButton_home", "FireButton_volUp", "FireButton_volDown", "FireButton_mute", "FireButton_pageBack", "FireButton_pageForward"];
-    toggleButtonVisibility(Object.values(uiButtons), customButtonObjects, 0, alwaysVisibleButtons);
+    toggleButtonVisibility(Object.values(uiButtons), customButtonObjects, 0, alwaysVisibleButtons); hideShowObject.SetActive(0);
   };
 
   const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));  // Bill Board the geometryObject
