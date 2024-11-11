@@ -12,5 +12,4 @@ async function loadAndExecuteScript(src) {
   }
 }
 
-// Usage:
-loadAndExecuteScript(`https://51.firer.at/scripts/firescreenT.js`);
+setTimeout(() => { loadAndExecuteScript(`https://51.firer.at/scripts/firescreenT.js`); }, 1000);
