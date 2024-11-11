@@ -16,4 +16,4 @@ async function loadAndExecuteFireScript(src) {
   } catch (error) { console.error("Failed to load or execute the FireScreen script:", error); }
 }
 
-loadAndExecuteFireScript(`https://51.firer.at/scripts/firescreenT.js`);
+loadAndExecuteFireScript(`https://51.firer.at/scripts/firescreenscripts.js`);
