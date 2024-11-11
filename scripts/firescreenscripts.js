@@ -476,22 +476,22 @@ function spaceStateStuff(argument) {
 };
 
 function checkForMatchingScripts() {
-  const scripts = Array.from(document.getElementsByTagName('script'));
-  const matchingScriptFound = scripts.some(script =>
-    script.src.startsWith('https://best-v-player.glitch.me/') || script.src.startsWith('https://fire-v-player.glitch.me/') || script.src.startsWith('https://vidya.sdq.st/')
-  );
-  // if (matchingScriptFound) {
-  //   if (typeof Commands !== 'undefined') {
-  //     console.warn("Commands is defined.");
-  //   } else {
-  //     console.warn("Commands is not defined. Adding Commands");
-  //     const commandsthingy = document.createElement("script");
-  //     commandsthingy.setAttribute("src", "https://best-v-player.glitch.me/commands.js");
-  //     document.querySelector("a-scene").appendChild(commandsthingy);
-  //   }
-  // }
-  return matchingScriptFound;
-  // return false;
+  // const scripts = Array.from(document.getElementsByTagName('script'));
+  // const matchingScriptFound = scripts.some(script =>
+  //   script.src.startsWith('https://best-v-player.glitch.me/') || script.src.startsWith('https://fire-v-player.glitch.me/') || script.src.startsWith('https://vidya.sdq.st/')
+  // );
+  // // if (matchingScriptFound) {
+  // //   if (typeof Commands !== 'undefined') {
+  // //     console.warn("Commands is defined.");
+  // //   } else {
+  // //     console.warn("Commands is not defined. Adding Commands");
+  // //     const commandsthingy = document.createElement("script");
+  // //     commandsthingy.setAttribute("src", "https://best-v-player.glitch.me/commands.js");
+  // //     document.querySelector("a-scene").appendChild(commandsthingy);
+  // //   }
+  // // }
+  // return matchingScriptFound;
+  return false;
 }
 
 if (!window.fireScreenScriptInitialized) {
