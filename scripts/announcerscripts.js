@@ -31,6 +31,49 @@ async function speak(text) {
 
 };
 
+async function combineAudioFiles(urls, volume = 0.2) {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Load and decode each audio file
+  const buffers = await Promise.all(
+    urls.map(async (url) => {
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      return await audioContext.decodeAudioData(arrayBuffer);
+    })
+  );
+
+  // Calculate total length and create a new buffer
+  const totalLength = buffers.reduce((sum, buffer) => sum + buffer.length, 0);
+  const outputBuffer = audioContext.createBuffer(
+    buffers[0].numberOfChannels,
+    totalLength,
+    audioContext.sampleRate
+  );
+
+  // Copy each buffer into the output buffer
+  let offset = 0;
+  for (const buffer of buffers) {
+    for (let i = 0; i < buffer.numberOfChannels; i++) {
+      outputBuffer.copyToChannel(buffer.getChannelData(i), i, offset);
+    }
+    offset += buffer.length;
+  }
+
+  // Create a source and gain node for volume control
+  const source = audioContext.createBufferSource();
+  source.buffer = outputBuffer;
+
+  const gainNode = audioContext.createGain();
+  gainNode.gain.value = volume; // Set the volume
+
+  // Connect source -> gain -> destination
+  source.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  // Play the audio
+  source.start();
+}
 
 // Main Speak Function, Thank you Elin and everyone
 // async function speak(text) {
@@ -146,138 +189,145 @@ function announcerloadtest() {
     if (announce) {
 
     }
-    theusersname = e.detail.name;
+    let AmeliaLink = `https://audiofiles.firer.at/mp3/11-Amelia/`;
     theusersid = e.detail.uid;
+    let tempusername = false;
+    if (e.detail.name === "Gravxton") {tempusername = "Graviton What The Hell"};
+    if (theusersid === "4c67af8ae899ea5b8dd6da25566ff3f3") {tempusername = "Boob Works"}; // BobWorks 
+    if (theusersid === "f14cd0a7c028d9e8f1756d76ff450c73") {tempusername = "The Slayer"}; // Divine
+    if (theusersid === "c81d8333f83208a6124370282b992a45") {tempusername = "echo phase"}; // Echo Mental
+    if (theusersid === "f87c37aad5d82ac9faea3a2cae55934d") {tempusername = "Discordia Kitty"}; // Discord Kitty
+    // if (theusersid === "d20dc72cdbb562479089c6c5263815a8") {tempusername = "A Banter Ghost"}; // Ghost Droid
+    if (theusersid === "2fa5290b268076d98aa078e1cc2ce3e2") {tempusername = "Kah Gey knee ko"}; // Kageneko
+    if (theusersid === "2ea1396b49294e396113f4f1ca5d9a9e") {tempusername = "Chicky Chicky Gem Gem"}; // Gemchick
+    if (theusersid === "a3de45107d96ec8ec9857f9111eca6e0") {tempusername = "Fay Fay"}; // Fae
+    if (theusersid === "462b9ba6d7bff70e963f76c7b3ef978a") {tempusername = "tokra ah ah ah"}; // Tokra
+    if (theusersid === "e2ea44863eb547aecc1f9bc94f7b5c30") {tempusername = "Older Chris, Not Young Chris"}; // Chris
+    if (theusersid === "e9412ffa5ca2970f3b9de7b87258e712") {tempusername = "Aziz z z"}; // Aziz
+    if (theusersid === "ada674dac0d26556244bf61c2b97184e") {tempusername = "Yunji verse"}; // Yunjiverse
+    if (theusersid === "220a4b971b3edb376cbc956f5539b8a5") {tempusername = "Big John"}; // Big John
+    if (theusersid === "94acdf9d5887ce8fb4a5c9c605f906a5") {tempusername = "Fear Psycho"}; // "Psycho"
+    if (theusersid === "3682ea489f043657d09811dd042bfa83") {tempusername = "ProcksCyde"}; // ProxCyde
+    if (theusersid === "52ac3e6e222a72ade6cbde376c27a6c3") {tempusername = "I.T.Trey"}; // I.T.Trey
+    if (theusersid === "19f104073c0da250138d67be9634d842") {tempusername = "Jaeger 7 4 5"}; // Jaeger_745
+    // if (theusersid === "597c64d0037631df4ec9d73ad381f634 ") {tempusername = "Someone you don't know"}; // Gooch Monkey
+    if (theusersid === "4255792aebfae3cea1086f2963c33fdc") {tempusername = "Rabbit"}; // Rabbit
+    if (theusersid === "ee95ee1ae0cd0d67066a4519e665911e") {tempusername = "Zelrainer"}; //  Zelrainer
+    if (theusersid === "32c3e6ac83b78872be370cb10f0c9729") {tempusername = "Cast Casey Away"}; //  "caseycastaway"
+    if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {tempusername = "Waffle Man"}; //  "WaffleMan"
+    if (theusersid === "3dbca1090fad5dff35543697ca007066") {tempusername = "Sebek"}; //  "Sebek"
+    if (theusersid === "f3da86e3752aa16d8f574777cc5ed842") {tempusername = "Irish Jesus"}; //  "Scottish.Jesus"
+    if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {tempusername = "Static Threat"}; //  "staticthreat"
+    if (theusersid === "shit") {tempusername = "anka"}; //  "anka"
+    // if (theusersid === "452267f713cf815aab6f8e6a2548ff93") {tempusername = "Ben"}; //  "Ben"
+    // if (theusersid === "d1bdc33ac0fcfc061728b2e11c740ac7") {tempusername = "Mika"}; //  "Mika"
+    // if (theusersid === "2bf1e383ae55886d560f13e0bd040330") {tempusername = "Shane Harris"}; //  Shane Harris
+    if (theusersid === "f90d43718f190161c2fa2d0879218686") {tempusername = "Captain Dan"}; //  CaptnDaN 
+    if (theusersid === "3236ff6310bfe543efa2648346f59ea3") {tempusername = "Irish Guy"}; //  Irishking  
+    if (theusersid === "9eefdbc0892b7f90f6c30723c00fcde5") {tempusername = "Shane"}; //  "Oh no, Shane"
+
+    if (tempusername) {
+      theusersname = `https://speak.firer.at/?text=${encodeURIComponent(tempusername)}#.mp3`;
+    } else {
+      theusersname = `https://speak.firer.at/?text=${encodeURIComponent(e.detail.name)}#.mp3`;
+    }
+
+    if (theusersid === "f67ed8a5ca07764685a64c7fef073ab9") {theusersname = `${AmeliaLink}FireRat.mp3`}; // FireRat
+    if (theusersid === "7e778ab53e504bed1d995bf9148b98c2") {theusersname = `${AmeliaLink}Vanquisher.mp3`}; // Vanquisher
+    if (theusersid === "2cd40305e0a4b04bf0242ad0d9fa352d") {theusersname = `${AmeliaLink}Zephii.mp3`}; // Zephii
+    if (theusersid === "f7d3e8a05224e3954bdc6f4b4ec47708") {theusersname = `${AmeliaLink}Nystx.mp3`}; // Nystx
+    if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {theusersname = `${AmeliaLink}Dedzed.mp3`}; // Dedzed
+
     console.log("ANNOUNCER: JOINED USER: " + e.detail.name + " UID: " + theusersid);
-
-    if (theusersname === "Gravxton") {theusersname = "Graviton What The Hell"};
-    if (theusersid === "7e778ab53e504bed1d995bf9148b98c2") {theusersname = "Vanquisher"}; // Vanquisher
-    if (theusersid === "2567af4ddce8000b887527097fd5bf8a") {theusersname = "The Fishiest Overlord of them all"}; // Dedzed
-    if (theusersid === "4c67af8ae899ea5b8dd6da25566ff3f3") {theusersname = "Boob Works"}; // BobWorks 
-    if (theusersid === "f14cd0a7c028d9e8f1756d76ff450c73") {theusersname = "The Slayer"}; // Divine
-    if (theusersid === "c81d8333f83208a6124370282b992a45") {theusersname = "echo phase"}; // Echo Mental
-    if (theusersid === "2cd40305e0a4b04bf0242ad0d9fa352d") {theusersname = "Zephii"}; // Zephii
-    if (theusersid === "f7d3e8a05224e3954bdc6f4b4ec47708") {theusersname = "Nisstyx"}; // Nystx
-    if (theusersid === "f87c37aad5d82ac9faea3a2cae55934d") {theusersname = "Discordia Kitty"}; // Discord Kitty
-    // if (theusersid === "d20dc72cdbb562479089c6c5263815a8") {theusersname = "A Banter Ghost"}; // Ghost Droid
-    if (theusersid === "2fa5290b268076d98aa078e1cc2ce3e2") {theusersname = "Kah Gey knee ko"}; // Kageneko
-    if (theusersid === "f67ed8a5ca07764685a64c7fef073ab9") {theusersname = "Fire Rat"}; // FireRat
-    if (theusersid === "2ea1396b49294e396113f4f1ca5d9a9e") {theusersname = "Chicky Chicky Gem Gem"}; // Gemchick
-    if (theusersid === "a3de45107d96ec8ec9857f9111eca6e0") {theusersname = "Fay Fay"}; // Fae
-    if (theusersid === "462b9ba6d7bff70e963f76c7b3ef978a") {theusersname = "tokra ah ah ah"}; // Tokra
-    if (theusersid === "e2ea44863eb547aecc1f9bc94f7b5c30") {theusersname = "Older Chris, Not Young Chris"}; // Chris
-    if (theusersid === "e9412ffa5ca2970f3b9de7b87258e712") {theusersname = "Aziz z z"}; // Aziz
-    if (theusersid === "ada674dac0d26556244bf61c2b97184e") {theusersname = "Yunji verse"}; // Yunjiverse
-    if (theusersid === "220a4b971b3edb376cbc956f5539b8a5") {theusersname = "Big John"}; // Big John
-    if (theusersid === "94acdf9d5887ce8fb4a5c9c605f906a5") {theusersname = "Fear Psycho"}; // "Psycho"
-    if (theusersid === "3682ea489f043657d09811dd042bfa83") {theusersname = "ProcksCyde"}; // ProxCyde
-    if (theusersid === "52ac3e6e222a72ade6cbde376c27a6c3") {theusersname = "I.T.Trey"}; // I.T.Trey
-    if (theusersid === "19f104073c0da250138d67be9634d842") {theusersname = "Jaeger 7 4 5"}; // Jaeger_745
-    // if (theusersid === "597c64d0037631df4ec9d73ad381f634 ") {theusersname = "Someone you don't know"}; // Gooch Monkey
-    if (theusersid === "4255792aebfae3cea1086f2963c33fdc") {theusersname = "Rabbit"}; // Rabbit
-    if (theusersid === "ee95ee1ae0cd0d67066a4519e665911e") {theusersname = "Zelrainer"}; //  Zelrainer
-    if (theusersid === "32c3e6ac83b78872be370cb10f0c9729") {theusersname = "Cast Casey Away"}; //  "caseycastaway"
-    if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {theusersname = "Waffle Man"}; //  "WaffleMan"
-    if (theusersid === "3dbca1090fad5dff35543697ca007066") {theusersname = "Sebek"}; //  "Sebek"
-    if (theusersid === "f3da86e3752aa16d8f574777cc5ed842") {theusersname = "Irish Jesus"}; //  "Scottish.Jesus"
-    if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = "Static Threat"}; //  "staticthreat"
-    if (theusersid === "shit") {theusersname = "anka"}; //  "anka"
-    // if (theusersid === "452267f713cf815aab6f8e6a2548ff93") {theusersname = "Ben"}; //  "Ben"
-    // if (theusersid === "d1bdc33ac0fcfc061728b2e11c740ac7") {theusersname = "Mika"}; //  "Mika"
-    // if (theusersid === "2bf1e383ae55886d560f13e0bd040330") {theusersname = "Shane Harris"}; //  Shane Harris
-    if (theusersid === "f90d43718f190161c2fa2d0879218686") {theusersname = "Captain Dan"}; //  CaptnDaN 
-    if (theusersid === "3236ff6310bfe543efa2648346f59ea3") {theusersname = "Irish Guy"}; //  Irishking  
-    if (theusersid === "9eefdbc0892b7f90f6c30723c00fcde5") {theusersname = "Shane"}; //  "Oh no, Shane"
-
-    // "f90d43718f190161c2fa2d0879218686"   
+ 
     if (e.detail.isLocal && announce === "true") {
       announcefirstrun = false;
       timenow = Date.now(); // Sets Now to after first user has joined
       const joinMessages = [
-        theusersname + ", What the hell, you broke everything, it was just working, what did you do? ",
-        "Hello, Welcome to the space " + theusersname,
-        "What are you doing here " + theusersname,
-        "Welcome to [Space Name]! " + theusersname +  " We're never letting you go. Quick, lock the doors!",
-        "Welcome to [Space Name] Zoo! " + theusersname +  " Please, don't feed the animals. ",
-        "Welcome aboard! " + theusersname + " We're so excited to have you with us",
-        "Welcome " + theusersname + " we Hope you brought your sense of humor!",
-        "Glad you could join us " + theusersname + " now let's have some fun!",
-        "Fasten your seatbelt " + theusersname + " it's going to be a wild ride.",
-        "Hi there! It's great to meet you " + theusersname + ", wait a sec I am not sentient",
-        "Welcome " + theusersname + ", We're a little weird, a little wacky, but we're pretty sure you'll fit right in.",
-        "Welcome your Highness " + theusersname,
-        "Hello " + theusersname + " " + theusersname + " " + theusersname + " " + theusersname + " Failure detected, shutting down",
-        "Howdy, partner! " + theusersname,
-        "Well, if it ain't my favorite outlaw! " + theusersname,
-        "Howdy, stranger! What brings you to these parts? " + theusersname,
-        "Yeehaw! What's the good word? " + theusersname,
-        "Hello there, cowpoke! " + theusersname,
-        "Howdy, there! How's the range treating ya? " + theusersname,
-        "Good day to ya, buckaroo! " + theusersname,
-        "Well, I'll be! Ain't you a sight for sore eyes! " + theusersname,
-        "G'day, trailblazer! " + theusersname,
-        "Howdy, friend! Ready for a rootin-tootin' good time? " + theusersname,
-        "Welcome to the wild frontier, partner! " + theusersname,
-        "Howdy, " + theusersname + " How's the journey been? ",
-        "Hey there, " + theusersname + " saddle up for some fun? ",
-        "Evenin', outlaw. How's the trail? " + theusersname,
-        theusersname + ", welcome to the Banter Science Enrichment Center! Please refrain from touching any mysterious glowing buttons.",
-        theusersname + ", congratulations! You've been selected for our groundbreaking portal experimentation program.",
-        "Hail, " + theusersname + "! You've crossed the Brandywine Bridge and entered our Shire of conversation.",
-        "Hey there, " + theusersname + "! You've just rolled into our chat like a finely crafted joint. Spark up some conversation!",
-        "High-five, " + theusersname + "! You've entered the space. Grab a virtual brownie and let's chat!",
-        "Welcome aboard, " + theusersname + " ! Set phasers to 'friendly' and boldly go where no avatar has gone before.",
-        "Beam in, " + theusersname + "! The holodeck is ready for your chat adventure. Engage!",
-        "Swim upstream, " + theusersname + "! You've leaped into our chat like a salmon on a mission. Splash-tastic!",
-        "Welcome aboard, " + theusersname + "! You've officially become a chatfish in our digital sea.",
-        "High-five, " + theusersname + "! Your anchor dropped, and you’re officially docked in our harbor.",
-        "Hold onto your seashells, " + theusersname + "! You've just emerged from the coral reefs and joined our crew.",
-        "Wands at the ready, " + theusersname + "! Your presence adds a touch of wizardry.",
-        "In this space, words are our incantations. Let the magic flow, " + theusersname + "!",
-        "Welcome, seeker of wisdom. Here, thoughts flow like ancient rivers, " + theusersname + ".",
-        "In this Socratic agora, dialogue is the elixir of understanding, " + theusersname + ".",
-        "Life's canvas awaits your philosophical brushstrokes. Paint away, " + theusersname + "!",
-        "Remember, every keystroke shapes your digital legacy, " + theusersname + ".",
-        "Hail, Olympian! You've ascended to our celestial summit, " + theusersname + ".",
-        "Poseidon's trident approves of your arrival. Dive into discourse, " + theusersname + "!",
-        "Athena's owl welcomes you to our wisdom-filled agora, " + theusersname + ".",
-        "Zeus himself nods—a thunderous welcome to our pantheon, " + theusersname + "!",
-        "May Hermes guide your messages swiftly across the digital ether, " + theusersname + ".",
-        "Kamehame-welcome, " + theusersname + "! Your power level just spiked in our space.",
-        "Spirit Bomb of greetings, " + theusersname + "! Charge up and let's chat!",
-        "Howdy, partner! Saddle up for some rodeo, " + theusersname + "!",
-        "Top o' the mornin' to ya, " + theusersname + "! Grab a virtual cuppa and let's chat.",
-        "Cheerio, old chap! Welcome to our banter, " + theusersname + ".",
-        "G'day, mate! Throw another shrimp on the barbie and join the chat, " + theusersname + ".",
-        "Howdy-do, " + theusersname + "! Y'all ready for some banter-style conversation?",
-        "Get ready to go Super Saiyan in this space, " + theusersname + "!",
-        "Welcome, Z Fighter " + theusersname + "! Let's dodge metaphors and unleash words!",
-        "Channel your inner Goku, " + theusersname + ". Our chat is your Hyperbolic Time Chamber!",
-        "G'day, " + theusersname + "! Grab your thongs (flip-flops) and join the chat!",
-        "Welcome to the land Down Under, " + theusersname + "! Let's have a chinwag.",
-        "Oi, " + theusersname + "! Fancy a yarn? Our chat's as big as the Outback.",
-        "Good on ya, " + theusersname + "! Let's have a ripper of a conversation.",
-        "Slip into our chat like a surfer catching a wave, " + theusersname + "!",
-        "Top of the mornin' to ya, " + theusersname + "! Ready for some blarney?",
-        "Ah, sure, you're very welcome, " + theusersname + "! Grab a pint and chat away.",
-        "A hundred thousand welcomes, " + theusersname + "!",
-        "Hiya, " + theusersname + "! Fancy a natter? Cuppa's on!",
-        "Hey up, " + theusersname + "! Let's have a chinwag over a brew.",
-        "Alright, mate? Welcome to our chat, " + theusersname + "!",
-        "Yo, " + theusersname + "! Bob's your uncle—we're all friends here.",
-        "Sup, " + theusersname + "? Let's chat like a proper Brit!",
-        "Welcome to our whimsical chat, " + theusersname + "! It's like stepping into a giant peach.",
-        "Golden ticket alert! You've entered our space factory, " + theusersname + ".",
-        "BFG-approved greetings, " + theusersname + "! Let's dream big together.",
-        "Fantastic space and where to find it? Right here, " + theusersname + "!",
-        "Matilda would be proud, " + theusersname + ". Let the words dance!",
-        "Oh, the places we'll chat, " + theusersname + "! Welcome to our Seussian world.",
-        "Hop on the chat train, " + theusersname + "! Next stop: imagination station.",
-        "One fish, two fish, red space, blue space, welcome, " + theusersname + "!",
-        "Today you are you, that is truer than true. No one chats like you do, " + theusersname + "!",
-        "Thing 1 and Thing 2 say hello, " + theusersname + "! Let's rhyme and reason.",
-        "The Dragon Balls have granted your arrival, " + theusersname + ". What's your wish?",
-        "Enjoy your stay " + theusersname
+        [`${theusersname}`, `${AmeliaLink}What%20the%20hell,%20you%20broke%20everything,%20it%20was%20just%20working,%20what%20did%20you%20do.mp3`],
+        [`${AmeliaLink}Hello,%20Welcome%20to%20the%20space.mp3`, `${theusersname}`],
+        [`${AmeliaLink}What%20are%20you%20doing%20here.mp3`, `${theusersname}`],        
+        [`${AmeliaLink}Welcome%20to%20Banter!.mp3`, `${theusersname}`, `${AmeliaLink}We're%20never%20letting%20you%20go.%20Quick,%20lock%20the%20doors!.mp3`],
+        [`${AmeliaLink}Welcome%20to%20the%20Zoo!.mp3`, `${theusersname}`, `${AmeliaLink}Please,%20don't%20feed%20the%20animals.mp3`],
+        [`${AmeliaLink}Welcome%20aboard!.mp3`, `${theusersname}`, `${AmeliaLink}We're%20so%20excited%20to%20have%20you%20with%20us.mp3`],
+        [`${AmeliaLink}Welcome.mp3`, `${theusersname}`, `${AmeliaLink}we%20Hope%20you%20brought%20your%20sense%20of%20humor!.mp3`],
+        [`${AmeliaLink}Glad%20you%20could%20join%20us.mp3`, `${theusersname}`, `${AmeliaLink}now%20let's%20have%20some%20fun!.mp3`],
+        [`${AmeliaLink}Fasten%20your%20seatbelt.mp3`, `${theusersname}`, `${AmeliaLink}it's%20going%20to%20be%20a%20wild%20ride..mp3`],
+        [`${AmeliaLink}Hi%20there!%20It's%20great%20to%20meet%20you.mp3`, `${theusersname}`, `${AmeliaLink}wait%20a%20sec%20I%20am%20not%20sentient.mp3`],
+        [`${AmeliaLink}Welcome.mp3`, `${theusersname}`, `${AmeliaLink}We're%20a%20little%20weird,%20a%20little%20wacky,%20but%20we're%20pretty%20sure%20you'll%20fit%20right%20in.mp3`],
+        [`${AmeliaLink}Welcome%20your%20Highness.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Hello.mp3`, `${theusersname}`, `${theusersname}`, `${theusersname}`, `${theusersname}`, `${AmeliaLink}Failure%20detected.%20shutting%20down.mp3`],
+        [`${AmeliaLink}Howdy,%20partner!.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Well,%20if%20it%20ain't%20my%20favorite%20outlaw!.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Howdy,%20stranger!%20What%20brings%20you%20to%20these%20parts.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Yeehaw!%20What's%20the%20good%20word.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Hello%20there,%20cowpoke!.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Howdy,%20there!%20How's%20the%20range%20treating%20ya.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Good%20day%20to%20ya,%20buckaroo!.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Well,%20I'll%20be!%20Ain't%20you%20a%20sight%20for%20sore%20eyes!.mp3`, `${theusersname}`],
+        [`${AmeliaLink}G'day,%20trailblazer!.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Howdy,%20friend!%20Are%20ya%20Ready%20for%20a%20rootin-tootin'%20good%20time.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Welcome%20to%20the%20wild%20frontier,%20partner!.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Howdy,.mp3`, `${theusersname}`, `${AmeliaLink}How's%20the%20journey%20been.mp3`],
+        [`${AmeliaLink}Hey%20there,.mp3`, `${theusersname}`, `${AmeliaLink}saddle%20up%20for%20some%20fun.mp3`],
+        [`${AmeliaLink}Evenin',%20outlaw.%20How's%20the%20trail.mp3`, `${theusersname}`],
+        [`${theusersname}`, `${AmeliaLink}welcome%20to%20the%20Banter%20Science%20Enrichment%20Center!%20Please%20refrain%20from%20touching%20any%20mysterious%20glowing%20buttons..mp3`],
+        [`${theusersname}`, `${AmeliaLink}congratulations!%20You've%20been%20selected%20for%20our%20groundbreaking%20portal%20experimentation%20program..mp3`],
+        [`${AmeliaLink}Hail.mp3`, `${theusersname}`, `${AmeliaLink}You've%20crossed%20the%20Brandywine%20Bridge%20and%20entered%20our%20Shire%20of%20conversation..mp3`],
+        [`${AmeliaLink}Hey%20there,.mp3`, `${theusersname}`, `${AmeliaLink}You've%20just%20rolled%20into%20our%20chat%20like%20a%20finely%20crafted%20joint.%20Spark%20up%20some%20conversation.mp3`],
+        [`${AmeliaLink}High-five.mp3`, `${theusersname}`, `${AmeliaLink}You've%20entered%20the%20space.%20Grab%20a%20virtual%20brownie%20and%20let's%20chat!.mp3`],
+        [`${AmeliaLink}Welcome%20aboard!.mp3`, `${theusersname}`, `${AmeliaLink}Set%20phasers%20to%20'friendly'%20and%20boldly%20go%20where%20no%20avatar%20has%20gone%20before..mp3`],
+        [`${AmeliaLink}Beam%20in,.mp3`, `${theusersname}`, `${AmeliaLink}The%20holodeck%20is%20ready%20for%20your%20chat%20adventure.%20Engage!.mp3`],
+        [`${AmeliaLink}Swim%20upstream,.mp3`, `${theusersname}`, `${AmeliaLink}You've%20leaped%20into%20our%20chat%20like%20a%20salmon%20on%20a%20mission.%20Splash-tastic!.mp3`],
+        [`${AmeliaLink}Welcome%20aboard!.mp3`, `${theusersname}`, `${AmeliaLink}You've%20officially%20become%20a%20chatfish%20in%20our%20digital%20sea..mp3`],
+        [`${AmeliaLink}High-five.mp3`, `${theusersname}`, `${AmeliaLink}Your%20anchor%20dropped,%20and%20you%E2%80%99re%20officially%20docked%20in%20our%20harbor..mp3`],
+        [`${AmeliaLink}Hold%20onto%20your%20seashells,.mp3`, `${theusersname}`, `${AmeliaLink}You've%20just%20emerged%20from%20the%20coral%20reefs%20and%20joined%20our%20crew..mp3`],
+        [`${AmeliaLink}Wands%20at%20the%20ready,.mp3`, `${theusersname}`, `${AmeliaLink}Your%20presence%20adds%20a%20touch%20of%20wizardry..mp3`],
+        [`${AmeliaLink}In%20this%20space,%20words%20are%20our%20incantations.%20Let%20the%20magic%20flow,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Welcome,%20seeker%20of%20wisdom.%20Here,%20thoughts%20flow%20like%20ancient%20rivers,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}In%20this%20Socratic%20agora,%20dialogue%20is%20the%20elixir%20of%20understanding,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Life's%20canvas%20awaits%20your%20philosophical%20brushstrokes.%20Paint%20away,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Remember,%20every%20keystroke%20shapes%20your%20digital%20legacy,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Hail,%20Olympian!%20You've%20ascended%20to%20our%20celestial%20summit,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Poseidon's%20trident%20approves%20of%20your%20arrival.%20Dive%20into%20discourse,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Athena's%20owl%20welcomes%20you%20to%20our%20wisdom-filled%20agora,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Zeus%20himself%20nods%E2%80%94a%20thunderous%20welcome%20to%20our%20pantheon,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}May%20Hermes%20guide%20your%20messages%20swiftly%20across%20the%20digital%20ether,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Kamehame-welcome,.mp3`, `${theusersname}`, `${AmeliaLink}Your%20power%20level%20just%20spiked%20in%20our%20space..mp3`],
+        [`${AmeliaLink}Spirit%20Bomb%20of%20greetings,.mp3`, `${theusersname}`, `${AmeliaLink}Charge%20up%20and%20let's%20chat!.mp3`],
+        [`${AmeliaLink}Howdy,%20partner!%20Saddle%20up%20for%20some%20rodeo,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Top%20o'%20the%20mornin'%20to%20ya,.mp3`, `${theusersname}`, `${AmeliaLink}Grab%20a%20virtual%20cuppa%20and%20let's%20chat..mp3`],
+        [`${AmeliaLink}Cheerio,%20old%20chap!%20Welcome%20to%20our%20banter,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}G'day,%20mate!%20Throw%20another%20shrimp%20on%20the%20barbie%20and%20join%20the%20chat,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Howdy-do,.mp3`, `${theusersname}`, `${AmeliaLink}Y'all%20ready%20for%20some%20banter-style%20conversation.mp3`],
+        [`${AmeliaLink}Get%20ready%20to%20go%20Super%20Saiyan%20in%20this%20space,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Welcome,%20Z%20Fighter.mp3`, `${theusersname}`, `${AmeliaLink}Let's%20dodge%20metaphors%20and%20unleash%20words!.mp3`],
+        [`${AmeliaLink}Channel%20your%20inner%20Goku,.mp3`, `${theusersname}`, `${AmeliaLink}Our%20chat%20is%20your%20Hyperbolic%20Time%20Chamber!.mp3`],
+        [`${AmeliaLink}G'day,.mp3`, `${theusersname}`, `${AmeliaLink}Grab%20your%20thongs%20aka%20flip-flops%20and%20join%20the%20chat!.mp3`],
+        [`${AmeliaLink}Welcome%20to%20the%20land%20Down%20Under,.mp3`, `${theusersname}`, `${AmeliaLink}Let's%20have%20a%20chinwag..mp3`],
+        [`${AmeliaLink}Oi.mp3`, `${theusersname}`, `${AmeliaLink}Fancy%20a%20yarn%20Our%20chat's%20as%20big%20as%20the%20Outback.mp3`],
+        [`${AmeliaLink}Good%20on%20ya,.mp3`, `${theusersname}`, `${AmeliaLink}Let's%20have%20a%20ripper%20of%20a%20conversation..mp3`],
+        [`${AmeliaLink}Slip%20into%20our%20chat%20like%20a%20surfer%20catching%20a%20wave,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Top%20o'%20the%20mornin'%20to%20ya,.mp3`, `${theusersname}`, `${AmeliaLink}Ready%20for%20some%20blarney.mp3`],
+        [`${AmeliaLink}Welcome.mp3`, `${theusersname}`, `${AmeliaLink}Grab%20a%20pint%20and%20chat%20away..mp3`],
+        [`${AmeliaLink}A%20hundred%20thousand%20welcomes,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Hiya,.mp3`, `${theusersname}`, `${AmeliaLink}Fancy%20a%20natter%20Cuppa's%20on!.mp3`],
+        [`${AmeliaLink}Hey%20there,.mp3`, `${theusersname}`, `${AmeliaLink}Let's%20have%20a%20chinwag%20over%20a%20brew..mp3`],
+        [`${AmeliaLink}Alright,%20mate%20Welcome%20to%20our%20chat,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Yo,.mp3`, `${theusersname}`, `${AmeliaLink}Bob's%20your%20uncle%E2%80%94we're%20all%20friends%20here..mp3`],
+        [`${AmeliaLink}Sup,.mp3`, `${theusersname}`, `${AmeliaLink}Let's%20chat%20like%20a%20proper%20Brit!.mp3`],
+        [`${AmeliaLink}Welcome%20to%20our%20whimsical%20chat,.mp3`, `${theusersname}`, `${AmeliaLink}It's%20like%20stepping%20into%20a%20giant%20peach..mp3`],
+        [`${AmeliaLink}Golden%20ticket%20alert!%20You've%20entered%20our%20space%20factory,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}BFG-approved%20greetings,.mp3`, `${theusersname}`, `${AmeliaLink}Let's%20dream%20big%20together..mp3`],
+        [`${AmeliaLink}Fantastic%20space%20and%20where%20to%20find%20it%20Right%20here,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Matilda%20would%20be%20proud,.mp3`, `${theusersname}`, `${AmeliaLink}Let%20the%20words%20dance!.mp3`],
+        [`${AmeliaLink}Oh,%20the%20places%20we'll%20chat,.mp3`, `${theusersname}`, `${AmeliaLink}Welcome%20to%20our%20Seussian%20world..mp3`],
+        [`${AmeliaLink}Hop%20on%20the%20chat%20train,.mp3`, `${theusersname}`, `${AmeliaLink}Next%20stop%20imagination%20station..mp3`],
+        [`${AmeliaLink}One%20fish,%20two%20fish,%20red%20space,%20blue%20space,%20welcome,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Today%20you%20are%20you,%20that%20is%20truer%20than%20true.%20No%20one%20chats%20like%20you%20do,.mp3`, `${theusersname}`],
+        [`${AmeliaLink}Thing%201%20and%20Thing%202%20say%20hello,.mp3`, `${theusersname}`, `${AmeliaLink}Let's%20rhyme%20and%20reason..mp3`],
+        [`${AmeliaLink}The%20Dragon%20Balls%20have%20granted%20your%20arrival,.mp3`, `${theusersname}`, `${AmeliaLink}What's%20your%20wish.mp3`],
+        [`${AmeliaLink}Enjoy%20your%20stay.mp3`, `${theusersname}`]
       ];
   
       let randommessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
@@ -285,7 +335,7 @@ function announcerloadtest() {
       if (theusersid === "replace") {randommessage = "replace"} //  replace
       else if (theusersid === "replace") {randommessage = "replace"}; // replace
 
-      speak(randommessage);
+      combineAudioFiles(randommessage);
       console.log("ANNOUNCER: Local-UID: " + e.detail.uid)
 
     } else {
@@ -450,7 +500,7 @@ function announcerloadtest() {
           "Hold onto your hobbit feet, " + theusersname + " you're now part of our Fellowship!",
           "Attention, fellow travelers: " + theusersname + " has stepped out of the Shire and into our chat!",
           "Hey there, " + theusersname + "! has just rolled into our chat like a finely crafted joint. Spark up some conversation!",
-          "High-five, " + theusersname + " has entered the space. Grab a virtual brownie and let's chat!",
+          "https://audiofiles.firer.at/mp3/11-Amelia/High-five.mp3" + theusersname + " has entered the space. Grab a virtual brownie and let's chat!",
           "Warning: " + theusersname + " has ingested a potent dose of curiosity. Side effects may include laughter and engaging conversations.",
           "Red alert! " + theusersname + " has materialized on the bridge. Shields up, witty banter activated!",
           "Ladies and gentlemen, put your hands together for the incomparable " + theusersname + "! They've just tuned in to our frequency.",
@@ -462,7 +512,7 @@ function announcerloadtest() {
           "Hold onto your seashells! " + theusersname + " just emerged from the coral reefs and joined our crew!",
           "Alert: " + theusersname + " has surfaced in our virtual ocean. Dive in and say hello!",
           "Did anyone order a side of " + theusersname + "? It just swam in from Atlantis!",
-          "Welcome aboard, " + theusersname + "! You've officially become a chatfish in our digital sea.",
+          "https://audiofiles.firer.at/mp3/11-Amelia/Welcome%20aboard!.mp3" + theusersname + "! You've officially become a chatfish in our digital sea.",
           "Attention, fellow merfolk: " + theusersname + " has traded fins for keyboard strokes. Say hello!",
           "Portal breach detected: " + theusersname + " has crossed the seafloor rift and entered our chat bubble!",
           "Hold onto your shipwreck treasures, " + theusersname + "! You're now part of our salty crew.",
@@ -588,7 +638,7 @@ function announcerloadtest() {
           "Welcome, " + theusersname + "! The Millennium Falcon just made a hyperspace jump for your arrival!",
           "The Rebel Alliance welcomes " + theusersname + "! Prepare for epic conversations across the stars!",
           theusersname + " has joined the Jedi Council! Time to discuss the galaxy's greatest mysteries!",
-          "Welcome aboard, " + theusersname + "! The Death Star's defenses are no match for your presence!",
+          "https://audiofiles.firer.at/mp3/11-Amelia/Welcome%20aboard!.mp3" + theusersname + "! The Death Star's defenses are no match for your presence!",
           "Welcome to Jurassic Park, " + theusersname + "! Avoid the T-Rex and enjoy the chat!",
           theusersname + " has just stepped into the park! Dinosaurs and conversations await!",
           "The raptors are restless, but " + theusersname + " is here to keep things exciting!",
@@ -606,7 +656,7 @@ function announcerloadtest() {
           "The Doctor's latest companion has arrived—welcome, " + theusersname + "! The universe awaits!",
           theusersname + " has just materialized in the TARDIS! Get ready for a time-traveling chat!",
           "Welcome, " + theusersname + "! The Doctor has just regenerated into our chat room!",
-          "The sonic screwdriver is buzzing with excitement for " + theusersname + "! Welcome aboard!",
+          "The sonic screwdriver is buzzing with excitement for " + theusersname + "https://audiofiles.firer.at/mp3/11-Amelia/Welcome%20aboard!.mp3",
           "Welcome to Banter Mifflin, " + theusersname + "! Get ready for some office hilarity!",
           theusersname + " has joined the Scranton branch! Michael Scott's ready for your jokes!",
           "Welcome, " + theusersname + "! The office just got a little bit more interesting!",
@@ -707,7 +757,7 @@ function announcerloadtest() {
         if (theusersid === "no-220a4b971b3edb376cbc956f5539b8a5") {message = "Big John is here everybody hide your snack packs"}; // Big John
         if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {message = "Don't Die it's bad for your health, Waffle Man is here"}; // WaffleMan
 
-        speak(message);
+        // speak(message);
       } else if (announcefirstrun) {
         announcefirstrun = false;
         timenow = Date.now(); // Sets Now to after a user has joined if first run is still true
