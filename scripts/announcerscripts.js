@@ -31,8 +31,13 @@ async function speak(text) {
 
 };
 
+let currentAudioSource = null; // Holds the reference to the current audio source
+
 async function combineAudioFiles(urls, volume = 0.14) {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  // If audio is already playing, skip this call
+  if (currentAudioSource) { console.log(`Skipping Message (Already Speaking)`); return; }
 
   // Load and decode each audio file
   const buffers = await Promise.all(
@@ -63,13 +68,20 @@ async function combineAudioFiles(urls, volume = 0.14) {
   // Create a source and gain node for volume control
   const source = audioContext.createBufferSource();
   source.buffer = outputBuffer;
-
   const gainNode = audioContext.createGain();
   gainNode.gain.value = volume; // Set the volume
 
   // Connect source -> gain -> destination
   source.connect(gainNode);
   gainNode.connect(audioContext.destination);
+
+  // Store the current source to indicate audio is playing
+  currentAudioSource = source;
+
+  // Reset currentAudioSource when playback ends
+  source.onended = () => {
+    currentAudioSource = null; // Clear the current source when playback ends
+  };
 
   // Play the audio
   source.start();
