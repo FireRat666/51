@@ -18,4 +18,5 @@ async function loadAndExecuteAnnouncerScript(src) {
 if (!window.AnnouncerScriptInitialized) {
   window.AnnouncerScriptInitialized = true;
   loadAndExecuteAnnouncerScript(`https://51.firer.at/scripts/announcerscripts.js`);
-}
+  console.log(`Announcer Script FIRST Call, Should be Loading!!`);
+} else { console.log(`Announcer Script Already Called, Should be Loading!!`); }
