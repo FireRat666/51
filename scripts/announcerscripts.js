@@ -31,7 +31,7 @@ async function speak(text) {
 
 };
 
-async function combineAudioFiles(urls, volume = 0.2) {
+async function combineAudioFiles(urls, volume = 0.14) {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   // Load and decode each audio file
