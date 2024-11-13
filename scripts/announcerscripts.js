@@ -14,7 +14,7 @@ var announcerAudioObject = new BS.GameObject("MyAudioSource");
 var announcerAudioSource = null;
 
 // // Main Speak Function, Thank you Elin and everyone
-async function speak(text) {
+async function TTSVoice(text) {
   if (readytospeak) {
     readytospeak = false
 
@@ -33,7 +33,7 @@ async function speak(text) {
 
 let currentAudioSource = null; // Holds the reference to the current audio source
 
-async function combineAudioFiles(urls, volume = 0.14) {
+async function combineAudioFiles(urls, volume = 0.1) {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   // If audio is already playing, skip this call
@@ -87,22 +87,6 @@ async function combineAudioFiles(urls, volume = 0.14) {
   source.start();
 }
 
-// Main Speak Function, Thank you Elin and everyone
-// async function speak(text) {
-//   if (readytospeak) {
-//     readytospeak = false
-//     console.log("ANNOUNCER: saying:", text);
-//     let audio = new Audio('https://speak.firer.at/?text=' + text);
-//     audio.autoplay = true;
-//     audio.play();
-//     audio.volume = 0.08;
-//     setTimeout(() => { readytospeak = true; }, 4000);
-//   } else {
-//     console.log("ANNOUNCER: Not Ready to Speak:", text);
-//   };
-
-// };
-
 // This function uses the current time as an input for the psuedo random number generator
 function GETPRNGF(modulo) {
   var now2 = new Date().getTime();
@@ -123,9 +107,9 @@ function GETPRNGF(modulo) {
 }
 
 // here lies a loop function
-function loop(interval, callback) {
+function aloopfunction(interval, callback) {
   let readyToTrigger;
-  const _loop = () => {
+  const _aloopfunction = () => {
     let nowInMs = new Date().getTime();
     let timeSinceLast = nowInMs / 1000 - Math.floor( nowInMs / (interval * 1000)) * interval;
     if(timeSinceLast > interval - 1 && !readyToTrigger) {
@@ -137,7 +121,7 @@ function loop(interval, callback) {
     };
   };
   setInterval(_loop, 800);
-  _loop();
+  _aloopfunction();
 };
 
 // This function is for the events announcements
@@ -145,13 +129,13 @@ function loadevents() {
   if(window.isBanter && announceevents === "true") {
     console.log("ANNOUNCER: Event Announcer Enabled");
     let lastEventsId = 0;
-    loop(20, async () => {
+    aloopfunction(20, async () => {
       let event = await (await fetch("https://api.sidequestvr.com/v2/events?limit=1")).json();
       if(event.length) {
         const difference = Math.abs(new Date(event[0].start_time) - new Date());
         if(difference < 60 * 1000 && lastEventsId !== event[0].events_v2_id) {
           lastEventsId = event[0].events_v2_id;
-          await speak("Oh Shit " + event[0].name + ", is starting now! Drop your shit and hussle");
+          await TTSVoice("Oh Shit " + event[0].name + ", is starting now! Drop your shit and hussle");
         };
       };
     })
@@ -166,7 +150,7 @@ function load420() {
     function connect() {
       const ws = new WebSocket('wss://calicocut.glitch.me');
       ws.onmessage = (msg) => {
-        speak(msg.data);
+        TTSVoice(msg.data);
       };
       ws.onopen = (msg) => {
         console.log("ANNOUNCER: connected to 420 announcer.");
@@ -198,9 +182,6 @@ function announcerloadtest() {
     timenow = Date.now(); // Sets Now to after unity scene load is done
   });
   announcerscene.On("user-joined", e => {
-    if (announce) {
-
-    }
     let AmeliaLink = `https://audiofiles.firer.at/mp3/11-Amelia/`;
     theusersid = e.detail.uid;
     let tempusername = false;
@@ -815,7 +796,7 @@ function announcerloadtest() {
         console.log("shot message");
         let currentVolume = announceraudiovolume;
         announceraudiovolume = volume;
-        speak(message);
+        TTSVoice(message);
         setTimeout(() => { announceraudiovolume = currentVolume; }, 4000);
       }
     };
