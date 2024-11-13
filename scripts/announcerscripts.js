@@ -248,6 +248,7 @@ function announcerloadtest() {
     if (theusersid === "52ac3e6e222a72ade6cbde376c27a6c3") {theusersname = `${AmeliaLink}I.T.Trey.mp3`}; // I.T.Trey
     if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = `${AmeliaLink}Static%20Threat.mp3`}; //  "staticthreat"
     if (theusersid === "f90d43718f190161c2fa2d0879218686") {theusersname = `${AmeliaLink}Captain%20Dan.mp3`}; //  CaptnDaN 
+    if (theusersid === "c0f4772ffcec1ee33f9f6e2230ac41bf") {theusersname = `${AmeliaLink}DraculusX.mp3`}; //  "DraculusX" 
 
     console.log("ANNOUNCER: JOINED USER: " + e.detail.name + " UID: " + theusersid);
  
