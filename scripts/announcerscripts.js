@@ -38,7 +38,7 @@ async function combineAudioFiles(urls, volume = 0.14) {
 
   // If audio is already playing, skip this call
   if (currentAudioSource) { console.log(`Skipping Message (Already Speaking)`); return; }
-
+  console.log(`Speaking:`); console.log(urls);
   // Load and decode each audio file
   const buffers = await Promise.all(
     urls.map(async (url) => {
@@ -204,7 +204,7 @@ function announcerloadtest() {
     let AmeliaLink = `https://audiofiles.firer.at/mp3/11-Amelia/`;
     theusersid = e.detail.uid;
     let tempusername = false;
-    if (e.detail.name === "Gravxton") {tempusername = "Graviton What The Hell"};
+    if (e.detail.name === "Gravxton") {tempusername = "Graviton"};
     if (theusersid === "c81d8333f83208a6124370282b992a45") {tempusername = "echo phase"}; // Echo Mental
     if (theusersid === "2fa5290b268076d98aa078e1cc2ce3e2") {tempusername = "Kah Gey knee ko"}; // Kageneko
     if (theusersid === "e9412ffa5ca2970f3b9de7b87258e712") {tempusername = "Aziz z z"}; // Aziz
