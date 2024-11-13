@@ -765,7 +765,7 @@ function announcerloadtest() {
         if (theusersid === "3dbca1090fad5dff35543697ca007066") {message = ["https://audiofiles.firer.at/mp3/11-Amelia/Bow%20to%20your%20King%20Sebek%20the%20Mirror%20Creator.mp3"]}; //  "Sebek"
         // if (theusersid === "no-220a4b971b3edb376cbc956f5539b8a5") {message = "Big John is here everybody hide your snack packs"}; // Big John
         if (theusersid === "f8e9b8eed97623712f77f318fa35d7ce") {message = ["https://audiofiles.firer.at/mp3/11-Amelia/Don't%20Die%20it's%20bad%20for%20your%20health,%20Waffle%20Man%20is%20here.mp3"]}; // WaffleMan
-
+        console.log("Announcer: Announce True")
         combineAudioFiles(message);
         // speak(message);
       } else if (announcefirstrun) {
