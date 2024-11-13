@@ -170,6 +170,8 @@ function load420() {
         } catch (e) {
           console.error("Error parsing message data:", e);
           console.log(msg);
+          console.log(msg.data);
+          console.log(msg.data.text());
         }
       };
       ws.onopen = (msg) => {
