@@ -156,6 +156,7 @@ function load420() {
           const audioFiles = JSON.parse(msg.data); // Parse message data as JSON
           if (Array.isArray(audioFiles)) {
             // Call combineAudioFiles with the parsed array
+            console.log(audioFiles);
             combineAudioFiles(audioFiles);
           } else {
             console.error("Received non-array data:", audioFiles);
