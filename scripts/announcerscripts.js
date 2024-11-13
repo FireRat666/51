@@ -151,29 +151,63 @@ function load420() {
     let keepAlive;
     function connect() {
       const ws = new WebSocket('wss://calicocut-remix.glitch.me');
-      ws.onmessage = async (msg) => {
-        try {
-          // Convert Blob to text before parsing
-          const dataText = await msg.data.text();
-          if (!dataText) {
-            console.warn("Received an empty message");
-            return; // Exit the handler if message is empty
+      ws.onmessage = (msg) => {
+        const reader = new FileReader();
+        
+        reader.onload = () => {
+          const dataText = reader.result;
+          
+          // Check if dataText is empty or contains non-JSON data
+          if (!dataText || !dataText.trim()) {
+            console.warn("Received an empty or non-text message");
+            return;
           }
-          const audioFiles = JSON.parse(dataText); // Parse message data as JSON
-          if (Array.isArray(audioFiles)) {
-            // Call combineAudioFiles with the parsed array
-            console.log(audioFiles);
-            combineAudioFiles(audioFiles);
-          } else {
-            console.error("Received non-array data:", audioFiles);
+      
+          try {
+            const audioFiles = JSON.parse(dataText);
+      
+            if (Array.isArray(audioFiles)) {
+              // Call combineAudioFiles with the parsed array
+              combineAudioFiles(audioFiles);
+            } else {
+              console.error("Received non-array data:", audioFiles);
+            }
+          } catch (e) {
+            console.error("Error parsing message data:", e);
           }
-        } catch (e) {
-          console.error("Error parsing message data:", e);
-          console.log(msg);
-          console.log(msg.data);
-          console.log(msg.data.text());
-        }
+        };
+      
+        reader.onerror = (e) => {
+          console.error("Error reading Blob data:", e);
+        };
+      
+        // Read the Blob as text
+        reader.readAsText(msg.data);
       };
+      
+      // ws.onmessage = async (msg) => {
+      //   try {
+      //     // Convert Blob to text before parsing
+      //     const dataText = await msg.data.text();
+      //     if (!dataText) {
+      //       console.warn("Received an empty message");
+      //       return; // Exit the handler if message is empty
+      //     }
+      //     const audioFiles = JSON.parse(dataText); // Parse message data as JSON
+      //     if (Array.isArray(audioFiles)) {
+      //       // Call combineAudioFiles with the parsed array
+      //       console.log(audioFiles);
+      //       combineAudioFiles(audioFiles);
+      //     } else {
+      //       console.error("Received non-array data:", audioFiles);
+      //     }
+      //   } catch (e) {
+      //     console.error("Error parsing message data:", e);
+      //     console.log(msg);
+      //     console.log(msg.data);
+      //     console.log(await msg.data.text());
+      //   }
+      // };
       ws.onopen = (msg) => {
         console.log("ANNOUNCER: connected to 420 announcer.");
       };
