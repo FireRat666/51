@@ -150,10 +150,19 @@ function load420() {
   if(window.isBanter && announce420 === "true") {
     let keepAlive;
     function connect() {
-      const ws = new WebSocket('wss://calicocut.glitch.me');
+      const ws = new WebSocket('wss://calicocut-remix.glitch.me');
       ws.onmessage = (msg) => {
-        TTSVoice(msg.data);
-        // combineAudioFiles(msg.data);
+        try {
+          const audioFiles = JSON.parse(msg.data); // Parse message data as JSON
+          if (Array.isArray(audioFiles)) {
+            // Call combineAudioFiles with the parsed array
+            combineAudioFiles(audioFiles);
+          } else {
+            console.error("Received non-array data:", audioFiles);
+          }
+        } catch (e) {
+          console.error("Error parsing message data:", e);
+        }
       };
       ws.onopen = (msg) => {
         console.log("ANNOUNCER: connected to 420 announcer.");
