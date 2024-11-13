@@ -168,7 +168,7 @@ function load420() {
             console.error("Received non-array data:", audioFiles);
           }
         } catch (e) {
-          console.log(audioFiles);
+          console.log(dataText);
           console.error("Error parsing message data:", e);
         }
       };
