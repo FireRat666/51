@@ -151,9 +151,11 @@ function load420() {
     let keepAlive;
     function connect() {
       const ws = new WebSocket('wss://calicocut-remix.glitch.me');
-      ws.onmessage = (msg) => {
+      ws.onmessage = async (msg) => {
         try {
-          const audioFiles = JSON.parse(msg.data); // Parse message data as JSON
+          // Convert Blob to text before parsing
+          const dataText = await msg.data.text();
+          const audioFiles = JSON.parse(dataText); // Parse message data as JSON
           if (Array.isArray(audioFiles)) {
             // Call combineAudioFiles with the parsed array
             console.log(audioFiles);
