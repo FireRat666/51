@@ -17,7 +17,7 @@ scene.On("unity-loaded", ()=>{
   settings.EnableDefaultTextures = true;
   settings.EnableAvatars = true;
   settings.MaxOccupancy = 30;
-  settings.RefreshRate = 90;
+  settings.RefreshRate = 72;
   settings.ClippingPlane = new BS.Vector2(0.02, 1500);
   settings.SpawnPoint = new BS.Vector4(0, 0.5, 0, 90);
   scene.SetSettings(settings);
