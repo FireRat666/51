@@ -155,6 +155,10 @@ function load420() {
         try {
           // Convert Blob to text before parsing
           const dataText = await msg.data.text();
+          if (!dataText) {
+            console.warn("Received an empty message");
+            return; // Exit the handler if message is empty
+          }
           const audioFiles = JSON.parse(dataText); // Parse message data as JSON
           if (Array.isArray(audioFiles)) {
             // Call combineAudioFiles with the parsed array
@@ -164,6 +168,7 @@ function load420() {
             console.error("Received non-array data:", audioFiles);
           }
         } catch (e) {
+          console.log(audioFiles);
           console.error("Error parsing message data:", e);
         }
       };
