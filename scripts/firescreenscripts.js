@@ -371,7 +371,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
     console.log("FIRESCREEN2: Announcer Script Called");
     // Setup the Announcer only on the first run if enabled
     setTimeout(() => { 
-      if (typeof announcerscene === 'undefined') { announcerfirstrunv2 = false;
+      if (!window.announcerScriptInitialized && typeof announcerscene === 'undefined') { announcerfirstrunv2 = false;
         console.log("FIRESCREEN2: announcerscene is not defined, Adding the Announcer Script");
         const announcerscript = document.createElement("script");
         announcerscript.id = "fires-announcer";
