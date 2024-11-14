@@ -152,9 +152,30 @@ function load420() {
     function connect() {
       const ws = new WebSocket('wss://calicocut-remix.glitch.me');
       ws.onmessage = async (msg) => {
-        const audioUrls = JSON.parse(msg.data);
-        await combineAudioFiles(audioUrls);
+        try {
+            console.log("Received message:", msg);
+            console.log("Message data (raw):", msg.data);
+    
+            // Check if msg.data is a Blob or other unexpected format
+            if (msg.data instanceof Blob) {
+                console.warn("Received a Blob instead of expected JSON string. Attempting to convert to text.");
+    
+                // Convert Blob to text
+                msg.data = await msg.data.text();
+                console.log("Blob converted to text:", msg.data);
+            }
+    
+            // Attempt to parse JSON
+            const audioUrls = JSON.parse(msg.data);
+            console.log("Parsed audio URLs:", audioUrls);
+    
+            // Pass URLs to combineAudioFiles
+            await combineAudioFiles(audioUrls);
+        } catch (error) {
+            console.error("Error handling WebSocket message:", error);
+        }
       };
+    
       ws.onopen = (msg) => {
         console.log("ANNOUNCER: connected to 420 announcer.");
       };
