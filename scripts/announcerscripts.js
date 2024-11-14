@@ -192,47 +192,6 @@ function load420() {
   };
 };
       
-      // ws.onmessage = async (msg) => {
-      //   try {
-      //     // Convert Blob to text before parsing
-      //     const dataText = await msg.data.text();
-      //     if (!dataText) {
-      //       console.warn("Received an empty message");
-      //       return; // Exit the handler if message is empty
-      //     }
-      //     const audioFiles = JSON.parse(dataText); // Parse message data as JSON
-      //     if (Array.isArray(audioFiles)) {
-      //       // Call combineAudioFiles with the parsed array
-      //       console.log(audioFiles);
-      //       combineAudioFiles(audioFiles);
-      //     } else {
-      //       console.error("Received non-array data:", audioFiles);
-      //     }
-      //   } catch (e) {
-      //     console.error("Error parsing message data:", e);
-      //     console.log(msg);
-      //     console.log(msg.data);
-      //     console.log(await msg.data.text());
-      //   }
-      // };
-//       ws.onopen = (msg) => {
-//         console.log("ANNOUNCER: connected to 420 announcer.");
-//       };
-//       ws.onerror = (msg) => {
-//         console.log("ANNOUNCER: error", msg);
-//       };
-//       ws.onclose = (e) => {
-//         console.log('ANNOUNCER: Disconnected 420!');
-//         clearInterval(keepAlive);
-//         setTimeout(()=>connect(), 3000);
-//       };
-//       keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
-//     }
-//     connect();
-//   };
-// };
-
-
 var thescripts = document.getElementsByTagName("script");
 var announcerscene = BS.BanterScene.GetInstance();
 var timenow = 9999999999999; // Set Now to a Really Big Number, so if user-joined is called before unity-loaded, it wont spam user joined messages for users that were already in the space
