@@ -35,8 +35,8 @@ async function TTSVoice(text) {
 
 let isPlayingAudio = false;
 async function playAudioSequentially(urls, volume = 0.1) {
-  if (isPlayingAudio) { return; };
-  isPlayingAudio = true;
+  if (isPlayingAudio) { console.log(`Announcer: isPlayingAudio Already: ${isPlayingAudio} URLs:`); console.log(urls); return; };
+  isPlayingAudio = true; console.log(`Speaking:`); console.log(urls);
   try { for (const url of urls) { const audio = new Audio(url); await playAudioFiles(audio, volume); }
   } finally { isPlayingAudio = false; };
 };
