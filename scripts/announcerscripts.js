@@ -195,22 +195,22 @@ function load420() {
       //     console.log(await msg.data.text());
       //   }
       // };
-      ws.onopen = (msg) => {
-        console.log("ANNOUNCER: connected to 420 announcer.");
-      };
-      ws.onerror = (msg) => {
-        console.log("ANNOUNCER: error", msg);
-      };
-      ws.onclose = (e) => {
-        console.log('ANNOUNCER: Disconnected 420!');
-        clearInterval(keepAlive);
-        setTimeout(()=>connect(), 3000);
-      };
-      keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
-    }
-    connect();
-  };
-};
+//       ws.onopen = (msg) => {
+//         console.log("ANNOUNCER: connected to 420 announcer.");
+//       };
+//       ws.onerror = (msg) => {
+//         console.log("ANNOUNCER: error", msg);
+//       };
+//       ws.onclose = (e) => {
+//         console.log('ANNOUNCER: Disconnected 420!');
+//         clearInterval(keepAlive);
+//         setTimeout(()=>connect(), 3000);
+//       };
+//       keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
+//     }
+//     connect();
+//   };
+// };
 
 
 var thescripts = document.getElementsByTagName("script");
