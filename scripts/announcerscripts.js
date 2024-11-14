@@ -138,7 +138,7 @@ function loadevents() {
         if(difference < 60 * 1000 && lastEventsId !== event[0].events_v2_id) {
           lastEventsId = event[0].events_v2_id;
           let knownEvent = false;
-          if (event[0].name === 'Art by Zaleska' || event[0].name === 'Open Mic Night' || event[0].name === 'LGBTQ+ and Friends' || event[0].name === 'LyicBird Live' || event[0].name === 'Learn Afrikaans ' || event[0].name === 'Nighttime Jungle Party') { knownEvent = encodeURIComponent(event[0].name); };
+          if (event[0].name === 'Art by Zaleska' || event[0].name === 'Open Mic Night' || event[0].name === 'LGBTQ+ and Friends' || event[0].name === 'LyicBird Live' || event[0].name === 'Learn Afrikaans ' || event[0].name === 'Nighttime Jungle Party' || event[0].name === 'Divine Plays Games' || event[0].name === 'Women of Banter' || event[0].name === "Zel's Distracted Karaoke" || event[0].name === 'VR Creator Club Meetup' || event[0].name === 'Goth Night' || event[0].name === 'The Power Hour' || event[0].name === 'CTRL + ALT + GEEK' || event[0].name === 'Jackbox Games Cinema') { knownEvent = encodeURIComponent(event[0].name); };
           if (knownEvent) { await combineAudioFiles([`${AmeliaLink}Oh%20Shit.mp3`,`${AmeliaLink}${knownEvent}.mp3`,`${AmeliaLink}is%20starting%20now!%20Drop%20your%20shit%20and%20hussle.mp3`]);
           } else { await combineAudioFiles([`${AmeliaLink}Oh%20Shit.mp3`,`https://speak.firer.at/?text=${encodeURIComponent(event[0].name)}#.mp3`,`${AmeliaLink}is%20starting%20now!%20Drop%20your%20shit%20and%20hussle.mp3`]);
           }
