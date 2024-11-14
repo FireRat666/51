@@ -156,25 +156,31 @@ function load420() {
             console.log("Received message:", msg);
             console.log("Message data (raw):", msg.data);
     
-            // Check if msg.data is a Blob or other unexpected format
+            // Check if msg.data is a Blob
             if (msg.data instanceof Blob) {
-                console.warn("Received a Blob instead of expected JSON string. Attempting to convert to text.");
+                console.warn("Received a Blob. Converting Blob to text.");
     
                 // Convert Blob to text
-                msg.data = await msg.data.text();
-                console.log("Blob converted to text:", msg.data);
+                const textData = await msg.data.text();
+                console.log("Blob converted to text:", textData);
+    
+                // Attempt to parse JSON
+                const audioUrls = JSON.parse(textData);
+                console.log("Parsed audio URLs:", audioUrls);
+    
+                // Pass URLs to combineAudioFiles
+                await combineAudioFiles(audioUrls);
+            } else {
+                // Handle case where msg.data is already a string
+                const audioUrls = JSON.parse(msg.data);
+                console.log("Parsed audio URLs:", audioUrls);
+                await combineAudioFiles(audioUrls);
             }
-    
-            // Attempt to parse JSON
-            const audioUrls = JSON.parse(msg.data);
-            console.log("Parsed audio URLs:", audioUrls);
-    
-            // Pass URLs to combineAudioFiles
-            await combineAudioFiles(audioUrls);
         } catch (error) {
             console.error("Error handling WebSocket message:", error);
         }
       };
+    
     
       ws.onopen = (msg) => {
         console.log("ANNOUNCER: connected to 420 announcer.");
