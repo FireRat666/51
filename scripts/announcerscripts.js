@@ -256,13 +256,10 @@ function announcerloadtest() {
     if (theusersid === "19f104073c0da250138d67be9634d842") {tempusername = "Jaeger 7 4 5"}; // Jaeger_745
     // if (theusersid === "597c64d0037631df4ec9d73ad381f634 ") {tempusername = "Someone you don't know"}; // Gooch Monkey
     if (theusersid === "ee95ee1ae0cd0d67066a4519e665911e") {tempusername = "Zelrainer"}; //  Zelrainer
-    // if (theusersid === "32c3e6ac83b78872be370cb10f0c9729") {tempusername = "Casey"}; //  "caseycastaway"
-    if (theusersid === "f3da86e3752aa16d8f574777cc5ed842") {tempusername = "Irish Jesus"}; //  "Scottish.Jesus"
-    // if (theusersid === "452267f713cf815aab6f8e6a2548ff93") {tempusername = "Ben"}; //  "Ben"
-    // if (theusersid === "d1bdc33ac0fcfc061728b2e11c740ac7") {tempusername = "Mika"}; //  "Mika"
+    if (theusersid === "32c3e6ac83b78872be370cb10f0c9729") { announcerscene.OpenPage('banter://afkjail.glitch.me') }; //  "caseycastaway"
+    // if (theusersid === "f3da86e3752aa16d8f574777cc5ed842") {tempusername = "Irish Jesus"}; //  "Scottish.Jesus"
     // if (theusersid === "2bf1e383ae55886d560f13e0bd040330") {tempusername = "Shane Harris"}; //  Shane Harris
     if (theusersid === "3236ff6310bfe543efa2648346f59ea3") {tempusername = "Irish Guy"}; //  Irishking  
-    if (theusersid === "9eefdbc0892b7f90f6c30723c00fcde5") {tempusername = "Shane"}; //  "Oh no, Shane"
 
     if (tempusername) {
       theusersname = `https://speak.firer.at/?text=${encodeURIComponent(tempusername)}#.mp3`;
@@ -291,7 +288,14 @@ function announcerloadtest() {
     if (theusersid === "52ac3e6e222a72ade6cbde376c27a6c3") {theusersname = `${AmeliaLink}I.T.Trey.mp3`}; // I.T.Trey
     if (theusersid === "89c3abbe6d16e057035cc35ad7492cf7") {theusersname = `${AmeliaLink}Static%20Threat.mp3`}; //  "staticthreat"
     if (theusersid === "f90d43718f190161c2fa2d0879218686") {theusersname = `${AmeliaLink}Captain%20Dan.mp3`}; //  CaptnDaN 
-    if (theusersid === "c0f4772ffcec1ee33f9f6e2230ac41bf") {theusersname = `${AmeliaLink}DraculusX.mp3`}; //  "DraculusX" 
+    if (theusersid === "c0f4772ffcec1ee33f9f6e2230ac41bf") {theusersname = `${AmeliaLink}DraculusX.mp3`}; //  "DraculusX"  
+    if (theusersid === "5cfcbb85c22e0a3c3d213f041b3d3d97") {theusersname = `${AmeliaLink}Skizot.mp3`}; //  Skizot 
+    if (theusersid === "2bda85050695db29c0f8cf10cf576c5c") {theusersname = `${AmeliaLink}RazorSmiles.mp3`}; //  RazorSmiles
+    if (theusersid === "ed81ca973bf8d169a8148d304065c9ef") {theusersname = `${AmeliaLink}Deadpool86.mp3`}; //  Deadpool86 
+    if (theusersid === "9eefdbc0892b7f90f6c30723c00fcde5") {theusersname = `${AmeliaLink}Shane.mp3`}; //  "Oh no, Shane"
+    if (theusersid === "452267f713cf815aab6f8e6a2548ff93") {theusersname = `${AmeliaLink}Ben.mp3`}; //  "Ben"
+    if (theusersid === "d1bdc33ac0fcfc061728b2e11c740ac7") {theusersname = `${AmeliaLink}Mika.mp3`}; //  "Mika"
+    if (theusersid === "36253aa47452d740e2343513a1f8820c") {theusersname = `${AmeliaLink}Ron_B.mp3`}; //  Ron_B 
 
     console.log("ANNOUNCER: JOINED USER: " + e.detail.name + " UID: " + theusersid);
  
