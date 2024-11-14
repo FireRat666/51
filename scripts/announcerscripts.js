@@ -1,5 +1,6 @@
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
 var scriptsource = "https://51.firer.at/scripts/announcer.js";
+var script420source = 'wss://51calicocut-remix.glitch.me';
 var theusersname = "";
 var timevariable = 0;
 var theusersid = "";
@@ -156,7 +157,7 @@ function load420() {
   if(window.isBanter && announce420 === "true") {
     let keepAlive;
     function connect() {
-      const ws = new WebSocket('wss://calicocut-remix.glitch.me');
+      const ws = new WebSocket(script420source);
       ws.onmessage = async (msg) => {
         try {
             if (msg.data instanceof Blob) {
