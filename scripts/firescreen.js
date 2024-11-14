@@ -106,7 +106,7 @@ function createFireScreen(p_pos, p_rot, p_sca, p_volume, p_url, p_backdrop, p_ca
 
     thebuttoncolor = p_buttoncolor; fireScreenOn = true;
   // Setup the Announcer only on the first run if enabled
-  if (window.announcerfirstrun && typeof announcerscene === 'undefined') {
+  if (!window.AnnouncerScriptInitialized && typeof announcerscene === 'undefined') {
     window.announcerfirstrun = false;
     console.log("FIRESCREEN: Adding the Announcer Script");
     const announcerscript = document.createElement("script");
