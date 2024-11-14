@@ -151,39 +151,26 @@ function load420() {
     let keepAlive;
     function connect() {
       const ws = new WebSocket('wss://calicocut-remix.glitch.me');
-      ws.onmessage = (msg) => {
-        const reader = new FileReader();
-        
-        reader.onload = () => {
-          const dataText = reader.result;
-          
-          // Check if dataText is empty or contains non-JSON data
-          if (!dataText || !dataText.trim()) {
-            console.warn("Received an empty or non-text message");
-            return;
-          }
-      
-          try {
-            const audioFiles = JSON.parse(dataText);
-      
-            if (Array.isArray(audioFiles)) {
-              // Call combineAudioFiles with the parsed array
-              combineAudioFiles(audioFiles);
-            } else {
-              console.error("Received non-array data:", audioFiles);
-            }
-          } catch (e) {
-            console.error("Error parsing message data:", e);
-          }
-        };
-      
-        reader.onerror = (e) => {
-          console.error("Error reading Blob data:", e);
-        };
-      
-        // Read the Blob as text
-        reader.readAsText(msg.data);
+      ws.onmessage = async (msg) => {
+        const audioUrls = JSON.parse(msg.data);
+        await combineAudioFiles(audioUrls);
       };
+      ws.onopen = (msg) => {
+        console.log("ANNOUNCER: connected to 420 announcer.");
+      };
+      ws.onerror = (msg) => {
+        console.log("ANNOUNCER: error", msg);
+      };
+      ws.onclose = (e) => {
+        console.log('ANNOUNCER: Disconnected 420!');
+        clearInterval(keepAlive);
+        setTimeout(()=>connect(), 3000);
+      };
+      keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
+    }
+    connect();
+  };
+};
       
       // ws.onmessage = async (msg) => {
       //   try {
