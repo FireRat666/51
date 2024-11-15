@@ -37,18 +37,23 @@ let isPlayingAudio = false;
 async function playAudioSequentially(urls, volume = 0.1) {
   if (isPlayingAudio) { console.log(`Announcer: isPlayingAudio Already: ${isPlayingAudio} URLs:`); console.log(urls); return; };
   isPlayingAudio = true; console.log(`Speaking:`); console.log(urls);
-  try { // Pre-fetch all audio files
-    const audioFiles = await Promise.all(urls.map(url => loadAudio(url, volume)));
-    for (const audio of audioFiles) { await playAudio(audio); }
+  try { const audioFiles = [];
+    audioFiles.push(await loadAudio(urls[0], volume));
+    if (urls.length > 1) { audioFiles.push(await loadAudio(urls[1], volume)); }
+    playAudioInSequence(audioFiles, volume, urls.slice(2));
   } finally { isPlayingAudio = false; }
 }
-// Pre-fetches an audio file and sets its volume
+// Helper to play audio in sequence while continuing to load remaining files
+async function playAudioInSequence(audioFiles, volume, remainingUrls) {
+  const remainingAudioPromises = remainingUrls.map(url => loadAudio(url, volume));  // Start loading the remaining files
+  for (const audio of audioFiles) { await playAudio(audio); }
+  for (const audioPromise of remainingAudioPromises) { const audio = await audioPromise; await playAudio(audio); }
+}
+
 function loadAudio(url, volume) {
   return new Promise((resolve, reject) => {
     const audio = new Audio(url); audio.volume = volume;
-    // Resolve the promise once the audio is ready to play
-    audio.oncanplaythrough = () => resolve(audio);
-    audio.onerror = reject;
+    audio.oncanplaythrough = () => resolve(audio); audio.onerror = reject;
   });
 }
 
