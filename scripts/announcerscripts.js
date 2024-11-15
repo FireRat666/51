@@ -33,20 +33,26 @@ async function TTSVoice(text) {
 
 };
 
-let isPlayingAudio = false;
+let isPlayingAudio = false; let audioQueue = null;
 async function playAudioSequentially(urls, volume = 0.1) {
-  if (isPlayingAudio) { console.log(`Announcer: isPlayingAudio Already: ${isPlayingAudio} URLs:`); console.log(urls); return; };
+  if (isPlayingAudio) { console.log("Announcer: Currently playing. Updating queue."); audioQueue = { urls, volume }; return; }
   isPlayingAudio = true; console.log(`Speaking:`); console.log(urls);
   try { const audioFiles = [];
     audioFiles.push(await loadAudio(urls[0], volume));
     if (urls.length > 1) { audioFiles.push(await loadAudio(urls[1], volume)); }
-    playAudioInSequence(audioFiles, volume, urls.slice(2));
-  } finally { isPlayingAudio = false; }
+    await playAudioInSequence(audioFiles, volume, urls.slice(2));
+  } finally { isPlayingAudio = false;
+    if (audioQueue) {
+      const queuedAudio = audioQueue; // Take the current queue
+      audioQueue = null; // Clear the queue
+      playAudioSequentially(queuedAudio.urls, queuedAudio.volume); // Play the queued audio
+    }
+  }
 }
 // Helper to play audio in sequence while continuing to load remaining files
-async function playAudioInSequence(audioFiles, volume, remainingUrls) {
-  const remainingAudioPromises = remainingUrls.map(url => loadAudio(url, volume));  // Start loading the remaining files
-  for (const audio of audioFiles) { await playAudio(audio); }
+async function playAudioInSequence(audioFiles, volume, remainingUrls) { // Start loading the remaining files
+  const remainingAudioPromises = remainingUrls.map(url => loadAudio(url, volume));
+  for (const audio of audioFiles) {  await playAudio(audio); }
   for (const audioPromise of remainingAudioPromises) { const audio = await audioPromise; await playAudio(audio); }
 }
 
