@@ -817,10 +817,8 @@ function announcerloadtest() {
         console.log("Announcer: Announce True")
         playAudioSequentially(message);
         // speak(message);
-      } else if (announcefirstrun) {
-        announcefirstrun = false;
-        timenow = Date.now(); // Sets Now to after a user has joined if first run is still true
-      };
+      } else { console.log("Announcer: Announce False OR timenow < 5000") };
+      if (announcefirstrun) { announcefirstrun = false; timenow = Date.now(); }; // Sets Now to after a user has joined if first run is still true
     };
   });
   
