@@ -230,3 +230,5 @@ keyboardscene.On("one-shot", async e => {
       thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": data.messagething }]}));
     };
 });
+
+// BS.BanterScene.GetInstance().SendBrowserMessage("Hello from the space to the menu browser!")

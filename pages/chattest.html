@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>    
+		<meta charset="UTF-8" />
+		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
+		<meta name="color-scheme" content="dark">
+		<title>FireR.at's Website/Space</title>
+		<link rel="stylesheet" href="/pages/style.css" />
+		<script src="https://firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
+		<script src="https://firer.at/scripts/RandomBG.js"></script>
+    <script>
+      window.addEventListener("bantermessage", (e) => {
+        window.bantermessage("Hello from the webpage to the space!");
+      });
+    </script>
+		<!-- Analytics and Cookie Stuff Start -->
+		<script>
+      if(window.isBanter) { console.log("index.html Window is Banter, Not adding cookie chimp scripts");
+      } else {
+          console.log("Adding Cookie Chimp Script")
+          const cookiechimpscript = document.createElement("script");
+          cookiechimpscript.id = "cookiechimpscript";
+          cookiechimpscript.setAttribute("src", "https://cookiechimp.com/widget/mV3trJ.js");
+          document.querySelector("head").appendChild(cookiechimpscript); };
+    </script>
+		<script type="text/plain" data-src="https://www.googletagmanager.com/gtag/js?id=G-HSMS8JERQ2"
+		  data-category="analytics" data-service="Google Analytics" ></script>
+		<script type="text/plain" data-category="analytics" data-service="Google Analytics" >
+		  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date()); gtag('config', 'G-HSMS8JERQ2'); </script>
+		<!-- Analytics and Cookie Stuff END -->
+</head>
+	<body id="body">
+    <center>
+    <details>
+      <p>Enter Text here:<br/>
+      <form id="form" method="get">
+      <input type="url" id="text" value="Text" class="url-form url-thing" placeholder="Hello" onchange="document.getElementById('form').action = this.value;" />
+      <input type="button" id="btn" value="Submit" class="url-thing" 
+            onclick="window.open(document.getElementById('text').value);" />
+      </form>
+      </p>
+    </details><hr><span><b>Chat Messages:</b></span><br/>
+    </center>
+  </body>
+</html>
