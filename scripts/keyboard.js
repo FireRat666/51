@@ -164,7 +164,7 @@ async function initializeKeyboard(keyBoardPosition = new BS.Vector3(2, 2, -5), m
     await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, (startY + 0.4), 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Submit", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), () => { console.log(inputText.text);
       setPublicSpaceProp(`USERID:${keyboardscene.localUser.uid}:${keyboardscene.localUser.name}`, inputText.text.substring(0, 30).trim()); 
-      keyboardscene.OneShot(JSON.stringify({fireurl: inputText.text})); keyboardscene.OneShot(JSON.stringify({spaceaction: `document.querySelectorAll('.firescreenc').forEach(firescreenc => { firescreenc.setAttribute("sq-browser", { url: "https://${inputText.text}", pixelsPerUnit: 1200, mipMaps: 0, mode: "local" }); });`})); keyboardscene.OneShot(JSON.stringify({messagething: inputText.text}));
+      keyboardscene.OneShot(JSON.stringify({fireurl: inputText.text})); keyboardscene.OneShot(JSON.stringify({spaceaction: `document.querySelectorAll('.firescreenc').forEach(firescreenc => { firescreenc.setAttribute("sq-browser", { url: "https://${inputText.text}", pixelsPerUnit: 1200, mipMaps: 0, mode: "local" }); });`})); keyboardscene.OneShot(JSON.stringify({messagething: keyboardscene.localUser.name + ": " + inputText.text}));
       inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
     await createSpecialButton("Paste", new BS.Vector3(startX + 10.8 * xOffset, startY + 1.0 * yOffset, 0), async () => {
