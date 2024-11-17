@@ -7,13 +7,8 @@
 		<meta property="og:title" content="Keyboard stuff">
 		<meta property="og:description" content="FireR.at's Website/Space">
 		<meta property="og:image" content="https://cdn.sidequestvr.com/file/1345509/dalle-2024-11-17-124101-a-stylized-fire-rat-fully-made-of-flames-designed-in-a-colored-pencil-art-style-on-textured-paper-the-flames-flow-seamlessly-across-the-rats-form.jpg">
-    <meta name="sidequest-space-verification" content="41c97ceb-d046-45d5-a91c-4c4b17cff2c7">
-		<script src="https://51.firer.at/scripts/bullshcript.js"></script>
-		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 		<title>FireR.at's Website/Space</title>
-		<link rel="stylesheet" href="/pages/style.css" />
-		<script src="https://51.firer.at/scripts/keyboard.js"></script>
-		<script src="https://firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
+		<link rel="stylesheet" href="https://firer.at/pages/style.css" />
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
     <script> // Thank You HBR for the example for this
       window.addEventListener("bantermessage", (e) => {
@@ -23,6 +18,9 @@
         chatdivider.scrollTop = chatdivider.scrollHeight;
       });
     </script>
+		<script src="https://51.firer.at/scripts/keyboard.js"></script>
+		<script src="https://firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
+		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 		<!-- Analytics and Cookie Stuff Start -->
 		<script>
       if(window.isBanter) { console.log("index.html Window is Banter, Not adding cookie chimp scripts");
@@ -43,42 +41,53 @@
 	<body id="body">
     <div style="display: none;">
     <a-scene id="ascene" embedded>
-    <!-- Main Fire Browser, grabbable/moveable -->
-    <script src="https://firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300" castmode="false" backdrop="true" 
-            website="https://51.firer.at/pages/chat.html" screen-position="0 0 -0.02" screen-rotation="0 0 0"
-            position="4 1.5 2" rotation="0 0 0" scale="2.5 2.5 1" volumelevel="0.5" backdrop-color="0 0 0 0.9"  
-            button-color="1 1 0 1" button-position="0 0 0" disable-interaction="false" announce="true" space-sync="false"
-            volup-color="0 1 0 1" voldown-color="1 1 0 1" mute-color="1 1 1 1" hand-controls="true" width="1280" height="720"
-            custom-button01-url="https://firer.at" custom-button01-text="Firer.at"
-            custom-button02-url="false" custom-button02-text="false"
-            custom-button03-url="false" custom-button03-text="false">
+    <script src="https://firer.at/scripts/firescreen.js" mipmaps="0" pixelsperunit="1400"
+            website="https://51.firer.at/pages/chattest.html"
+            position="4 1.5 -2" rotation="0 90 0" scale="2.5 2.5 1" volumelevel="0.5" announce="true">
     </script>
-      <script>
-        async function BanterMirror() {
-          const mirrorObject = new BS.GameObject("MyMirror");
-          const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
-          mirror.renderTextureSize = 2048;
-          const mirrortransform = await mirrorObject.AddComponent(new BS.Transform());
-          mirrortransform.position = new BS.Vector3(-5,1.4,0);
-          mirrortransform.localEulerAngles = new BS.Vector3(0,-90,0);
-        }
-        BanterMirror();
-      </script>
+    <script src="https://firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300"
+            website="https://51.firer.at/pages/chat.html"
+            position="-4 1.5 3" rotation="0 0 0" scale="2.5 2.5 1" volumelevel="0.5" announce="true">
+    </script>
+    <script>
+      if(window.isBanter) { 
+      let firescreenolder = null;
+      let thiswaitingforunity = true; var delaythinginterval;
+      if (thiswaitingforunity) { 
+        delaythinginterval = setInterval(function() {
+          if (BS.BanterScene.GetInstance().unityLoaded) { 
+            thiswaitingforunity = false; clearInterval(delaythinginterval); 
+            setTimeout(() => {
+              document.querySelectorAll('.firescreenc').forEach((element, index) => {
+                firescreenolder = element;
+                element.addEventListener('browsermessage', (e) => {
+                  console.log("Received message from the webpage:", e.detail);
+                  BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
+                });
+              });
+            }, 3000);
+          };
+        }, 1000); 
+      };
+
+      BS.BanterScene.GetInstance().On("one-shot", async e => {
+        const data = JSON.parse(e.detail.data);
+          if (data.browsermessagething) { console.log(data.browsermessagething); browsermessageStuff(data.browsermessagething); };
+          if (data.messagething) { console.log(data.messagething); browsermessageStuff(data.messagething); };
+      });
+
+      async function browsermessageStuff(messageData) {
+        if (firescreenolder) { firescreenolder.components["sq-browser"].runActions([{ actionType: "postmessage", strparam1: messageData }]); }
+        let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+        let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+        thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
+      };
+        
+      }
+    </script>
     </a-scene>
     </div>
-    <center>
-    <details>
-      <summary><b>Stuff:</b></summary><br/>
-      <a href="https://firer.at/pages/games.html" class="buttonG buttonss">Fire's Games</a>
-      <p>Or Enter a URL here:<br/>
-      <form id="form" method="get">
-      <input type="url" id="text" value="https://" class="url-form url-thing" placeholder="https://bantervr.com" onchange="document.getElementById('form').action = this.value;" />
-      <input type="button" id="btn" value="Submit" class="url-thing" 
-            onclick="window.open(document.getElementById('text').value);" />
-      </form>
-      </p>
-    </details><hr><span><b>Chat Messages:</b></span><br/>
-    </center>
-    <div id="keyboardtest" style="height: 500px; white-space: pre-wrap; overflow-y: auto;"></div><br/>
+    <hr><span><b>Chat Messages:</b></span><br/>
+    <div id="keyboardtest" style="height: 400px; white-space: pre-wrap; overflow-y: auto;"></div><br/>
   </body>
 </html>
