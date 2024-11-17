@@ -17,9 +17,10 @@
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
     <script>
       window.addEventListener("bantermessage", (e) => {
-        let divchat = document.getElementById("keyboardtest");
-        var content = divchat.appendChild( document.createTextNode(e.detail.message+"\n") );
-        divchat.scrollTop = divchat.scrollHeight;
+        let chatdivider = document.getElementById("keyboardtest");
+        chatdivider.appendChild(document.createTextNode(e.detail.message));
+        chatdivider.appendChild(document.createElement("br"));
+        chatdivider.scrollTop = chatdivider.scrollHeight;
       });
     </script>
 		<!-- Analytics and Cookie Stuff Start -->
@@ -66,7 +67,7 @@
     </a-scene>
     </div>
     <center>
-    <div id="keyboardtest" style="height: 500px; overflow-y: pre-wrap;"></div><br/>
+    <div id="keyboardtest" style="height: 500px; overflow-y: auto;"></div><br/>
       <a href="https://firer.at/pages/games.html" class="buttonG buttonss">Fire's Games</a>
       <p>Or Enter a URL here:<br/>
       <form id="form" method="get">
