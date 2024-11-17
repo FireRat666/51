@@ -27,11 +27,11 @@ async function initializeKeyboard(keyBoardPosition = new BS.Vector3(0, 2, 5), me
   textTransform.localPosition = new BS.Vector3(8.1, -1, 0);
   await textObject.SetParent(keyboardParentObject, false);
 
-  const messagesTextObject = new BS.GameObject(`messagesTextObject`);
-  const messageBoardText = await messagesTextObject.AddComponent(new BS.BanterText("User:Message", new BS.Vector4(1,1,1,1), 1, 0, 1));
-  const messageTextTransform = await messagesTextObject.AddComponent(new BS.Transform());
-  messageTextTransform.localPosition = messageBoardTextPosition; messageTextTransform.localScale = messageBoardTextScale;
-  await textObject.SetParent(keyboardParentObject, false);
+  // const messagesTextObject = new BS.GameObject(`messagesTextObject`);
+  // const messageBoardText = await messagesTextObject.AddComponent(new BS.BanterText("User:Message", new BS.Vector4(1,1,1,1), 1, 0, 1));
+  // const messageTextTransform = await messagesTextObject.AddComponent(new BS.Transform());
+  // messageTextTransform.localPosition = messageBoardTextPosition; messageTextTransform.localScale = messageBoardTextScale;
+  // await textObject.SetParent(keyboardParentObject, false);
 
   function updateInputText(label) { inputText.text += label; }
 
@@ -189,29 +189,29 @@ async function initializeKeyboard(keyBoardPosition = new BS.Vector3(0, 2, 5), me
   }
 
   await createKeyboard();
-  await updateMessageBoard(messageBoardText); 
+  // await updateMessageBoard(messageBoardText); 
 
-  var thiscountervariable = 0;
-  AframeInjection.addEventListener('spaceStateChange', async e => {thiscountervariable++
-    console.log(`Space State Listener.${thiscountervariable}`); updateMessageBoard(messageBoardText); 
-    e.detail.changes.forEach(change => { console.log(change);})
-  });
+  // var thiscountervariable = 0;
+  // AframeInjection.addEventListener('spaceStateChange', async e => {thiscountervariable++
+  //   console.log(`Space State Listener.${thiscountervariable}`); updateMessageBoard(messageBoardText); 
+  //   e.detail.changes.forEach(change => { console.log(change);})
+  // });
 }
 
 // Call the function to initialize the keyboard
 initializeKeyboard();
 
-async function updateMessageBoard(thisText) { thisText.text = "User:Message";
-  let spacestatethings = Object.entries(keyboardscene.spaceState.public);
-  // Convert the entries to an array, sort by value, and then format the output
-  // let sortedEntries = Object.entries(keyboardscene.spaceState.public).sort((a, b) => a[1] - b[1]);
-  spacestatethings.forEach(([key, value]) => {
-    if (key.includes("USERID:")) {
-      const strippedKey = key.replace(/USERID:([a-f0-9]{32}):/, '');
-      thisText.text += "\n" + strippedKey.substring(0, 19).trim() + ": " + value.substring(0, 20).trim();
-    }
-  });              
-};
+// async function updateMessageBoard(thisText) { thisText.text = "User:Message";
+//   let spacestatethings = Object.entries(keyboardscene.spaceState.public);
+//   // Convert the entries to an array, sort by value, and then format the output
+//   // let sortedEntries = Object.entries(keyboardscene.spaceState.public).sort((a, b) => a[1] - b[1]);
+//   spacestatethings.forEach(([key, value]) => {
+//     if (key.includes("USERID:")) {
+//       const strippedKey = key.replace(/USERID:([a-f0-9]{32}):/, '');
+//       thisText.text += "\n" + strippedKey.substring(0, 19).trim() + ": " + value.substring(0, 20).trim();
+//     }
+//   });              
+// };
 
 // keyboardscene.On("one-shot", e => { console.log(e.detail);
 //   const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
