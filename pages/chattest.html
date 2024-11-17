@@ -81,13 +81,16 @@
 
       BS.BanterScene.GetInstance().On("one-shot", async e => {
         const data = JSON.parse(e.detail.data);
-          if (data.browsermessagething) { console.log(data.browsermessagething);
-            let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-            let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-            thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": data.browsermessagething }]}));
-            firescreenolder.components["sq-browser"].runActions([{ actionType: "postmessage", strparam1: data.browsermessagething }]);
-          };
+          if (data.browsermessagething) { console.log(data.browsermessagething); browsermessageStuff(data.browsermessagething); };
+          if (data.messagething) { console.log(data.messagething); browsermessageStuff(data.messagething); };
       });
+
+      async function browsermessageStuff(messageData) {
+        let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+        let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+        thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
+        firescreenolder.components["sq-browser"].runActions([{ actionType: "postmessage", strparam1: messageData }]);
+      };
         
       }
     </script>

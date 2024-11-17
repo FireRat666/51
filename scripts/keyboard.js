@@ -222,13 +222,13 @@ initializeKeyboard();
 //   };
 // });
 
-keyboardscene.On("one-shot", async e => {
-  const data = JSON.parse(e.detail.data);
-    if (data.messagething) { console.log(data.messagething);
-      let firebrowserthing = await keyboardscene.Find(`MyBrowser1`);
-      let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-      thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": data.messagething }]}));
-    };
-});
+// keyboardscene.On("one-shot", async e => {
+//   const data = JSON.parse(e.detail.data);
+//     if (data.messagething) { console.log(data.messagething);
+//       let firebrowserthing = await keyboardscene.Find(`MyBrowser1`);
+//       let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+//       thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": data.messagething }]}));
+//     };
+// });
 
 // BS.BanterScene.GetInstance().SendBrowserMessage("Hello from the space to the menu browser!")
