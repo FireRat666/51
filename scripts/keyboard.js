@@ -1,5 +1,5 @@
 const keyboardscene = BS.BanterScene.GetInstance();
-async function initializeKeyboard(keyBoardPosition = new BS.Vector3(2, 2, -5), messageBoardTextPosition = new BS.Vector3(6, 0, -4), messageBoardTextScale = new BS.Vector3(3, 3, 1)) {
+async function initializeKeyboard(keyBoardPosition = new BS.Vector3(2, 2, 5), messageBoardTextPosition = new BS.Vector3(6, 0, 6), messageBoardTextScale = new BS.Vector3(3, 3, 1)) {
   const lowerCaseButtonObjects = {};
   const upperCaseButtonObjects = {};
   const specialCharsButtonObjects = {};
