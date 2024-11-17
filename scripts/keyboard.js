@@ -169,19 +169,19 @@ async function initializeKeyboard(keyBoardPosition = new BS.Vector3(0, 2, 5), me
       keyboardscene.OneShot(JSON.stringify({messagething: keyboardscene.localUser.name + ": " + inputText.text}));
       inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
-    await createSpecialButton("Paste", new BS.Vector3(startX + 10.8 * xOffset, startY + 1.0 * yOffset, 0), async () => {
-      // Try to focus the document
-      document.activeElement.blur(); // Unfocus any active element
-      document.body.focus(); // Focus the body (or your specific input element)
+    // await createSpecialButton("Paste", new BS.Vector3(startX + 10.8 * xOffset, startY + 1.0 * yOffset, 0), async () => {
+    //   // Try to focus the document
+    //   document.activeElement.blur(); // Unfocus any active element
+    //   document.body.focus(); // Focus the body (or your specific input element)
     
-      try {
-        const text = await navigator.clipboard.readText();
-        updateInputText(text);
-        console.log(`Pasted text: ${text}`);
-      } catch (error) {
-        console.error('Failed to read clipboard contents: ', error);
-      }
-    }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+    //   try {
+    //     const text = await navigator.clipboard.readText();
+    //     updateInputText(text);
+    //     console.log(`Pasted text: ${text}`);
+    //   } catch (error) {
+    //     console.error('Failed to read clipboard contents: ', error);
+    //   }
+    // }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     
 
     // Default to showing lowercase letters
