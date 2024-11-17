@@ -10,7 +10,12 @@
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
     <script>
       window.addEventListener("bantermessage", (e) => {
+        let chatdivider = document.getElementById("keyboardtest");
+        chatdivider.appendChild(document.createTextNode(e.detail.message));
+        chatdivider.appendChild(document.createElement("br"));
+        chatdivider.scrollTop = chatdivider.scrollHeight;
         window.bantermessage("Hello from the webpage to the space!");
+        window.bantermessage(e.detail.message);
       });
     </script>
 		<!-- Analytics and Cookie Stuff Start -->
@@ -35,7 +40,7 @@
     <details>
       <p>Enter Text here:<br/>
       <form id="form" method="get">
-      <input type="url" id="text" value="Text" class="url-form url-thing" placeholder="Hello" onchange="document.getElementById('form').action = this.value;" />
+      <input type="text" id="text" value="Text" class="url-form url-thing" placeholder="Hello" onchange="document.getElementById('form').action = this.value;" />
       <input type="button" id="btn" value="Submit" class="url-thing" 
             onclick="window.bantermessage(document.getElementById('text').value)" />
       </form>
