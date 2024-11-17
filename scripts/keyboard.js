@@ -1,4 +1,4 @@
-async function initializeKeyboard() {
+async function initializeKeyboard(keyBoardPosition = new BS.Vector3(5, 2, -1), messageBoardTextPosition = new BS.Vector3(9, 0, 0), messageBoardTextScale = new BS.Vector3(3, 3, 1)) {
   const lowerCaseButtonObjects = {};
   const upperCaseButtonObjects = {};
   const specialCharsButtonObjects = {};
@@ -18,7 +18,7 @@ async function initializeKeyboard() {
 
   const keyboardParentObject = new BS.GameObject("KeyboardParent");
   const parentTransform = await keyboardParentObject.AddComponent(new BS.Transform());
-  parentTransform.localPosition = new BS.Vector3(5, 2, -1);
+  parentTransform.localPosition = keyBoardPosition;
 
   const textObject = new BS.GameObject("InputText");
   const inputText = await textObject.AddComponent(new BS.BanterText("", textColor));
@@ -29,7 +29,7 @@ async function initializeKeyboard() {
   const messagesTextObject = new BS.GameObject(`messagesTextObject`);
   const messageBoardText = await messagesTextObject.AddComponent(new BS.BanterText("User:Message", new BS.Vector4(1,1,1,1), 1, 0, 1));
   const messageTextTransform = await messagesTextObject.AddComponent(new BS.Transform());
-  messageTextTransform.localPosition = new BS.Vector3(8, -1, 0); messageTextTransform.localScale = new BS.Vector3(3, 3, 1);
+  messageTextTransform.localPosition = messageBoardTextPosition; messageTextTransform.localScale = messageBoardTextScale;
   await textObject.SetParent(keyboardParentObject, false);
 
   function updateInputText(label) { inputText.text += label; }
@@ -162,10 +162,9 @@ async function initializeKeyboard() {
     await createSpecialButton("Special", new BS.Vector3((startX - 0.2) + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars, 0.8, new BS.Vector3(9.65, -2.37, -0.01));
     await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, (startY + 0.4), 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Submit", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), () => { console.log(inputText.text);
-      setPublicSpaceProp(`USERID:${BS.BanterScene.GetInstance().localUser.uid}:${BS.BanterScene.GetInstance().localUser.name}`, inputText.text.substring(0, 20).trim()); 
-      oneShot({fireurl: `${inputText.text}`}); oneShot({spaceaction: `document.querySelectorAll('.firescreenc').forEach(firescreenc => { firescreenc.setAttribute("sq-browser", { url: "https://${inputText.text}", pixelsPerUnit: 1200, mipMaps: 0, mode: "local" }); });`}); oneShot({spaceaction: `adjustForAll("goURL", "https://${inputText.text}")`}); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+      setPublicSpaceProp(`USERID:${BS.BanterScene.GetInstance().localUser.uid}:${BS.BanterScene.GetInstance().localUser.name}`, inputText.text.substring(0, 30).trim()); 
+      oneShot({fireurl: `${inputText.text}`}); oneShot({spaceaction: `document.querySelectorAll('.firescreenc').forEach(firescreenc => { firescreenc.setAttribute("sq-browser", { url: "https://${inputText.text}", pixelsPerUnit: 1200, mipMaps: 0, mode: "local" }); });`}); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
-
     await createSpecialButton("Paste", new BS.Vector3(startX + 10.8 * xOffset, startY + 1.0 * yOffset, 0), async () => {
       // Try to focus the document
       document.activeElement.blur(); // Unfocus any active element
