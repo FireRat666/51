@@ -1,3 +1,4 @@
+const keyboardscene = BS.BanterScene.GetInstance();
 async function initializeKeyboard(keyBoardPosition = new BS.Vector3(5, 2, -1), messageBoardTextPosition = new BS.Vector3(9, 0, 0), messageBoardTextScale = new BS.Vector3(3, 3, 1)) {
   const lowerCaseButtonObjects = {};
   const upperCaseButtonObjects = {};
@@ -162,8 +163,9 @@ async function initializeKeyboard(keyBoardPosition = new BS.Vector3(5, 2, -1), m
     await createSpecialButton("Special", new BS.Vector3((startX - 0.2) + xOffset, startY + 3 * yOffset, 0), toggleSpecialChars, 0.8, new BS.Vector3(9.65, -2.37, -0.01));
     await createSpecialButton("Backspace", new BS.Vector3(startX + 10.8 * xOffset, (startY + 0.4), 0), backspaceInputText, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Submit", new BS.Vector3(startX + 10.8 * xOffset, startY, 0), () => { console.log(inputText.text);
-      setPublicSpaceProp(`USERID:${BS.BanterScene.GetInstance().localUser.uid}:${BS.BanterScene.GetInstance().localUser.name}`, inputText.text.substring(0, 30).trim()); 
-      oneShot({fireurl: `${inputText.text}`}); oneShot({spaceaction: `document.querySelectorAll('.firescreenc').forEach(firescreenc => { firescreenc.setAttribute("sq-browser", { url: "https://${inputText.text}", pixelsPerUnit: 1200, mipMaps: 0, mode: "local" }); });`}); inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
+      setPublicSpaceProp(`USERID:${keyboardscene.localUser.uid}:${keyboardscene.localUser.name}`, inputText.text.substring(0, 30).trim()); 
+      keyboardscene.OneShot(JSON.stringify({fireurl: inputText.text})); keyboardscene.OneShot(JSON.stringify({spaceaction: `document.querySelectorAll('.firescreenc').forEach(firescreenc => { firescreenc.setAttribute("sq-browser", { url: "https://${inputText.text}", pixelsPerUnit: 1200, mipMaps: 0, mode: "local" }); });`})); keyboardscene.OneShot(JSON.stringify({messagething: inputText.text}));
+      inputText.text = ""; }, 1.2, new BS.Vector3(9.5, -2.37, -0.01));
     await createSpecialButton("Space", new BS.Vector3(startX + 1.5, startY + 3 * yOffset, 0), () => { updateInputText(" "); }, 1.2, new BS.Vector3(9.65, -2.37, -0.01));
     await createSpecialButton("Paste", new BS.Vector3(startX + 10.8 * xOffset, startY + 1.0 * yOffset, 0), async () => {
       // Try to focus the document
@@ -198,9 +200,9 @@ async function initializeKeyboard(keyBoardPosition = new BS.Vector3(5, 2, -1), m
 initializeKeyboard();
 
 async function updateMessageBoard(thisText) { thisText.text = "User:Message";
-  let spacestatethings = Object.entries(BS.BanterScene.GetInstance().spaceState.public);
+  let spacestatethings = Object.entries(keyboardscene.spaceState.public);
   // Convert the entries to an array, sort by value, and then format the output
-  // let sortedEntries = Object.entries(BS.BanterScene.GetInstance().spaceState.public).sort((a, b) => a[1] - b[1]);
+  // let sortedEntries = Object.entries(keyboardscene.spaceState.public).sort((a, b) => a[1] - b[1]);
   spacestatethings.forEach(([key, value]) => {
     if (key.includes("USERID:")) {
       const strippedKey = key.replace(/USERID:([a-f0-9]{32}):/, '');
@@ -209,11 +211,20 @@ async function updateMessageBoard(thisText) { thisText.text = "User:Message";
   });              
 };
 
-BS.BanterScene.GetInstance().On("one-shot", e => { console.log(e.detail);
-  const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
-  if (isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
-    if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
-  } else { console.log("Current Shot From Admin Is False");
-    if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
-  };
+// keyboardscene.On("one-shot", e => { console.log(e.detail);
+//   const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
+//   if (isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
+//     if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
+//   } else { console.log("Current Shot From Admin Is False");
+//     if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
+//   };
+// });
+
+keyboardscene.On("one-shot", async e => {
+  const data = JSON.parse(e.detail.data);
+    if (data.messagething) { console.log(data.messagething);
+      let firebrowserthing = await keyboardscene.Find(`MyBrowser1`);
+      let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+      thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": data.messagething }]}));
+    };
 });
