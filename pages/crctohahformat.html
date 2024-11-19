@@ -46,7 +46,20 @@
 
   <script>
     async function fetchAndFormat() {
-      const url = `https://cors-proxy-us5z.onrender.com/https://api.crcast.cc/v1/cc/decks/${document.getElementById('fetchUrl').value}/cards/`;
+
+      // const proxyUrl = `https://fire-crcast.netlify.app/${document.getElementById('fetchUrl').value}`;
+
+      // fetch(proxyUrl)
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     console.log("Fetched JSON:", data);
+      //     // Process the data as needed
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching from proxy:", error);
+      //   });
+
+      const url = `https://fire-cors-proxy.netlify.app/${document.getElementById('fetchUrl').value}`;
       if (!url) {
         alert("Please enter a valid URL.");
         return;
