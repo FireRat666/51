@@ -4,17 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Formatter</title>
+	<link rel="stylesheet" href="https://firer.at/pages/style.css" />
+  <script src="https://firer.at/scripts/RandomBG.js"></script>
 </head>
-<body>
-  <h1>Card Formatter</h1>
+<body id="body">
+  <h3>CrCast to Holograms Against Humanity Card Formatter</h3>
   <form id="formatterForm">
     <label for="inputText">Enter JSON:</label><br>
-    <textarea id="inputText" rows="15" cols="50" placeholder='Enter the card JSON here'></textarea><br><br>
-    <button type="button" onclick="formatCards()">Format</button>
+    <textarea id="inputText" class="url-form url-thing" rows="8" cols="40" placeholder='Enter the card JSON here'></textarea><br><br>
+    <button type="button" class="url-thing" onclick="formatCards()">Format</button>
   </form>
 
-  <h2>Formatted Output</h2>
-  <textarea id="outputText" rows="15" cols="50" readonly></textarea>
+  <h3>Formatted Output</h3>
+  <textarea id="outputText" class="url-form url-thing" rows="8" cols="40" readonly></textarea>
 
   <script>
     function formatTextWithBlanksAndBreaks(textArray, maxLength = 30) {
