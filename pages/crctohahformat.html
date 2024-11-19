@@ -24,11 +24,27 @@
       return text.replace(/"/g, '\\"');
     }
 
-    function formatTextWithBlanksAndBreaks(textArray) {
+    function formatTextWithBlanksAndBreaks(textArray, maxLength = 30) {
       // Join array segments with the blank "_____"
       let combinedText = textArray.join(' _____ ');
-      // Escape internal quotes
-      return escapeQuotes(combinedText);
+
+      // Add line breaks (\n) to wrap lines to maxLength
+      const words = combinedText.split(' ');
+      let line = '';
+      let formattedLines = [];
+
+      words.forEach(word => {
+        if (line.length + word.length + 1 > maxLength) {
+          formattedLines.push(line.trim());
+          line = word + ' ';
+        } else {
+          line += word + ' ';
+        }
+      });
+      formattedLines.push(line.trim()); // Add the last line
+
+      // Escape internal quotes after inserting line breaks
+      return escapeQuotes(formattedLines.join('\\n')); // Use '\\n' for literal display
     }
 
     function formatCards() {
@@ -43,7 +59,7 @@
 
         // Process white cards
         const formattedWhite = data.responses.map(response =>
-          `{"text": "${escapeQuotes(response.text[0])}"}`
+          `{"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
         ).join(',\n');
 
         // Create final JSON structure
