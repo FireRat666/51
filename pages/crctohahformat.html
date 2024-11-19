@@ -5,39 +5,30 @@
   <meta name="color-scheme" content="dark">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Formatter</title>
-	<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
+  <link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
   <meta property="og:title" content="Card Formatter">
   <meta property="og:description" content="CrCast to Holograms Against Humanity Card Formatter">
-	<meta property="og:image" content="https://firer.at/files/FireRat-DALLE-Tv2.png">
+  <meta property="og:image" content="https://firer.at/files/FireRat-DALLE-Tv2.png">
   <link rel="stylesheet" href="https://firer.at/pages/style.css" />
   <script src="https://firer.at/scripts/RandomBG.js"></script>
-  <!-- Analytics and Cookie Stuff Start -->
-  <script>
-    if(window.isBanter) { console.log("index.html Window is Banter, Not adding cookie chimp scripts");
-    } else {
-        console.log("Adding Cookie Chimp Script")
-        const cookiechimpscript = document.createElement("script");
-        cookiechimpscript.id = "cookiechimpscript";
-        cookiechimpscript.setAttribute("src", "https://cookiechimp.com/widget/mV3trJ.js");
-        document.querySelector("head").appendChild(cookiechimpscript); };
-  </script>
-  <script type="text/plain" data-src="https://www.googletagmanager.com/gtag/js?id=G-HSMS8JERQ2"
-    data-category="analytics" data-service="Google Analytics" ></script>
-  <script type="text/plain" data-category="analytics" data-service="Google Analytics" >
-    window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-HSMS8JERQ2'); </script>
-  <!-- Analytics and Cookie Stuff END -->
   <style>
-  .info-text {
-    font-size: 20px;
-    line-height: 1.4 !important;
-    display: block;
-    /* margin: 0;  */
-  }
+    .info-text {
+      font-size: 20px;
+      line-height: 1.4 !important;
+      display: block;
+    }
   </style>
 </head>
 <body id="body">
   <p><b><div style="font-size: 35px;"><a href="https://cast.clrtd.com/api">CrCast</a> to Holograms Against Humanity Card Formatter</div></b></p>
+
+  <!-- Form to fetch JSON from a URL -->
+  <form id="urlFetcherForm">
+    <p><label for="fetchUrl" style="font-size: 25px;">Enter API URL:</label><br>
+    <input id="fetchUrl" class="url-form url-thing" style="font-size: 15px;" type="url" placeholder="Enter the API URL" size="40">
+    <button type="button" class="url-thing" style="font-size: 20px;" onclick="fetchAndFormat()">Fetch & Format</button></p>
+  </form>
+
   <form id="formatterForm">
     <p><label for="inputText" style="font-size: 30px;">Enter JSON:</label><br>
     <textarea id="inputText" class="url-form url-thing" style="font-size: 15px;" rows="10" cols="40" placeholder='Enter the card JSON here'></textarea><br>
@@ -46,24 +37,43 @@
 
   <b><div style="font-size: 30px;">Formatted Output</div></b>
   <textarea id="outputText" class="url-form url-thing" style="font-size: 15px;" rows="15" cols="40" readonly></textarea><div> </div><br>
-  <span class="info-text"><div>
-    INFO: Get the Code for a Deck from <a href="https://cast.clrtd.com/">cast.clrtd.com</a>.
-    Then use the API URL & insert the deck code</div>
+  <span class="info-text">
+    <div>INFO: Get the Code for a Deck from <a href="https://cast.clrtd.com/">cast.clrtd.com</a>.
+    Then use the API URL & insert the deck code.</div>
     <div>Example URL: https://api.crcast.cc/v1/cc/decks/<b><span style="color: #FFFF00">CODE</span></b>/cards/</div>
     Copy the RAW JSON Data and paste it into the above box, then click Format and you can copy the formatted JSON.
   </span><br><br>
 
   <script>
+    async function fetchAndFormat() {
+      const url = document.getElementById('fetchUrl').value;
+      if (!url) {
+        alert("Please enter a valid URL.");
+        return;
+      }
+      try {
+        const proxyUrl = "https://crossorigin.me/";
+        const response = await fetch(proxyUrl + url);
+        // const response = await fetch(url);
+        if (!response.ok) {
+          alert(`Error fetching data: ${response.status} ${response.statusText}`);
+          return;
+        }
+        const jsonData = await response.json();
+        document.getElementById('inputText').value = JSON.stringify(jsonData, null, 2);
+        formatCards(); // Automatically format after fetching
+      } catch (error) {
+        alert(`Failed to fetch JSON: ${error.message}`);
+      }
+    }
+
     function escapeQuotes(text) {
-      // Escape all double quotes inside the text
       return text.replace(/"/g, '\\"');
     }
 
     function formatTextWithBlanksAndBreaks(textArray, maxLength = 25) {
-      // Join array segments with the blank "_____"
       let combinedText = textArray.join(' _____ ');
 
-      // Add line breaks (\n) to wrap lines to maxLength
       const words = combinedText.split(' ');
       let line = '';
       let formattedLines = [];
@@ -76,10 +86,8 @@
           line += word + ' ';
         }
       });
-      formattedLines.push(line.trim()); // Add the last line
-
-      // Escape internal quotes after inserting line breaks
-      return escapeQuotes(formattedLines.join('\\n')); // Use '\\n' for literal display
+      formattedLines.push(line.trim());
+      return escapeQuotes(formattedLines.join('\\n'));
     }
 
     function formatCards() {
@@ -87,17 +95,14 @@
       try {
         const data = JSON.parse(inputText);
 
-        // Process black cards
         const formattedBlack = data.calls.map(call =>
           `{"text": "${formatTextWithBlanksAndBreaks(call.text)}"}`
         ).join(',\n');
 
-        // Process white cards
         const formattedWhite = data.responses.map(response =>
           `{"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
         ).join(',\n');
 
-        // Create final JSON structure
         const formattedOutput = `{\n"black": [\n${formattedBlack}\n],\n"white": [\n${formattedWhite}\n]\n}`;
         document.getElementById('outputText').value = formattedOutput;
       } catch (e) {
