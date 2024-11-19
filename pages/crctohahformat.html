@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Formatter</title>
-	<link rel="stylesheet" href="https://firer.at/pages/style.css" />
+  <link rel="stylesheet" href="https://firer.at/pages/style.css" />
   <script src="https://firer.at/scripts/RandomBG.js"></script>
 </head>
 <body id="body">
@@ -19,26 +19,9 @@
   <textarea id="outputText" class="url-form url-thing" style="font-size: 15px;" rows="15" cols="40" readonly></textarea>
 
   <script>
-    function formatTextWithBlanksAndBreaks(textArray, maxLength = 30) {
+    function formatTextWithBlanksAndBreaks(textArray) {
       // Join array segments with the blank "_____"
-      let combinedText = textArray.join(' _____ ');
-
-      // Add line breaks (\n) to wrap lines to maxLength
-      const words = combinedText.split(' ');
-      let line = '';
-      let formattedLines = [];
-
-      words.forEach(word => {
-        if (line.length + word.length + 1 > maxLength) {
-          formattedLines.push(line.trim());
-          line = word + ' ';
-        } else {
-          line += word + ' ';
-        }
-      });
-      formattedLines.push(line.trim()); // Add the last line
-
-      return formattedLines.join('\n');
+      return textArray.join(' _____ ');
     }
 
     function formatCards() {
@@ -46,19 +29,18 @@
       try {
         const data = JSON.parse(inputText);
 
+        // Process black cards
         const formattedBlack = data.calls.map(call =>
-          ({
-            text: formatTextWithBlanksAndBreaks(call.text)
-          })
-        );
+          `{"text": "${formatTextWithBlanksAndBreaks(call.text)}"}`
+        ).join(',\n');
 
+        // Process white cards
         const formattedWhite = data.responses.map(response =>
-          ({
-            text: formatTextWithBlanksAndBreaks([response.text[0]])
-          })
-        );
+          `{"text": "${response.text[0]}"}`
+        ).join(',\n');
 
-        const formattedOutput = JSON.stringify({ black: formattedBlack, white: formattedWhite }, null, 2);
+        // Create final JSON structure
+        const formattedOutput = `{\n"black": [\n${formattedBlack}\n],\n"white": [\n${formattedWhite}\n]\n}`;
         document.getElementById('outputText').value = formattedOutput;
       } catch (e) {
         alert('Invalid JSON format. Please correct your input.');
