@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Formatter</title>
+</head>
+<body>
+  <h1>Card Formatter</h1>
+  <form id="formatterForm">
+    <label for="inputText">Enter JSON:</label><br>
+    <textarea id="inputText" rows="15" cols="50" placeholder='Enter the card JSON here'></textarea><br><br>
+    <button type="button" onclick="formatCards()">Format</button>
+  </form>
+
+  <h2>Formatted Output</h2>
+  <textarea id="outputText" rows="15" cols="50" readonly></textarea>
+
+  <script>
+    function formatTextWithBlanksAndBreaks(textArray, maxLength = 30) {
+      // Join array segments with the blank "_____"
+      let combinedText = textArray.join(' _____ ');
+
+      // Add line breaks (\n) to wrap lines to maxLength
+      const words = combinedText.split(' ');
+      let line = '';
+      let formattedLines = [];
+
+      words.forEach(word => {
+        if (line.length + word.length + 1 > maxLength) {
+          formattedLines.push(line.trim());
+          line = word + ' ';
+        } else {
+          line += word + ' ';
+        }
+      });
+      formattedLines.push(line.trim()); // Add the last line
+
+      return formattedLines.join('\n');
+    }
+
+    function formatCards() {
+      const inputText = document.getElementById('inputText').value;
+      try {
+        const data = JSON.parse(inputText);
+
+        const formattedBlack = data.calls.map(call =>
+          ({
+            text: formatTextWithBlanksAndBreaks(call.text)
+          })
+        );
+
+        const formattedWhite = data.responses.map(response =>
+          ({
+            text: formatTextWithBlanksAndBreaks([response.text[0]])
+          })
+        );
+
+        const formattedOutput = JSON.stringify({ black: formattedBlack, white: formattedWhite }, null, 2);
+        document.getElementById('outputText').value = formattedOutput;
+      } catch (e) {
+        alert('Invalid JSON format. Please correct your input.');
+      }
+    }
+  </script>
+</body>
+</html>
