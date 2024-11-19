@@ -11,12 +11,12 @@
   <h3><a href="https://cast.clrtd.com/api">CrCast</a> to Holograms Against Humanity Card Formatter</h3>
   <form id="formatterForm">
     <label for="inputText">Enter JSON:</label><br>
-    <textarea id="inputText" class="url-form url-thing" rows="8" cols="40" placeholder='Enter the card JSON here'></textarea><br><br>
+    <textarea id="inputText" class="url-form url-thing" rows="3" cols="40" placeholder='Enter the card JSON here'></textarea><br>
     <button type="button" class="url-thing" onclick="formatCards()">Format</button>
   </form>
 
   <h3>Formatted Output</h3>
-  <textarea id="outputText" class="url-form url-thing" rows="8" cols="40" readonly></textarea>
+  <textarea id="outputText" class="url-form url-thing" rows="6" cols="40" readonly></textarea>
 
   <script>
     function formatTextWithBlanksAndBreaks(textArray, maxLength = 30) {
