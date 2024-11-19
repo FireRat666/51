@@ -6,17 +6,31 @@
   <title>Card Formatter</title>
   <link rel="stylesheet" href="https://firer.at/pages/style.css" />
   <script src="https://firer.at/scripts/RandomBG.js"></script>
+  <style>
+  .info-text {
+    font-size: 20px;
+    line-height: 1.4 !important;
+    display: block;
+    /* margin: 0;  */
+  }
+  </style>
 </head>
 <body id="body">
-  <br><b><a href="https://cast.clrtd.com/api">CrCast</a> to Holograms Against Humanity Card Formatter</b><br><br>
+  <p><b><div style="font-size: 35px;"><a href="https://cast.clrtd.com/api">CrCast</a> to Holograms Against Humanity Card Formatter</div></b></p>
   <form id="formatterForm">
-    <label for="inputText">Enter JSON:</label><br>
+    <p><label for="inputText" style="font-size: 30px;">Enter JSON:</label><br>
     <textarea id="inputText" class="url-form url-thing" style="font-size: 15px;" rows="10" cols="40" placeholder='Enter the card JSON here'></textarea><br>
-    <button type="button" class="url-thing" onclick="formatCards()">Format</button>
-  </form><br>
+    <button type="button" class="url-thing" style="font-size: 25px;" onclick="formatCards()">Format</button></p>
+  </form>
 
-  <b>Formatted Output</b>
-  <textarea id="outputText" class="url-form url-thing" style="font-size: 15px;" rows="15" cols="40" readonly></textarea>
+  <b><div style="font-size: 30px;">Formatted Output</div></b>
+  <textarea id="outputText" class="url-form url-thing" style="font-size: 15px;" rows="15" cols="40" readonly></textarea><div> </div><br>
+  <span class="info-text"><div>
+    INFO: Get the Code for a Deck from <a href="https://cast.clrtd.com/">cast.clrtd.com</a>.
+    Then use the API URL & insert the deck code</div>
+    <div>Example URL: https://api.crcast.cc/v1/cc/decks/<b><span style="color: #FFFF00">CODE</span></b>/cards/</div>
+    Copy the RAW JSON Data and paste it into the above box, then click Format and you can copy the formatted JSON.
+  </span><br><br>
 
   <script>
     function escapeQuotes(text) {
