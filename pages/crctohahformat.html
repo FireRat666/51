@@ -19,9 +19,16 @@
   <textarea id="outputText" class="url-form url-thing" style="font-size: 15px;" rows="15" cols="40" readonly></textarea>
 
   <script>
+    function escapeQuotes(text) {
+      // Escape all double quotes inside the text
+      return text.replace(/"/g, '\\"');
+    }
+
     function formatTextWithBlanksAndBreaks(textArray) {
       // Join array segments with the blank "_____"
-      return textArray.join(' _____ ');
+      let combinedText = textArray.join(' _____ ');
+      // Escape internal quotes
+      return escapeQuotes(combinedText);
     }
 
     function formatCards() {
@@ -36,7 +43,7 @@
 
         // Process white cards
         const formattedWhite = data.responses.map(response =>
-          `{"text": "${response.text[0]}"}`
+          `{"text": "${escapeQuotes(response.text[0])}"}`
         ).join(',\n');
 
         // Create final JSON structure
