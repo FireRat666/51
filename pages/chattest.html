@@ -55,7 +55,7 @@
             position="4 1.5 -2" rotation="0 90 0" scale="2.5 2.5 1" volumelevel="0.5" announce="true">
     </script>
     <script src="https://firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300"
-            website="https://51.firer.at/pages/chat.html"
+            website="https://51.firer.at/pages/chattest.html"
             position="-4 1.5 3" rotation="0 0 0" scale="2.5 2.5 1" volumelevel="0.5" announce="true">
     </script>
     <script>
@@ -66,13 +66,18 @@
         delaythinginterval = setInterval(function() {
           if (BS.BanterScene.GetInstance().unityLoaded) { 
             thiswaitingforunity = false; clearInterval(delaythinginterval); 
-            setTimeout(() => {
+            setTimeout(async () => {
               document.querySelectorAll('.firescreenc').forEach((element, index) => {
                 firescreenolder = element;
                 element.addEventListener('browsermessage', (e) => {
                   console.log("Received message from the webpage:", e.detail);
                   BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
                 });
+              });
+              let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+              firebrowserthing.On("browser-message", (e) => {
+                console.log("Received message from the webpage:", e.detail);
+                BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
               });
             }, 3000);
           };
