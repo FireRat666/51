@@ -11,13 +11,7 @@
   <meta property="og:image" content="https://firer.at/files/FireRat-DALLE-Tv2.png">
   <link rel="stylesheet" href="https://firer.at/pages/style.css" />
   <script src="https://firer.at/scripts/RandomBG.js"></script>
-  <style>
-    .info-text {
-      font-size: 20px;
-      line-height: 1.4 !important;
-      display: block;
-    }
-  </style>
+  <style> .info-text { font-size: 20px; line-height: 1.4 !important; display: block; } </style>
 </head>
 <body id="body">
     <center> <p><b><div style="font-size: 35px;"><a href="https://cast.clrtd.com/api">CrCast</a> to Holograms Against Humanity Card Formatter</div></b></p>
@@ -51,10 +45,7 @@
       // const url = `https://fire-crcast.netlify.app/${document.getElementById('fetchUrl').value}`;
       // const url = `https://cors-proxy-us5z.onrender.com/https://api.crcast.cc/v1/cc/decks/${document.getElementById('fetchUrl').value}/cards`;
       const url = `https://fire-cors-proxy.netlify.app/${document.getElementById('fetchUrl').value}`;
-      if (!url) {
-        alert("Please enter a valid URL.");
-        return;
-      }
+      if (!url) { alert("Please enter a valid URL."); return; }
       try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -64,61 +55,41 @@
         const jsonData = await response.json();
         document.getElementById('inputText').value = JSON.stringify(jsonData, null, 2);
         formatCards(); // Automatically format after fetching
-      } catch (error) {
-        alert(`Failed to fetch JSON: ${error.message}`);
-      }
+      } catch (error) { alert(`Failed to fetch JSON: ${error.message}`); }
     }
 
-    function escapeQuotes(text) {
-      return text.replace(/"/g, '\\"');
-    }
+    function escapeQuotes(text) { return text.replace(/"/g, '\\"'); }
 
     function formatTextWithBlanksAndBreaks(textArray, maxLength = 25) {
       let combinedText = textArray.join(' _____ ');
-
       const words = combinedText.split(' ');
       let line = '';
       let formattedLines = [];
-
       words.forEach(word => {
         if (line.length + word.length + 1 > maxLength) {
           formattedLines.push(line.trim());
           line = word + ' ';
-        } else {
-          line += word + ' ';
-        }
+        } else { line += word + ' '; }
       });
       formattedLines.push(line.trim());
       return escapeQuotes(formattedLines.join('\\n'));
     }
 
     function formatCards() {
-        const inputText = document.getElementById('inputText').value;
-        try {
-            const data = JSON.parse(inputText);
-
-            const formattedBlack = data.calls.map(call => {
-            const textArray = call.text;
-            const joinedText = textArray.join(' _____ ');
-            const blankCount = (joinedText.match(/_____/g) || []).length;
-
-            // If there are multiple blanks, add numResponses
-            if (blankCount > 1) {
-                return `    {"text": "${formatTextWithBlanksAndBreaks(textArray)}", "numResponses": ${blankCount}}`;
-            } else {
-                return `    {"text": "${formatTextWithBlanksAndBreaks(textArray)}"}`;
-            }
-            }).join(',\n');
-
-            const formattedWhite = data.responses.map(response =>
-            `    {"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
-            ).join(',\n');
-
-            const formattedOutput = `module.exports = {\n  "black": [\n${formattedBlack}\n  ],\n  "white": [\n${formattedWhite}\n  ]\n}`;
-            document.getElementById('outputText').value = formattedOutput;
-        } catch (e) {
-            alert('Invalid JSON format. Please correct your input.');
-        }
+      const inputText = document.getElementById('inputText').value;
+      try {
+        const data = JSON.parse(inputText);
+        const formattedBlack = data.calls.map(call => {
+        const textArray = call.text;
+        const joinedText = textArray.join(' _____ ');
+        const blankCount = (joinedText.match(/_____/g) || []).length;
+        // If there are multiple blanks, add numResponses
+        if (blankCount > 1) { return `    {"text": "${formatTextWithBlanksAndBreaks(textArray)}", "numResponses": ${blankCount}}`;
+        } else { return `    {"text": "${formatTextWithBlanksAndBreaks(textArray)}"}`; }}).join(',\n');
+        const formattedWhite = data.responses.map(response => `    {"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`).join(',\n');
+        const formattedOutput = `module.exports = {\n  "black": [\n${formattedBlack}\n  ],\n  "white": [\n${formattedWhite}\n  ]\n}`;
+        document.getElementById('outputText').value = formattedOutput;
+      } catch (e) { alert('Invalid JSON format. Please correct your input.'); }
     }
 
     function copyToClipboard() {
@@ -127,9 +98,7 @@
       outputText.setSelectionRange(0, 99999); // For mobile devices
       navigator.clipboard.writeText(outputText.value).then(() => {
         alert("Copied to clipboard!");
-      }).catch(err => {
-        alert("Failed to copy text: " + err);
-      });
+      }).catch(err => { alert("Failed to copy text: " + err); });
     }
 
   </script>
