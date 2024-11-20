@@ -44,7 +44,8 @@
     async function fetchAndFormat() {
       // const url = `https://fire-crcast.netlify.app/${document.getElementById('fetchUrl').value}`;
       // const url = `https://cors-proxy-us5z.onrender.com/https://api.crcast.cc/v1/cc/decks/${document.getElementById('fetchUrl').value}/cards`;
-      const url = `https://fire-cors-proxy.netlify.app/${document.getElementById('fetchUrl').value}`;
+      // const url = `https://fire-cors-proxy.netlify.app/${document.getElementById('fetchUrl').value}`;
+      const url = `https://crcastjson.firer.at/${document.getElementById('fetchUrl').value}`;
       if (!url) { alert("Please enter a valid URL."); return; }
       try {
         const response = await fetch(url);
