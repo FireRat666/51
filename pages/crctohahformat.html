@@ -105,24 +105,34 @@
     }
 
     function formatCards() {
-      const inputText = document.getElementById('inputText').value;
-      try {
-        const data = JSON.parse(inputText);
+        const inputText = document.getElementById('inputText').value;
+        try {
+            const data = JSON.parse(inputText);
 
-        const formattedBlack = data.calls.map(call =>
-          `{"text": "${formatTextWithBlanksAndBreaks(call.text)}"}`
-        ).join(',\n');
+            const formattedBlack = data.calls.map(call => {
+            const textArray = call.text;
+            const joinedText = textArray.join(' _____ ');
+            const blankCount = (joinedText.match(/_____/g) || []).length;
 
-        const formattedWhite = data.responses.map(response =>
-          `{"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
-        ).join(',\n');
+            // If there are multiple blanks, add numResponses
+            if (blankCount > 1) {
+                return `{"text": "${formatTextWithBlanksAndBreaks(textArray)}", "numResponses": ${blankCount}}`;
+            } else {
+                return `{"text": "${formatTextWithBlanksAndBreaks(textArray)}"}`;
+            }
+            }).join(',\n');
 
-        const formattedOutput = `{\n"black": [\n${formattedBlack}\n],\n"white": [\n${formattedWhite}\n]\n}`;
-        document.getElementById('outputText').value = formattedOutput;
-      } catch (e) {
-        alert('Invalid JSON format. Please correct your input.');
-      }
+            const formattedWhite = data.responses.map(response =>
+            `{"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
+            ).join(',\n');
+
+            const formattedOutput = `{\n"black": [\n${formattedBlack}\n],\n"white": [\n${formattedWhite}\n]\n}`;
+            document.getElementById('outputText').value = formattedOutput;
+        } catch (e) {
+            alert('Invalid JSON format. Please correct your input.');
+        }
     }
+
   </script>
 </body>
 </html>
