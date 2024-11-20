@@ -353,12 +353,10 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
       if (!window.FireScriptLoaded && !window.AnnouncerScriptInitialized) { window.FireScriptLoaded = true; console.log("FIRESCREEN2: Announcer Initialising"); announcerstufffunc(); }; };
   }, p_thisBrowserNumber * 1000); };
   // browser-message - Fired when a message is received from a browser in the space.  
-  firebrowser.On("browser-message", e => { console.log(e) });
-  firescenev2.On("browser-message", e => { console.log(e) });
-  firescenev2.On("browsermessage", e => { console.log(e) });
-  firebrowser.On("menu-browser-message", e => { console.log(e) });
-  firescenev2.On("menu-browser-message", e => { console.log(e) });
-  firescenev2.On("menubrowsermessage", e => { console.log(e) });
+  screenObject.On("browser-message", e => { console.log(e) });
+  screenObject.On("browsermessage", e => { console.log(e) });
+  screenObject.On("menu-browser-message", e => { console.log(e) });
+  screenObject.On("menubrowsermessage", e => { console.log(e) });
 
   function announcerstufffunc() {
     console.log("FIRESCREEN2: Announcer Script Called");
