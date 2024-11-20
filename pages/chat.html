@@ -43,6 +43,7 @@
         if (message.trim() !== "") {
           window.bantermessage(message);
           console.log("Message sent to the space:", message);
+          document.getElementById('messageBox').value = "";
         } else { console.log("Empty message not sent."); }
       }
     </script>
