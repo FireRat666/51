@@ -116,17 +116,17 @@
 
             // If there are multiple blanks, add numResponses
             if (blankCount > 1) {
-                return `{"text": "${formatTextWithBlanksAndBreaks(textArray)}", "numResponses": ${blankCount}}`;
+                return `    {"text": "${formatTextWithBlanksAndBreaks(textArray)}", "numResponses": ${blankCount}}`;
             } else {
-                return `{"text": "${formatTextWithBlanksAndBreaks(textArray)}"}`;
+                return `    {"text": "${formatTextWithBlanksAndBreaks(textArray)}"}`;
             }
             }).join(',\n');
 
             const formattedWhite = data.responses.map(response =>
-            `{"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
+            `    {"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
             ).join(',\n');
 
-            const formattedOutput = `module.exports = {\n"black": [\n${formattedBlack}\n],\n"white": [\n${formattedWhite}\n]\n}`;
+            const formattedOutput = `module.exports = {\n  "black": [\n${formattedBlack}\n  ],\n  "white": [\n${formattedWhite}\n  ]\n}`;
             document.getElementById('outputText').value = formattedOutput;
         } catch (e) {
             alert('Invalid JSON format. Please correct your input.');
