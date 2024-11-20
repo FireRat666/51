@@ -126,7 +126,7 @@
             `{"text": "${formatTextWithBlanksAndBreaks([response.text[0]])}"}`
             ).join(',\n');
 
-            const formattedOutput = `{\n"black": [\n${formattedBlack}\n],\n"white": [\n${formattedWhite}\n]\n}`;
+            const formattedOutput = `module.exports = {\n"black": [\n${formattedBlack}\n],\n"white": [\n${formattedWhite}\n]\n}`;
             document.getElementById('outputText').value = formattedOutput;
         } catch (e) {
             alert('Invalid JSON format. Please correct your input.');
