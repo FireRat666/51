@@ -15,7 +15,7 @@ async function loadAndExecuteAnnouncerScript(src) {
   } catch (error) { console.error("Failed to load or execute the Announcer script:", error); }
 }
 
-if (!window.AnnouncerScriptInitialized) {
+if (!window.AnnouncerScriptInitialized && window.isBanter) {
   window.AnnouncerScriptInitialized = true;
   loadAndExecuteAnnouncerScript(`https://51.firer.at/scripts/announcerscripts.js`);
   console.log(`Announcer Script FIRST Call, Should be Loading!!`);
