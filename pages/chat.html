@@ -52,8 +52,6 @@
           // Add an event listener to handle pressing Enter
           const messageBox = document.getElementById('messageBox');
           messageBox.addEventListener('keydown', (event) => {
-            window.bantermessage(event);
-            window.bantermessage(event.key);
               if (event.key === 'Enter') { sendMessage(); }
           });
          }, 2000);
