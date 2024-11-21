@@ -14,6 +14,15 @@
 		<script src="https://51.firer.at/scripts/keyboard.js"></script>
 		<script src="https://firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
 		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script>
+      if (window.isBanter) {
+        const textObject = new BS.GameObject("InfoText");
+        const infoText = await textObject.AddComponent(new BS.BanterText("Messages will appear on the browser", new BS.Vector4(1, 1, 1, 1)));
+        const textTransform = await textObject.AddComponent(new BS.Transform());
+        textTransform.position = new BS.Vector3(8, 1, 5);
+        // textTransform.localPosition = new BS.Vector3(8.1, -1, 0); infoText.text = "label";
+      };
+    </script>
 		<!-- Analytics and Cookie Stuff Start -->
 		<script>
       if(window.isBanter) { console.log("index.html Window is Banter, Not adding cookie chimp scripts");
@@ -54,11 +63,11 @@
     <a-scene id="ascene" embedded>
     <script src="https://firer.at/scripts/firescreen.js" mipmaps="0" pixelsperunit="1400"
             website="https://chat-space.firer.at/index.html"
-            position="3 1.5 -2" rotation="0 90 0" scale="1 1 1" volumelevel="0.5" announce="true">
+            position="3 1.7 -2" rotation="0 90 0" scale="1 1 1" volumelevel="0.5" announce="true">
     </script>
     <script src="https://firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300"
             website="https://chat-space.firer.at/index.html" width="1280" height="720"
-            position="-3 1.5 2" rotation="0 0 0" scale="1 1 1" volumelevel="0.5" announce="true">
+            position="-3 1.7 2" rotation="0 0 0" scale="1 1 1" volumelevel="0.5" announce="true">
     </script>
     <script>
       if(window.isBanter) { 
