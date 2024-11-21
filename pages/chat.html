@@ -32,20 +32,32 @@
 		<!-- Analytics and Cookie Stuff END -->
     <script>
       // Thank You HBR for the example for this
-      window.addEventListener("bantermessage", (e) => {
-        let chatdivider = document.getElementById("keyboardtest");
-        chatdivider.appendChild(document.createTextNode(e.detail.message));
-        chatdivider.appendChild(document.createElement("br"));
-        chatdivider.scrollTop = chatdivider.scrollHeight;
-      });
+      if(!window.isBanter) {
+        window.addEventListener("bantermessage", (e) => {
+          let chatdivider = document.getElementById("keyboardtest");
+          chatdivider.appendChild(document.createTextNode(e.detail.message));
+          chatdivider.appendChild(document.createElement("br"));
+          chatdivider.scrollTop = chatdivider.scrollHeight;
+        });
 
-      function sendMessage() {
-        const message = document.getElementById('messageBox').value;
-        if (message.trim() !== "") {
-          window.bantermessage(message);
-          console.log("Message sent to the space:", message);
-          document.getElementById('messageBox').value = "";
-        } else { console.log("Empty message not sent."); }
+        function sendMessage() {
+          const message = document.getElementById('messageBox').value;
+          if (message.trim() !== "") {
+            window.bantermessage(message);
+            console.log("Message sent to the space:", message);
+            document.getElementById('messageBox').value = "";
+          } else { console.log("Empty message not sent."); }
+        }
+        
+        // Add an event listener to handle pressing Enter
+        window.addEventListener('DOMContentLoaded', () => {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
       }
     </script>
 </head>
