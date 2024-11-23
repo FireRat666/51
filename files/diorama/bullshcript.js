@@ -5,7 +5,7 @@ if(window.isBanter){
   async function somerandomStartCrap() {
     const waitingForUnity = async () => { while (!dioramascene.unityLoaded) { await new Promise(resolve => setTimeout(resolve, 500)); } };
     await waitingForUnity(); console.log("SCRIPT: Unity-Loaded");
-    setTimeout(() => { loadSettings(); }, 1000);
+    setTimeout(() => { loadSettings(); landingPlatform(); }, 1000);
   };
 
   function loadSettings() {
@@ -33,6 +33,17 @@ if(window.isBanter){
     console.log("SCRIPT finish setting settings for scene");
     setTimeout(() => { dioramascene.TeleportTo({x: randomLocationX, y: 0.2, z: randomLocationZ}, 0, true); dioramascene.SetSettings(settings); }, 2000);
   };
+
+  async function landingPlatform() {
+    const platformObject = new BS.GameObject("landingPlane");
+    await platformObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.BoxGeometry));
+    await platformObject.AddComponent(new BS.BoxCollider(false));
+    await platformObject.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "",  new BS.Vector4(0,0,0,0.5)));
+    const plane20transform = await platformObject.AddComponent(new BS.Transform());
+
+    plane20transform.localPosition = new BS.Vector3(0,-10,0);
+    plane20transform.localScale = new BS.Vector3(20,0.05,20);
+  }
 
   somerandomStartCrap();
 
