@@ -41,7 +41,7 @@ if(window.isBanter){
     await platformObject.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "",  new BS.Vector4(0,0,0,0.5)));
     const plane20transform = await platformObject.AddComponent(new BS.Transform());
 
-    plane20transform.localPosition = new BS.Vector3(0,-10,0);
+    plane20transform.localPosition = new BS.Vector3(0,-20,0);
     plane20transform.localScale = new BS.Vector3(20,0.05,20);
   }
 
