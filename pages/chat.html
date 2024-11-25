@@ -11,8 +11,8 @@
 		<link rel="stylesheet" href="https://firer.at/pages/style.css" />
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
 		<script src="https://chat-space.firer.at/bullshtest.js"></script> <!-- bullshcript bullshtest -->
-		<script src="https://51.firer.at/scripts/keyboard.js"></script>
-		<script src="https://51.firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
+		<script src="https://firer.at/scripts/keyboard.js"></script>
+		<script src="https://firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
 		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 		<!-- Analytics and Cookie Stuff Start -->
 		<script>
@@ -58,15 +58,15 @@
       }
     </script>
 </head>
-	<body id="body">
+	<body id="body" style="margin: 0 2%;">
     <div style="display: none;">
     <a-scene id="ascene" embedded>
-    <script src="https://51.firer.at/scripts/firescreen.js" mipmaps="0" pixelsperunit="1400"
-            website="https://chat-space.firer.at/?21"
+    <script src="https://firer.at/scripts/firescreen.js" mipmaps="0" pixelsperunit="1400"
+            website="https://chat-space.firer.at/?31"
             position="3 1.7 -2" rotation="0 90 0" scale="1 1 1" volumelevel="0.5" announce="true">
     </script>
-    <script src="https://51.firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300"
-            website="https://chat-space.firer.at/?21" width="1280" height="720" hand-controls="true"
+    <script src="https://firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300"
+            website="https://chat-space.firer.at/?31" width="1280" height="720" hand-controls="true"
             position="-3 1.7 2" rotation="0 0 0" scale="1 1 1" volumelevel="0.5" announce="true">
     </script>
     <script>
@@ -112,7 +112,7 @@
     </script>
     </a-scene>
     </div>
-    <center><h3>Send a Message</h3>
+    <center><p></p><div><b>Send a Message</b></div>
     <input class="url-form url-thing" type="text" id="messageBox" placeholder="Enter your message here" />
     <button class="url-thing" onclick="sendMessage()">Submit</button></center>
     <hr><span><b>Chat Messages:</b></span><br/>
