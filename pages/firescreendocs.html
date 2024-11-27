@@ -7,45 +7,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FireScreen Docs (WIP)</title>
   <style>
-    body {font-size: 15px;
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 1500px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .parameter-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-    .parameter-table th, .parameter-table td {
-      border: 1px solid #909090a4;
-      padding: 8px;
-    }
-    .parameter-table th {
-      text-align: left;
-    }
-    .code {
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-family: "Courier New", Courier, monospace;
-    }
+    body {font-size: 15px; font-family: Arial, sans-serif; line-height: 1.2; margin: 0; padding: 10px; }
+    .container { max-width: 1500px; margin: auto; padding: 10px; border-radius: 20px; border: .1em solid rgb(0, 255, 0); }
+    .parameter-table { line-height: 1.6; width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .parameter-table th, .parameter-table td { border: 1px solid #909090a4; padding: 8px; }
+    .parameter-table th { text-align: left; }
+    .code { padding: 5px 10px; border-radius: 5px; font-family: "Courier New", Courier, monospace; }
   </style>
 </head>
 <body>
+  <br>
   <div class="container">
-    <h1>FireScreen Docs (WIP)</h1>
+    <center>
+    <div span style="font-size: 30px;"><b>FireScreen Docs (WIP)</b></div>
     <p>
-      This documentation details all customizable parameters in the FireScreen script. Parameters omitted from the script will use default values.
-    </p>
-    <h2>Parameters</h2>
+      This documentation provides details for all parameters that can be used with the FireScreen script.<br>
+      These parameters allow you to customize the behavior of the screen, browser, and UI elements. <br>
+      If a parameter is not provided, its default value will be used.
+    </p></center>
     <table class="parameter-table">
       <thead>
         <tr>
@@ -303,14 +282,16 @@
     </table>
     <h2>Example Usage</h2>
     <pre class="code">
-&lt;script src="firescreenv2.js"
+&lt;script src="https://firer.at/scripts/firescreenv2.js"
+  website="https://example.com"
   position="1 1 1"
   rotation="0 45 0"
-  website="https://example.com"
   volumelevel="0.5"
   button-color="1 0 0 1"
-  announce="true"&gt;&lt;/script&gt;
+  announce="true" &gt;&lt;/script&gt;
     </pre>
   </div>
+  <br>
+  <br>
 </body>
 </html>
