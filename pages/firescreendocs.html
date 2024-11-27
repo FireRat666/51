@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://firer.at/pages/style.css" />
+  <script src="https://firer.at/scripts/RandomBG.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FireScreen Docs (WIP)</title>
+  <style>
+    body {font-size: 15px;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1500px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .parameter-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    .parameter-table th, .parameter-table td {
+      border: 1px solid #909090a4;
+      padding: 8px;
+    }
+    .parameter-table th {
+      text-align: left;
+    }
+    .code {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-family: "Courier New", Courier, monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>FireScreen Docs (WIP)</h1>
+    <p>
+      This documentation details all customizable parameters in the FireScreen script. Parameters omitted from the script will use default values.
+    </p>
+    <h2>Parameters</h2>
+    <table class="parameter-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Description</th>
+          <th>Default Value</th>
+          <th>Example Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- POSITIONING AND TRANSFORMATION -->
+        <tr>
+          <td><code>position</code></td>
+          <td>Specifies the position of the screen in the space (x, y, z).</td>
+          <td><code>0 2 0</code></td>
+          <td><code>1 1 1</code></td>
+        </tr>
+        <tr>
+          <td><code>rotation</code></td>
+          <td>Specifies the rotation of the screen in degrees (x, y, z).</td>
+          <td><code>0 0 0</code></td>
+          <td><code>45 90 0</code></td>
+        </tr>
+        <tr>
+          <td><code>disable-rotation</code></td>
+          <td>Prevents the screen from rotating. Accepts <code>true</code> or <code>false</code>.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td><code>scale</code></td>
+          <td>Determines the scale of the screen (x, y, z).</td>
+          <td><code>1 1 1</code></td>
+          <td><code>1.5 1.5 1</code></td>
+        </tr>
+        <tr>
+          <td><code>castmode</code></td>
+          <td>Enables or disables cast mode. Accepts <code>true</code> or <code>false</code><br>CastMode will disable most buttons but leave the top row.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td><code>lock-position</code></td>
+          <td>Prevents the screen from being moved when set to <code>true</code>.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <!-- SCREEN & WEBSITE CONFIGURATION -->
+        <tr>
+          <td><code>website</code></td>
+          <td>Specifies the URL to load in the browser.</td>
+          <td><code>https://firer.at/pages/games.html</code></td>
+          <td><code>https://example.com</code></td>
+        </tr>
+        <tr>
+          <td><code>mipmaps</code></td>
+          <td>Enable or disable mipmaps for screen textures. Accepts <code>1</code> (enabled) or <code>0</code> (disabled).</td>
+          <td><code>1</code></td>
+          <td><code>0</code></td>
+        </tr>
+        <tr>
+          <td><code>pixelsperunit</code></td>
+          <td>Specifies the pixels per unit for rendering the screen.</td>
+          <td><code>1200</code></td>
+          <td><code>1400</code></td>
+        </tr>
+        <tr>
+          <td><code>width</code></td>
+          <td>Width of the screen in pixels.</td>
+          <td><code>1024</code></td>
+          <td><code>1920</code></td>
+        </tr>
+        <tr>
+          <td><code>height</code></td>
+          <td>Height of the screen in pixels.</td>
+          <td><code>576</code></td>
+          <td><code>1080</code></td>
+        </tr>
+        <tr>
+          <td><code>volumelevel</code></td>
+          <td>Initial volume level (range: 0.0 to 1.0).</td>
+          <td><code>0.25</code></td>
+          <td><code>0.7</code></td>
+        </tr>
+        <!-- SCREEN POSITIONING AND TRANSFORMATION -->
+        <tr>
+          <td><code>screen-position</code></td>
+          <td>Relative position of the browser screen (x, y, z).</td>
+          <td><code>0 0 -0.02</code></td>
+          <td><code>0 1 -0.5</code></td>
+        </tr>
+        <tr>
+          <td><code>screen-rotation</code></td>
+          <td>Rotation of the browser screen (x, y, z).</td>
+          <td><code>0 0 0</code></td>
+          <td><code>15 30 0</code></td>
+        </tr>
+        <tr>
+          <td><code>screen-scale</code></td>
+          <td>Scale of the browser screen (x, y, z).</td>
+          <td><code>1 1 1</code></td>
+          <td><code>1.2 1.2 1</code></td>
+        </tr>
+        <!-- VISUAL AND UI SETTINGS -->
+        <tr>
+          <td><code>backdrop</code></td>
+          <td>Enables or disables the screen's backdrop. Accepts <code>true</code> or <code>false</code>.</td>
+          <td><code>true</code></td>
+          <td><code>false</code></td>
+        </tr>
+        <tr>
+          <td><code>backdrop-color</code></td>
+          <td>RGBA color of the backdrop.</td>
+          <td><code>0 0 0 0.9</code></td>
+          <td><code>1 1 1 0.5</code></td>
+        </tr>
+        <tr>
+          <td><code>button-color</code></td>
+          <td>RGBA color for UI buttons.</td>
+          <td><code>0 1 0 1</code></td>
+          <td><code>1 0 0 1</code></td>
+        </tr>
+        <tr>
+          <td><code>volup-color</code></td>
+          <td>RGBA color for the volume up button.</td>
+          <td><code>0 1 0 1</code></td>
+          <td><code>1 0.5 0 1</code></td>
+        </tr>
+        <tr>
+          <td><code>voldown-color</code></td>
+          <td>RGBA color for the volume down button.</td>
+          <td><code>1 1 0 1</code></td>
+          <td><code>0 0.5 0.5 1</code></td>
+        </tr>
+        <tr>
+          <td><code>mute-color</code></td>
+          <td>RGBA color for the mute button.</td>
+          <td><code>1 1 1 1</code></td>
+          <td><code>0.5 0.5 0.5 1</code></td>
+        </tr>
+        <!-- ANNOUNCER STUFF -->
+        <tr>
+          <td><code>announce</code></td>
+          <td>Enables general announcements. Accepts <code>true</code> or <code>false</code>.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td><code>announce-420</code></td>
+          <td>Enables 4:20 announcements. Accepts <code>true</code> or <code>false</code>.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td><code>announce-events</code></td>
+          <td>Enables event-based announcements. Values: <code>true</code>, <code>false</code>, or <code>undefined</code>.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <!-- BUTTON ICONS -->
+        <tr>
+          <td><code>icon-mute-url</code></td>
+          <td>URL for the mute button icon.</td>
+          <td><code>https://firer.at/files/VolumeMute.png</code></td>
+          <td><code>https://example.com/mute.png</code></td>
+        </tr>
+        <tr>
+          <td><code>icon-volup-url</code></td>
+          <td>URL for the volume up button icon.</td>
+          <td><code>https://firer.at/files/VolumeHigh.png</code></td>
+          <td><code>https://example.com/volup.png</code></td>
+        </tr>
+        <tr>
+          <td><code>icon-voldown-url</code></td>
+          <td>URL for the volume down button icon.</td>
+          <td><code>https://firer.at/files/VolumeLow.png</code></td>
+          <td><code>https://example.com/voldown.png</code></td>
+        </tr>
+        <tr>
+          <td><code>icon-direction-url</code></td>
+          <td>URL for the back and forward navigation button icon.</td>
+          <td><code>https://firer.at/files/Arrow.png</code></td>
+          <td><code>https://example.com/arrow.png</code></td>
+        </tr>
+        <!-- CUSTOM BUTTONS -->
+        <tr>
+          <td><code>custom-button01-url</code></td>
+          <td>URL loaded when the first custom button is clicked.</td>
+          <td><code>false</code></td>
+          <td><code>https://example.com</code></td>
+        </tr>
+        <tr>
+          <td><code>custom-button01-text</code></td>
+          <td>Text label for the first custom button.</td>
+          <td><code>Custom Button 01</code></td>
+          <td><code>Home</code></td>
+        </tr>
+        <tr>
+          <td><code>custom-button02-url</code></td>
+          <td>URL loaded when the second custom button is clicked.</td>
+          <td><code>false</code></td>
+          <td><code>https://example2.com/</code></td>
+        </tr>
+        <tr>
+          <td><code>custom-button02-text</code></td>
+          <td>Text label for the second custom button.</td>
+          <td><code>Custom Button 02</code></td>
+          <td><code>Feature 2</code></td>
+        </tr>
+        <tr>
+          <td><code>custom-button03-url</code></td>
+          <td>URL loaded when the third custom button is clicked.</td>
+          <td><code>false</code></td>
+          <td><code>https://example3.com/</code></td>
+        </tr>
+        <tr>
+          <td><code>custom-button03-text</code></td>
+          <td>Text label for the third custom button.</td>
+          <td><code>Custom Button 03</code></td>
+          <td><code>Feature 3</code></td>
+        </tr>
+        <tr>
+          <td><code>custom-button04-url</code></td>
+          <td>URL loaded when the fourth custom button is clicked.</td>
+          <td><code>false</code></td>
+          <td><code>https://example4.com/</code></td>
+        </tr>
+        <tr>
+          <td><code>custom-button04-text</code></td>
+          <td>Text label for the fourth custom button.</td>
+          <td><code>Custom Button 04</code></td>
+          <td><code>Feature 4</code></td>
+        </tr>
+        <!-- ADDITIONAL PARAMETERS -->
+        <tr>
+          <td><code>hand-controls</code></td>
+          <td>Enable or disable hand controls for interacting with the screen. Accepts <code>true</code> or <code>false</code>.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td><code>disable-interaction</code></td>
+          <td>Disables interaction with the screen if set to <code>true</code>.</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+        <tr>
+          <td><code>space-sync</code></td>
+          <td>Enable or disable synchronization with the space using Space State Properties. Accepts <code>true</code> or <code>false</code>.<br>
+          Looks for the Protected Space State called 'fireurl' and will use it's value for the default page loaded</td>
+          <td><code>false</code></td>
+          <td><code>true</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Example Usage</h2>
+    <pre class="code">
+&lt;script src="firescreenv2.js"
+  position="1 1 1"
+  rotation="0 45 0"
+  website="https://example.com"
+  volumelevel="0.5"
+  button-color="1 0 0 1"
+  announce="true"&gt;&lt;/script&gt;
+    </pre>
+  </div>
+</body>
+</html>
