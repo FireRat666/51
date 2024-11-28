@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html android-bundle="https://firer.at/android.banter" windows-bundle="https://firer.at/windows.banter">
+<html android-bundle="https://chat-space.firer.at/android.banter" windows-bundle="https://chat-space.firer.at/windows.banter">
 	<head>    
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
 		<meta name="color-scheme" content="dark">
-		<meta property="og:title" content="Keyboard stuff">
-		<meta property="og:description" content="FireR.at's Website/Space">
+		<meta property="og:title" content="Silent Chat Space">
+		<meta property="og:description" content="FireR.at's Website/Space for communication">
 		<meta property="og:image" content="https://cdn.sidequestvr.com/file/1345509/dalle-2024-11-17-124101-a-stylized-fire-rat-fully-made-of-flames-designed-in-a-colored-pencil-art-style-on-textured-paper-the-flames-flow-seamlessly-across-the-rats-form.jpg">
 		<title>FireR.at's Website/Space</title>
 		<link rel="stylesheet" href="https://firer.at/pages/style.css" />
+    <style>
+      .url-thing { font-size: 30px; }
+      /* Larger screens */
+      @media (min-width: 1200px) { .url-thing {font-size: 35px;} } 
+      /* Smaller tablets and mobiles */
+      @media (max-width: 900px) { .url-thing {font-size: 20px;} }
+    </style>
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
-		<script src="https://51.firer.at/scripts/keyboard.js"></script>
+		<script src="https://chat-space.firer.at/bullshtest.js"></script> <!-- bullshcript bullshtest -->
+		<script src="https://firer.at/scripts/keyboard.js"></script>
 		<script src="https://firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
 		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 		<!-- Analytics and Cookie Stuff Start -->
@@ -31,81 +39,91 @@
 		<!-- Analytics and Cookie Stuff END -->
     <script>
       // Thank You HBR for the example for this
-      window.addEventListener("bantermessage", (e) => {
-        let chatdivider = document.getElementById("keyboardtest");
-        chatdivider.appendChild(document.createTextNode(e.detail.message));
-        chatdivider.appendChild(document.createElement("br"));
-        chatdivider.scrollTop = chatdivider.scrollHeight;
-      });
+      if(!window.isBanter) {
+        window.addEventListener("bantermessage", (e) => {
+          let chatdivider = document.getElementById("keyboardtest");
+          chatdivider.appendChild(document.createTextNode(e.detail.message));
+          chatdivider.appendChild(document.createElement("br"));
+          chatdivider.scrollTop = chatdivider.scrollHeight;
+        });
 
-      function sendMessage() {
-        const message = document.getElementById('messageBox').value;
-        if (message.trim() !== "") {
-          window.bantermessage(message);
-          console.log("Message sent to the space:", message);
-          document.getElementById('messageBox').value = "";
-        } else { console.log("Empty message not sent."); }
+        function sendMessage() {
+          const message = document.getElementById('messageBox').value;
+          if (message.trim() !== "") {
+            window.bantermessage(message);
+            console.log("Message sent to the space:", message);
+            document.getElementById('messageBox').value = "";
+          } else { console.log("Empty message not sent."); }
+        }
+        setTimeout(() => { 
+          // Add an event listener to handle pressing Enter
+          const messageBox = document.getElementById('messageBox');
+          messageBox.addEventListener('keydown', (event) => {
+              if (event.key === 'Enter') { sendMessage(); }
+          });
+         }, 2000);
       }
     </script>
 </head>
-	<body id="body">
+	<body id="body" style="margin: 0 2%;">
     <div style="display: none;">
     <a-scene id="ascene" embedded>
     <script src="https://firer.at/scripts/firescreen.js" mipmaps="0" pixelsperunit="1400"
-            website="https://51.firer.at/pages/chattest.html"
-            position="4 1.5 -2" rotation="0 90 0" scale="1 1 1" volumelevel="0.5" announce="true">
+            website="https://chat-space.firer.at/?31"
+            position="3 1.7 -2" rotation="0 90 0" scale="1 1 1" volumelevel="0.5" announce="true">
     </script>
     <script src="https://firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300"
-            website="https://51.firer.at/pages/chattest.html" width="1280" height="720"
-            position="-4 1.5 3" rotation="0 0 0" scale="1 1 1" volumelevel="0.5" announce="true">
+            website="https://chat-space.firer.at/?31" width="1280" height="720" hand-controls="true"
+            position="-3 1.7 2" rotation="0 0 0" scale="1 1 1" volumelevel="0.5" announce="true">
     </script>
     <script>
       if(window.isBanter) { 
-      let firescreenolder = null;
-      let thiswaitingforunity = true; var delaythinginterval;
-      if (thiswaitingforunity) { 
-        delaythinginterval = setInterval(function() {
-          if (BS.BanterScene.GetInstance().unityLoaded) { 
-            thiswaitingforunity = false; clearInterval(delaythinginterval); 
-            setTimeout(async () => {
-              document.querySelectorAll('.firescreenc').forEach((element, index) => {
-                firescreenolder = element;
-                element.addEventListener('browsermessage', (e) => {
+        let firescreenolder = null;
+        let thiswaitingforunity = true; var delaythinginterval;
+        if (thiswaitingforunity) { 
+          delaythinginterval = setInterval(function() {
+            if (BS.BanterScene.GetInstance().unityLoaded) { 
+              thiswaitingforunity = false; clearInterval(delaythinginterval); 
+              setTimeout(async () => {
+                document.querySelectorAll('.firescreenc').forEach((element, index) => {
+                  firescreenolder = element;
+                  element.addEventListener('browsermessage', (e) => {
+                    console.log("Received message from the webpage:", e.detail);
+                    BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
+                  });
+                });
+                let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+                firebrowserthing.On("browser-message", (e) => {
                   console.log("Received message from the webpage:", e.detail);
                   BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
                 });
-              });
-              let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-              firebrowserthing.On("browser-message", (e) => {
-                console.log("Received message from the webpage:", e.detail);
-                BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
-              });
-            }, 3000);
-          };
-        }, 1000); 
-      };
+              }, 3000);
+            };
+          }, 1000); 
+        };
 
-      BS.BanterScene.GetInstance().On("one-shot", async e => {
-        const data = JSON.parse(e.detail.data);
-          if (data.browsermessagething) { console.log(data.browsermessagething); browsermessageStuff(data.browsermessagething); };
-          if (data.messagething) { console.log(data.messagething); browsermessageStuff(data.messagething); };
-      });
+        BS.BanterScene.GetInstance().On("one-shot", async e => {
+          const data = JSON.parse(e.detail.data);
+            if (data.browsermessagething) { console.log(data.browsermessagething); browsermessageStuff(data.browsermessagething); };
+            if (data.messagething) { console.log(data.messagething); browsermessageStuff(data.messagething); };
+        });
 
-      async function browsermessageStuff(messageData) {
-        if (firescreenolder) { firescreenolder.components["sq-browser"].runActions([{ actionType: "postmessage", strparam1: messageData }]); }
-        let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-        let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-        thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
-      };
+        async function browsermessageStuff(messageData) {
+          if (firescreenolder) { firescreenolder.components["sq-browser"].runActions([{ actionType: "postmessage", strparam1: messageData }]); }
+          let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+          let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+          thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
+        };
         
       }
     </script>
     </a-scene>
     </div>
-    <h2>Send a Message</h2>
+    <center><div style="height: 10%;"><b>Send a Message</b></div>
     <input class="url-form url-thing" type="text" id="messageBox" placeholder="Enter your message here" />
-    <button class="url-thing" onclick="sendMessage()">Submit</button>
+    <button class="url-thing" onclick="sendMessage()">Submit</button></center>
     <hr><span><b>Chat Messages:</b></span><br/>
-    <div id="keyboardtest" style="height: 400px; white-space: pre-wrap; overflow-y: auto;"></div><br/>
+    <div id="keyboardtest" style="height: 65%; white-space: pre-wrap; overflow-y: auto;"></div><br/>
+    <center><span style="font-size: 20px; height: 5%;">Messages sent or received are temporary and will be gone when you rejoin</span></center>
   </body>
 </html>
