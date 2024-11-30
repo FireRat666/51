@@ -11,10 +11,12 @@
 		<link rel="stylesheet" href="https://firer.at/pages/style.css" />
     <style>
       .url-thing { font-size: 30px; }
+      .text-thing {font-size: 20px;}
       /* Larger screens */
       @media (min-width: 1200px) { .url-thing {font-size: 35px;} } 
       /* Smaller tablets and mobiles */
-      @media (max-width: 900px) { .url-thing {font-size: 20px;} }
+      @media (max-width: 900px) { .url-thing {font-size: 20px;} .text-thing {font-size: 15px;} }
+      @media (max-width: 600px) { .url-thing {font-size: 15px;} .text-thing {font-size: 10px;} }
     </style>
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
 		<script src="https://chat-space.firer.at/bullshtest.js"></script> <!-- bullshcript bullshtest -->
@@ -124,6 +126,6 @@
     <button class="url-thing" onclick="sendMessage()">Submit</button></center>
     <hr><span><b>Chat Messages:</b></span><br/>
     <div id="keyboardtest" style="height: 65%; white-space: pre-wrap; overflow-y: auto;"></div><br/>
-    <center><span style="font-size: 20px; height: 5%;">Messages sent or received are temporary and will be gone when you rejoin</span></center>
+    <center><span class="text-thing">Messages sent or received are temporary and will be gone when you rejoin</span></center>
   </body>
 </html>
