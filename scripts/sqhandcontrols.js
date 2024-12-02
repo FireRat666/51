@@ -62,7 +62,7 @@ async function setupHandControlsV3() {
   await plane20Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "", new BS.Vector4(0,0,0,0), 1));
 
   const plane20transform = await plane20Object.AddComponent(new BS.Transform());
-  plane20transform.localPosition = new BS.Vector3(0,0.046,0.030);
+  plane20transform.localPosition = new BS.Vector3(0,0.076,0.040);
   plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
   // plane20transform.eulerAngles = new BS.Vector3(5,-95,0);
   plane20transform.rotation = new BS.Vector4(0.25,0,0.8,1);
@@ -114,11 +114,11 @@ function runBrowserActions(firebrowser, script) {
   firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": script }]}));
 };
 
-async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, localScale = new BS.Vector3(1, 1, 1)) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = new BS.GameObject(name);
-  await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry));
+  await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, width, height));
   await buttonObject.AddComponent(new BS.BoxCollider(true));
-  await buttonObject.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", thetexture, thecolor), 1);
+  await buttonObject.AddComponent(new BS.BanterMaterial(theShader, thetexture, thecolor), 1);
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position; buttonTransform.localScale = localScale;
   rotation ? buttonTransform.localEulerAngles = rotation : rotation; buttonObject.SetLayer(5); // UI Layer
