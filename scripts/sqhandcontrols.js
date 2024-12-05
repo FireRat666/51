@@ -92,7 +92,7 @@ async function setupHandControlsV3(playersuseridv3) {
     plane24material.color = playerislockedv3 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
   // Hand Home Button
   const hhomeButton = await createUIButtons("hHomeButton", iconhomeurl, new BS.Vector3(0.4,-0.1,0.3), buttoncolor, plane20Object, () => { 
-    browserEntity.browser.url = browserEntity.browser.url; console.log(`Home Click`); updateButtonColor(hhomeButton, buttoncolor); 
+    browserEntity.browser.url = browserEntity.browser.url; console.log(`Home Click`); updateButColor(hhomeButton, buttoncolor); 
   }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
   console.log("FIRESCREEN2: Hand Buttons Setup Complete");
 };
