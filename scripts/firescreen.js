@@ -641,7 +641,7 @@ var handscene = BS.BanterScene.GetInstance();
       // This was a great innovation by HBR, who wanted Skizot to also get credit for the original idea. 
         const handControlsContainer = document.createElement("a-entity");
         handControlsContainer.setAttribute("scale", "0.1 0.1 0.1");
-        handControlsContainer.setAttribute("rotation", "0 180 0");
+        handControlsContainer.setAttribute("rotation", "0 180 45");
         handControlsContainer.setAttribute("position", "0.04 0.006 -0.010");
         handControlsContainer.setAttribute("sq-lefthand", `whoToShow: ${playersuserid || handscene.localUser.uid}`);
 
