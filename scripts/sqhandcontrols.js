@@ -24,7 +24,14 @@ function adjustBrowserVolume(browserEntity, change) {
 
   runsqBrowserActions(browserEntity.browser, `document.querySelectorAll('video, audio').forEach(elem => elem.volume=${firevolume});
     document.querySelector('.html5-video-player').setVolume(${firepercent});`);
-}
+};
+
+function clickABut(uniqueatribute) {
+  const buttonEntity = document.querySelector(uniqueatribute);
+  if (buttonEntity) {
+    buttonEntity.firstChild.dispatchEvent(new Event("click"));
+  }
+};
 
 function updateButColor(buttonObject, revertColour) {
   let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
@@ -55,8 +62,10 @@ async function createUIButtons(name, thetexture, position, thecolor, thisparent,
 
 async function setupHandControlsV3(playersuseridv3) {
   const browserEntity = document.querySelector('[sq-browser]');
-  browserEntity.browser.muteState = false;
-  browserEntity.browser.volumeLevel = 1;
+  if (browserEntity) {
+    browserEntity.browser.muteState = false;
+    browserEntity.browser.volumeLevel = 1;
+  };
 
   // THE CONTAINER FOR THE HAND BUTTONS
   const plane20Object = new BS.GameObject("handContainer");
@@ -71,17 +80,17 @@ async function setupHandControlsV3(playersuseridv3) {
   setTimeout(async () => { await BS.BanterScene.GetInstance().LegacyAttachObject(plane20Object, playersuseridv3, BS.LegacyAttachmentPosition.LEFT_HAND); }, 1000);
   // Hand Volume Up Button
   const hvolUpButton = await createUIButtons("hVolumeUpButton", iconvolupurl, new BS.Vector3(0.4,0.4,0.3), volupcolor, plane20Object, () => { 
-    adjustBrowserVolume(browserEntity, 1); updateButColor(hvolUpButton, volupcolor); 
+    adjustBrowserVolume(browserEntity, 1); updateButColor(hvolUpButton, volupcolor); clickABut('[position="0.693 0 0"]'); // VolUp
   }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
   // Hand Volume Down Button
   const hvolDownButton = await createUIButtons("hVolumeDownButton", iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), voldowncolor, plane20Object, () => { 
-    adjustBrowserVolume(browserEntity, -1); updateButColor(hvolDownButton, voldowncolor); 
+    adjustBrowserVolume(browserEntity, -1); updateButColor(hvolDownButton, voldowncolor); clickABut('[position="0.471 0 0"]'); // VolDown
   }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
   // Hand Mute Button
   const hmuteButton = await createUIButtons("hMuteButton", iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), mutecolor, plane20Object, () => { 
     console.log(`Mute Click`);
     browserEntity.browser.muteState = !browserEntity.browser.muteState; browserEntity.browser.muteState ? muteState = "mute" : muteState = "unMute";
-    runsqBrowserActions(browserEntity.browser, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browserEntity.browser.muteState});document.querySelector('.html5-video-player').${muteState}();`);
+    runsqBrowserActions(browserEntity.browser, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${browserEntity.browser.muteState});document.querySelector('.html5-video-player').${muteState}();`); clickABut('[position="0.23 0 0"]'); // Mute
     let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
     muteMaterial.color = browserEntity.browser.muteState ? mutecolor : new BS.Vector4(1, 0, 0, 1); 
   }, new BS.Vector3(180,0,0),1,1,defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
@@ -92,7 +101,7 @@ async function setupHandControlsV3(playersuseridv3) {
     plane24material.color = playerislockedv3 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
   // Hand Home Button
   const hhomeButton = await createUIButtons("hHomeButton", iconhomeurl, new BS.Vector3(0.4,-0.1,0.3), buttoncolor, plane20Object, () => { 
-    browserEntity.browser.url = browserEntity.browser.url; console.log(`Home Click`); updateButColor(hhomeButton, buttoncolor); 
+    browserEntity.browser.url = browserEntity.browser.url; console.log(`Home Click`); updateButColor(hhomeButton, buttoncolor); clickABut('[position="-0.633 0 0"]'); // Playlist
   }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
   console.log("FIRESCREEN2: Hand Buttons Setup Complete");
 };
