@@ -314,6 +314,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
 
   function clickABut(uniqueAttribute, lastChild = false) {
     document.querySelector(uniqueAttribute)?.[lastChild ? 'lastChild' : 'firstChild']?.dispatchEvent(new Event("click"));
+    console.log(`clicked ${uniqueAttribute}`);
   };
 
   async function setupHandControlsV2() {
