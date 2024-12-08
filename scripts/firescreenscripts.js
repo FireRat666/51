@@ -341,7 +341,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
       muteMaterial.color = firebrowser.muteState ? p_mutecolor : new BS.Vector4(1, 0, 0, 1); }, new BS.Vector3(180,0,0),1,1,defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Lock Button
     const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
-      playerislockedv2 = !playerislockedv2; playerislockedv2 ? lockPlayer() : unlockPlayer();
+      playerislockedv2 = !playerislockedv2; playerislockedv2 ? firescenev2.LegacyLockPlayer() : firescenev2.LegacyUnlockPlayer();
       let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
       plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
     // Hand Home Button
