@@ -48,7 +48,7 @@ function createButAction(buttonObject, clickHandler) {
 
 async function createUIButtons(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = new BS.GameObject(name);
-  await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, width, height));
+  await buttonObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, 0, width, height));
   await buttonObject.AddComponent(new BS.BoxCollider(true));
   await buttonObject.AddComponent(new BS.BanterMaterial(theShader, thetexture, thecolor), 1);
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
