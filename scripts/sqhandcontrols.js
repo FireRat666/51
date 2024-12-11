@@ -23,7 +23,7 @@ function adjustBrowserVolume(browserEntity, change) {
   console.log(`The volume is ${firepercent}`);
 
   runsqBrowserActions(browserEntity.browser, `document.querySelectorAll('video, audio').forEach(elem => elem.volume=${firevolume});
-    document.querySelector('.html5-video-player').setVolume(${firepercent});`);
+    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;`);
 };
 
 function clickABut(uniqueatribute) {
