@@ -69,7 +69,7 @@ async function setupHandControlsV3(playersuseridv3) {
 
   // THE CONTAINER FOR THE HAND BUTTONS
   const plane20Object = await new BS.GameObject("handContainer").Async();
-  await plane20Object.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 0.1, 0.1));
+  await plane20Object.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, 0, 0.1, 0.1));
   await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,1)));
   await plane20Object.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "", new BS.Vector4(0,0,0,0), 1));
   const plane20transform = await plane20Object.AddComponent(new BS.Transform());

@@ -1,10 +1,10 @@
 // create a reference to the banter scene
 const scene = BS.BanterScene.GetInstance();
 
-scene.On("unity-loaded", ()=>{
+scene.On("unity-loaded", async ()=>{
   console.log("index.html setSceneSettings Loading...");
   // SetSettings - Set settings for the current space like spawn position, portals, guest access etc.
-  const settings = new BS.SceneSettings();
+  const settings = await new BS.SceneSettings();
   settings.EnableDevTools = true;
   settings.EnableTeleport = true;
   settings.EnableForceGrab = false;
@@ -28,7 +28,7 @@ scene.On("unity-loaded", ()=>{
 });
 
 async function landingPlatform() {
-  const platformObject = new BS.GameObject("landingPlane");
+  const platformObject = await new BS.GameObject("landingPlane").Async();
   await platformObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.BoxGeometry));
   await platformObject.AddComponent(new BS.BoxCollider(false));
   await platformObject.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "",  new BS.Vector4(0,0,0,0.5)));

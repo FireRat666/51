@@ -9,7 +9,7 @@ async function sdk2portal01() {
 
   const url = "https://firer.at";
   const instance = "5f9b4";
-  const portalObject = new BS.GameObject("MyPortal");
+  const portalObject = await new BS.GameObject("MyPortal").Async();
   const portal = await portalObject.AddComponent(new BS.BanterPortal(url, instance));
   const transform = await portalObject.AddComponent(new BS.Transform());
   transform.position = new BS.Vector3(10,0,-10);
@@ -22,7 +22,7 @@ async function sdk2portal02() {
 
   const url = "https://51.firer.at";
   const instance = "5f9b4";
-  const portalObject = new BS.GameObject("MyPortal");
+  const portalObject = await new BS.GameObject("MyPortal").Async();
   const portal = await portalObject.AddComponent(new BS.BanterPortal(url, instance));
   const transform = await portalObject.AddComponent(new BS.Transform());
   transform.position = new BS.Vector3(13,0,-8);
@@ -32,7 +32,7 @@ async function sdk2portal02() {
 };
 
 async function sdk2mirror() {
-  const mirrorObject = new BS.GameObject("MyMirror");
+  const mirrorObject = await new BS.GameObject("MyMirror").Async();
   const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
   const transform = await mirrorObject.AddComponent(new BS.Transform());
   transform.position = new BS.Vector3(-5,1.2,0);
@@ -42,8 +42,8 @@ async function sdk2mirror() {
 };
 
 async function videoPlayerStuff() {
-  const thisObjectThing = new BS.GameObject("MyObjectName");
-  await thisObjectThing.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, null, 1.6, 0.9)); // 1.6, 0.9 is setting the screen to 16:9 dimensions, width & height
+  const thisObjectThing = await new BS.GameObject("MyObjectName").Async();
+  await thisObjectThing.AddComponent(new BS.BanterGeometry(BS.GeometryType.PlaneGeometry, 0, 1.6, 0.9)); // 1.6, 0.9 is setting the screen to 16:9 dimensions, width & height
   await thisObjectThing.AddComponent(new BS.BanterMaterial('Unlit/Diffuse', null, new BS.Vector4(1, 1, 1, 1)));
   await thisObjectThing.AddComponent(new BS.BanterBillboard(0, true, true, false)); // This is Optional
   const aTransformThing = await thisObjectThing.AddComponent(new BS.Transform());
