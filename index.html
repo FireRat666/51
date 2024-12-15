@@ -128,7 +128,7 @@
       <!-- <a-entity sq-mirror position="-5 1 0" rotation="0 90 0" scale="3 3 1"></a-entity> -->
       <script>
         async function BanterMirror() {
-        const mirrorObject = new BS.GameObject("MyMirror");
+        const mirrorObject = await new BS.GameObject("MyMirror").Async();
         const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
         mirror.renderTextureSize = 2048;
         const mirrortransform = await mirrorObject.AddComponent(new BS.Transform());
