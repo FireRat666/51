@@ -19,7 +19,7 @@ scene.On("unity-loaded", async ()=>{
   settings.MaxOccupancy = 30;
   settings.RefreshRate = 72;
   settings.ClippingPlane = new BS.Vector2(0.02, 1500);
-  settings.SpawnPoint = new BS.Vector4(0, 0.5, 0, 90);
+  settings.SpawnPoint = new BS.Vector4(0.2, 0.5, 0, 90);
   scene.SetSettings(settings);
   console.log("index.html finish setting settings for scene");
   setTimeout(() => { scene.SetSettings(settings); }, 2000);

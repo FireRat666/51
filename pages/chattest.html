@@ -4,34 +4,24 @@
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
 		<meta name="color-scheme" content="dark">
-		<meta property="og:title" content="Silent Chat Space">
-		<meta property="og:description" content="FireR.at's Website/Space for communication">
+		<meta property="og:title" content="FireR.at's Website/Space">
+		<meta property="og:description" content="FireR.at's Website/Space">
 		<meta property="og:image" content="https://cdn.sidequestvr.com/file/1345509/dalle-2024-11-17-124101-a-stylized-fire-rat-fully-made-of-flames-designed-in-a-colored-pencil-art-style-on-textured-paper-the-flames-flow-seamlessly-across-the-rats-form.jpg">
 		<title>FireR.at's Website/Space</title>
 		<link rel="stylesheet" href="https://firer.at/pages/style.css" />
-    <style>
-      .url-thing { font-size: 30px; }
-      .text-thing {font-size: 20px;}
-      /* Larger screens */
-      @media (min-width: 1200px) { .url-thing {font-size: 35px;} } 
-      /* Smaller tablets and mobiles */
-      @media (max-width: 900px) { .url-thing {font-size: 20px;} .text-thing {font-size: 15px;} }
-      @media (max-width: 600px) { .url-thing {font-size: 15px;} .text-thing {font-size: 10px;} }
-    </style>
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
-		<script src="https://chat-space.firer.at/bullshtest.js"></script> <!-- bullshcript bullshtest -->
-		<script src="https://firer.at/scripts/keyboard.js"></script>
+		<script src="https://night-rogue-minibus.glitch.me/bullshcript.js"></script> <!-- bullshcript bullshtest -->
 		<script src="https://firer.at/scripts/announcer.js" announce="true" announce-420="false" announce-events="true"></script>
 		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 		<!-- Analytics and Cookie Stuff Start -->
 		<script>
       if(window.isBanter) { console.log("index.html Window is Banter, Not adding cookie chimp scripts");
       } else {
-          console.log("Adding Cookie Chimp Script")
-          const cookiechimpscript = document.createElement("script");
-          cookiechimpscript.id = "cookiechimpscript";
-          cookiechimpscript.setAttribute("src", "https://cookiechimp.com/widget/mV3trJ.js");
-          document.querySelector("head").appendChild(cookiechimpscript); };
+        console.log("Adding Cookie Chimp Script")
+        const cookiechimpscript = document.createElement("script");
+        cookiechimpscript.id = "cookiechimpscript";
+        cookiechimpscript.setAttribute("src", "https://cookiechimp.com/widget/mV3trJ.js");
+        document.querySelector("head").appendChild(cookiechimpscript); };
     </script>
 		<script type="text/plain" data-src="https://www.googletagmanager.com/gtag/js?id=G-HSMS8JERQ2"
 		  data-category="analytics" data-service="Google Analytics" ></script>
@@ -40,19 +30,62 @@
 		  gtag('js', new Date()); gtag('config', 'G-HSMS8JERQ2'); </script>
 		<!-- Analytics and Cookie Stuff END -->
     <script>
-      // Thank You HBR for the example for this
       if(!window.isBanter) {
         window.addEventListener("bantermessage", (e) => {
+          console.log(e);
+          console.log(e.detail);
+
+          const message = JSON.parse(e.detail.message);
+
           let chatdivider = document.getElementById("keyboardtest");
-          chatdivider.appendChild(document.createTextNode(e.detail.message));
+
+          if (message.type === "submitCard") {
+            // submitCard(message.playerId, message.card);
+            chatdivider.appendChild(document.createTextNode(`submitCard message.data:`));
+            chatdivider.appendChild(document.createTextNode(message.data));
+            chatdivider.appendChild(document.createElement("br"));
+            // chatdivider.appendChild(document.createTextNode(`playerId: ${message.playerId}, Value: ${message.card}`));
+          } else if (message.type === "selectWinner") {
+            // selectWinner(message.playerId);
+          }
+
+          chatdivider.appendChild(document.createTextNode(`message:`));
+          chatdivider.appendChild(document.createTextNode(message));
           chatdivider.appendChild(document.createElement("br"));
-          chatdivider.scrollTop = chatdivider.scrollHeight;
+
+          chatdivider.appendChild(document.createTextNode(`message.type:`));
+          chatdivider.appendChild(document.createTextNode(message.type));
+          chatdivider.appendChild(document.createElement("br"));
+
+          chatdivider.appendChild(document.createTextNode(`message data: ${JSON.stringify(message.data, null, 2)}`));
+          chatdivider.appendChild(document.createElement("br"));
+
+
+          chatdivider.appendChild(document.createTextNode(`message Object.entries:`));
+          chatdivider.appendChild(document.createElement("br"));
+          Object.entries(message).forEach(([key, value]) => {
+              chatdivider.appendChild(document.createTextNode(`Key: ${key}, Value: ${value}`));
+              chatdivider.appendChild(document.createElement("br"));
+          });
+
+          chatdivider.appendChild(document.createTextNode(`message.data Object.entries:`));
+          chatdivider.appendChild(document.createElement("br"));
+          Object.entries(message.data).forEach(([key, value]) => {
+              chatdivider.appendChild(document.createTextNode(`Key: ${key}, Value: ${value}`));
+              chatdivider.appendChild(document.createElement("br"));
+          });
+          
+          // chatdivider.appendChild(document.createTextNode(message));
+          // chatdivider.appendChild(document.createElement("br"));
+          // chatdivider.scrollTop = chatdivider.scrollHeight;
+
         });
 
         function sendMessage() {
           const message = document.getElementById('messageBox').value;
           if (message.trim() !== "") {
-            window.bantermessage(message);
+            // window.bantermessage(message);
+            window.bantermessage(JSON.stringify(message));
             console.log("Message sent to the space:", message);
             document.getElementById('messageBox').value = "";
           } else { console.log("Empty message not sent."); }
@@ -61,71 +94,200 @@
           // Add an event listener to handle pressing Enter
           const messageBox = document.getElementById('messageBox');
           messageBox.addEventListener('keydown', (event) => {
-              if (event.key === 'Enter') { sendMessage(); }
+            if (event.key === 'Enter') { 
+              sendMessage(); 
+            }
           });
-         }, 2000);
+        }, 2000);
+
+        function sendLogToServer(logMessage) {
+          fetch("https://night-rogue-minibus.glitch.me/log", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ log: logMessage }),
+          }).catch((err) => {
+            console.error("Failed to send log to server:", err);
+          });
+        }
+
+        // Redirect console.log to also send logs to the server
+        console.log = (function (originalLog) {
+          return function (message) {
+            originalLog(message); // Keep the original behavior
+            sendLogToServer(message); // Send to server
+          };
+        })(console.log);
+
+
       }
     </script>
 </head>
 	<body id="body" style="margin: 0 2%;">
     <div style="display: none;">
     <a-scene id="ascene" embedded>
-    <script src="https://firer.at/scripts/firescreen.js" mipmaps="0" pixelsperunit="1400"
-            website="https://chat-space.firer.at/?31"
-            position="3 1.7 -2" rotation="0 90 0" scale="1 1 1" volumelevel="0.5" announce="true">
-    </script>
     <script src="https://firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300"
-            website="https://chat-space.firer.at/?31" width="1280" height="720" hand-controls="true"
+            website="https://night-rogue-minibus.glitch.me/" width="1280" height="720" hand-controls="true"
             position="-3 1.7 2" rotation="0 0 0" scale="1 1 1" volumelevel="0.5" announce="true">
     </script>
     <script>
-      if(window.isBanter) { 
-        let firescreenolder = null;
-        let thiswaitingforunity = true; var delaythinginterval;
-        if (thiswaitingforunity) { 
-          delaythinginterval = setInterval(function() {
-            if (BS.BanterScene.GetInstance().unityLoaded) { 
-              thiswaitingforunity = false; clearInterval(delaythinginterval); 
-              setTimeout(async () => {
-                document.querySelectorAll('.firescreenc').forEach((element, index) => {
-                  firescreenolder = element;
-                  element.addEventListener('browsermessage', (e) => {
-                    console.log("Received message from the webpage:", e.detail);
-                    BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
-                  });
-                });
-                let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-                firebrowserthing.On("browser-message", (e) => {
-                  console.log("Received message from the webpage:", e.detail);
-                  BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
-                });
-              }, 3000);
-            };
-          }, 1000); 
-        };
+    var messagetesthing = null;
+    var messagetesthingtest = null;
+    var messagetesthingdata = null;
+    if(window.isBanter) {
+    BS.BanterScene.GetInstance().On("unity-loaded", async () => {
+      let gameState = {
+      players: [], // { name, id, score }
+      blackCard: null,
+      whiteCards: {}, // { playerId: [card1, card2, ...] }
+      submissions: [], // { playerId, card }
+      judge: null,
+      round: 0,
+    };
 
-        BS.BanterScene.GetInstance().On("one-shot", async e => {
-          const data = JSON.parse(e.detail.data);
-            if (data.browsermessagething) { console.log(data.browsermessagething); browsermessageStuff(data.browsermessagething); };
-            if (data.messagething) { console.log(data.messagething); browsermessageStuff(data.messagething); };
+    scene.SetPublicSpaceProps({[scene.localUser.uid] : `{"playerName":"${scene.localUser.name}","isPlaying":"false"}`});
+
+    async function getUsers() {
+      const users = await BS.BanterScene.GetInstance().users;
+      const players = [];
+
+      for (const uid in users) {
+        const user = users[uid];
+        players.push({
+          uid: user.uid, name: user.name,
+          isLocal: user.isLocal, color: user.color,
+        });
+      }
+
+      return players;
+    }
+
+    const players = getUsers();
+    // console.log(players);
+
+
+      var delaythinginterval;
+      delaythinginterval = setInterval(function() {
+        if (BS.BanterScene.GetInstance().unityLoaded) { 
+          clearInterval(delaythinginterval); 
+          setTimeout(async () => {
+            let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+            firebrowserthing.On("browser-message", (e) => {
+              
+            console.log("browser-message Data type:", typeof e.detail);
+            console.log("Received message from the webpage:", e.detail);
+            try {
+              messagetesthing = JSON.parse(e.detail);
+              console.log("Parsed message:", messagetesthing);
+              // messagetesthingtest = messagetesthing.replace(/'/g, '"'); // Replace all single quotes with double quotes
+              messagetesthingtest = messagetesthing.replace(/(\w+):/g, '"$1":'); 
+              messagetesthingdata = JSON.parse(messagetesthingtest); // Parse the sanitized JSON string
+              console.log(messagetesthingdata);
+            } catch (error) {
+                console.error("Failed to parse JSON:", error);
+            };
+
+            for (const [key, value] of Object.entries(messagetesthingdata)) {
+              console.log(`Key: ${key}, Value: ${value}`);
+              if (key === "firetest") {
+                console.log("Test Key Found:", value);
+              }
+            }
+
+              BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagetest01: e.detail}));
+            });
+          }, 3000);
+        };
+      }, 1000);
+
+      BS.BanterScene.GetInstance().On("one-shot", async e => {
+
+        console.log("one-shot Data type:", typeof e.detail.data);
+
+        let data = JSON.parse(e.detail.data);
+
+
+        if (data.browsermessagetest01) { console.log(data.browsermessagetest01);
+          let thisparseddata
+          if (typeof data.browsermessagetest01 === "string") {
+            thisextradata = data.browsermessagetest01.replace(/(\w+):/g, '"$1":')
+            thisparseddata = JSON.parse(thisextradata);
+            console.log("string true");
+            console.log(thisparseddata);
+          } else {
+            thisparseddata = data.browsermessagetest01;
+            console.log("not string");
+            console.log(thisparseddata);
+          }
+
+          // let tempmessagething = data.browsermessagetest01.replace(/(\w+):/g, '"$1":')
+          // parsedmessagetest01 = JSON.parse(tempmessagething);
+          // console.log(parsedmessagetest01);
+          browsermessageStuff(thisparseddata); 
+        };
+      });
+
+      async function browsermessageStuff(messageData) {
+        console.log("browsermessageStuff Data type:", typeof messageData);
+        let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+        let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+        thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
+      };
+        
+      function checkSpaceState(stateName, value) { const spaceStates = BS.BanterScene.GetInstance().spaceState.public;
+        if (!spaceStates.hasOwnProperty(stateName)) { console.log(`specified state value not found`); return; }
+        if (spaceStates.hasOwnProperty(value)) {
+          console.log(`specified state value found`); return;
+        }
+        console.log(`some space log thingy`); return;
+      }
+
+      function getSortedEntries(spacestatethings) {
+        let sortedEntries = Object.entries(spacestatethings).sort((a, b) => a[1] - b[1]);
+        let playerTestEntries = [];
+        let playerNameEntries = [];
+
+        sortedEntries.forEach(([key, value]) => {
+          if (!key.includes(scene.localUser.uid)) {
+            // playerTestEntries.push(`${key.substring(0, 20).trim()}`);
+            console.log(`Not Includes: ${key.substring(0, 20).trim()}`)
+            console.log(value)
+          } else if (key.includes(scene.localUser.uid)) {
+            // playerNameEntries.push(`${key}`);
+            console.log(`Includes: ${key}`)
+            console.log(value);
+            messagetesthing = value;
+            let thisparsedvalue = JSON.parse(value);
+            playerNameEntries.push(thisparsedvalue.playerName);
+
+          }
         });
 
-        async function browsermessageStuff(messageData) {
-          if (firescreenolder) { firescreenolder.components["sq-browser"].runActions([{ actionType: "postmessage", strparam1: messageData }]); }
-          let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-          let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-          thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
-        };
-        
+        return { playerTestEntries, playerNameEntries };
       }
+
+      const { playerTestEntries, playerNameEntries } = getSortedEntries(BS.BanterScene.GetInstance().spaceState.public);
+
+
+    });
+    }
     </script>
     </a-scene>
     </div>
-    <center><div style="height: 10%;"><b>Send a Message</b></div>
-    <input class="url-form url-thing" type="text" id="messageBox" placeholder="Enter your message here" />
-    <button class="url-thing" onclick="sendMessage()">Submit</button></center>
-    <hr><span><b>Chat Messages:</b></span><br/>
-    <div id="keyboardtest" style="height: 65%; white-space: pre-wrap; overflow-y: auto;"></div><br/>
-    <center><span class="text-thing">Messages sent or received are temporary and will be gone when you rejoin</span></center>
+    <center><div style="font-size: 25px;"><b>Testing Stuff</b></div>
+    <input class="url-form url-thing" style="font-size: 25px;" type="text" id="messageBox" placeholder="Enter your JSON here" />
+    <button class="url-thing" style="font-size: 25px;" onclick="sendMessage()">Submit</button></center>
+    <hr>
+    <div id="keyboardtest" style="font-size: 20px; height: 400px; white-space: pre-wrap; overflow-y: auto;"></div>
+    <!-- <hr><span><b>Chat Messages:</b></span><br/><br/>
+    <center><span style="font-size: 20px;">Messages sent or received are temporary and will be gone when you rejoin</span></center> -->
   </body>
 </html>
+<!-- {"firetest": "0.5"} -->
+<!-- {"firethingy01": "0.5", "firething02": "value01"} -->
+<!-- {"type":"submitCard","data":{"playerId":"f67ed8a5ca07764685a64c7fef073ab9","card":"test thing here"}} -->
+<!-- scene = BS.BanterScene.GetInstance(); -->
+<!-- scene.SetPublicSpaceProps({[scene.localUser.uid] : 'test'}); -->
+<!-- scene.SetPublicSpaceProps({[scene.localUser.uid] : `{"playerName":"${scene.localUser.name}","isPlaying":"false"}`}); -->
+<!-- thingy = JSON.parse(scene.spaceState.public['f67ed8a5ca07764685a64c7fef073ab9']) -->
