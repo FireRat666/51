@@ -1,5 +1,5 @@
 BS.BanterScene.GetInstance().On("unity-loaded", async () => {
-
+  console.log(`Unity Video Player Thingy Loading!`);
   async function videoPlayerThing() {
 
     const vidPlayerObject = await new BS.GameObject(`videoPlayerObject`).Async();
@@ -46,6 +46,7 @@ BS.BanterScene.GetInstance().On("unity-loaded", async () => {
     videoPlayerObject.SetActive(videoPlayerIsActive ? 1 : 0);
   }, new BS.Vector3(0,0,0), new BS.Vector3(0.5, 2.5, 0.5));
 
+  console.log(`Unity Video Player Thingy Loaded!`);
 
 });
 
