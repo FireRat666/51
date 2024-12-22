@@ -1,4 +1,13 @@
-BS.BanterScene.GetInstance().On("unity-loaded", async () => {
+function waitForUnityIsLoaded(callback) {
+  const videoInterval = setInterval(() => {
+    if (BS.BanterScene.GetInstance().unityLoaded) {
+      clearInterval(videoInterval); // Stop checking
+      callback(); // Execute the callback
+    }
+  }, 1000); // Check every 1000ms / 1 second
+};
+
+waitForUnityIsLoaded( async () => {
   console.log(`Unity Video Player Thingy Loading!`);
   async function videoPlayerThing() {
 
