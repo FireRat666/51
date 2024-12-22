@@ -24,19 +24,20 @@ scene.On("unity-loaded", async ()=>{
   console.log("index.html finish setting settings for scene");
   setTimeout(() => { scene.SetSettings(settings); }, 2000);
 
+  async function landingPlatform() {
+    const platformObject = await new BS.GameObject("landingPlane").Async();
+    await platformObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.BoxGeometry));
+    await platformObject.AddComponent(new BS.BoxCollider(false));
+    await platformObject.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "",  new BS.Vector4(0,0,0,0.5)));
+    const plane20transform = await platformObject.AddComponent(new BS.Transform());
+  
+    plane20transform.localPosition = new BS.Vector3(0,-2,0);
+    plane20transform.localScale = new BS.Vector3(20,0.05,20);
+  }
+
   landingPlatform();
+
 });
-
-async function landingPlatform() {
-  const platformObject = await new BS.GameObject("landingPlane").Async();
-  await platformObject.AddComponent(new BS.BanterGeometry(BS.GeometryType.BoxGeometry));
-  await platformObject.AddComponent(new BS.BoxCollider(false));
-  await platformObject.AddComponent(new BS.BanterMaterial("Unlit/DiffuseTransparent", "",  new BS.Vector4(0,0,0,0.5)));
-  const plane20transform = await platformObject.AddComponent(new BS.Transform());
-
-  plane20transform.localPosition = new BS.Vector3(0,-2,0);
-  plane20transform.localScale = new BS.Vector3(20,0.05,20);
-}
 //   class BanterCrap{
 //     constructor() {
 //       console.log("index.html Constructor Loading.");

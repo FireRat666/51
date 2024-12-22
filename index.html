@@ -12,9 +12,10 @@
     <!-- <script src="https://unpkg.com/aframe-text-input-component/dist/aframe-text-input-component.min.js"></script> -->
 		<title>FireR.at's Website/Space</title>
 		<link rel="stylesheet" href="/pages/style.css" />
-		<script src="https://51.firer.at/scripts/keyboard.js"></script>
+		<!-- <script src="https://51.firer.at/scripts/keyboard.js"></script> -->
 		<script src="https://51.firer.at/scripts/announcer.js" announce="true" announce-420="true" announce-events="true"></script>
 		<script src="https://firer.at/scripts/RandomBG.js"></script>
+    <script src="https://51.firer.at/scripts/UnityVideoPlayer.js"></script> 
 		<!-- <script src="https://firer.at/scripts/tests.js"></script> -->
 		<!-- Analytics and Cookie Stuff Start -->
 		<script>
@@ -37,6 +38,17 @@
       const thisintervalvar = setInterval(() => {
         if (BS.BanterScene.GetInstance().localUser && BS.BanterScene.GetInstance().localUser.uid !== undefined) { clearInterval(thisintervalvar);
           console.log(`Index.html: localUser.uid: ${BS.BanterScene.GetInstance().localUser.uid}`);
+
+          async function BanterMirror() {
+            const mirrorObject = await new BS.GameObject("MyMirror").Async();
+            const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
+            mirror.renderTextureSize = 2048;
+            const mirrortransform = await mirrorObject.AddComponent(new BS.Transform());
+            mirrortransform.position = new BS.Vector3(-5,1.4,0);
+            mirrortransform.localEulerAngles = new BS.Vector3(0,-90,0);
+          }
+          BanterMirror();
+
         } else { 
           // Do Nothing
          };
@@ -48,8 +60,8 @@
     <div style="display: none;">
     <a-scene id="ascene" embedded>
     <!-- live stream sign -->
-    <a-entity sq-generatemipmaps sq-boxcollider="size: 1.387 1.6 0.047; center: 0 -0.9 0" scale="1.2 1.2 1.2" position="-5.62 2.8 -5" rotation="0 5 0" 
-        gltf-model="https://bls.firer.at/glbs/stremingsign_scifi.glb"></a-entity>    
+    <!-- <a-entity sq-generatemipmaps sq-boxcollider="size: 1.387 1.6 0.047; center: 0 -0.9 0" scale="1.2 1.2 1.2" position="-5.62 2.8 -5" rotation="0 5 0" 
+        gltf-model="https://bls.firer.at/glbs/stremingsign_scifi.glb"></a-entity>     -->
 
     <!-- <script src="https://fire-v-player.glitch.me/playlist.js" instance="demo-playlist-fire" 
     position="5 3 -3" rotation="0 0 0" scale="4 4 4" volume="0" mute="false" resolution="1000"
@@ -126,17 +138,6 @@
       </script>
 
       <!-- <a-entity sq-mirror position="-5 1 0" rotation="0 90 0" scale="3 3 1"></a-entity> -->
-      <script>
-        async function BanterMirror() {
-        const mirrorObject = await new BS.GameObject("MyMirror").Async();
-        const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
-        mirror.renderTextureSize = 2048;
-        const mirrortransform = await mirrorObject.AddComponent(new BS.Transform());
-        mirrortransform.position = new BS.Vector3(-5,1.4,0);
-        mirrortransform.localEulerAngles = new BS.Vector3(0,-90,0);
-        }
-        BanterMirror();
-      </script>
       <script> // Stuff for the chat message stuff
         if(window.isBanter) { 
           let firescreenolder = null;
@@ -146,13 +147,6 @@
               if (BS.BanterScene.GetInstance().unityLoaded) { 
                 thiswaitingforunity = false; clearInterval(delaythinginterval); 
                 setTimeout(async () => {
-                  document.querySelectorAll('.firescreenc').forEach((element, index) => {
-                    firescreenolder = element;
-                    element.addEventListener('browsermessage', (e) => {
-                      console.log("Received message from the webpage:", e.detail);
-                      BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
-                    });
-                  });
                   let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
                   firebrowserthing.On("browser-message", (e) => {
                     console.log("Received message from the webpage:", e.detail);
@@ -170,7 +164,6 @@
           });
   
           async function browsermessageStuff(messageData) {
-            if (firescreenolder) { firescreenolder.components["sq-browser"].runActions([{ actionType: "postmessage", strparam1: messageData }]); }
             let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
             let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
             thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
