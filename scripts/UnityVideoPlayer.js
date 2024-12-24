@@ -44,18 +44,15 @@ waitForUnityIsLoaded( async () => {
   // Create the Video Player and create a reference to it
   const videoPlayer = await videoPlayerThing();
   const videoPlayerObject = await BS.BanterScene.GetInstance().Find("videoPlayerObject");
-  var videoPlayerIsActive = true;
-
 
   // NAME // Button Position // TextureImage // ACTION // localRotation // Scale
   createThing('Thing1', new BS.Vector3(2,1.5,0), 'https://firer.at/files/90percTblack.png', () => { videoPlayer.PlayToggle() }, new BS.Vector3(0,0,0), new BS.Vector3(0.5, 2.5, 0.5));
 
-  createThing('Thing2', new BS.Vector3(-2,1.5,0), 'https://firer.at/files/90percTblack.png', () => { 
-    videoPlayerIsActive = !videoPlayerIsActive;
-    videoPlayerObject.SetActive(videoPlayerIsActive ? 1 : 0);
-  }, new BS.Vector3(0,0,0), new BS.Vector3(0.5, 2.5, 0.5));
+  createThing('Thing2', new BS.Vector3(-2,1.5,0), 'https://firer.at/files/90percTblack.png', () => { videoPlayerObject.SetActive(!videoPlayerObject.active); }, new BS.Vector3(0,0,0), new BS.Vector3(0.5, 2.5, 0.5));
 
   console.log(`Unity Video Player Thingy Loaded!`);
+  
+  videoPlayerObject.SetActive(0); // set the player as not active
 
 });
 
