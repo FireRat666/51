@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>    
-    <meta charset="UTF-8" />
-    <link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon">
     <meta name="color-scheme" content="dark">
     <meta property="og:title" content="FireR.at's Website">
     <meta property="og:description" content="FireR.at's Website">
@@ -11,35 +11,31 @@
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body id="body">
-    <iframe 
-        id="youtube-player"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen>
-    </iframe>
+    <iframe id="youtube-player" frameborder="0" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <script>
+        let player;
+
+        function onYouTubeIframeAPIReady() {
+            console.log('YT:', YT); // Debugging
+            console.log('YT.Player:', YT.Player); // Debugging
+
+            player = new YT.Player('youtube-player', {
+                height: '720',
+                width: '1280',
+                videoId: 'nHLxv_nwwsg',
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log('YouTube Player is ready!');
+            event.target.playVideo(); // Start playing the video
+            event.target.unMute(); // Unmute the video
+            event.target.setVolume(10); // Set the desired volume
+        }
+    </script>
 </body>
-<script>
-    let player;
-
-    function onYouTubeIframeAPIReady() {
-    console.log('YT:', YT); // Should log the YT object
-    console.log('YT.Player:', YT.Player); // Should log the Player constructor
-        player = new YT.Player('youtube-player', {
-            height: '720',
-            width: '1280',
-            videoId: 'nHLxv_nwwsg',
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        console.log('YouTube Player is ready!');
-        event.target.playVideo(); // Start playing the video
-        event.target.unMute(); // Unmute the video
-        event.target.setVolume(10); // Set the desired volume
-    }
-</script>
 </html>
