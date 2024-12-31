@@ -46,11 +46,11 @@
       console.log('YouTube Player is ready!');
       event.target.playVideo(); // Start playing the video
       event.target.unMute(); // Unmute the video
-      event.target.setVolume(10); // Set the desired volume
+      event.target.setVolume(5); // Set the desired volume
       
       setTimeout(() => {
             event.target.unMute(); // Unmute after autoplay starts
-            event.target.setVolume(50); // Set desired volume
+            event.target.setVolume(5); // Set desired volume
         }, 500);
 
     }
