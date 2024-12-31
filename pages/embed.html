@@ -23,6 +23,8 @@
     let player;
 
     function onYouTubeIframeAPIReady() {
+    console.log('YT:', YT); // Should log the YT object
+    console.log('YT.Player:', YT.Player); // Should log the Player constructor
         player = new YT.Player('youtube-player', {
             height: '720',
             width: '1280',
