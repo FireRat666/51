@@ -28,6 +28,23 @@
 		<!-- Analytics and Cookie Stuff END -->
 </head>
 	<body id="body" style="margin: 0 0%;">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/nHLxv_nwwsg?si=THFZkDfwhdCksx2s?autoplay=1&amp;controls=0&amp;mute=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="1280" height="720" id="youtube-player" src="https://www.youtube.com/embed/nHLxv_nwwsg?si=THFZkDfwhdCksx2s?autoplay=1&amp;controls=0&amp;mute=0&amp;enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </body>
+  <script>
+    let player;
+
+    // This function is called automatically by the YouTube IFrame Player API
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    // Example: Function to run when the player is ready
+    function onPlayerReady(event) {
+      console.log('YouTube Player is ready!');
+    }
+</script>
 </html>
