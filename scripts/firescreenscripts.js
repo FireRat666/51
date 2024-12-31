@@ -106,7 +106,8 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   firevolume = Math.max(0, Math.min(firevolume, 1)).toFixed(2);
   let firepercent = (firevolume * 100).toFixed(0);
   firebrowser.volumeLevel = firevolume;
-  runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
+  runBrowserActions(firebrowser, `typeof player !== 'undefined' && player.setVolume(${firepercent});
+    document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
     document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;`);
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
@@ -414,13 +415,10 @@ function keepsoundlevel2() {
       while (thisloopnumber < window.theNumberofBrowsers) { thisloopnumber++
         let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
         let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-        runBrowserActions(
-          thebrowserpart, 
-          `
-          typeof player !== 'undefined' && player.setVolume(${Number((thebrowserpart.volumeLevel * 100).toFixed(0))});
+        runBrowserActions( thebrowserpart, 
+          `typeof player !== 'undefined' && player.setVolume(${Number((thebrowserpart.volumeLevel * 100).toFixed(0))});
           document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel});
-          document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)}) : null;
-          `
+          document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)}) : null;`
         );
       };
     }, 5000); } else if (fireScreen2On) { console.log("FIRESCREEN2: ALREADY SET soundlevel loop"); } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
