@@ -417,8 +417,8 @@ function keepsoundlevel2() {
         runBrowserActions(
           thebrowserpart, 
           `
-          document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel});
           typeof player !== 'undefined' && player.setVolume(${Number((thebrowserpart.volumeLevel * 100).toFixed(0))});
+          document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel});
           document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)}) : null;
           `
         );
