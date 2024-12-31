@@ -10,7 +10,7 @@
 		<title>FireR.at's Website/Space</title>
 </head>
 	<body id="body">
-    <iframe width="1280" height="720" id="youtube-player" src="https://www.youtube.com/embed/nHLxv_nwwsg?si=THFZkDfwhdCksx2s?autoplay=1&amp;controls=0&amp;enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="1280" height="720" id="youtube-player" src="https://www.youtube.com/embed/nHLxv_nwwsg?si=THFZkDfwhdCksx2s?autoplay=1&amp;controls=0&amp;mute=1&amp;enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </body>
   <script>
     let player;
@@ -27,6 +27,12 @@
     // Example: Function to run when the player is ready
     function onPlayerReady(event) {
       console.log('YouTube Player is ready!');
+      
+      event.target.playVideo();
+
+      // Unmute after autoplay begins
+      event.target.unMute();
+      event.target.setVolume(10); // Set the desired volume
     }
 </script>
 </html>
