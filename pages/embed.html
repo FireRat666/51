@@ -11,9 +11,9 @@
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 	<body id="body">
-    <iframe width="1280" height="720" id="youtube-player" src="https://www.youtube.com/embed/nHLxv_nwwsg?si=THFZkDfwhdCksx2s&amp;autoplay=1&amp;controls=0&amp;mute=1&amp;enablejsapi=1" title="YouTube video player" frameborder="0" 
+    <!-- <iframe width="1280" height="720" id="youtube-player" src="https://www.youtube.com/embed/nHLxv_nwwsg?si=THFZkDfwhdCksx2s&amp;autoplay=1&amp;controls=0&amp;mute=1&amp;enablejsapi=1" title="YouTube video player" frameborder="0" 
     allow="autoplay; encrypted-media"
-    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen ></iframe>
+    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen ></iframe> -->
   </body>
   <script>
     let player;
@@ -21,6 +21,9 @@
     // This function is called automatically by the YouTube IFrame Player API
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('youtube-player', {
+        height: '1280',
+        width: '720',
+        videoId: 'nHLxv_nwwsg',
         events: {
           'onReady': onPlayerReady
         }
@@ -31,11 +34,18 @@
     function onPlayerReady(event) {
       console.log('YouTube Player is ready!');
       
-      event.target.playVideo();
+      // event.target.playVideo();
 
       // Unmute after autoplay begins
       event.target.unMute();
       event.target.setVolume(10); // Set the desired volume
+    }
+
+        
+    function setYTVolume(volume) {
+      if (player) {
+        player.setVolume(volume);
+      }
     }
 </script>
 </html>
