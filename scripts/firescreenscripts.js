@@ -415,7 +415,7 @@ function keepsoundlevel2() {
         let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
         let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
         runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel}); 
-          document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)}) : null; player && player.setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)});`);
+          document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)}) : null; typeof player !== 'undefined' && player.setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)});`);
       };
     }, 5000); } else if (fireScreen2On) { console.log("FIRESCREEN2: ALREADY SET soundlevel loop"); } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
 };
@@ -432,7 +432,7 @@ async function adjustForAll(action, change) {
 		if (action === "goURL") thebrowserpart.url = change;
 		if (action === "toggleMute") {
       thebrowserpart.muteState = !thebrowserpart.muteState; thebrowserpart.muteState ? muteState = "mute" : muteState = "unMute";
-      runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});document.querySelector('.html5-video-player').${muteState}(); player && player.${muteState}();`);
+      runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState});document.querySelector('.html5-video-player').${muteState}(); typeof player !== 'undefined' && player.${muteState}();`);
     };
 		if (action === "browserAction") {
       runBrowserActions(thebrowserpart, `${change}`);
