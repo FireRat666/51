@@ -46,6 +46,12 @@
       event.target.playVideo(); // Start playing the video
       event.target.unMute(); // Unmute the video
       event.target.setVolume(10); // Set the desired volume
+      
+      setTimeout(() => {
+            event.target.unMute(); // Unmute after autoplay starts
+            event.target.setVolume(50); // Set desired volume
+        }, 500);
+
     }
 
     // 5. The API calls this function when the player's state changes.
@@ -61,6 +67,10 @@
     function stopVideo() {
       player.stopVideo();
     }
+
+    // player.setVolume(5);
+    // player.playVideo();
+    // player.pauseVideo();
   </script>
 </body>
 </html>
