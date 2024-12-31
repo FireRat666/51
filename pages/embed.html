@@ -1,58 +1,43 @@
 <!DOCTYPE html>
 <html>
-	<head>    
-		<meta charset="UTF-8" />
-		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
-		<meta name="color-scheme" content="dark">
-		<meta property="og:title" content="FireR.at's Website">
-		<meta property="og:description" content="FireR.at's Website">
-		<meta property="og:image" content="https://cdn.sidequestvr.com/file/1345509/dalle-2024-11-17-124101-a-stylized-fire-rat-fully-made-of-flames-designed-in-a-colored-pencil-art-style-on-textured-paper-the-flames-flow-seamlessly-across-the-rats-form.jpg">
-		<title>FireR.at's Website/Space</title>
+<head>    
+    <meta charset="UTF-8" />
+    <link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
+    <meta name="color-scheme" content="dark">
+    <meta property="og:title" content="FireR.at's Website">
+    <meta property="og:description" content="FireR.at's Website">
+    <meta property="og:image" content="https://cdn.sidequestvr.com/file/1345509/dalle-2024-11-17-124101-a-stylized-fire-rat-fully-made-of-flames-designed-in-a-colored-pencil-art-style-on-textured-paper-the-flames-flow-seamlessly-across-the-rats-form.jpg">
+    <title>FireR.at's Website/Space</title>
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
-	<body id="body">
-    <!-- <iframe width="1280" height="720" id="youtube-player" src="https://www.youtube.com/embed/nHLxv_nwwsg?si=THFZkDfwhdCksx2s&amp;autoplay=1&amp;controls=0&amp;mute=1&amp;enablejsapi=1" title="YouTube video player" frameborder="0" 
-    allow="autoplay; encrypted-media"
-    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen ></iframe> -->
+<body id="body">
     <iframe 
-      id="youtube-player"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen>
+        id="youtube-player"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
     </iframe>
-  </body>
-  <script>
+</body>
+<script>
     let player;
 
-    // This function is called automatically by the YouTube IFrame Player API
     function onYouTubeIframeAPIReady() {
-      player = new YT.Player('youtube-player', {
-        height: '720',
-        width: '1280',
-        videoId: 'nHLxv_nwwsg',
-        events: {
-          'onReady': onPlayerReady
-        }
-      });
+        player = new YT.Player('youtube-player', {
+            height: '720',
+            width: '1280',
+            videoId: 'nHLxv_nwwsg',
+            events: {
+                'onReady': onPlayerReady
+            }
+        });
     }
 
-    // Example: Function to run when the player is ready
     function onPlayerReady(event) {
-      console.log('YouTube Player is ready!');
-      
-      // event.target.playVideo();
-
-      // Unmute after autoplay begins
-      event.target.unMute();
-      event.target.setVolume(10); // Set the desired volume
-    }
-
-        
-    function setYTVolume(volume) {
-      if (player) {
-        player.setVolume(volume);
-      }
+        console.log('YouTube Player is ready!');
+        event.target.playVideo(); // Start playing the video
+        event.target.unMute(); // Unmute the video
+        event.target.setVolume(10); // Set the desired volume
     }
 </script>
 </html>
