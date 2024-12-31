@@ -415,7 +415,7 @@ function keepsoundlevel2() {
         let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${thisloopnumber}`);
         let thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
         runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${thebrowserpart.volumeLevel});
-          typeof player !== 'undefined' && player.setVolume(${Number((thebrowserpart.volumeLevel * 100).toFixed(0))});
+           typeof player !== 'undefined' && player.setVolume(${Number((thebrowserpart.volumeLevel * 100).toFixed(0))});
           document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${(thebrowserpart.volumeLevel * 100).toFixed(0)}) : null;`);
       };
     }, 5000); } else if (fireScreen2On) { console.log("FIRESCREEN2: ALREADY SET soundlevel loop"); } else { console.log("FIRESCREEN2: CLEAR soundlevel loop"); clearInterval(volinterval2); }
