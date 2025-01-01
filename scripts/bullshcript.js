@@ -22,7 +22,7 @@ scene.On("unity-loaded", async ()=>{
   settings.SpawnPoint = new BS.Vector4(0.2, 0.5, 0, 90);
   scene.SetSettings(settings);
   console.log("index.html finish setting settings for scene");
-  setTimeout(() => { scene.SetSettings(settings); }, 2000);
+  setTimeout(() => { scene.SetSettings(settings); BS.BanterScene.GetInstance().TeleportTo({x: 0.2, y: 0.6, z: 0}, 0, true); }, 2000);
 
   async function landingPlatform() {
     const platformObject = await new BS.GameObject("landingPlane").Async();
