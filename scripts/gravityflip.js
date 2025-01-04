@@ -61,6 +61,6 @@ class GravityFlip {
 
 // Example Usage
 const gravityFlip = new GravityFlip();
-gravityFlip.startFlip({ x: 1, y: 0, z: 0 }, 1.5); // Start a flip (combination of front and left) with 1.5 seconds duration
+gravityFlip.startFlip({ x: 1, y: 0, z: 0 }, 1.5); // Start a flip with 1.5 seconds duration
 
-gravityFlip.startFlip({ x: 1, y: 0, z: 0 }, 1.5, 2); // Start a flip (combination of front and left) with 2 rotations and 1.5 seconds duration
+gravityFlip.startFlip({ x: 1, y: 0, z: 0 }, 1.5, 2); // Start a flip with 2 rotations and 1.5 seconds duration
