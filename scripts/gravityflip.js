@@ -26,9 +26,7 @@ class GravityFlip {
       const angle = (elapsedTime / (duration * 1000)) * totalRotation; // Calculate the current rotation angle based on time progression
       let newGravity = this.rotateVector(this.originalGravity, rotationAxis, angle); // Calculate the new gravity direction by rotating the original vector
       newGravity = { // Adjust the gravity strength
-        x: newGravity.x * gravityStrength,
-        y: newGravity.y * gravityStrength,
-        z: newGravity.z * gravityStrength
+        x: newGravity.x * gravityStrength, y: newGravity.y * gravityStrength, z: newGravity.z * gravityStrength
       };
       this.applyGravity(newGravity); // Apply the new gravity (simulate applying gravity in your environment)
       await new Promise((resolve) => setTimeout(resolve, 16)); // Approx. 60 FPS
@@ -40,16 +38,13 @@ class GravityFlip {
   normalizeVector(vector) {
     const magnitude = Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
     return {
-      x: vector.x / magnitude,
-      y: vector.y / magnitude,
-      z: vector.z / magnitude,
+      x: vector.x / magnitude, y: vector.y / magnitude, z: vector.z / magnitude,
     };
   }
 
   rotateVector(vector, axis, angle) {
     const rad = (Math.PI / 180) * angle;
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
+    const cos = Math.cos(rad); const sin = Math.sin(rad);
    
     return { // Rodrigues' rotation formula for vector rotation
       x: vector.x * cos + (axis.y * vector.z - axis.z * vector.y) * sin + axis.x * (axis.x * vector.x + axis.y * vector.y + axis.z * vector.z) * (1 - cos),
