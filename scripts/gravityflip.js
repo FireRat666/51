@@ -4,20 +4,20 @@ class GravityFlip {
     this.originalGravity = { x: 0, y: -9.8, z: 0 }; // Default gravity
   }
 
-  startFlip(rotationAxes, duration) {
+  startFlip(rotationAxes, duration, rotations = 1) {
     if (!this.isFlipping) {
       if (rotationAxes.x === 0 && rotationAxes.y === 0 && rotationAxes.z === 0) { // Check if all rotationAxes components are 0
         console.error("Invalid rotation axis: All components are 0.");
         return;
       }
-      this.performFlip(rotationAxes, duration); 
+      this.performFlip(rotationAxes, duration, rotations); 
     }
   }
 
-  async performFlip(rotationAxes, duration) {
+  async performFlip(rotationAxes, duration, rotations) {
     this.isFlipping = true;
     const rotationAxis = this.normalizeVector(rotationAxes); // Determine the axis of rotation based on input
-    const totalRotation = 360; // Total degrees for a full flip
+    const totalRotation = 360 * rotations; // Total degrees for the specified number of flips
     const startTime = performance.now(); // Track elapsed time
     
     while (true) {
@@ -61,4 +61,6 @@ class GravityFlip {
 
 // Example Usage
 const gravityFlip = new GravityFlip();
-gravityFlip.startFlip({ x: 1, y: 1, z: 0 }, 1.5); // Start a diagonal flip (combination of front and left) with 1.5 seconds duration
+gravityFlip.startFlip({ x: 1, y: 0, z: 0 }, 1.5); // Start a flip (combination of front and left) with 1.5 seconds duration
+
+gravityFlip.startFlip({ x: 1, y: 0, z: 0 }, 1.5, 2); // Start a flip (combination of front and left) with 2 rotations and 1.5 seconds duration
