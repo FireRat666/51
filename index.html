@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html android-bundle="https://51.firer.at/android.banter" windows-bundle="https://51.firer.at/windows.banter">
+<html>
+<!-- <html android-bundle="https://51.firer.at/android.banter" windows-bundle="https://51.firer.at/windows.banter"> -->
 	<head>    
 		<meta charset="UTF-8" />
 		<link id="favicon" rel="icon" href="https://firer.at/files/favicon.ico" type="image/x-icon" />
@@ -58,7 +59,8 @@
 </head>
 	<body id="body">
     <div style="display: none;">
-    <a-scene id="ascene" embedded>
+    <a-scene id="ascene" sq-assetbundle="android: https://51.firer.at/android.banter;                
+                             desktop: https://51.firer.at/windows.banter" embedded>
     <!-- live stream sign -->
     <!-- <a-entity sq-generatemipmaps sq-boxcollider="size: 1.387 1.6 0.047; center: 0 -0.9 0" scale="1.2 1.2 1.2" position="-5.62 2.8 -5" rotation="0 5 0" 
         gltf-model="https://bls.firer.at/glbs/stremingsign_scifi.glb"></a-entity>     -->
