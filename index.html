@@ -34,26 +34,26 @@
 		  gtag('js', new Date()); gtag('config', 'G-HSMS8JERQ2'); </script>
 		<!-- Analytics and Cookie Stuff END -->
     <script>
-    if(window.isBanter) {
-      const thisintervalvar = setInterval(() => {
-        if (BS.BanterScene.GetInstance().localUser && BS.BanterScene.GetInstance().localUser.uid !== undefined) { clearInterval(thisintervalvar);
-          console.log(`Index.html: localUser.uid: ${BS.BanterScene.GetInstance().localUser.uid}`);
+    // if(window.isBanter) {
+    //   const thisintervalvar = setInterval(() => {
+    //     if (BS.BanterScene.GetInstance().localUser && BS.BanterScene.GetInstance().localUser.uid !== undefined) { clearInterval(thisintervalvar);
+    //       console.log(`Index.html: localUser.uid: ${BS.BanterScene.GetInstance().localUser.uid}`);
 
-          async function BanterMirror() {
-            const mirrorObject = await new BS.GameObject("MyMirror").Async();
-            const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
-            mirror.renderTextureSize = 2048;
-            const mirrortransform = await mirrorObject.AddComponent(new BS.Transform());
-            mirrortransform.position = new BS.Vector3(-5,1.4,0);
-            mirrortransform.localEulerAngles = new BS.Vector3(0,-90,0);
-          }
-          BanterMirror();
+    //       async function BanterMirror() {
+    //         const mirrorObject = await new BS.GameObject("MyMirror").Async();
+    //         const mirror = await mirrorObject.AddComponent(new BS.BanterMirror());
+    //         mirror.renderTextureSize = 2048;
+    //         const mirrortransform = await mirrorObject.AddComponent(new BS.Transform());
+    //         mirrortransform.position = new BS.Vector3(-5,1.4,0);
+    //         mirrortransform.localEulerAngles = new BS.Vector3(0,-90,0);
+    //       }
+    //       BanterMirror();
 
-        } else { 
-          // Do Nothing
-         };
-      }, 1000);
-    };
+    //     } else { 
+    //       // Do Nothing
+    //      };
+    //   }, 1000);
+    // };
     </script>
 </head>
 	<body id="body">
