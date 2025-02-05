@@ -140,37 +140,37 @@
 
       <!-- <a-entity sq-mirror position="-5 1 0" rotation="0 90 0" scale="3 3 1"></a-entity> -->
       <script> // Stuff for the chat message stuff
-        if(window.isBanter) { 
-          let firescreenolder = null;
-          let thiswaitingforunity = true; var delaythinginterval;
-          if (thiswaitingforunity) { 
-            delaythinginterval = setInterval(function() {
-              if (BS.BanterScene.GetInstance().unityLoaded) { 
-                thiswaitingforunity = false; clearInterval(delaythinginterval); 
-                setTimeout(async () => {
-                  let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-                  firebrowserthing.On("browser-message", (e) => {
-                    console.log("Received message from the webpage:", e.detail);
-                    BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
-                  });
-                }, 3000);
-              };
-            }, 1000); 
-          };
+        // if(window.isBanter) { 
+        //   let firescreenolder = null;
+        //   let thiswaitingforunity = true; var delaythinginterval;
+        //   if (thiswaitingforunity) { 
+        //     delaythinginterval = setInterval(function() {
+        //       if (BS.BanterScene.GetInstance().unityLoaded) { 
+        //         thiswaitingforunity = false; clearInterval(delaythinginterval); 
+        //         setTimeout(async () => {
+        //           let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+        //           firebrowserthing.On("browser-message", (e) => {
+        //             console.log("Received message from the webpage:", e.detail);
+        //             BS.BanterScene.GetInstance().OneShot(JSON.stringify({browsermessagething: BS.BanterScene.GetInstance().localUser.name + ": " + e.detail}));
+        //           });
+        //         }, 3000);
+        //       };
+        //     }, 1000); 
+        //   };
   
-          BS.BanterScene.GetInstance().On("one-shot", async e => {
-            const data = JSON.parse(e.detail.data);
-              if (data.browsermessagething) { console.log(data.browsermessagething); browsermessageStuff(data.browsermessagething); };
-              if (data.messagething) { console.log(data.messagething); browsermessageStuff(data.messagething); };
-          });
+        //   BS.BanterScene.GetInstance().On("one-shot", async e => {
+        //     const data = JSON.parse(e.detail.data);
+        //       if (data.browsermessagething) { console.log(data.browsermessagething); browsermessageStuff(data.browsermessagething); };
+        //       if (data.messagething) { console.log(data.messagething); browsermessageStuff(data.messagething); };
+        //   });
   
-          async function browsermessageStuff(messageData) {
-            let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-            let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-            thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
-          };
+        //   async function browsermessageStuff(messageData) {
+        //     let firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+        //     let thisfirebrowser = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
+        //     thisfirebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "postmessage","strparam1": messageData }]}));
+        //   };
           
-        }
+        // }
       </script>
 
       <!-- <a-entity text-input="value: Type here; color: #FFF" position="0 1 -3" scale="1 1 1"></a-entity>
