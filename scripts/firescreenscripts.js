@@ -505,3 +505,4 @@ if (!window.fireScreenScriptInitialized) {
 // scene.SetPublicSpaceProps({'testing': 'test'});
 // let thebrowserpart = (await BS.BanterScene.GetInstance().Find(`MyBrowser${1}`)).GetComponent(BS.ComponentType.BanterBrowser);
 // thebrowserpart.RunActions(JSON.stringify({"actions": [{ "actionType": "click2d","numParam1": 0.5, "numParam2": 0.5 }]}));
+// window.videoPlayerCore.sendMessage({path: Commands.CLEAR_PLAYLIST});
