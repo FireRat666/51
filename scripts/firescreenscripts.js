@@ -506,3 +506,6 @@ if (!window.fireScreenScriptInitialized) {
 // let thebrowserpart = (await BS.BanterScene.GetInstance().Find(`MyBrowser${1}`)).GetComponent(BS.ComponentType.BanterBrowser);
 // thebrowserpart.RunActions(JSON.stringify({"actions": [{ "actionType": "click2d","numParam1": 0.5, "numParam2": 0.5 }]}));
 // window.videoPlayerCore.sendMessage({path: Commands.CLEAR_PLAYLIST});
+// window.videoPlayerCore.sendMessage({path: Commands.REMOVE_PLAYLIST_ITEM, data: 0 });
+// v = {}; v.id = "ApXoWvfEYVU"; v.link = "https://www.youtube.com/watch?v=ApXoWvfEYVU"; v.title = "This is Not the Right Title for This Video"; v.thumbnail = "https://daily.jstor.org/wp-content/uploads/2015/08/Fire.jpg"; 
+// window.videoPlayerCore.sendMessage({path: Commands.ADD_TO_PLAYLIST, data: v });
