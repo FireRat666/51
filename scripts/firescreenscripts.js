@@ -320,7 +320,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
     // console.log(`clicked ${uniqueAttribute}`);
   };
 
-  async function youtubePlayerControl(value, Action = null) {
+  async function youtubePlayerControl(value, action = null) {
     const core = window.videoPlayerCore; if (!core) return;
     const methodName = (action === "mute" || action === "openPlaylist") ? action : "setVolume"; // Choose the method name based on the action.
     if (typeof core[methodName] !== "function") return;  // Only call if it's a function.
