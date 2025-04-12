@@ -86,7 +86,7 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.0001)));
   const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
-  buttonTransform.position = position; buttonTransform.localScale = new BS.Vector3(0.001, 0.001, 1);;
+  buttonTransform.position = position; buttonTransform.localScale = new BS.Vector3(0.01, 0.01, 1);;
   rotation ? buttonTransform.localEulerAngles = rotation : rotation; buttonObject.SetLayer(5); // UI Layer
   await buttonObject.SetParent(thisparent, false);
   if (clickHandler) {
