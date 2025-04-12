@@ -83,7 +83,7 @@ async function createCustomButton(name, firebrowser, parentObject, buttonObjects
 async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = await new BS.GameObject(name).Async();
   const buttonGeometry = await buttonObject.AddComponent(new BS.BanterGeometry( BS.GeometryType.QuadGeometry ));
-  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.0001)));
+  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.001)));
   const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position; buttonTransform.localScale = new BS.Vector3(0.1, 0.1, 1);;
