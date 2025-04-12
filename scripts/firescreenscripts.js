@@ -31,12 +31,10 @@ var firescenev2 = BS.BanterScene.GetInstance();
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
   const defaultOptions = {
-    thewidth: 1, theheight: 1, radius: 1, segments: 24, thetaStart: 0, thetaLength: Math.PI * 2, phiStart: 0, phiLength: Math.PI * 2, radialSegments: 8, openEnded: false, radiusTop: 1, radiusBottom: 1, innerRadius: 0.3, outerRadius: 1, thetaSegments: 24, phiSegments: 8, tube: 0.4, tubularSegments: 16, arc: Math.PI * 2, p: 2, q: 3, stacks: 5, slices: 5, detail: 0, parametricPoints: ""
+    thewidth: 1, theheight: 1
   };
   const config = { ...defaultOptions, ...options };
-  const geometry = await thingy1.AddComponent(new BS.BanterGeometry( 
-    geomtype, 0, config.thewidth, config.theheight, config.radius, config.segments, config.thetaStart, config.thetaLength, config.phiStart, config.phiLength, config.radialSegments, config.openEnded, config.radiusTop, config.radiusBottom, config.innerRadius, config.outerRadius, config.thetaSegments, config.phiSegments, config.tube, config.tubularSegments, config.arc, config.p, config.q, config.stacks, config.slices, config.detail, config.parametricPoints
-  ));
+  const geometry = await thingy1.AddComponent(new BS.BanterGeometry( geomtype, 0, config.thewidth, config.theheight ));
   return geometry;
 };
 
