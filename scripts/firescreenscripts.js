@@ -82,7 +82,7 @@ async function createCustomButton(name, firebrowser, parentObject, buttonObjects
 
 async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = await new BS.GameObject(name).Async();
-  const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.QuadGeometry, {});
+  const buttonGeometry = await buttonObject.AddComponent(new BS.BanterGeometry( BS.GeometryType.QuadGeometry ));
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.0001)));
   const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
@@ -337,7 +337,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   async function setupHandControlsV2() {
     // THE CONTAINER FOR THE HAND BUTTONS
     const plane20Object = await new BS.GameObject("handContainer").Async();
-    const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.QuadGeometry);
+    const plane20geometry = await plane20Object.AddComponent(new BS.BanterGeometry( BS.GeometryType.QuadGeometry ));
     const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,0.01)));
     const plane20material = await createMaterial(plane20Object, { shaderName: defaulTransparent, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
