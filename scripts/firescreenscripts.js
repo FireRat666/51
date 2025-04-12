@@ -85,7 +85,7 @@ async function createCustomButton(name, firebrowser, parentObject, buttonObjects
 async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = await new BS.GameObject(name).Async();
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.QuadGeometry, { thewidth: width, theheight: height });
-  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.01)));
+  const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.001)));
   const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position; buttonTransform.localScale = localScale;
@@ -340,11 +340,11 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
     // THE CONTAINER FOR THE HAND BUTTONS
     const plane20Object = await new BS.GameObject("handContainer").Async();
     const plane20geometry = await createGeometry(plane20Object, BS.GeometryType.QuadGeometry);
-    const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,1)));
+    const plane20Collider = await plane20Object.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1,1,0.01)));
     const plane20material = await createMaterial(plane20Object, { shaderName: defaulTransparent, color: new BS.Vector4(0,0,0,0), side: 1 });
     const plane20transform = await plane20Object.AddComponent(new BS.Transform());
     plane20transform.localPosition = new BS.Vector3(0,0.046,0.030);
-    plane20transform.localScale = new BS.Vector3(0.1,0.1,1);
+    plane20transform.localScale = new BS.Vector3(0.1,0.1,0.1);
     // plane20transform.eulerAngles = new BS.Vector3(5,-95,0);
     plane20transform.rotation = new BS.Vector4(0.25,0,0.8,1);
     setTimeout(async () => { await firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND); }, 1000);
@@ -352,7 +352,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
     const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0), p_volupcolor, plane20Object, () => { adjustForAll("adjustVolume", 1); youtubePlayerControl(1); // clickABut('[position="0.693 0 0"]'); clickABut('[position="1.78 0 0"]', true); //vidya.sdq.st VolUp
       updateButtonColor(hvolUpButton, p_volupcolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,1));
     // Hand Volume Down Button
-    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustForAll("adjustVolume", -1); youtubePlayerControl(0); // clickABut('[position="0.471 0 0"]'); clickABut('[position="1.25 0 0"]', true); //vidya.sdq.st VolDown
+    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0), p_voldowncolor, plane20Object, () => { adjustForAll("adjustVolume", -1); youtubePlayerControl(0); // clickABut('[position="0.471 0 0"]'); clickABut('[position="1.25 0 0"]', true); //vidya.sdq.st VolDown
       updateButtonColor(hvolDownButton, p_voldowncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,1));
     // Hand Mute Button
     const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => { adjustForAll("toggleMute"); youtubePlayerControl(null, "mute"); // clickABut('[position="0.23 0 0"]'); clickABut('[position="0.73 0 0"]', true); //vidya.sdq.st Mute
