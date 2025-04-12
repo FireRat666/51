@@ -80,7 +80,7 @@ async function createCustomButton(name, firebrowser, parentObject, buttonObjects
   });
 };
 
-async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 0.01)) {
+async function createUIButton(name, thetexture, position, thecolor, thisparent, clickHandler = false, rotation = false, width = 0.1, height = 0.1, theShader = defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
   const buttonObject = await new BS.GameObject(name).Async();
   const buttonGeometry = await createGeometry(buttonObject, BS.GeometryType.QuadGeometry, { thewidth: width, theheight: height });
   const buttonCollider = await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0,0,0), new BS.Vector3(width, height, 0.001)));
