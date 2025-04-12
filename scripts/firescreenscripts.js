@@ -8,7 +8,7 @@ var playersuseridv2 = null;
 var customButShader = 'Unlit/Diffuse';
 var defaulTransparent = 'Unlit/DiffuseTransparent';
 var whiteColour = new BS.Vector4(1,1,1,1);
-var customButtonSize = new BS.Vector3(0.2,0.04,1);
+var customButtonSize = new BS.Vector3(0.2,0.04,0);
 var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
 var fireScreenSetup = false;
 // create a reference to the banter scene
