@@ -72,7 +72,7 @@ async function createCustomButton(name, firebrowser, parentObject, buttonObjects
   const buttonObject = await createUIButton(name, null, position, textPlaneColour, parentObject, false, "false", 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
   const textObject = await new BS.GameObject(`${name}Text${window.theNumberofBrowsers}`).Async();
-  const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, 0, "Center", 0.20, true, true, new BS.Vector2(2,1)));
+  const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, BS.HorizontalAlignment.Center, BS.HorizontalAlignment.Center, 0.20, true, true, new BS.Vector2(2,1)));
   const textTransform = await textObject.AddComponent(new BS.Transform());
   textTransform.localPosition = textposition; await textObject.SetParent(parentObject, false);
   buttonObjects.push(textObject);
