@@ -114,21 +114,15 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
     // };
     if (firebrowser.url === "https://watch.owncast.online/embed/video/") {
       
-  runBrowserActions(firebrowser, `let playerInstance; let success = false;
-    const videoEl = document.querySelector('.video-js video') || document.querySelector('video');
-    if (typeof videojs === 'function') {
-        playerInstance = window.player || // 1. Global player
-                        (videoEl && videoEl.id && typeof videojs.getPlayer === 'function' ? videojs.getPlayer(videoEl.id) : null) || // 2. Player by ID
-                        (videoEl && videoEl.player && typeof videoEl.player.volume === 'function' ? videoEl.player : null); // 3. Player property on element
-    } else if (window.player && typeof window.player.volume === 'function') {  playerInstance = window.player; } // If videojs not found, but global 'player' object exists
-    if (playerInstance && typeof playerInstance.volume === 'function') { // Attempt to set volume via Video.js API
-        try { playerInstance.volume(${fireVolume}); success = true;
-        } catch (e) { console.error("Video.js volume error:", e); } }
-    if (!success) { // Fallback to standard HTML5 elements if Video.js method didn't work or no player found
-        document.querySelectorAll('video, audio').forEach(el => {
-            if ('volume' in el) {
-                try { el.volume = ${fireVolume}; success = true; // Note: this will be true if *any* HTML5 media element volume is set
-                } catch (e) { console.error("HTML5 volume error:", e); } } }); }`);
+  runBrowserActions(firebrowser, `let playerInstance;
+const videoEl = document.querySelector('.video-js video') || document.querySelector('video');
+if (typeof videojs === 'function') {
+    playerInstance = window.player || // 1. Global player
+        (videoEl && videoEl.id && typeof videojs.getPlayer === 'function' ? videojs.getPlayer(videoEl.id) : null) || // 2. Player by ID
+        (videoEl && videoEl.player && typeof videoEl.player.volume === 'function' ? videoEl.player : null); // 3. Player property on element
+} else if (window.player && typeof window.player.volume === 'function') {  playerInstance = window.player; } // If videojs not found, but global 'player' object exists
+if (playerInstance && typeof playerInstance.volume === 'function') { // Attempt to set volume via Video.js API
+    try { playerInstance.volume(${firevolume}); } catch (e) { console.error("Video.js volume error:", e); } }`);
     }
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
