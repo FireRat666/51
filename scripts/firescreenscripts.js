@@ -113,12 +113,22 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
     //   let volCommand = (change === 1) ? 1 : 0; window.videoPlayerCore.setVolume(volCommand);
     // };
     if (firebrowser.url === "https://watch.owncast.online/embed/video/") {
-      console.log(`firebrowser.url is OwnCast ${firebrowser.url}`);
-      if (change === 1) { console.log(`change is ${change}`);
-        firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "keypress","strparam1": "0" }]}));
-      } else { console.log(`change is ${change}`);
-        firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "keypress","strparam1": "9" }]}));
-      }
+      
+  runBrowserActions(firebrowser, `let playerInstance; let success = false;
+    const videoEl = document.querySelector('.video-js video') || document.querySelector('video');
+    if (typeof videojs === 'function') {
+        playerInstance = window.player || // 1. Global player
+                        (videoEl && videoEl.id && typeof videojs.getPlayer === 'function' ? videojs.getPlayer(videoEl.id) : null) || // 2. Player by ID
+                        (videoEl && videoEl.player && typeof videoEl.player.volume === 'function' ? videoEl.player : null); // 3. Player property on element
+    } else if (window.player && typeof window.player.volume === 'function') {  playerInstance = window.player; } // If videojs not found, but global 'player' object exists
+    if (playerInstance && typeof playerInstance.volume === 'function') { // Attempt to set volume via Video.js API
+        try { playerInstance.volume(${fireVolume}); success = true;
+        } catch (e) { console.error("Video.js volume error:", e); } }
+    if (!success) { // Fallback to standard HTML5 elements if Video.js method didn't work or no player found
+        document.querySelectorAll('video, audio').forEach(el => {
+            if ('volume' in el) {
+                try { el.volume = ${fireVolume}; success = true; // Note: this will be true if *any* HTML5 media element volume is set
+                } catch (e) { console.error("HTML5 volume error:", e); } } }); }`);
     }
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
@@ -540,3 +550,48 @@ if (!window.fireScreenScriptInitialized) {
 // window.videoPlayerCore.sendMessage({path: Commands.REMOVE_PLAYLIST_ITEM, data: 0 });
 // v = {}; v.id = "ApXoWvfEYVU"; v.link = "https://www.youtube.com/watch?v=ApXoWvfEYVU"; v.title = "This is Not the Right Title for This Video"; v.thumbnail = "https://daily.jstor.org/wp-content/uploads/2015/08/Fire.jpg"; 
 // window.videoPlayerCore.sendMessage({path: Commands.ADD_TO_PLAYLIST, data: v });
+
+(await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({
+  actions: [
+    {
+      actionType: "runscript",
+      strparam1: `document.querySelector('[title="Play Video"]').click();`
+    },
+    {
+      actionType: "keypress",
+      strparam1: "9"
+    }
+  ]
+}));
+
+
+(async () => {     const browser = (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser);     browser.homePage = "https://watch.owncast.online/embed/video/"; })();
+
+(async () => {
+    const browser = (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser);
+    browser.url = "https://watch.owncast.online/embed/video/";
+})();
+
+
+(await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({"actions": [{ "actionType": "keypress","strparam1": "9" }]}));
+
+
+(await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": `
+let playerInstance; let success = false;
+const videoEl = document.querySelector('.video-js video') || document.querySelector('video');
+if (typeof videojs === 'function') {
+    playerInstance = window.player || // 1. Global player
+                     (videoEl && videoEl.id && typeof videojs.getPlayer === 'function' ? videojs.getPlayer(videoEl.id) : null) || // 2. Player by ID
+                     (videoEl && videoEl.player && typeof videoEl.player.volume === 'function' ? videoEl.player : null); // 3. Player property on element
+} else if (window.player && typeof window.player.volume === 'function') {  playerInstance = window.player; } // If videojs not found, but global 'player' object exists
+if (playerInstance && typeof playerInstance.volume === 'function') { // Attempt to set volume via Video.js API
+    try { playerInstance.volume(${fireVolume}); success = true;
+    } catch (e) { console.error("Video.js volume error:", e); } }
+if (!success) { // Fallback to standard HTML5 elements if Video.js method didn't work or no player found
+    document.querySelectorAll('video, audio').forEach(el => {
+        if ('volume' in el) {
+            try { el.volume = ${fireVolume}; success = true; // Note: this will be true if *any* HTML5 media element volume is set
+            } catch (e) { console.error("HTML5 volume error:", e); } } }); }
+             ` }]}));
+
+runBrowserActions(firebrowser, ``);
