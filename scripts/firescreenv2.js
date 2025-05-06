@@ -10,7 +10,7 @@ async function loadAndExecuteFireScript(src) {
   try {
     const response = await fetch(src);
     const scriptContent = await response.text();
-    const delay = checkForMatchingFireScripts() ? 10000 : 0;
+    const delay = checkForMatchingFireScripts() ? 10000 : 500;
     setTimeout(() => { eval(scriptContent); }, delay);
     console.log(`FireScreen Script executed successfully! YT Detected:${checkForMatchingFireScripts()}`);
   } catch (error) { console.error("Failed to load or execute the FireScreen script:", error); }

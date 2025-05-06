@@ -108,7 +108,16 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   firebrowser.volumeLevel = firevolume;
   runBrowserActions(firebrowser, `typeof player !== 'undefined' && player.setVolume(${firepercent});
     document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
-    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;`);
+    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;
+    let playerInstance;
+    const videoEl = document.querySelector('.video-js video') || document.querySelector('video');
+    if (typeof videojs === 'function') {
+      playerInstance = window.player || // 1. Global player
+        (videoEl && videoEl.id && typeof videojs.getPlayer === 'function' ? videojs.getPlayer(videoEl.id) : null) || // 2. Player by ID
+        (videoEl && videoEl.player && typeof videoEl.player.volume === 'function' ? videoEl.player : null); // 3. Player property on element
+    } else if (window.player && typeof window.player.volume === 'function') {  playerInstance = window.player; } // If videojs not found, but global 'player' object exists
+    if (playerInstance && typeof playerInstance.volume === 'function') { // Attempt to set volume via Video.js API
+      try { playerInstance.volume(${firevolume}); } catch (e) { console.error("Video.js volume error:", e); } }`);
     // if (change !== 0 && window.videoPlayerCore && typeof window.videoPlayerCore.setVolume === 'function') { // Translate change: use 1 for increase, and 0 for decrease.
     //   let volCommand = (change === 1) ? 1 : 0; window.videoPlayerCore.setVolume(volCommand);
     // };
