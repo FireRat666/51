@@ -108,6 +108,7 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   firebrowser.volumeLevel = firevolume;
   let tempvolumeLevel = Math.max(0, Math.min(1, firevolume)).toFixed(1);
   if (firebrowser.url === "https://watch.owncast.online/embed/video/") {
+    console.log(`firebrowser.url is owncast, tempvolumeLevel is ${tempvolumeLevel}`);
     runBrowserActions(firebrowser, `let playerInstance;
       const videoEl = document.querySelector('.video-js video') || document.querySelector('video');
       if (typeof videojs === 'function') {
