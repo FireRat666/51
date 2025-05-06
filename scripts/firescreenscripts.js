@@ -107,13 +107,15 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   let firepercent = (firevolume * 100).toFixed(0);
   firebrowser.volumeLevel = firevolume;
   let tempvolumeLevel = Math.max(0, Math.min(1, firevolume)).toFixed(1);
-  runBrowserActions(firebrowser, `typeof player !== 'undefined' && player.setVolume(${firepercent});
-    document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
-    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;
+  runBrowserActions(firebrowser, `
     (function() { document.querySelectorAll('video, audio').forEach(el => {
       if ('volume' in el) { try { el.volume = ${tempvolumeLevel}; console.log('[Banter Volume Injection] HTML5 volume set for element: ', el.id || el.src); }
           catch (e) {  console.error("[Banter Volume Injection] HTML5 volume error for element:", el.id || el.src, e.message, e.stack); }
-    } }); })();`);
+    } }); })();
+  `);
+  runBrowserActions(firebrowser, `typeof player !== 'undefined' && player.setVolume(${firepercent});
+    document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
+    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;`);
     // if (change !== 0 && window.videoPlayerCore && typeof window.videoPlayerCore.setVolume === 'function') { // Translate change: use 1 for increase, and 0 for decrease.
     //   let volCommand = (change === 1) ? 1 : 0; window.videoPlayerCore.setVolume(volCommand);
     // };
