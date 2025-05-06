@@ -107,22 +107,13 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   let firepercent = (firevolume * 100).toFixed(0);
   firebrowser.volumeLevel = firevolume;
   let tempvolumeLevel = Math.max(0, Math.min(1, firevolume)).toFixed(1);
-  if (firebrowser.url === "https://watch.owncast.online/embed/video/") {
-    console.log(`firebrowser.url is owncast, tempvolumeLevel is ${tempvolumeLevel}`);
-    runBrowserActions(firebrowser, `let playerInstance;
-      const videoEl = document.querySelector('.video-js video') || document.querySelector('video');
-      if (typeof videojs === 'function') {
-          playerInstance = window.player || // 1. Global player
-              (videoEl && videoEl.id && typeof videojs.getPlayer === 'function' ? videojs.getPlayer(videoEl.id) : null) || // 2. Player by ID
-              (videoEl && videoEl.player && typeof videoEl.player.volume === 'function' ? videoEl.player : null); // 3. Player property on element
-      } else if (window.player && typeof window.player.volume === 'function') {  playerInstance = window.player; } // If videojs not found, but global 'player' object exists
-      if (playerInstance && typeof playerInstance.volume === 'function') { // Attempt to set volume via Video.js API
-          try { playerInstance.volume(${tempvolumeLevel}); } catch (e) { console.error("Video.js volume error:", e); } }`);
-  }
-
   runBrowserActions(firebrowser, `typeof player !== 'undefined' && player.setVolume(${firepercent});
     document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
-    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;`);
+    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;
+    (function() { document.querySelectorAll('video, audio').forEach(el => {
+      if ('volume' in el) { try { el.volume = ${tempvolumeLevel}; console.log('[Banter Volume Injection] HTML5 volume set for element: ', el.id || el.src); }
+          catch (e) {  console.error("[Banter Volume Injection] HTML5 volume error for element:", el.id || el.src, e.message, e.stack); }
+    } }); })();`);
     // if (change !== 0 && window.videoPlayerCore && typeof window.videoPlayerCore.setVolume === 'function') { // Translate change: use 1 for increase, and 0 for decrease.
     //   let volCommand = (change === 1) ? 1 : 0; window.videoPlayerCore.setVolume(volCommand);
     // };
