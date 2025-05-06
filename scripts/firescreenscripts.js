@@ -112,6 +112,14 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
     // if (change !== 0 && window.videoPlayerCore && typeof window.videoPlayerCore.setVolume === 'function') { // Translate change: use 1 for increase, and 0 for decrease.
     //   let volCommand = (change === 1) ? 1 : 0; window.videoPlayerCore.setVolume(volCommand);
     // };
+    if (firebrowser.url === "https://watch.owncast.online/embed/video/") {
+      console.log(`firebrowser.url is OwnCast ${firebrowser.url}`);
+      if (change === 1) { console.log(`change is ${change}`);
+        firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "keypress","strparam1": "0" }]}));
+      } else { console.log(`change is ${change}`);
+        firebrowser.RunActions(JSON.stringify({"actions": [{ "actionType": "keypress","strparam1": "9" }]}));
+      }
+    }
   console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
 };
 
@@ -203,7 +211,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   if (Number(p_height) === 720) {TButPos += 0.07; LButPos += -0.14; RButPos += 0.14;} else if (Number(p_height) === 1080) {TButPos += 0.23; LButPos += -0.45; RButPos += 0.45;};
 
   let BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,TButPos,0), color: p_buttoncolor,
-    clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = `${p_website}`; // `${p_website}?${Math.floor(Math.random() * 1000) + 1}`
+    clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = firebrowser.homePage; // `${p_website}?${Math.floor(Math.random() * 1000) + 1}`
       updateButtonColor(uiButtons.home, p_buttoncolor); }
     }, info: { icon: "https://firer.at/files/Info.png", position: new BS.Vector3(LButPos,0.28,0), color: p_buttoncolor,
       clickHandler: () => { console.log("Info Clicked!"); firebrowser.url = "https://firer.at/pages/Info.html";
@@ -282,7 +290,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   firerigidBody.gameObject.On('grab', () => {console.log("GRABBED!"); if (p_lockposition !== "true") {console.log("Not locked!"); firerigidBody.isKinematic = false; }});  // When user Grabs the Browser, Make it moveable
   firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; }); // When user Drops the Browser, Lock it in place
 
-  firescenev2.On("one-shot", e => { console.log(e.detail);
+  firescenev2.On("one-shot", async e => { console.log(e.detail);
     const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
     if (isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
       if (data.fireurl) firebrowser.url = data.fireurl;
@@ -292,6 +300,13 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
       if (data.browseraction) { runBrowserActions(firebrowser, data.browseraction); console.log(data.browseraction); };
       if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
       if (data.gohome) { console.log(data.gohome); firebrowser.url = firebrowser.homePage; };
+      if (data.sethome1) { console.log(data.sethome1);
+        let firebrowser1 = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
+        if (firebrowser1) {
+          let thebrowser1 = firebrowser1.GetComponent(BS.ComponentType.BanterBrowser);
+          firebrowser1.homePage = data.sethome1; firebrowser1.url = data.sethome1;
+        };
+      };
       if (data.firevolumeup) { console.log(data.firevolumeup); adjustForAll("adjustVolume", 1); youtubePlayerControl(1); };
       if (data.firevolumedown) { console.log(data.firevolumedown); adjustForAll("adjustVolume", -1); youtubePlayerControl(0); };
       if (data.firemutetoggle) { console.log(data.firemutetoggle); adjustForAll("toggleMute"); youtubePlayerControl(null, "mute"); };
