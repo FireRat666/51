@@ -55,14 +55,15 @@
     //   }, 1000);
     // };
     document.addEventListener('CustomButtonClick', async function(event) {
-      console.log('--- Detected a Button Click event in another script! ---');
+      console.log('--- 1 Detected a Button Click event in another script! ---');
       console.log('Button Name:', event.detail.buttonName);
-      console.log('Message:', event.detail);
+      console.log('Detail:', event.detail);
+      console.log('Message:', event.detail.message);
       console.log('Timestamp:', event.detail.timestamp);
       switch (event.detail.buttonName) {
         case 'Home':
           console.log('Handling action for: Primary Action Button HOME HOME');
-          if (event.detail === "https://watch.owncast.online/embed/video/") {
+          if (String(event.detail.message).includes("embed/video")) {
             console.log('HOME IS watch.owncast.online');
             setTimeout(async () => { 
               (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({
@@ -79,7 +80,7 @@
             }));
             }, 2000);
           } else {
-            console.log(`HOME IS NOT watch.owncast.online`, event.detail);
+            console.log(`HOME IS NOT watch.owncast.online`, event.detail.message);
           };
           break;
         case 'Info':
