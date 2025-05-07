@@ -135,6 +135,13 @@ function createButtonAction(buttonObject, clickHandler) {
   buttonObject.On('click', (e) => { clickHandler(e); });
 };
 
+function dispatchButtonClickEvent(buttonName, message) {
+  const eventDetails = { buttonName: buttonName, message: message, timestamp: new Date() };
+  const buttonClickEvent = new CustomEvent('myCustomButtonClick', { detail: eventDetails, bubbles: true, composed: true });
+  document.dispatchEvent(buttonClickEvent);
+  console.log(`ButtonClick for button: ${buttonName} with message: "${message}"`);
+};
+
 function setupfirescreen2() {
   const allScriptTags = document.getElementsByTagName('script');
   // console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
