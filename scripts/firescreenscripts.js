@@ -219,7 +219,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
 
   let BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,TButPos,0), color: p_buttoncolor,
     clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = firebrowser.homePage; // `${p_website}?${Math.floor(Math.random() * 1000) + 1}`
-      updateButtonColor(uiButtons.home, p_buttoncolor); dispatchButtonClickEvent("Home", 'Home Clicked!'); }
+      updateButtonColor(uiButtons.home, p_buttoncolor); dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); }
     }, info: { icon: "https://firer.at/files/Info.png", position: new BS.Vector3(LButPos,0.28,0), color: p_buttoncolor,
       clickHandler: () => { console.log("Info Clicked!"); firebrowser.url = "https://firer.at/pages/Info.html";
       updateButtonColor(uiButtons.info, p_buttoncolor); dispatchButtonClickEvent("Info", 'Info Clicked!'); }
