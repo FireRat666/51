@@ -137,7 +137,7 @@ function createButtonAction(buttonObject, clickHandler) {
 
 function dispatchButtonClickEvent(buttonName, message) {
   const eventDetails = { buttonName: buttonName, message: message, timestamp: new Date() };
-  const buttonClickEvent = new CustomEvent('myCustomButtonClick', { detail: eventDetails, bubbles: true, composed: true });
+  const buttonClickEvent = new CustomEvent('CustomButtonClick', { detail: eventDetails, bubbles: true, composed: true });
   document.dispatchEvent(buttonClickEvent);
   console.log(`ButtonClick for button: ${buttonName} with message: "${message}"`);
 };
