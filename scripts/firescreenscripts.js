@@ -453,6 +453,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   };
   setTimeout(async () => { adjustVolume(firebrowser, 0); // attempt to set default sound level for the page
   }, 5000);
+  setTimeout(async () => { adjustVolume(firebrowser, 0); // attempt to set default sound level for the page a second time
+  }, 8000);
 };
 
 function getV3FromStrv2(strVector3) {
