@@ -143,7 +143,7 @@ function dispatchButtonClickEvent(buttonName, message) {
 };
 
 function setupfirescreen2() {
-  const allScriptTags = document.getElementsByTagName('script');
+  // const allScriptTags = document.getElementsByTagName('script');
   // console.log("FIRESCREEN2: All script tags:", Array.from(allScriptTags).map(s => s.src));
   const allscripts = document.querySelectorAll(`script[src^='${fireScriptName}']`);
   console.log(`FIRESCREEN2: Found ${allscripts.length} matching scripts`);
