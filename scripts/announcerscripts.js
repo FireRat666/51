@@ -182,45 +182,92 @@ function loadevents() {
 
 
 // This function is for the 420 events announcements
+// Define the Netlify Function URL
+// Ensure this matches the relative path or your full deployed function URL
+const NETLIFY_FUNCTION_URL = 'https://420-announcer.netlify.app/.netlify/functions/check-blazing';
+
+// These variables will track the state on the client-side
+let lastPlayedMessageLinks = null; // To prevent playing the same message repeatedly
+let lastNotified420Time = null;   // To track when the last "warning" or "now" message was triggered for a specific 4:20 event
+const WARNING_MINS = 2; // Keep this consistent with your Netlify function logic
+
+// This function is for the 420 events announcements
 function load420() {
-  if(window.isBanter && announce420 === "true") {
-    let keepAlive;
-    function connect() {
-      const ws = new WebSocket(script420source);
-      ws.onmessage = async (msg) => {
-        try {
-            if (msg.data instanceof Blob) {
-                console.warn("Received a Blob. Converting Blob to text.");
-                const textData = await msg.data.text();
-                console.log("Blob converted to text:", textData);
-    
-                const audioUrls = JSON.parse(textData);
-    
-                await playAudioSequentially(audioUrls);
-            } else {
-                const audioUrls = JSON.parse(msg.data);
-                await playAudioSequentially(audioUrls);
+    // Only run if window.isBanter and announce420 are true
+    if (window.isBanter && announce420 === "true") {
+        async function fetchAndAnnounce420() {
+            try {
+                console.log("ANNOUNCER: Fetching 420 data from Netlify Function...");
+                const response = await fetch(NETLIFY_FUNCTION_URL);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("ANNOUNCER: Received data:", data);
+
+                const { next420Time, timeRemainingMinutes, timeRemainingSeconds, messageType, messageLinks, location } = data;
+
+                // Convert next420Time string to a Date object for comparison
+                const current420EventTime = new Date(next420Time).valueOf();
+
+                // Logic to decide when to play audio, preventing repeated plays for the same event
+                // and handling the warning vs. actual blaze time.
+
+                // Condition for playing "next blaze" message (if not in warning/now phase)
+                if (timeRemainingMinutes > WARNING_MINS && lastNotified420Time !== current420EventTime) {
+                    console.log(`ANNOUNCER: Next blaze message for new event. Time: ${timeRemainingMinutes} mins, Location: ${location}`);
+                    await playAudioSequentially(messageLinks);
+                    lastPlayedMessageLinks = JSON.stringify(messageLinks); // Store the played links
+                    lastNotified420Time = current420EventTime; // Mark this 4:20 as "notified"
+                }
+                // Condition for playing "blaze it warning/now" message
+                else if (timeRemainingMinutes <= WARNING_MINS && timeRemainingMinutes >= -1 && lastNotified420Time !== current420EventTime) {
+                    // Check if the current message links are different from the last played links
+                    // This is to prevent replaying the *exact same* warning message if the timeRemainingMinutes is the same
+                    // and the random message chosen happens to be the same.
+                    if (JSON.stringify(messageLinks) !== lastPlayedMessageLinks) {
+                        console.log(`ANNOUNCER: Blaze it warning/now message. Time: ${timeRemainingMinutes} mins, Location: ${location}`);
+                        await playAudioSequentially(messageLinks);
+                        lastPlayedMessageLinks = JSON.stringify(messageLinks); // Store the played links
+                    }
+                    // Crucially, if we are in the warning window and it's a new 420 event
+                    // or if it just hit 4:20 and we haven't played the "now" message for *this specific* 4:20 event yet
+                    if (timeRemainingSeconds <= 0 && timeRemainingSeconds > -60 && lastNotified420Time !== current420EventTime) {
+                        // This means it's exactly 4:20 in some timezone and we haven't played this specific "4:20 now" message for THIS event
+                        console.log(`ANNOUNCER: It's 4:20 in ${location} NOW!`);
+                        await playAudioSequentially(messageLinks); // Play the "blaze it now" message
+                        lastNotified420Time = current420EventTime; // Mark this 4:20 as "notified"
+                        lastPlayedMessageLinks = JSON.stringify(messageLinks);
+                    } else if (timeRemainingMinutes <= WARNING_MINS && timeRemainingMinutes > 0 && lastNotified420Time !== current420EventTime) {
+                         // This is the initial warning for a *new* 420 event
+                         console.log(`ANNOUNCER: Warning for ${location}. ${timeRemainingMinutes} mins left.`);
+                         await playAudioSequentially(messageLinks);
+                         lastNotified420Time = current420EventTime; // Mark this 4:20 as "notified"
+                         lastPlayedMessageLinks = JSON.stringify(messageLinks);
+                    }
+                }
+                else {
+                    console.log(`ANNOUNCER: No new audio announcement needed for now. Time: ${timeRemainingMinutes} mins, Location: ${location}`);
+                }
+
+            } catch (error) {
+                console.error("ANNOUNCER: Error fetching or processing 420 data:", error);
+                // Consider adding a simple UI feedback for errors if needed
+            } finally {
+                // Poll every minute (60,000 milliseconds)
+                setTimeout(fetchAndAnnounce420, 60000);
             }
-        } catch (error) {
-            console.error("Error handling WebSocket message:", error);
         }
-      };
-      ws.onopen = (msg) => {
-        console.log("ANNOUNCER: connected to 420 announcer.");
-      };
-      ws.onerror = (msg) => {
-        console.log("ANNOUNCER: error", msg);
-      };
-      ws.onclose = (e) => {
-        console.log('ANNOUNCER: Disconnected 420!');
-        clearInterval(keepAlive);
-        setTimeout(()=>connect(), 3000);
-      };
-      keepAlive = setInterval(()=>{ws.send("keep-alive")}, 120000)
+
+        // Start the polling immediately
+        fetchAndAnnounce420();
+    } else {
+        console.log("ANNOUNCER: 4:20 announcements are disabled (isBanter or announce420 not true).");
     }
-    connect();
-  };
-};
+}
+
       
 var thescripts = document.getElementsByTagName("script");
 var announcerscene = BS.BanterScene.GetInstance();
