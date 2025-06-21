@@ -1,6 +1,5 @@
 // This script was taken from https://vidya.sdq.st/say-names.js and https://best-v-player.glitch.me/say-names.js
 var scriptsource = "https://51.firer.at/scripts/announcer.js";
-var script420source = 'wss://51calicocut-remix.glitch.me';
 var theusersname = "";
 var timevariable = 0;
 var theusersid = "";
@@ -195,29 +194,6 @@ const WARNING_MINS = 2; // Keep this consistent with your Netlify function logic
 let initialAnnouncementMade = false;
 let warningAnnouncementMade = false;
 let blazeItAnnouncementMade = false;
-
-// Function to play audio sequentially (assuming this is defined elsewhere in your code)
-// Example (simplified):
-async function playAudioSequentially(urls) {
-    console.log("ANNOUNCER: Attempting to play audio sequence:", urls);
-    for (const url of urls) {
-        try {
-            const audio = new Audio(url);
-            await new Promise(resolve => {
-                audio.onended = resolve;
-                audio.onerror = () => {
-                    console.error("ANNOUNCER: Error playing audio:", url);
-                    resolve(); // Resolve anyway to continue with the sequence
-                };
-                audio.play().catch(e => console.error("ANNOUNCER: Play audio failed:", url, e));
-            });
-        } catch (error) {
-            console.error("ANNOUNCER: Error creating/playing audio object:", error);
-        }
-    }
-    console.log("ANNOUNCER: Audio sequence finished.");
-}
-
 
 // This function is for the 420 events announcements
 function load420() {
