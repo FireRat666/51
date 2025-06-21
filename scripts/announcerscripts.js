@@ -184,7 +184,7 @@ function loadevents() {
 // This function is for the 420 events announcements
 
 // Define the Netlify Function URL
-const NETLIFY_FUNCTION_URL = 'https://420-announcer.netlify.app/.netlify/functions/check-blazing';
+const NETLIFY_FUNCTION_URL = 'https://420.firer.at/.netlify/functions/check-blazing';
 
 // These variables will track the state on the client-side
 let lastPlayedMessageLinks = null; // To prevent playing the exact same audio sequence twice
