@@ -182,14 +182,19 @@ function loadevents() {
 
 
 // This function is for the 420 events announcements
+
 // Define the Netlify Function URL
-// Ensure this matches the relative path or your full deployed function URL
 const NETLIFY_FUNCTION_URL = 'https://420-announcer.netlify.app/.netlify/functions/check-blazing';
 
 // These variables will track the state on the client-side
-let lastPlayedMessageLinks = null; // To prevent playing the same message repeatedly
-let lastNotified420Time = null;   // To track when the last "warning" or "now" message was triggered for a specific 4:20 event
+let lastPlayedMessageLinks = null; // To prevent playing the exact same audio sequence twice
+let currentlyTracking420EventTime = null; // The timestamp of the 4:20 event we are currently tracking
 const WARNING_MINS = 2; // Keep this consistent with your Netlify function logic
+
+// Flags to ensure specific announcements only happen once per event
+let initialAnnouncementMade = false;
+let warningAnnouncementMade = false;
+let blazeItAnnouncementMade = false;
 
 // This function is for the 420 events announcements
 function load420() {
@@ -210,47 +215,64 @@ function load420() {
                 const { next420Time, timeRemainingMinutes, timeRemainingSeconds, messageType, messageLinks, location } = data;
 
                 // Convert next420Time string to a Date object for comparison
-                const current420EventTime = new Date(next420Time).valueOf();
+                const new420EventTime = new Date(next420Time).valueOf();
 
-                // Logic to decide when to play audio, preventing repeated plays for the same event
-                // and handling the warning vs. actual blaze time.
-
-                // Condition for playing "next blaze" message (if not in warning/now phase)
-                if (timeRemainingMinutes > WARNING_MINS && lastNotified420Time !== current420EventTime) {
-                    console.log(`ANNOUNCER: Next blaze message for new event. Time: ${timeRemainingMinutes} mins, Location: ${location}`);
-                    await playAudioSequentially(messageLinks);
-                    lastPlayedMessageLinks = JSON.stringify(messageLinks); // Store the played links
-                    lastNotified420Time = current420EventTime; // Mark this 4:20 as "notified"
+                // Reset flags if we are tracking a new 420 event
+                if (currentlyTracking420EventTime === null || new420EventTime !== currentlyTracking420EventTime) {
+                    console.log(`ANNOUNCER: New 4:20 event detected: ${new Date(new420EventTime).toLocaleString()} in ${location}`);
+                    currentlyTracking420EventTime = new420EventTime;
+                    initialAnnouncementMade = false;
+                    warningAnnouncementMade = false;
+                    blazeItAnnouncementMade = false;
+                    lastPlayedMessageLinks = null; // Reset this too for the new event
                 }
-                // Condition for playing "blaze it warning/now" message
-                else if (timeRemainingMinutes <= WARNING_MINS && timeRemainingMinutes >= -1 && lastNotified420Time !== current420EventTime) {
-                    // Check if the current message links are different from the last played links
-                    // This is to prevent replaying the *exact same* warning message if the timeRemainingMinutes is the same
-                    // and the random message chosen happens to be the same.
-                    if (JSON.stringify(messageLinks) !== lastPlayedMessageLinks) {
-                        console.log(`ANNOUNCER: Blaze it warning/now message. Time: ${timeRemainingMinutes} mins, Location: ${location}`);
+
+                // --- Announcement Logic ---
+
+                // 1. Initial Load / New Event Announcement (e.g., "Next blaze time is in X minutes in Y")
+                // This should only happen ONCE for a given 4:20 event.
+                if (!initialAnnouncementMade) {
+                    // Check if the current data reflects the "nextBlaze" type and is not already in warning/blaze-it range
+                    if (messageType === 'nextBlaze' && timeRemainingMinutes > WARNING_MINS) {
+                        console.log(`ANNOUNCER: Initial announcement for new event. Time: ${timeRemainingMinutes} mins, Location: ${location}`);
                         await playAudioSequentially(messageLinks);
-                        lastPlayedMessageLinks = JSON.stringify(messageLinks); // Store the played links
-                    }
-                    // Crucially, if we are in the warning window and it's a new 420 event
-                    // or if it just hit 4:20 and we haven't played the "now" message for *this specific* 4:20 event yet
-                    if (timeRemainingSeconds <= 0 && timeRemainingSeconds > -60 && lastNotified420Time !== current420EventTime) {
-                        // This means it's exactly 4:20 in some timezone and we haven't played this specific "4:20 now" message for THIS event
-                        console.log(`ANNOUNCER: It's 4:20 in ${location} NOW!`);
-                        await playAudioSequentially(messageLinks); // Play the "blaze it now" message
-                        lastNotified420Time = current420EventTime; // Mark this 4:20 as "notified"
+                        initialAnnouncementMade = true; // Mark as announced
                         lastPlayedMessageLinks = JSON.stringify(messageLinks);
-                    } else if (timeRemainingMinutes <= WARNING_MINS && timeRemainingMinutes > 0 && lastNotified420Time !== current420EventTime) {
-                         // This is the initial warning for a *new* 420 event
-                         console.log(`ANNOUNCER: Warning for ${location}. ${timeRemainingMinutes} mins left.`);
-                         await playAudioSequentially(messageLinks);
-                         lastNotified420Time = current420EventTime; // Mark this 4:20 as "notified"
-                         lastPlayedMessageLinks = JSON.stringify(messageLinks);
                     }
                 }
-                else {
-                    console.log(`ANNOUNCER: No new audio announcement needed for now. Time: ${timeRemainingMinutes} mins, Location: ${location}`);
+
+                // 2. Warning Announcement (e.g., "It's almost time to torch it... 2 minutes til 420")
+                // This should happen ONCE when timeRemainingMinutes becomes <= WARNING_MINS (e.g., 2 mins) but > 0.
+                if (!warningAnnouncementMade && timeRemainingMinutes <= WARNING_MINS && timeRemainingMinutes > 0) {
+                    // Ensure the message type returned from the server matches the warning/blazeItNow type
+                    if (messageType === 'blazeItWarning') { // The server provides blazeItWarning or blazeItNow
+                        console.log(`ANNOUNCER: Warning for ${location}. ${timeRemainingMinutes} mins left.`);
+                        await playAudioSequentially(messageLinks);
+                        warningAnnouncementMade = true; // Mark as announced
+                        lastPlayedMessageLinks = JSON.stringify(messageLinks);
+                    }
                 }
+
+                // 3. At 4:20 Announcement (e.g., "It's 4:20 in X now!")
+                // This should happen ONCE when timeRemainingSeconds becomes <= 0 and > -60.
+                if (!blazeItAnnouncementMade && timeRemainingSeconds <= 0 && timeRemainingSeconds > -60) {
+                    // Ensure the message type returned from the server matches the blazeItNow type
+                    if (messageType === 'blazeItNow') {
+                        console.log(`ANNOUNCER: It's 4:20 in ${location} NOW!`);
+                        await playAudioSequentially(messageLinks);
+                        blazeItAnnouncementMade = true; // Mark as announced
+                        lastPlayedMessageLinks = JSON.stringify(messageLinks);
+                    }
+                }
+                
+                // If a new 4:20 event has passed (timeRemainingSeconds significantly negative),
+                // we should reset `currentlyTracking420EventTime` so the next fetch
+                // can identify the *next* upcoming 4:20 event.
+                if (timeRemainingSeconds < -60) { // e.g., more than a minute past 4:20
+                    console.log("ANNOUNCER: Current 4:20 event has passed. Looking for the next one.");
+                    currentlyTracking420EventTime = null; // Clear the tracking, next poll will find the new closest 4:20
+                }
+
 
             } catch (error) {
                 console.error("ANNOUNCER: Error fetching or processing 420 data:", error);
@@ -261,13 +283,12 @@ function load420() {
             }
         }
 
-        // Start the polling immediately
+        // Start the polling immediately when load420 is called
         fetchAndAnnounce420();
     } else {
         console.log("ANNOUNCER: 4:20 announcements are disabled (isBanter or announce420 not true).");
     }
 }
-
       
 var thescripts = document.getElementsByTagName("script");
 var announcerscene = BS.BanterScene.GetInstance();
