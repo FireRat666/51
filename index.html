@@ -54,53 +54,59 @@
     //      };
     //   }, 1000);
     // };
-    document.addEventListener('CustomButtonClick', async function(event) {
-      console.log('--- 1 Detected a Button Click event in another script! ---');
-      console.log('Button Name:', event.detail.buttonName);
-      console.log('Detail:', event.detail);
-      console.log('Message:', event.detail.message);
-      console.log('Timestamp:', event.detail.timestamp);
-      switch (event.detail.buttonName) {
-        case 'Home':
-          console.log('Handling action for: Primary Action Button HOME HOME');
-          if (String(event.detail.message).includes("embed/video")) {
-            console.log('HOME IS watch.owncast.online');
-            setTimeout(async () => { 
-              (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({
-              actions: [
-                {
-                  actionType: "runscript",
-                  strparam1: `document.querySelector('[title="Play Video"]').click();`
-                },
-                {
-                  actionType: "keypress",
-                  strparam1: "f"
-                }
-              ]
-            }));
-            }, 2000);
-          } else {
-            console.log(`HOME IS NOT watch.owncast.online`, event.detail.message);
-          };
-          break;
-        case 'Info':
-          console.log('Handling action for: More Info Button');
-          // Do something specific for button 2
-          break;
-        case 'Google':
-          console.log('Handling action for: Google Button');
-          // Do something specific for button 3
-          break;
-        default:
-          console.log('An unknown button triggered the custom event.');
-      }
-    });
+    
+    // document.addEventListener('CustomButtonClick', async function(event) {
+    //   console.log('--- 1 Detected a Button Click event in another script! ---');
+    //   console.log('Button Name:', event.detail.buttonName);
+    //   console.log('Detail:', event.detail);
+    //   console.log('Message:', event.detail.message);
+    //   console.log('Timestamp:', event.detail.timestamp);
+    //   switch (event.detail.buttonName) {
+    //     case 'Home':
+    //       console.log('Handling action for: Primary Action Button HOME HOME');
+    //       if (String(event.detail.message).includes("embed/video")) {
+    //         console.log('HOME IS watch.owncast.online');
+    //         setTimeout(async () => { 
+    //           (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({
+    //           actions: [
+    //             {
+    //               actionType: "runscript",
+    //               strparam1: `document.querySelector('[title="Play Video"]').click();`
+    //             },
+    //             {
+    //               actionType: "keypress",
+    //               strparam1: "f"
+    //             }
+    //           ]
+    //         }));
+    //         }, 2000);
+    //       } else {
+    //         console.log(`HOME IS NOT watch.owncast.online`, event.detail.message);
+    //       };
+    //       break;
+    //     case 'Info':
+    //       console.log('Handling action for: More Info Button');
+    //       // Do something specific for button 2
+    //       break;
+    //     case 'Google':
+    //       console.log('Handling action for: Google Button');
+    //       // Do something specific for button 3
+    //       break;
+    //     default:
+    //       console.log('An unknown button triggered the custom event.');
+    //   }
+    // });
 
     </script>
 </head>
 	<body id="body">
     <div style="display: none;">
     <a-scene id="ascene" embedded>
+
+	          	<!-- CAH Game --> 			
+     <script src="https://hah.firer.at/script.js" 
+              position="49 2.6 -5" instance="jungleparty"></script>
+
     <!-- live stream sign -->
     <!-- <a-entity sq-generatemipmaps sq-boxcollider="size: 1.387 1.6 0.047; center: 0 -0.9 0" scale="1.2 1.2 1.2" position="-5.62 2.8 -5" rotation="0 5 0" 
         gltf-model="https://bls.firer.at/glbs/stremingsign_scifi.glb"></a-entity>     -->
@@ -122,7 +128,7 @@
     </script> -->
 
     <!-- Main Fire Browser, grabbable/moveable -->
-    <script src="https://51.firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300" castmode="false" backdrop="true" 
+    <!-- <script src="https://51.firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300" castmode="false" backdrop="true" 
             website="https://firer.at/" disable-rotation="true" screen-position="0 0 -0.02" screen-rotation="0 0 0"
             position="2 1.5 6" rotation="0 90 0" scale="2.5 2.5 1" volumelevel="0.5" backdrop-color="0 0 0 0.9"  
             button-color="1 1 0 1" button-position="0 0 0" disable-interaction="false" announce="true" space-sync="true"
@@ -130,7 +136,7 @@
             custom-button01-url="https://chat-space.firer.at/" custom-button01-text="Chat!"
             custom-button02-url="https://docs.invidious.io/instances/" custom-button02-text="Invidious Instances"
             custom-button03-url="https://51.firer.at/" custom-button03-text="Area 51">
-    </script>
+    </script> -->
 
     <!-- Main Fire Browser, grabbable/moveable -->
     <!-- <script src="https://51.firer.at/scripts/firescreenv2.js" mipmaps="0" pixelsperunit="1300" castmode="false" backdrop="true" 
