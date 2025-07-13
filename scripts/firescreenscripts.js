@@ -350,8 +350,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   firescenev2.On("user-joined", e => {
     if (e.detail.isLocal) { // Setup Hand Controls only on the first run if enabled
       if (p_handbuttons === "true" && window.firstrunhandcontrols) {
-        window.firstrunhandcontrols = false; playersuseridv2 = e.detail.uid;
-        console.log("FIRESCREEN2: Enabling Hand Controls on user-joined"); setupHandControlsV2(p_thisBrowserNumber, BS.LegacyAttachmentPosition.LEFT_HAND, instanceObjects);
+        window.firstrunhandcontrols = false; playersuseridv2 = e.detail.uid; instanceObjects.intervals = [];
+        console.log("FIRESCREEN2: Enabling Hand Controls"); setupHandControlsV2(p_thisBrowserNumber, BS.LegacyAttachmentPosition.LEFT_HAND, instanceObjects); // setupHandControlsV2(1, BS.LegacyAttachmentPosition.RIGHT_HAND );
       };
       console.log("FIRESCREEN2: user-joined");
       console.log(e.detail);
@@ -380,7 +380,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
       if (p_handbuttons === "true" && e.detail.isLocal && window.notalreadyjoined) { window.notalreadyjoined = false; window.firstrunhandcontrols = false; playersuseridv2 = e.detail.uid;
         console.log("FIRESCREEN2: Local User-already-joined, Enabling Hand Controls");
         console.log(`window.firstrunhandcontrols:${window.firstrunhandcontrols}`);
-        setTimeout(async () => {  setupHandControlsV2(p_thisBrowserNumber, BS.LegacyAttachmentPosition.LEFT_HAND, instanceObjects);
+        setTimeout(async () => {  setupHandControlsV2(p_thisBrowserNumber, BS.LegacyAttachmentPosition.LEFT_HAND, instanceObjects); // setupHandControlsV2(1, BS.LegacyAttachmentPosition.RIGHT_HAND); 
           window.notalreadyjoined = true; }, 3000);
       };
   });
