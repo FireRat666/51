@@ -190,17 +190,17 @@ async function setupfirescreen2() {
     } = params;
 
     await sdk2tests(position, rotation, scale, castmode, lockPosition, screenPosition, screenRotation, screenScale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
-      backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor, disableInteraction, disableRotation, spaceSync, handControls, width, height, announceEvents, thisBrowserNumber, customButton01Url, customButton01Text, customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text, customButton05Url, customButton05Text);
+      backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor, disableInteraction, disableRotation, spaceSync, handControls, width, height, announceEvents, thisBrowserNumber, customButton01Url, customButton01Text, customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text, customButton05Url, customButton05Text, script);
   }
 };
 
-async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_screenposition, p_screenrotation, p_screenscale, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_spacesync, p_handbuttons, p_width, p_height, p_announceevents, p_thisBrowserNumber, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text, p_custombuttonurl05, p_custombutton05text) {
+async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_screenposition, p_screenrotation, p_screenscale, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_spacesync, p_handbuttons, p_width, p_height, p_announceevents, p_thisBrowserNumber, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text, p_custombuttonurl05, p_custombutton05text, p_scriptElement) {
   fireScreen2On = true;
   let keyboardstate = false;
   let playerislockedv2 = false;
   let customButtonObjects = [];
   const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`).Async();
-  const instanceObjects = { gameObjects: [screenObject], browserComponent: null, handControls: null, intervals: [] };
+  const instanceObjects = { gameObjects: [screenObject], browserComponent: null, handControls: null, intervals: [], scriptElement: p_scriptElement };
   console.log(`FIRESCREEN2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, URL:${p_website}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
   firebrowser.homePage = p_website; // Set variable for default Home Page for later use
@@ -527,12 +527,18 @@ async function cleanupFireScreenV2(instanceId) {
     }
   }
   console.log(`FireScreenV2: Destroyed ${instance.gameObjects.length} GameObjects.`);
+  
+  // 3. Remove the script tag from the DOM
+  if (instance.scriptElement && instance.scriptElement.parentElement) {
+    instance.scriptElement.parentElement.removeChild(instance.scriptElement);
+    console.log(`FireScreenV2: Removed script tag for instance ${instanceId}.`);
+  }
 
-  // 3. Remove the instance from the registry
+  // 4. Remove the instance from the registry
   delete window.fireScreenInstances[instanceId];
   console.log(`FireScreenV2: Instance ${instanceId} removed from registry.`);
 
-  // Optional: Check if any instances are left and perform global cleanup
+  // 5. Optional: Check if any instances are left and perform global cleanup
   if (Object.keys(window.fireScreenInstances).length === 0) {
     console.log("FireScreenV2: All instances cleaned up.");
     fireScreen2On = false;
