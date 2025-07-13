@@ -540,6 +540,8 @@ async function cleanupFireScreenV2(instanceId) {
 
 window.cleanupFireScreenV2 = cleanupFireScreenV2;
 
+window.setupfirescreen2 = setupfirescreen2;
+
 async function adjustForAll(action, change) {
   // Iterate over all registered FireScreen instances
   for (const instanceId in window.fireScreenInstances) {
@@ -597,7 +599,7 @@ function spaceStateStuff(argument) {
 
 // This part runs for every <script> tag.
 // It calls the setup function which is now guaranteed to be defined.
-setupfirescreen2();
+window.setupfirescreen2();
 
 // setProtectedSpaceProp('fireurl', "https://firer.at/");
 // await BS.BanterScene.GetInstance().OneShot(JSON.stringify({firevolume: "0.5"}));
