@@ -1,22 +1,27 @@
-// SDK2 Based FireScreen, V0.9 Beta 1.0.1 -- Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
-// FireScreen Tablet for Screen Casts / live streams with volume controls or a portable browser for any website.
-var thisScriptLocation = `https://51.firer.at/scripts/`; // CHANGE THIS URL IF MAKING A COPY OF THIS SCRIPT AND THE ONES BELOW
-var fireScriptName = `${thisScriptLocation}firescreenv2.js`;
-var announcerscripturlv2 = `${thisScriptLocation}announcer.js`;
-var fireScreen2On = false;
-var playersuseridv2 = null;
-var customButShader = 'Unlit/Diffuse';
-var defaulTransparent = 'Unlit/DiffuseTransparent';
-var whiteColour = new BS.Vector4(1,1,1,1);
-var customButtonSize = new BS.Vector3(0.2,0.04,1);
-var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
-var fireScreenSetup = false;
-// create a reference to the banter scene
-var firescenev2 = BS.BanterScene.GetInstance();
-if (typeof window.fireScreenInstances === 'undefined') { window.fireScreenInstances = {}; }
+// This script can be loaded multiple times on the same page.
+// To prevent functions from being redefined, we wrap the core logic
+// in a check to ensure it only runs once.
+if (typeof window.fireScreenScriptInitialized === 'undefined') {
+
+  // SDK2 Based FireScreen, V0.9 Beta 1.0.1 -- Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
+  // FireScreen Tablet for Screen Casts / live streams with volume controls or a portable browser for any website.
+  var thisScriptLocation = `https://51.firer.at/scripts/`; // CHANGE THIS URL IF MAKING A COPY OF THIS SCRIPT AND THE ONES BELOW
+  var fireScriptName = `${thisScriptLocation}firescreenv2.js`;
+  var announcerscripturlv2 = `${thisScriptLocation}announcer.js`;
+  var fireScreen2On = false;
+  var playersuseridv2 = null;
+  var customButShader = 'Unlit/Diffuse';
+  var defaulTransparent = 'Unlit/DiffuseTransparent';
+  var whiteColour = new BS.Vector4(1,1,1,1);
+  var customButtonSize = new BS.Vector3(0.2,0.04,1);
+  var textPlaneColour = new BS.Vector4(0.1,0.1,0.1,1);
+  var fireScreenSetup = false;
+  // create a reference to the banter scene
+  var firescenev2 = BS.BanterScene.GetInstance();
+  if (typeof window.fireScreenInstances === 'undefined') { window.fireScreenInstances = {}; }
 
 
-(function() {
+  (function() {
   const initialValues = {
     firstrunhandcontrols: true,
     notalreadyjoined: true,
@@ -26,7 +31,7 @@ if (typeof window.fireScreenInstances === 'undefined') { window.fireScreenInstan
   for (const [key, value] of Object.entries(initialValues)) {
     if (typeof window[key] === 'undefined') { window[key] = value; } // Initialize Variables only once 
   }
-})();
+  })();
 
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
@@ -68,11 +73,11 @@ function adjustScale(geometrytransform, direction) {
   return adjustment;
 };
 
-async function createCustomButton(name, firebrowser, parentObject, buttonObjects, position, text, textposition, url, clickHandler) {
+async function createCustomButton(name, firebrowser, parentObject, buttonObjects, position, text, textposition, url, clickHandler, browserNumber) {
   const buttonObject = await createUIButton(name, null, position, textPlaneColour, parentObject, false, "false", 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
-  const textObject = await new BS.GameObject(`${name}Text${window.theNumberofBrowsers}`).Async();
-  const banterText = await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
+  const textObject = await new BS.GameObject(`${name}Text${browserNumber}`).Async();
+  await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
   const textTransform = await textObject.AddComponent(new BS.Transform());
   textTransform.localPosition = textposition; await textObject.SetParent(parentObject, false);
   buttonObjects.push(textObject);
@@ -184,9 +189,7 @@ function setupfirescreen2() {
     } = params;
 
     sdk2tests(position, rotation, scale, castmode, lockPosition, screenPosition, screenRotation, screenScale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
-      backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor,
-      disableInteraction, disableRotation, spaceSync, handControls, width, height, announceEvents, thisBrowserNumber, customButton01Url, customButton01Text,
-      customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text, customButton05Url, customButton05Text);
+      backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor, disableInteraction, disableRotation, spaceSync, handControls, width, height, announceEvents, thisBrowserNumber, customButton01Url, customButton01Text, customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text, customButton05Url, customButton05Text);
     });
 };
 
@@ -196,7 +199,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   let playerislockedv2 = false;
   let customButtonObjects = [];
   const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`).Async();
-  const instanceObjects = { gameObjects: [screenObject], handControls: null, intervals: [] };
+  const instanceObjects = { gameObjects: [screenObject], browserComponent: null, handControls: null, intervals: [] };
   console.log(`FIRESCREEN2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, URL:${p_website}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
   firebrowser.homePage = p_website; // Set variable for default Home Page for later use
@@ -535,6 +538,8 @@ async function cleanupFireScreenV2(instanceId) {
   }
 }
 
+window.cleanupFireScreenV2 = cleanupFireScreenV2;
+
 async function adjustForAll(action, change) {
   // Iterate over all registered FireScreen instances
   for (const instanceId in window.fireScreenInstances) {
@@ -584,13 +589,15 @@ function spaceStateStuff(argument) {
   return null;
 };
 
-if (!window.fireScreenScriptInitialized) {
+  // Mark the script as initialized
   window.fireScreenScriptInitialized = true;
-  console.log("FIRESCREEN2: Initializing the script");
-  setTimeout(() => { setupfirescreen2(); }, 500);
-} else {
-  setTimeout(() => { setupfirescreen2(); }, 1500);
-};
+  console.log("FIRESCREEN2: Core script functions initialized.");
+
+} // End of one-time initialization block
+
+// This part runs for every <script> tag.
+// It calls the setup function which is now guaranteed to be defined.
+setupfirescreen2();
 
 // setProtectedSpaceProp('fireurl', "https://firer.at/");
 // await BS.BanterScene.GetInstance().OneShot(JSON.stringify({firevolume: "0.5"}));
