@@ -287,8 +287,8 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   let uiButtons = await createUIButtons(geometryObject);
 
   let buttonsvisible = true;
-  const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(LButPos,0,0), p_buttoncolor, geometryObject);
-  createButtonAction(hideShowObject, () => { console.log("HideShow Clicked!");buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), customButtonObjects, buttonsvisible ? 1 : 0)
+  const hideShowObject = await createUIButton("FireButton_hideShow", "https://firer.at/files/Eye.png", new BS.Vector3(LButPos, 0, 0), p_buttoncolor, geometryObject);
+  createButtonAction(hideShowObject, () => { console.log("HideShow Clicked!"); buttonsvisible = !buttonsvisible; toggleButtonVisibility(Object.values(uiButtons), customButtonObjects, buttonsvisible ? 1 : 0, ["FireButton_hideShow"]);
     hideShowObject.GetComponent(BS.ComponentType.BanterMaterial).color = buttonsvisible ? p_buttoncolor : new BS.Vector4(1, 1, 1, 0.5);
   });
   uiButtons.hideShow = hideShowObject;
