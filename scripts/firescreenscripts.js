@@ -611,7 +611,7 @@ function spaceStateStuff(argument) {
   async function attemptSetup() {
     if (window.fireScreenSetupRunning) {
       console.log("FIRESCREEN2: Setup in progress. Waiting to retry...");
-      setTimeout(attemptSetup, 100); // Wait 100ms and try again
+      setTimeout(attemptSetup, 500); // Wait 500ms and try again
       return;
     }
 
