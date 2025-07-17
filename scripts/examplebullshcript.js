@@ -18,7 +18,7 @@ if(window.isBanter){ // Check if the window is in Banter mode
 
   function BanterStuff() {
     scene.TeleportTo({x: 0, y: 0, z: 0}, 0, true); // Teleport the player to the center of the scene
-    scene.Gravity(new BS.Vector3(0,-2,0)); // Set gravity
+    scene.Gravity(new BS.Vector3(0,-9.8,0)); // Set gravity
     console.log("setSceneSettings Loading...");
     const settings = new BS.SceneSettings(); // Create a new SceneSettings object
     // PHYSICS SETTINGS
@@ -41,15 +41,15 @@ if(window.isBanter){ // Check if the window is in Banter mode
     settings.EnableHandHold = true, // Enable hand holding
     settings.EnableRadar = true, // Enable radar
     settings.EnableNametags = true, // Enable nametags
-    settings.EnableDevTools = false; // Enable dev tools
-    settings.EnableTeleport = false; // Enable teleportation
+    settings.EnableDevTools = true; // Enable dev tools
+    settings.EnableTeleport = true; // Enable teleportation
     settings.EnableForceGrab = false; // Enable force grab
-    settings.EnableSpiderMan = false; // Enable Spider-Man (ropes)
-    settings.EnablePortals = false; // Enable portals
+    settings.EnableSpiderMan = true; // Enable Spider-Man (ropes)
+    settings.EnablePortals = true; // Enable portals
     settings.EnableGuests = true; // Enable guests
     settings.EnableQuaternionPose = false;  // Enable quaternion pose
     settings.EnableControllerExtras = true; // Enable controller extras
-    settings.EnableFriendPositionJoin = false;  // Enable friend position join
+    settings.EnableFriendPositionJoin = true;  // Enable friend position join
     settings.EnableDefaultTextures = true;  // Enable default textures
     settings.EnableAvatars = true;  // Enable avatars
     settings.MaxOccupancy = 30; // Maximum number of players in the scene
@@ -62,7 +62,7 @@ if(window.isBanter){ // Check if the window is in Banter mode
 
     function setSettingsAgain(settings) {
       scene.TeleportTo({x: 0, y: 0, z: 0}, 0, true); // Teleport the player to the center of the scene again
-      scene.Gravity(new BS.Vector3(0,-2,0));  // Set gravity again
+      scene.Gravity(new BS.Vector3(0,-9.8,0));  // Set gravity again
       scene.SetSettings(settings); // Apply the settings again to ensure they are set correctly
     };
   }
