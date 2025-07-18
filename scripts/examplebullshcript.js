@@ -6,7 +6,9 @@ if(window.isBanter){ // Check if the window is in Banter mode
   if (waitingforunity) { // If we are waiting for Unity to load
     console.log("SCENE: Waiting for Unity to load..."); // Log that we are waiting for Unity to load
     waitinterval = setInterval(function() { // Set an interval to check if Unity has loaded
-      if (scene.unityLoaded) { waitingforunity = false; clearInterval(waitinterval); // Clear the interval if Unity has loaded
+      if (scene.unityLoaded) {  // If Unity has loaded
+        waitingforunity = false; // Set the waiting flag to false now Unity has loaded
+        clearInterval(waitinterval); // Clear the interval if Unity has loaded
         if (!window.UnitySceneLoaded) { // This ensures the scene is only initialized once
           window.UnitySceneLoaded = true; // Set the Unity scene loaded flag to true
           console.log("SCENE: unityLoaded Initialising!"); // Log that Unity has loaded and we are initializing the scene
