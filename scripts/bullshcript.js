@@ -79,7 +79,7 @@ function BanterStuff() {
   settings.EnableAvatars = true;  // Enable avatars
   settings.MaxOccupancy = 30; // Maximum number of players in the scene
   settings.RefreshRate = 72;  // Refresh rate of the scene
-  settings.ClippingPlane = new BS.Vector2(0.02, 300); // Clipping plane of the scene
+  settings.ClippingPlane = new BS.Vector2(0.02, 800); // Clipping plane of the scene
   settings.SpawnPoint = new BS.Vector4(0, 0, 0, 180); // Spawn point of the player
   settings.SettingsLocked = false, // Set this to true to prevent users from changing settings
   scene.SetSettings(settings); // Apply the settings to the scene
