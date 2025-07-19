@@ -133,7 +133,7 @@ async function enableYouTube() {
 				"rotation": "0 180 0",
 				"position": "0 1.5 5",
 				"hand-controls": "false",
-				"button-position": "0 -0.4 0",
+				"button-position": "0 0.5 5",
 				"volume": "0",
 				// "button-rotation": "0 0 0",
 				// "button-scale": "1 1 1",
