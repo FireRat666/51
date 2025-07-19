@@ -230,7 +230,7 @@ async function enableKaraokePlayer() {
 				"rotation": "0 0 0",
 				"position": "0 1 1",
 				"hand-controls": "true",
-				// "button-position": "0 1 0",
+				"button-position": "0 -0.5 0",
 				"volume": "15",
 				"button-rotation": "0 90 0",
 				"button-scale": "1 1 1",
