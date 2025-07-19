@@ -20,7 +20,7 @@ async function somerandomStartActions() {
     // Set scene settings
     BanterStuff();
 	/* UNCOMMENT THIS TO ENABLE THE YOUTUBE PLAYER */
-		// enableYouTube();
+		enableYouTube();
 	/* UNCOMMENT THIS TO ENABLE SCREEN CAST / YOUTUBE LIVE */
 		// enableTheFireScreen();
   /* UNCOMMENT THIS TO ENABLE THE KARAOKE PLAYER */
