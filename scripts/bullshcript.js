@@ -155,7 +155,7 @@ async function enableYouTube() {
 
 			injectRenderScript(
 				"https://vidya.firer.at/playlist.js", // firer.at / sdq.st / best-v-player.glitch.me
-				"cannabanter-videoplayer", youtubeAttributes, document.querySelector("a-scene")
+				"fire-videoplayer", youtubeAttributes, document.querySelector("a-scene")
 			);
 
 		}, delayYT ? 2000 : 0);
@@ -253,7 +253,7 @@ async function enableKaraokePlayer() {
 			};
 			injectRenderScript(
 				"https://vidya.firer.at/karaoke.js", // firer.at / sdq.st / best-v-player.glitch.me
-				"cannabanter-karaokeplayer", karaokeAttributes, document.querySelector("a-scene")
+				"fire-karaokeplayer", karaokeAttributes, document.querySelector("a-scene")
 			);
 		}, delayYT ? 2000 : 0);
   } else {console.log("enable karaoke player called");}
