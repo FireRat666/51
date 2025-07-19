@@ -309,7 +309,7 @@ async function createButton(name, butPosition, buttonImage = null, posterLink, l
   buttonTransform.localEulerAngles = localRotation; // Set the Scale of the object
   buttonObject.On('click', () => {
     console.log(`Button clicked!`);
-    injectRenderScript("https://hah.firer.at/script.js?position=0 6.09 15.3&rotation=0 0 0&debug=true&instance=example1&deck=main", "Holograms");
+    injectRenderScript("https://hah.firer.at/script.js?position=0 1 5&rotation=0 0 0&debug=true&instance=example2&deck=main", "Holograms");
     buttonObject.Destroy();
     // openPage(posterLink);
   });
