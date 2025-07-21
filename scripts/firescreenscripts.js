@@ -219,17 +219,35 @@ async function setupfirescreen2() {
       const value = attr !== null ? attr : defaultParams[key];
       return numberAttributes[key] ? numberAttributes[key](value) : value; };
 
-    const params = {}; Object.keys(defaultParams).forEach(key => { params[key] = getParam(key); });
-    const {
-      position, rotation, scale, castmode, "lock-position": lockPosition, "screen-position": screenPosition, "screen-rotation": screenRotation, "screen-scale": screenScale, volumelevel, mipmaps, pixelsperunit, backdrop, website, "button-color": buttonColor, announce, "announce-420": announce420, "backdrop-color": backdropColor, "icon-mute-url": iconMuteUrl, "icon-volup-url": iconVolUpUrl, "icon-voldown-url": iconVolDownUrl, "icon-direction-url": iconDirectionUrl, "volup-color": volUpColor, "voldown-color": volDownColor, "mute-color": muteColor, "disable-interaction": disableInteraction, "disable-rotation": disableRotation, "space-sync": spaceSync, "hand-controls": handControls, width, height, "announce-events": announceEvents, "custom-button01-url": customButton01Url, "custom-button01-text": customButton01Text, "custom-button02-url": customButton02Url, "custom-button02-text": customButton02Text, "custom-button03-url": customButton03Url, "custom-button03-text": customButton03Text, "custom-button04-url": customButton04Url, "custom-button04-text": customButton04Text, "custom-button05-url": customButton05Url, "custom-button05-text": customButton05Text
-    } = params;
+    const params = {};
+    Object.keys(defaultParams).forEach(key => { params[key] = getParam(key); });
 
-    await sdk2tests(position, rotation, scale, castmode, lockPosition, screenPosition, screenRotation, screenScale, volumelevel, mipmaps, pixelsperunit, backdrop, website, buttonColor, announce, announce420,
-      backdropColor, iconMuteUrl, iconVolUpUrl, iconVolDownUrl, iconDirectionUrl, volUpColor, volDownColor, muteColor, disableInteraction, disableRotation, spaceSync, handControls, width, height, announceEvents, thisBrowserNumber, customButton01Url, customButton01Text, customButton02Url, customButton02Text, customButton03Url, customButton03Text, customButton04Url, customButton04Text, customButton05Url, customButton05Text, script);
+    // Add script-specific properties to the params object
+    params.thisBrowserNumber = thisBrowserNumber;
+    params.scriptElement = script;
+
+    await sdk2tests(params);
   }
 };
 
-async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_screenposition, p_screenrotation, p_screenscale, p_volume, p_mipmaps, p_pixelsperunit, p_backdrop, p_website, p_buttoncolor, p_announce, p_announce420, p_backdropcolor, p_iconmuteurl, p_iconvolupurl, p_iconvoldownurl, p_icondirectionurl, p_volupcolor, p_voldowncolor, p_mutecolor, p_disableinteraction, p_disableRotation, p_spacesync, p_handbuttons, p_width, p_height, p_announceevents, p_thisBrowserNumber, p_custombuttonurl01, p_custombutton01text, p_custombuttonurl02, p_custombutton02text, p_custombuttonurl03, p_custombutton03text, p_custombuttonurl04, p_custombutton04text, p_custombuttonurl05, p_custombutton05text, p_scriptElement) {
+async function sdk2tests(params) {
+  const {
+    position: p_pos, rotation: p_rot, scale: p_sca, castmode: p_castmode, 'lock-position': p_lockposition,
+    'screen-position': p_screenposition, 'screen-rotation': p_screenrotation, 'screen-scale': p_screenscale,
+    volumelevel: p_volume, mipmaps: p_mipmaps, pixelsperunit: p_pixelsperunit, backdrop: p_backdrop,
+    website: p_website, 'button-color': p_buttoncolor, announce: p_announce, 'announce-420': p_announce420,
+    'backdrop-color': p_backdropcolor, 'icon-mute-url': p_iconmuteurl, 'icon-volup-url': p_iconvolupurl,
+    'icon-voldown-url': p_iconvoldownurl, 'icon-direction-url': p_icondirectionurl, 'volup-color': p_volupcolor,
+    'voldown-color': p_voldowncolor, 'mute-color': p_mutecolor, 'disable-interaction': p_disableinteraction,
+    'disable-rotation': p_disableRotation, 'space-sync': p_spacesync, 'hand-controls': p_handbuttons,
+    width: p_width, height: p_height, 'announce-events': p_announceevents,
+    'custom-button01-url': p_custombuttonurl01, 'custom-button01-text': p_custombutton01text,
+    'custom-button02-url': p_custombuttonurl02, 'custom-button02-text': p_custombutton02text,
+    'custom-button03-url': p_custombuttonurl03, 'custom-button03-text': p_custombutton03text,
+    'custom-button04-url': p_custombuttonurl04, 'custom-button04-text': p_custombutton04text,
+    'custom-button05-url': p_custombuttonurl05, 'custom-button05-text': p_custombutton05text,
+    thisBrowserNumber: p_thisBrowserNumber, scriptElement: p_scriptElement
+  } = params;
   fireScreen2On = true;
   let keyboardstate = false;
   let playerislockedv2 = false;
