@@ -145,8 +145,37 @@ function dispatchButtonClickEvent(buttonName, message) {
   const eventDetails = { buttonName: buttonName, message: message, timestamp: new Date() };
   const buttonClickEvent = new CustomEvent('CustomButtonClick', { detail: eventDetails, bubbles: true, composed: true });
   document.dispatchEvent(buttonClickEvent);
-  console.log(`ButtonClick for button: ${buttonName} with message: "${message}"`);
+  // console.log(`ButtonClick for button: ${buttonName} with message: "${message}"`);
 };
+
+/**
+ * Triggers a temporary, repeated synchronization of the browser's volume.
+ * This is more efficient than a persistent interval, as it only runs when needed
+ * (e.g., on page load) and then stops itself.
+ * @param {BS.BanterBrowser} firebrowser - The browser component instance.
+ */
+function triggerVolumeSync(firebrowser) {
+  // If there's an existing temporary sync interval for this browser, clear it first.
+  if (firebrowser.volumeSyncInterval) {
+    clearInterval(firebrowser.volumeSyncInterval);
+  }
+
+  let syncCount = 0;
+  const maxSyncs = 4; // How many times to sync volume after a page load
+  const syncIntervalTime = 2500; // e.g., 2.5 seconds between syncs
+
+  firebrowser.volumeSyncInterval = setInterval(() => {
+    if (syncCount >= maxSyncs) {
+      clearInterval(firebrowser.volumeSyncInterval);
+      firebrowser.volumeSyncInterval = null; // Clean up the reference
+      return;
+    }
+
+    console.log(`FIRESCREEN2: Triggering volume sync #${syncCount + 1} for browser ${firebrowser.gameObject.name}`);
+    adjustVolume(firebrowser, 0); // A change of 0 just re-applies the current volume
+    syncCount++;
+  }, syncIntervalTime);
+}
 
 function getNextFireScreenId() {
   let id = 1;
@@ -477,18 +506,22 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
       firebrowser.url = await getSpaceStateStuff('fireurl');
     });
   };
-  setTimeout(async () => { adjustVolume(firebrowser, 0); // attempt to set default sound level for the page
-  }, 5000);
-  setTimeout(async () => { adjustVolume(firebrowser, 0); // attempt to set default sound level for the page a second time
-  }, 8000);
+ 
+  // --- New Event-Driven Volume Synchronization ---
 
-  // Keep sound level set, runs every 5 seconds for this instance
-  const soundInterval = setInterval(() => {
-    const volume = firebrowser.volumeLevel;
-    const firePercent = (volume * 100).toFixed(0);
-    runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach(elem => elem.volume=${volume}); document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firePercent}) : null;`);
-  }, 5000);
-  instanceObjects.intervals.push(soundInterval);
+  // 1. Watch for URL changes on the browser component.
+  firebrowser.WatchProperties([BS.PropertyName.url]);
+
+  // 2. When the URL changes, trigger the volume sync.
+  firebrowser.gameObject.On('property-changed', (e) => {
+    if (e.detail.name === BS.PropertyName.url) {
+      console.log(`FIRESCREEN2: URL changed for ${firebrowser.gameObject.name}, triggering volume sync.`);
+      triggerVolumeSync(firebrowser);
+    }
+  });
+
+  // 3. Trigger the volume sync once on initial load.
+  setTimeout(() => triggerVolumeSync(firebrowser), 3000);
   // Add the completed instance to the global registry
   window.fireScreenInstances[p_thisBrowserNumber] = instanceObjects;
 };
