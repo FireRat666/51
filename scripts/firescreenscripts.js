@@ -522,6 +522,7 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
 
   // 3. Trigger the volume sync once on initial load.
   setTimeout(() => triggerVolumeSync(firebrowser), 3000);
+  instanceObjects.browserComponent = firebrowser;
   // Add the completed instance to the global registry
   window.fireScreenInstances[p_thisBrowserNumber] = instanceObjects;
 };
@@ -583,29 +584,39 @@ window.cleanupFireScreenV2 = cleanupFireScreenV2;
 
 window.setupfirescreen2 = setupfirescreen2;
 
-async function adjustForAll(action, change) {
+function adjustForAll(action, change) {
   // Iterate over all registered FireScreen instances
   for (const instanceId in window.fireScreenInstances) {
-    const firebrowserthing = await BS.BanterScene.GetInstance().Find(`MyBrowser${instanceId}`);
-    if (firebrowserthing) {
-      const thebrowserpart = firebrowserthing.GetComponent(BS.ComponentType.BanterBrowser);
-      if (thebrowserpart) {
-        if (action === "adjustVolume") adjustVolume(thebrowserpart, change);
-        if (action === "goHome") { thebrowserpart.url = thebrowserpart.homePage; dispatchButtonClickEvent("Home", `${thebrowserpart.homePage}`); }
-        if (action === "goURL") thebrowserpart.url = change;
-        if (action === "toggleMute") {
+    const instance = window.fireScreenInstances[instanceId];
+    if (instance && instance.browserComponent) {
+      const thebrowserpart = instance.browserComponent;
+
+      switch (action) {
+        case "adjustVolume":
+          adjustVolume(thebrowserpart, change);
+          break;
+        case "goHome":
+          thebrowserpart.url = thebrowserpart.homePage;
+          dispatchButtonClickEvent("Home", `${thebrowserpart.homePage}`);
+          break;
+        case "goURL":
+          thebrowserpart.url = change;
+          break;
+        case "toggleMute":
           thebrowserpart.muteState = !thebrowserpart.muteState;
           const muteState = thebrowserpart.muteState ? "mute" : "unMute";
           runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState}); typeof player !== 'undefined' && player.${muteState}(); document.querySelector('.html5-video-player').${muteState}();`);
-        }
-        if (action === "browserAction") { runBrowserActions(thebrowserpart, `${change}`); }
-        console.log(`adjustForAll: Action '${action}' applied to instance ${instanceId}`);
+          break;
+        case "browserAction":
+          runBrowserActions(thebrowserpart, `${change}`);
+          break;
       }
+      console.log(`adjustForAll: Action '${action}' applied to instance ${instanceId}`);
     } else {
-      console.warn(`adjustForAll: Could not find browser instance ${instanceId}. It might have been cleaned up.`);
+      console.warn(`adjustForAll: Could not find browser instance ${instanceId}. It might have been cleaned up or not initialized correctly.`);
     }
   }
-};
+}
 
 async function getSpaceStateStuff(argument) {
   return new Promise((resolve) => {
