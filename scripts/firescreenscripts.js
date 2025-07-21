@@ -74,17 +74,22 @@ function adjustScale(geometrytransform, direction) {
   return adjustment;
 };
 
-async function createCustomButton(name, firebrowser, parentObject, buttonObjects, position, text, textposition, url, clickHandler, browserNumber) {
-  const buttonObject = await createUIButton(name, null, position, textPlaneColour, parentObject, false, "false", 1, 1, customButShader, customButtonSize);
-  buttonObjects.push(buttonObject); let material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+async function createCustomButton(config, firebrowser, parentObject, buttonObjects, browserNumber) {
+  const { name, url, text, position, textposition } = config;
+  const buttonObject = await createUIButton(name, null, position, textPlaneColour, parentObject, false, false, 1, 1, customButShader, customButtonSize);
+  buttonObjects.push(buttonObject);
+  const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
+
   const textObject = await new BS.GameObject(`${name}Text${browserNumber}`).Async();
   await textObject.AddComponent(new BS.BanterText(text, whiteColour, "Center", "Center", 0.20, true, true, new BS.Vector2(2,1)));
   const textTransform = await textObject.AddComponent(new BS.Transform());
-  textTransform.localPosition = textposition; await textObject.SetParent(parentObject, false);
+  textTransform.localPosition = textposition;
+  await textObject.SetParent(parentObject, false);
   buttonObjects.push(textObject);
+
   buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
-      firebrowser.url = url; material.color = new BS.Vector4(0.3,0.3,0.3,1);
-      setTimeout(() => { material.color = textPlaneColour; }, 100); if (clickHandler) clickHandler();
+    firebrowser.url = url; material.color = new BS.Vector4(0.3,0.3,0.3,1);
+    setTimeout(() => { material.color = textPlaneColour; }, 100);
   });
 };
 
@@ -95,7 +100,7 @@ async function createUIButton(name, thetexture, position, thecolor, thisparent, 
   const buttonMaterial = await createMaterial(buttonObject, { shaderName: theShader, texture: thetexture, color: thecolor });
   const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
   buttonTransform.position = position; buttonTransform.localScale = localScale;
-  rotation ? buttonTransform.localEulerAngles = rotation : rotation; buttonObject.SetLayer(5); // UI Layer
+  if (rotation instanceof BS.Vector3) { buttonTransform.localEulerAngles = rotation; } buttonObject.SetLayer(5); // UI Layer
   await buttonObject.SetParent(thisparent, false);
   if (clickHandler) {
     createButtonAction(buttonObject, clickHandler);
@@ -326,16 +331,20 @@ async function sdk2tests(p_pos, p_rot, p_sca, p_castmode, p_lockposition, p_scre
   let RCButPos = 0.68; let RCTexPos = 1.59;
   if (Number(p_height) === 720) {RCButPos += 0.14; RCTexPos += 0.14;} else if (Number(p_height) === 1080) {RCButPos += 0.4; RCTexPos += 0.4;};
 
-  if (p_custombuttonurl01 !== "false") {  console.log(`${p_custombutton01text} : ${p_custombuttonurl01}`);
-    await createCustomButton("CustomButton01", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.30,0), p_custombutton01text, new BS.Vector3(RCTexPos,-0.188,-0.005), p_custombuttonurl01, () => {});};
-  if (p_custombuttonurl02 !== "false") { console.log(`${p_custombutton02text} : ${p_custombuttonurl02}`);
-    await createCustomButton("CustomButton02", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.25,0), p_custombutton02text, new BS.Vector3(RCTexPos,-0.237,-0.005), p_custombuttonurl02, () => {});};
-  if (p_custombuttonurl03 !== "false") { console.log(`${p_custombutton03text} : ${p_custombuttonurl03}`);
-    await createCustomButton("CustomButton03", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.20,0), p_custombutton03text, new BS.Vector3(RCTexPos,-0.287,-0.005), p_custombuttonurl03, () => {});};
-  if (p_custombuttonurl04 !== "false") { console.log(`${p_custombutton04text} : ${p_custombuttonurl04}`);
-    await createCustomButton("CustomButton04", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.15,0), p_custombutton04text, new BS.Vector3(RCTexPos,-0.336,-0.005), p_custombuttonurl04, () => {});};
-  if (p_custombuttonurl05 !== "false") { console.log(`${p_custombutton05text} : ${p_custombuttonurl05}`);
-    await createCustomButton("CustomButton05", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,-0.15,0), p_custombutton05text, new BS.Vector3(RCTexPos,-0.635,-0.005), p_custombuttonurl05, () => {});};
+  const customButtonConfigs = [
+    { name: 'CustomButton01', url: p_custombuttonurl01, text: p_custombutton01text, position: new BS.Vector3(RCButPos, 0.30, 0), textposition: new BS.Vector3(RCTexPos, -0.188, -0.005) },
+    { name: 'CustomButton02', url: p_custombuttonurl02, text: p_custombutton02text, position: new BS.Vector3(RCButPos, 0.25, 0), textposition: new BS.Vector3(RCTexPos, -0.237, -0.005) },
+    { name: 'CustomButton03', url: p_custombuttonurl03, text: p_custombutton03text, position: new BS.Vector3(RCButPos, 0.20, 0), textposition: new BS.Vector3(RCTexPos, -0.287, -0.005) },
+    { name: 'CustomButton04', url: p_custombuttonurl04, text: p_custombutton04text, position: new BS.Vector3(RCButPos, 0.15, 0), textposition: new BS.Vector3(RCTexPos, -0.336, -0.005) },
+    { name: 'CustomButton05', url: p_custombuttonurl05, text: p_custombutton05text, position: new BS.Vector3(RCButPos, -0.15, 0), textposition: new BS.Vector3(RCTexPos, -0.635, -0.005) }
+  ];
+
+  for (const config of customButtonConfigs) {
+    if (config.url !== "false") {
+      console.log(`${config.text} : ${config.url}`);
+      await createCustomButton(config, firebrowser, geometryObject, customButtonObjects, p_thisBrowserNumber);
+    }
+  }
   instanceObjects.gameObjects.push(...Object.values(uiButtons), ...customButtonObjects);
 
   if (p_castmode === "true") {
