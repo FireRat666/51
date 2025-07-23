@@ -474,25 +474,37 @@ async function sdk2tests(params) {
     // plane20transform.eulerAngles = new BS.Vector3(5,-95,0);
     plane20transform.rotation = new BS.Vector4(0.25,0,0.8,1);
     setTimeout(async () => { await firescenev2.LegacyAttachObject(plane20Object, playersuseridv2, positionofcontrols); }, 1000);
-    // Hand Volume Up Button
-    const hvolUpButton = await createUIButton("hVolumeUpButton", p_iconvolupurl, new BS.Vector3(0.4,0.4,0.3), p_volupcolor, plane20Object, () => { adjustForAll("adjustVolume", 1); youtubePlayerControl(1); // clickABut('[position="0.693 0 0"]'); clickABut('[position="1.78 0 0"]', true); //vidya.sdq.st VolUp
-      updateButtonColor(hvolUpButton, p_volupcolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
-    // Hand Volume Down Button
-    const hvolDownButton = await createUIButton("hVolumeDownButton", p_iconvoldownurl, new BS.Vector3(0.0,0.4,0.3), p_voldowncolor, plane20Object, () => { adjustForAll("adjustVolume", -1); youtubePlayerControl(0); // clickABut('[position="0.471 0 0"]'); clickABut('[position="1.25 0 0"]', true); //vidya.sdq.st VolDown
-      updateButtonColor(hvolDownButton, p_voldowncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
-    // Hand Mute Button
-    const hmuteButton = await createUIButton("hMuteButton", p_iconmuteurl, new BS.Vector3(-0.4,0.4,0.3), p_mutecolor, plane20Object, () => { adjustForAll("toggleMute"); youtubePlayerControl(null, "mute"); // clickABut('[position="0.23 0 0"]'); clickABut('[position="0.73 0 0"]', true); //vidya.sdq.st Mute
-      let muteMaterial = hmuteButton.GetComponent(BS.ComponentType.BanterMaterial);
-      muteMaterial.color = firebrowser.muteState ? p_mutecolor : new BS.Vector4(1, 0, 0, 1); }, new BS.Vector3(180,0,0),1,1,defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
-    // Hand Lock Button
-    const hlockButton = await createUIButton("hLockButton", 'https://firer.at/files/lock.png', new BS.Vector3(0,-0.1,0.3), new BS.Vector4(1, 1, 1, 0.7), plane20Object, () => {
-      playerislockedv2 = !playerislockedv2; playerislockedv2 ? firescenev2.LegacyLockPlayer() : firescenev2.LegacyUnlockPlayer();
-      let plane24material = hlockButton.GetComponent(BS.ComponentType.BanterMaterial);
-      plane24material.color = playerislockedv2 ? new BS.Vector4(1,0,0,1) : new BS.Vector4(1, 1, 1, 0.7); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
-    // Hand Home Button
-    const hhomeButton = await createUIButton("hHomeButton", "https://firer.at/files/Home.png", new BS.Vector3(0.4,-0.1,0.3), p_buttoncolor, plane20Object, () => { adjustForAll("goHome"); youtubePlayerControl(null, "openPlaylist"); // clickABut('[position="-0.633 0 0"]'); clickABut('[position="-1.7 0 0"]', true); //vidya.sdq.st Playlist
-      updateButtonColor(hhomeButton, p_buttoncolor); }, new BS.Vector3(180,0,0),1,1, defaulTransparent, new BS.Vector3(0.4,0.4,0.4));
-    instanceObjects.gameObjects.push(hvolUpButton, hvolDownButton, hmuteButton, hlockButton, hhomeButton);
+
+    const handButtons = {};
+    const handButtonConfigs = [
+      { name: 'hVolumeUpButton', icon: p_iconvolupurl, pos: new BS.Vector3(0.4, 0.4, 0.3), color: p_volupcolor, clickHandler: (btn) => { adjustForAll("adjustVolume", 1); youtubePlayerControl(1); updateButtonColor(btn, p_volupcolor); } },
+      { name: 'hVolumeDownButton', icon: p_iconvoldownurl, pos: new BS.Vector3(0.0, 0.4, 0.3), color: p_voldowncolor, clickHandler: (btn) => { adjustForAll("adjustVolume", -1); youtubePlayerControl(0); updateButtonColor(btn, p_voldowncolor); } },
+      { name: 'hMuteButton', icon: p_iconmuteurl, pos: new BS.Vector3(-0.4, 0.4, 0.3), color: p_mutecolor, clickHandler: (btn) => {
+          adjustForAll("toggleMute");
+          youtubePlayerControl(null, "mute");
+          const firstBrowser = window.fireScreenInstances[Object.keys(window.fireScreenInstances)[0]]?.browserComponent;
+          if (firstBrowser) {
+            const muteMaterial = btn.GetComponent(BS.ComponentType.BanterMaterial);
+            muteMaterial.color = firstBrowser.muteState ? new BS.Vector4(1, 0, 0, 1) : p_mutecolor;
+          }
+        }
+      },
+      { name: 'hLockButton', icon: 'https://firer.at/files/lock.png', pos: new BS.Vector3(0, -0.1, 0.3), color: new BS.Vector4(1, 1, 1, 0.7), clickHandler: (btn) => {
+          playerislockedv2 = !playerislockedv2;
+          playerislockedv2 ? firescenev2.LegacyLockPlayer() : firescenev2.LegacyUnlockPlayer();
+          const lockMaterial = btn.GetComponent(BS.ComponentType.BanterMaterial);
+          lockMaterial.color = playerislockedv2 ? new BS.Vector4(1, 0, 0, 1) : new BS.Vector4(1, 1, 1, 0.7);
+        }
+      },
+      { name: 'hHomeButton', icon: 'https://firer.at/files/Home.png', pos: new BS.Vector3(0.4, -0.1, 0.3), color: p_buttoncolor, clickHandler: (btn) => { adjustForAll("goHome"); youtubePlayerControl(null, "openPlaylist"); updateButtonColor(btn, p_buttoncolor); } }
+    ];
+
+    for (const config of handButtonConfigs) {
+      const button = await createUIButton(config.name, config.icon, config.pos, config.color, plane20Object, () => config.clickHandler(button), new BS.Vector3(180, 0, 0), 1, 1, defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
+      handButtons[config.name] = button;
+    }
+
+    instanceObjects.gameObjects.push(...Object.values(handButtons));
     console.log("FIRESCREEN2: Hand Buttons Setup Complete");
   };
 
