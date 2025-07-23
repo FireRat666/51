@@ -252,8 +252,8 @@ async function sdk2tests(params) {
   let keyboardstate = false;
   let playerislockedv2 = false;
   let customButtonObjects = [];
-  const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`).Async();
-  const instanceObjects = { gameObjects: [screenObject], browserComponent: null, handControls: null, intervals: [], scriptElement: p_scriptElement };
+  const screenObject = await new BS.GameObject(`MyBrowser${p_thisBrowserNumber}`).Async(); // The main browser object
+  const instanceObjects = { gameObjects: [screenObject], browserComponent: null, handControls: null, intervals: [], listeners: [], scriptElement: p_scriptElement };
   console.log(`FIRESCREEN2: Width:${p_width}, Height:${p_height}, Number:${p_thisBrowserNumber}, URL:${p_website}`);
   let firebrowser = await screenObject.AddComponent(new BS.BanterBrowser(p_website, p_mipmaps, p_pixelsperunit, p_width, p_height, null));
   firebrowser.homePage = p_website; // Set variable for default Home Page for later use
@@ -372,10 +372,16 @@ async function sdk2tests(params) {
 
   const firesbillBoard = await geometryObject.AddComponent(new BS.BanterBillboard(0, isbillboarded, isbillboarded, true));  // Bill Board the geometryObject
   geometrytransform.localScale = p_sca; // SET THE SCALE FOR THE SCREEN
-  firerigidBody.gameObject.On('grab', () => {console.log("GRABBED!"); if (p_lockposition !== "true") {console.log("Not locked!"); firerigidBody.isKinematic = false; }});  // When user Grabs the Browser, Make it moveable
-  firerigidBody.gameObject.On('drop', () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; }); // When user Drops the Browser, Lock it in place
+  
+  // --- Event Listeners ---
+  const onGrab = () => {console.log("GRABBED!"); if (p_lockposition !== "true") {console.log("Not locked!"); firerigidBody.isKinematic = false; }};
+  const onDrop = () => {console.log("DROPPED!"); firerigidBody.isKinematic = true; };
+  firerigidBody.gameObject.On('grab', onGrab); // When user Grabs the Browser, Make it moveable
+  firerigidBody.gameObject.On('drop', onDrop); // When user Drops the Browser, Lock it in place
+  instanceObjects.listeners.push({ target: firerigidBody.gameObject, event: 'grab', handler: onGrab });
+  instanceObjects.listeners.push({ target: firerigidBody.gameObject, event: 'drop', handler: onDrop });
 
-  firescenev2.On("one-shot", async e => { console.log(e.detail);
+  const onOneShot = async e => { console.log(e.detail);
     const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
     if (isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
       if (data.fireurl) firebrowser.url = data.fireurl;
@@ -398,30 +404,39 @@ async function sdk2tests(params) {
     } else { console.log("Current Shot From Admin Is False");
       console.log(e.detail.fromId);
     };
-  });
+  };
+  firescenev2.On("one-shot", onOneShot);
+  instanceObjects.listeners.push({ target: firescenev2, event: 'one-shot', handler: onOneShot });
   
   async function initializeV2() { await waitForUserIdv2(); if (window.handControlsDisabled && p_handbuttons === "true" && window.firstrunhandcontrols) { playersuseridv2 = firescenev2.localUser.uid; window.handControlsDisabled = false; setupHandControlsV2(p_thisBrowserNumber, BS.LegacyAttachmentPosition.LEFT_HAND, instanceObjects); } }
 
   async function waitForUserIdv2() { while (!firescenev2.localUser || firescenev2.localUser.uid === undefined) { await new Promise(resolve => setTimeout(resolve, 200)); } }
   
   initializeV2();
-  firescenev2.On("user-joined", e => {
+  const onUserJoined = e => {
     if (e.detail.isLocal) { // Setup Hand Controls only on the first run if enabled
       if (p_handbuttons === "true" && window.firstrunhandcontrols) {
         window.firstrunhandcontrols = false; playersuseridv2 = e.detail.uid; instanceObjects.intervals = [];
         console.log("FIRESCREEN2: Enabling Hand Controls"); setupHandControlsV2(p_thisBrowserNumber, BS.LegacyAttachmentPosition.LEFT_HAND, instanceObjects); // setupHandControlsV2(1, BS.LegacyAttachmentPosition.RIGHT_HAND );
       };
-      console.log("FIRESCREEN2: user-joined");
-      console.log(e.detail);
+      // console.log("FIRESCREEN2: user-joined");
+      // console.log(e.detail);
+      console.log("FIRESCREEN2: user-joined", e.detail);
     };
-  });
+  };
+  firescenev2.On("user-joined", onUserJoined);
+  instanceObjects.listeners.push({ target: firescenev2, event: 'user-joined', handler: onUserJoined });
 
-  firescenev2.On("user-left", e => { if (e.detail.isLocal) { window.firstrunhandcontrols = true;
+  const onUserLeft = e => { if (e.detail.isLocal) { window.firstrunhandcontrols = true;
       console.log("FIRESCREEN2: Local User Left, Resetting firstrunhandcontrols variable"); };
-  });
+  };
+  firescenev2.On("user-left", onUserLeft);
+  instanceObjects.listeners.push({ target: firescenev2, event: 'user-left', handler: onUserLeft });
 
   const originalWarn = console.warn;
 
+  // This is a clever workaround for an SDK bug where 'user-joined' doesn't fire for the local user on world load.
+  // It listens for a specific warning that indicates the user is already present and then fires a custom event.
   console.warn = function (...args) {
       if (typeof args[0] === "string" && args[0].includes("got user-joined event for user that already joined")) {
           const user = args[1];
@@ -433,7 +448,7 @@ async function sdk2tests(params) {
       originalWarn.apply(console, args);
   };
 
-  firescenev2.addEventListener("user-already-joined", (e) => {
+  const onUserAlreadyJoined = (e) => {
       console.log("User already joined:", e.detail);
       if (p_handbuttons === "true" && e.detail.isLocal && window.notalreadyjoined) { window.notalreadyjoined = false; window.firstrunhandcontrols = false; playersuseridv2 = e.detail.uid;
         console.log("FIRESCREEN2: Local User-already-joined, Enabling Hand Controls");
@@ -441,7 +456,9 @@ async function sdk2tests(params) {
         setTimeout(async () => {  setupHandControlsV2(p_thisBrowserNumber, BS.LegacyAttachmentPosition.LEFT_HAND, instanceObjects); // setupHandControlsV2(1, BS.LegacyAttachmentPosition.RIGHT_HAND); 
           window.notalreadyjoined = true; }, 3000);
       };
-  });
+  };
+  firescenev2.addEventListener("user-already-joined", onUserAlreadyJoined);
+  instanceObjects.listeners.push({ target: firescenev2, event: 'user-already-joined', handler: onUserAlreadyJoined, useRemoveListener: true });
 
   function clickABut(uniqueAttribute, lastChild = false) {
     document.querySelector(uniqueAttribute)?.[lastChild ? 'lastChild' : 'firstChild']?.dispatchEvent(new Event("click"));
@@ -552,12 +569,14 @@ async function sdk2tests(params) {
   firebrowser.WatchProperties([BS.PropertyName.url]);
 
   // 2. When the URL changes, trigger the volume sync.
-  firebrowser.gameObject.On('property-changed', (e) => {
+  const onPropertyChanged = (e) => {
     if (e.detail.name === BS.PropertyName.url) {
       console.log(`FIRESCREEN2: URL changed for ${firebrowser.gameObject.name}, triggering volume sync.`);
       triggerVolumeSync(firebrowser);
     }
-  });
+  };
+  firebrowser.gameObject.On('property-changed', onPropertyChanged);
+  instanceObjects.listeners.push({ target: firebrowser.gameObject, event: 'property-changed', handler: onPropertyChanged });
 
   // 3. Trigger the volume sync once on initial load.
   setTimeout(() => triggerVolumeSync(firebrowser), 3000);
@@ -586,11 +605,27 @@ async function cleanupFireScreenV2(instanceId) {
 
   console.log(`FireScreenV2: Cleaning up instance ${instanceId}.`);
 
-  // 1. Clear all intervals
+  // 1. Clear all intervals, including the temporary volume sync one
   instance.intervals.forEach(intervalId => clearInterval(intervalId));
+  if (instance.browserComponent && instance.browserComponent.volumeSyncInterval) {
+    clearInterval(instance.browserComponent.volumeSyncInterval);
+    instance.browserComponent.volumeSyncInterval = null;
+  }
   console.log(`FireScreenV2: Cleared ${instance.intervals.length} intervals.`);
 
-  // 2. Destroy all tracked GameObjects
+  // 2. Remove all event listeners
+  instance.listeners.forEach(({ target, event, handler, useRemoveListener }) => {
+    if (target) {
+      try {
+        useRemoveListener ? target.removeEventListener(event, handler) : target.Off(event, handler);
+      } catch (e) {
+        console.warn(`FireScreenV2: Error removing listener for event '${event}':`, e);
+      }
+    }
+  });
+  console.log(`FireScreenV2: Removed ${instance.listeners.length} event listeners.`);
+
+  // 3. Destroy all tracked GameObjects
   for (const gameObject of instance.gameObjects) {
     if (gameObject && !gameObject.destroyed) {
       try {
@@ -602,17 +637,17 @@ async function cleanupFireScreenV2(instanceId) {
   }
   console.log(`FireScreenV2: Destroyed ${instance.gameObjects.length} GameObjects.`);
   
-  // 3. Remove the script tag from the DOM
+  // 4. Remove the script tag from the DOM
   if (instance.scriptElement && instance.scriptElement.parentElement) {
     instance.scriptElement.parentElement.removeChild(instance.scriptElement);
     console.log(`FireScreenV2: Removed script tag for instance ${instanceId}.`);
   }
 
-  // 4. Remove the instance from the registry
+  // 5. Remove the instance from the registry
   delete window.fireScreenInstances[instanceId];
   console.log(`FireScreenV2: Instance ${instanceId} removed from registry.`);
 
-  // 5. Optional: Check if any instances are left and perform global cleanup
+  // 6. Optional: Check if any instances are left and perform global cleanup
   if (Object.keys(window.fireScreenInstances).length === 0) {
     console.log("FireScreenV2: All instances cleaned up.");
     fireScreen2On = false;
