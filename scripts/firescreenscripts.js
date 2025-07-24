@@ -711,35 +711,22 @@ async function getSpaceStateStuff(argument) {
 }
 
 function spaceStateStuff(argument) {
-  const spaceState = firescenev2.spaceState;
+  const spaceState = BS.BanterScene.GetInstance().spaceState;
 
   // Safely log all properties, but only do it once per session.
   if (!window.fireScreenSpaceStateLogged) {
     console.log("--- Logging All Space State Properties (once per session) ---");
     if (spaceState.public) {
       console.log("--- Public Space State ---");
-      for (const key in spaceState.public) {
-        if (Object.prototype.hasOwnProperty.call(spaceState.public, key)) {
-          try {
-            const value = spaceState.public[key];
-            console.log(`  ${key}:`, value);
-          } catch (e) {
-            console.warn(`Could not read public space state property '${key}':`, e.message);
-          }
-        }
+      // Using Object.entries as it's proven to be safe with the spaceState object
+      for (const [key, value] of Object.entries(spaceState.public)) {
+        console.log(`  ${key}:`, value);
       }
     }
     if (spaceState.protected) {
       console.log("--- Protected Space State ---");
-      for (const key in spaceState.protected) {
-        if (Object.prototype.hasOwnProperty.call(spaceState.protected, key)) {
-          try {
-            const value = spaceState.protected[key];
-            console.log(`  ${key}:`, value);
-          } catch (e) {
-            console.warn(`Could not read protected space state property '${key}':`, e.message);
-          }
-        }
+      for (const [key, value] of Object.entries(spaceState.protected)) {
+        console.log(`  ${key}:`, value);
       }
     }
     window.fireScreenSpaceStateLogged = true;
