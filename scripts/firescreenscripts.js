@@ -35,6 +35,68 @@ if (typeof window.fireScreenScriptInitialized === 'undefined') {
   }
   })();
 
+// This is the script that will be injected into the browser.
+const mediaControlScript = `
+(function() {
+    // Prevent this script from being injected multiple times
+    if (window.fireScreenMediaControlInitialized) return;
+    window.fireScreenMediaControlInitialized = true;
+
+    let lastVolume = 1.0;
+    let lastMuted = false;
+
+    // --- Universal Media Control Function ---
+    // This function will be called from the Banter space to control media inside the browser.
+    window.fireScreenMediaControl = function(options) {
+        if (options.volume !== undefined) lastVolume = options.volume;
+        if (options.mute !== undefined) lastMuted = options.mute;
+
+        function controlMedia(doc) {
+            // 1. Find all standard HTML5 video and audio elements
+            doc.querySelectorAll('video, audio').forEach(el => {
+                try {
+                    if (options.volume !== undefined && 'volume' in el && !el.muted) {
+                        el.volume = options.volume;
+                    }
+                    if (options.mute !== undefined && 'muted' in el) {
+                        el.muted = options.mute;
+                    }
+                } catch (e) { /* console.error('[FireScreen] Error controlling HTML5 media:', e); */ }
+            });
+
+            // 2. Attempt to control common third-party players (e.g., YouTube)
+            const ytPlayer = doc.querySelector('.html5-video-player');
+            if (ytPlayer) {
+                try {
+                    if (options.volume !== undefined && typeof ytPlayer.setVolume === 'function') ytPlayer.setVolume(options.volume * 100);
+                    if (options.mute !== undefined) {
+                        if (options.mute && typeof ytPlayer.mute === 'function') ytPlayer.mute();
+                        if (!options.mute && typeof ytPlayer.unMute === 'function') ytPlayer.unMute();
+                    }
+                } catch(e) { /* console.error('[FireScreen] Error controlling YouTube player:', e); */ }
+            }
+
+            // 3. Recursively search within iframes
+            doc.querySelectorAll('iframe').forEach(iframe => {
+                try {
+                    if (iframe.contentDocument) controlMedia(iframe.contentDocument);
+                } catch (e) { /* Cross-origin iFrames will throw errors, which is expected. */ }
+            });
+        }
+        controlMedia(window.document);
+    };
+
+    // --- Dynamic Content Handler ---
+    // Watches for new media elements being added to the page.
+    const observer = new MutationObserver(() => {
+        // A simple check is enough. The control function will find all elements.
+        window.fireScreenMediaControl({ volume: lastVolume, mute: lastMuted });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
+`;
+
 // This Function adds geometry to the given game Object
 async function createGeometry(thingy1, geomtype, options = {}) {
   const defaultOptions = {
@@ -116,24 +178,29 @@ function adjustVolume(firebrowser, change) { // Pass -1 to decrease the volume P
   if (currentVolume < 0.1) { adjustment = 0.01; // Tiny adjustment for low volume
   } else if (currentVolume < 0.5) { adjustment = 0.03; // Medium adjustment for medium volume
   } else { adjustment = 0.05; } // Big adjustment for high volume
-  firevolume = currentVolume + (change * adjustment);
-  firevolume = Math.max(0, Math.min(firevolume, 1)).toFixed(2);
-  let firepercent = (firevolume * 100).toFixed(0);
-  firebrowser.volumeLevel = firevolume;
-  let tempvolumeLevel = Math.max(0, Math.min(1, firevolume)).toFixed(1);
-  runBrowserActions(firebrowser, `
-    (function() { document.querySelectorAll('video, audio').forEach(el => {
-      if ('volume' in el) { try { el.volume = ${tempvolumeLevel}; console.log('[Banter Volume Injection] HTML5 volume set for element: ', el.id || el.src); }
-          catch (e) {  console.error("[Banter Volume Injection] HTML5 volume error for element:", el.id || el.src, e.message, e.stack); }
-    } }); })();
-  `);
-  runBrowserActions(firebrowser, `typeof player !== 'undefined' && player.setVolume(${firepercent});
-    document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
-    document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;`);
-    // if (change !== 0 && window.videoPlayerCore && typeof window.videoPlayerCore.setVolume === 'function') { // Translate change: use 1 for increase, and 0 for decrease.
-    //   let volCommand = (change === 1) ? 1 : 0; window.videoPlayerCore.setVolume(volCommand);
-    // };
-  console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
+  // firevolume = currentVolume + (change * adjustment);
+  // firevolume = Math.max(0, Math.min(firevolume, 1)).toFixed(2);
+  // let firepercent = (firevolume * 100).toFixed(0);
+  // firebrowser.volumeLevel = firevolume;
+  // let tempvolumeLevel = Math.max(0, Math.min(1, firevolume)).toFixed(1);
+  // runBrowserActions(firebrowser, `
+  //   (function() { document.querySelectorAll('video, audio').forEach(el => {
+  //     if ('volume' in el) { try { el.volume = ${tempvolumeLevel}; console.log('[Banter Volume Injection] HTML5 volume set for element: ', el.id || el.src); }
+  //         catch (e) {  console.error("[Banter Volume Injection] HTML5 volume error for element:", el.id || el.src, e.message, e.stack); }
+  //   } }); })();
+  // `);
+  // runBrowserActions(firebrowser, `typeof player !== 'undefined' && player.setVolume(${firepercent});
+  //   document.querySelectorAll('video, audio').forEach((elem) => elem.volume=${firevolume}); 
+  //   document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firepercent}) : null;`);
+  // console.log(`FIRESCREEN2: Volume is: ${firevolume}`);
+  let newVolume = currentVolume + (change * adjustment);
+  newVolume = Math.max(0, Math.min(newVolume, 1)).toFixed(2);
+  firebrowser.volumeLevel = newVolume;
+
+  console.log(`FIRESCREEN2: Setting volume to: ${newVolume}`);
+  // Inject the control script and immediately execute the command.
+  const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ volume: ${newVolume} });`;
+  runBrowserActions(firebrowser, scriptToRun);
 };
 
 function toggleButtonVisibility(defaultobjects, customButtonObjects, visible, exceptions = []) {
