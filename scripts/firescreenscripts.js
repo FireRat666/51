@@ -90,7 +90,7 @@ async function createCustomButton(config, firebrowser, parentObject, buttonObjec
 
   buttonObject.On('click', () => {
     console.log(`CLICKED: ${name}`);
-    if (url) firebrowser.url = url; material.color = new BS.Vector4(0.3,0.3,0.3,1);
+    if (url) setBrowserUrl(firebrowser, url); material.color = new BS.Vector4(0.3,0.3,0.3,1);
     setTimeout(() => { material.color = textPlaneColour; }, 100);
     if (clickHandler) clickHandler();
   });
@@ -155,6 +155,22 @@ function dispatchButtonClickEvent(buttonName, message) {
   document.dispatchEvent(buttonClickEvent);
   // console.log(`ButtonClick for button: ${buttonName} with message: "${message}"`);
 };
+
+/**
+ * Sets the browser URL and manually triggers volume synchronization.
+ * This is a workaround for the unreliable 'property-changed' event for the URL.
+ * @param {BS.BanterBrowser} firebrowser - The browser component instance.
+ * @param {string} url - The new URL to set.
+ */
+function setBrowserUrl(firebrowser, url) {
+  if (!firebrowser) {
+    console.error("setBrowserUrl: firebrowser is null or undefined.");
+    return;
+  }
+  console.log(`FIRESCREEN2: Setting URL for ${firebrowser.gameObject.name} to: ${url}`);
+  firebrowser.url = url;
+  triggerVolumeSync(firebrowser);
+}
 
 /**
  * Triggers a temporary, repeated synchronization of the browser's volume.
@@ -291,13 +307,13 @@ async function sdk2tests(params) {
   if (Number(p_height) === 720) {TButPos += 0.07; LButPos += -0.14; RButPos += 0.14;} else if (Number(p_height) === 1080) {TButPos += 0.23; LButPos += -0.45; RButPos += 0.45;};
 
   let BUTTON_CONFIGS = { home: { icon: "https://firer.at/files/Home.png", position: new BS.Vector3(-0.2,TButPos,0), color: p_buttoncolor,
-    clickHandler: () => { console.log("Home Clicked!"); firebrowser.url = firebrowser.homePage; // `${p_website}?${Math.floor(Math.random() * 1000) + 1}`
+    clickHandler: () => { console.log("Home Clicked!"); setBrowserUrl(firebrowser, firebrowser.homePage);
       updateButtonColor(uiButtons.home, p_buttoncolor); dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); }
     }, info: { icon: "https://firer.at/files/Info.png", position: new BS.Vector3(LButPos,0.28,0), color: p_buttoncolor,
-      clickHandler: () => { console.log("Info Clicked!"); firebrowser.url = "https://firer.at/pages/Info.html";
+      clickHandler: () => { console.log("Info Clicked!"); setBrowserUrl(firebrowser, "https://firer.at/pages/Info.html");
       updateButtonColor(uiButtons.info, p_buttoncolor); dispatchButtonClickEvent("Info", 'Info Clicked!'); }
     }, google: { icon: "https://firer.at/files/Google.png", position: new BS.Vector3(LButPos,0.16,0), color: whiteColour,
-      clickHandler: () => { console.log("Google Clicked!"); firebrowser.url = "https://google.com/";
+      clickHandler: () => { console.log("Google Clicked!"); setBrowserUrl(firebrowser, "https://google.com/");
       updateButtonColor(uiButtons.google, whiteColour); dispatchButtonClickEvent("Google", 'Google Clicked!'); }
     }, keyboard: { icon: "https://firer.at/files/Keyboard.png", position: new BS.Vector3(LButPos,-0.15,0), color: whiteColour,
       clickHandler: () => { console.log("Keyboard Clicked!"); keyboardstate = !keyboardstate; firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
@@ -388,17 +404,18 @@ async function sdk2tests(params) {
     const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
     const isAuthorized = isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9";
     if (!isAuthorized) {
-      console.log("Current Shot From Admin Is False", e.detail.fromId);
+      console.log("FIRESCREEN2: One-shot received from unauthorized user:", e.detail.fromId);
       return;
     }
     // If a target is specified and it's not this browser, ignore the command.
     // This allows for both broadcast commands (no target) and specific commands.
     if (data.target !== undefined && data.target != p_thisBrowserNumber) {
+      // console.log(`FIRESCREEN2: One-shot ignored. Target: ${data.target}, This Browser: ${p_thisBrowserNumber}`);
       return; // This command is for a different browser, so this instance will ignore it.
     }
     console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
     const oneShotCommands = {
-      fireurl: (value) => (firebrowser.url = value),
+      fireurl: (value) => setBrowserUrl(firebrowser, value),
       firevolume: (value) => {
         const fireVolume = Number(parseFloat(value).toFixed(2));
         const firePercent = (fireVolume * 100).toFixed(0);
@@ -406,8 +423,8 @@ async function sdk2tests(params) {
       },
       browseraction: (value) => { runBrowserActions(firebrowser, value); console.log(value); },
       spaceaction: (value) => { console.log(value); new Function(value)(); },
-      gohome: (value) => { console.log(value); firebrowser.url = firebrowser.homePage; dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
-      sethome: (value) => { console.log(value); firebrowser.homePage = value; firebrowser.url = value; dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
+      gohome: (value) => { console.log(value); setBrowserUrl(firebrowser, firebrowser.homePage); dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
+      sethome: (value) => { console.log(value); firebrowser.homePage = value; setBrowserUrl(firebrowser, value); dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
       firevolumeup: (value) => { console.log(value); adjustForAll("adjustVolume", 1); youtubePlayerControl(1); },
       firevolumedown: (value) => { console.log(value); adjustForAll("adjustVolume", -1); youtubePlayerControl(0); },
       firemutetoggle: (value) => { console.log(value); adjustForAll("toggleMute"); youtubePlayerControl(null, "mute"); },
@@ -569,29 +586,15 @@ async function sdk2tests(params) {
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
   if (p_spacesync === 'true') { const syncedurl = await getSpaceStateStuff('fireurl');
-    if (syncedurl) firebrowser.url = syncedurl;
+    if (syncedurl) setBrowserUrl(firebrowser, syncedurl);
     await createCustomButton({ name: "SpaceSyncButton", text: "Synced Button",
       position: new BS.Vector3(RCButPos, 0.35, 0), textposition: new BS.Vector3(RCTexPos, -0.139, -0.005),
-      clickHandler: async () => { const newUrl = await getSpaceStateStuff('fireurl'); if (newUrl) firebrowser.url = newUrl; }
+      clickHandler: async () => { const newUrl = await getSpaceStateStuff('fireurl'); if (newUrl) setBrowserUrl(firebrowser, newUrl); }
     }, firebrowser, geometryObject, customButtonObjects, p_thisBrowserNumber);
   };
  
-  // --- New Event-Driven Volume Synchronization ---
-
-  // 1. Watch for URL changes on the browser component.
-  firebrowser.WatchProperties([BS.PropertyName.url]);
-
-  // 2. When the URL changes, trigger the volume sync.
-  const onPropertyChanged = (e) => {
-    if (e.detail.name === BS.PropertyName.url) {
-      console.log(`FIRESCREEN2: URL changed for ${firebrowser.gameObject.name}, triggering volume sync.`);
-      triggerVolumeSync(firebrowser);
-    }
-  };
-  firebrowser.gameObject.On('property-changed', onPropertyChanged);
-  instanceObjects.listeners.push({ target: firebrowser.gameObject, event: 'property-changed', handler: onPropertyChanged });
-
-  // 3. Trigger the volume sync once on initial load.
+  // Trigger the volume sync once on initial load.
+  // Subsequent syncs are triggered by the setBrowserUrl helper function.
   setTimeout(() => triggerVolumeSync(firebrowser), 3000);
   instanceObjects.browserComponent = firebrowser;
   // Add the completed instance to the global registry
@@ -683,11 +686,11 @@ function adjustForAll(action, change) {
           adjustVolume(thebrowserpart, change);
           break;
         case "goHome":
-          thebrowserpart.url = thebrowserpart.homePage;
+          setBrowserUrl(thebrowserpart, thebrowserpart.homePage);
           dispatchButtonClickEvent("Home", `${thebrowserpart.homePage}`);
           break;
         case "goURL":
-          thebrowserpart.url = change;
+          setBrowserUrl(thebrowserpart, change);
           break;
         case "toggleMute":
           thebrowserpart.muteState = !thebrowserpart.muteState;
