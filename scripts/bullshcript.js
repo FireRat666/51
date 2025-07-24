@@ -196,7 +196,7 @@ function enableTheFireScreen() {
 			};
 			const firescreen = document.createElement("script");
 			firescreen.id = "cannabanter-firescreen";
-			firescreen.setAttribute("src", "https://firer.at/scripts/firescreenv2.js");
+			firescreen.setAttribute("src", "https://51.firer.at/scripts/firescreenv2.js");
 			Object.entries(firescreenAttributes).forEach(([key, value]) => { firescreen.setAttribute(key, value); });
 			document.querySelector("a-scene").appendChild(firescreen);
 			if (websiteurl.includes("hyperbeam.com/i/")) {
@@ -274,7 +274,7 @@ function enableThePortableFireScreen(announce = true) {
 			"height": "720",
 			"announce": announce,
 			"announce-events": announce,
-			"announce-420": announce,
+			"announce-420": "false",
 			"volume": "0.25",
 			"backdrop": "true",
 			"hand-controls": "true",
@@ -290,7 +290,7 @@ function enableThePortableFireScreen(announce = true) {
 		};
 		const firescreen = document.createElement("script");
 		firescreen.id = "cannabanter-firetablet";
-		firescreen.setAttribute("src", "https://firer.at/scripts/firescreenv2.js");
+		firescreen.setAttribute("src", "https://51.firer.at/scripts/firescreenv2.js");
 		Object.entries(firescreenAttributes).forEach(([key, value]) => { firescreen.setAttribute(key, value); });
 		document.querySelector("a-scene").appendChild(firescreen);
   }; console.log("Fire Tablet enabled");
