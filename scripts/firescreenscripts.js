@@ -731,15 +731,18 @@ function spaceStateStuff(argument) {
     }
     window.fireScreenSpaceStateLogged = true;
   }
-  // Prioritize protected properties
-  if (spaceState.protected && spaceState.protected.hasOwnProperty(argument)) {
-    console.log(`Found protected space state key: '${argument}'`);
-    return spaceState.protected[argument];
+  // Find and return the requested value using the safe iteration method.
+  // Prioritize protected properties.
+  if (spaceState.protected) {
+    for (const [key, value] of Object.entries(spaceState.protected)) {
+      if (key === argument) return value;
+    }
   }
-  // Fallback to public properties
-  if (spaceState.public && spaceState.public.hasOwnProperty(argument)) {
-    console.log(`Found public space state key: '${argument}'`);
-    return spaceState.public[argument];
+  // Fallback to public properties.
+  if (spaceState.public) {
+    for (const [key, value] of Object.entries(spaceState.public)) {
+      if (key === argument) return value;
+    }
   }
   console.log(`Could not find space state key: '${argument}', returning null.`);
   return null;
