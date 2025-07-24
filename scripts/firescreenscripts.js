@@ -26,7 +26,8 @@ if (typeof window.fireScreenScriptInitialized === 'undefined') {
   const initialValues = {
     firstrunhandcontrols: true,
     notalreadyjoined: true,
-    handControlsDisabled: true
+    handControlsDisabled: true,
+    fireScreenSpaceStateLogged: false
   };
 
   for (const [key, value] of Object.entries(initialValues)) {
@@ -701,27 +702,59 @@ function adjustForAll(action, change) {
 }
 
 async function getSpaceStateStuff(argument) {
-  return new Promise((resolve) => {
-    const thisintervalvar = setInterval(async () => {
-      if (firescenev2.localUser && firescenev2.localUser.uid !== undefined) { clearInterval(thisintervalvar);
-        const result = await spaceStateStuff(argument); resolve(result); }
-    }, 100);
-  });
-};
+  // Wait until the localUser is available before trying to access space state.
+  while (!firescenev2.localUser || firescenev2.localUser.uid === undefined) {
+    await new Promise(resolve => setTimeout(resolve, 200));
+  }
+  // Once the user is available, get the state property.
+  return spaceStateStuff(argument);
+}
 
 function spaceStateStuff(argument) {
-  let SpaceStateScene = BS.BanterScene.GetInstance().spaceState;
-  let ProtectedSpacestatethings = SpaceStateScene.protected;
-  let PublicSpacestatethings = SpaceStateScene.public;
-  for (const [key, value] of Object.entries(PublicSpacestatethings)) {
-    console.log(`Public Space State Key: ${key}, Value: ${value}`);
-    // if (key === argument) { console.log(`Return Public Space State Key ${key}`); return value; };
-  };
-  for (const [key, value] of Object.entries(ProtectedSpacestatethings)) {
-    console.log(`Protected Space State Key: ${key}, Value: ${value}`);
-    if (key === argument) { console.log(`Return Space State Key ${key}`); return value; };
-  }; 
-  console.log(`Return NULL State Key`);
+  const spaceState = firescenev2.spaceState;
+
+  // Safely log all properties, but only do it once per session.
+  if (!window.fireScreenSpaceStateLogged) {
+    console.log("--- Logging All Space State Properties (once per session) ---");
+    if (spaceState.public) {
+      console.log("--- Public Space State ---");
+      for (const key in spaceState.public) {
+        if (Object.prototype.hasOwnProperty.call(spaceState.public, key)) {
+          try {
+            const value = spaceState.public[key];
+            console.log(`  ${key}:`, value);
+          } catch (e) {
+            console.warn(`Could not read public space state property '${key}':`, e.message);
+          }
+        }
+      }
+    }
+    if (spaceState.protected) {
+      console.log("--- Protected Space State ---");
+      for (const key in spaceState.protected) {
+        if (Object.prototype.hasOwnProperty.call(spaceState.protected, key)) {
+          try {
+            const value = spaceState.protected[key];
+            console.log(`  ${key}:`, value);
+          } catch (e) {
+            console.warn(`Could not read protected space state property '${key}':`, e.message);
+          }
+        }
+      }
+    }
+    window.fireScreenSpaceStateLogged = true;
+  }
+  // Prioritize protected properties
+  if (spaceState.protected && spaceState.protected.hasOwnProperty(argument)) {
+    console.log(`Found protected space state key: '${argument}'`);
+    return spaceState.protected[argument];
+  }
+  // Fallback to public properties
+  if (spaceState.public && spaceState.public.hasOwnProperty(argument)) {
+    console.log(`Found public space state key: '${argument}'`);
+    return spaceState.public[argument];
+  }
+  console.log(`Could not find space state key: '${argument}', returning null.`);
   return null;
 };
 
