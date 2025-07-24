@@ -386,8 +386,9 @@ async function sdk2tests(params) {
       clickHandler: () => { console.log("Keyboard Clicked!"); keyboardstate = !keyboardstate; firebrowser.ToggleKeyboard(keyboardstate ? 1 : 0);
         uiButtons.keyboard.GetComponent(BS.ComponentType.BanterMaterial).color = keyboardstate ? p_buttoncolor : whiteColour; dispatchButtonClickEvent("Keyboard", 'Keyboard Clicked!'); }
     }, mute: { icon: p_iconmuteurl, position: new BS.Vector3(0.167,TButPos,0), color: p_mutecolor,
-      clickHandler: () => { console.log("Mute Clicked!"); firebrowser.muteState = !firebrowser.muteState;
-      runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${firebrowser.muteState});`);
+      clickHandler: () => { console.log("Mute Clicked!"); firebrowser.muteState = !firebrowser.muteState; // Toggle mute state
+      const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ mute: ${firebrowser.muteState} });`;
+      runBrowserActions(firebrowser, scriptToRun);
       uiButtons.mute.GetComponent(BS.ComponentType.BanterMaterial).color = firebrowser.muteState ? new BS.Vector4(1,0,0,1) : (p_mutecolor ? p_mutecolor : p_buttoncolor); dispatchButtonClickEvent("Mute", 'Mute Clicked!'); }
     }, volDown: { icon: p_iconvoldownurl, position: new BS.Vector3(0.334,TButPos,0), color: p_voldowncolor,
       clickHandler: () => { console.log("Volume Down Clicked!"); adjustVolume(firebrowser, -1);
@@ -483,10 +484,10 @@ async function sdk2tests(params) {
     console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
     const oneShotCommands = {
       fireurl: (value) => setBrowserUrl(firebrowser, value),
-      firevolume: (value) => {
-        const fireVolume = Number(parseFloat(value).toFixed(2));
-        const firePercent = (fireVolume * 100).toFixed(0);
-        runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach(elem => elem.volume = ${fireVolume}); document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firePercent}) : null;`);
+      firevolume: (value) => { // This command sets the volume directly, bypassing the +/- adjustment
+        const fireVolume = Number(parseFloat(value).toFixed(2)); firebrowser.volumeLevel = fireVolume;
+        const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ volume: ${fireVolume} });`;
+        runBrowserActions(firebrowser, scriptToRun);
       },
       browseraction: (value) => { runBrowserActions(firebrowser, value); console.log(value); },
       spaceaction: (value) => { console.log(value); new Function(value)(); },
@@ -761,8 +762,8 @@ function adjustForAll(action, change) {
           break;
         case "toggleMute":
           thebrowserpart.muteState = !thebrowserpart.muteState;
-          const muteState = thebrowserpart.muteState ? "mute" : "unMute";
-          runBrowserActions(thebrowserpart, `document.querySelectorAll('video, audio').forEach((elem) => elem.muted=${thebrowserpart.muteState}); typeof player !== 'undefined' && player.${muteState}(); document.querySelector('.html5-video-player').${muteState}();`);
+          const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ mute: ${thebrowserpart.muteState} });`;
+          runBrowserActions(thebrowserpart, scriptToRun);
           break;
         case "browserAction":
           runBrowserActions(thebrowserpart, `${change}`);
