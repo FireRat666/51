@@ -35,31 +35,23 @@ if (typeof window.fireScreenScriptInitialized === 'undefined') {
   }
   })();
 
-// This is the script that will be injected into the browser.
+// This is the stateless script that will be injected into the browser on every action.
 const mediaControlScript = `
 (function() {
-    // Prevent this script from being injected multiple times
-    if (window.fireScreenMediaControlInitialized) return;
-    window.fireScreenMediaControlInitialized = true;
-
-    let lastVolume = 1.0;
-    let lastMuted = false;
-
     // --- Universal Media Control Function ---
     // This function will be called from the Banter space to control media inside the browser.
     window.fireScreenMediaControl = function(options) {
-        if (options.volume !== undefined) lastVolume = options.volume;
-        if (options.mute !== undefined) lastMuted = options.mute;
+        const { volume, mute } = options;
 
         function controlMedia(doc) {
             // 1. Find all standard HTML5 video and audio elements
             doc.querySelectorAll('video, audio').forEach(el => {
                 try {
-                    if (options.volume !== undefined && 'volume' in el && !el.muted) {
-                        el.volume = options.volume;
+                    if (volume !== undefined && 'volume' in el && !el.muted) {
+                        el.volume = volume;
                     }
-                    if (options.mute !== undefined && 'muted' in el) {
-                        el.muted = options.mute;
+                    if (mute !== undefined && 'muted' in el) {
+                        el.muted = mute;
                     }
                 } catch (e) { /* console.error('[FireScreen] Error controlling HTML5 media:', e); */ }
             });
@@ -68,10 +60,12 @@ const mediaControlScript = `
             const ytPlayer = doc.querySelector('.html5-video-player');
             if (ytPlayer) {
                 try {
-                    if (options.volume !== undefined && typeof ytPlayer.setVolume === 'function') ytPlayer.setVolume(options.volume * 100);
-                    if (options.mute !== undefined) {
-                        if (options.mute && typeof ytPlayer.mute === 'function') ytPlayer.mute();
-                        if (!options.mute && typeof ytPlayer.unMute === 'function') ytPlayer.unMute();
+                    if (volume !== undefined && typeof ytPlayer.setVolume === 'function') {
+                        ytPlayer.setVolume(volume * 100);
+                    }
+                    if (mute !== undefined) {
+                        if (mute && typeof ytPlayer.mute === 'function') ytPlayer.mute();
+                        if (!mute && typeof ytPlayer.unMute === 'function') ytPlayer.unMute();
                     }
                 } catch(e) { /* console.error('[FireScreen] Error controlling YouTube player:', e); */ }
             }
@@ -85,15 +79,6 @@ const mediaControlScript = `
         }
         controlMedia(window.document);
     };
-
-    // --- Dynamic Content Handler ---
-    // Watches for new media elements being added to the page.
-    const observer = new MutationObserver(() => {
-        // A simple check is enough. The control function will find all elements.
-        window.fireScreenMediaControl({ volume: lastVolume, mute: lastMuted });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
 })();
 `;
 
