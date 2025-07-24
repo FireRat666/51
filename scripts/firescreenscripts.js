@@ -76,7 +76,7 @@ function adjustScale(geometrytransform, direction) {
 };
 
 async function createCustomButton(config, firebrowser, parentObject, buttonObjects, browserNumber) {
-  const { name, url, text, position, textposition } = config;
+  const { name, url, text, position, textposition, clickHandler } = config;
   const buttonObject = await createUIButton(name, null, position, textPlaneColour, parentObject, false, false, 1, 1, customButShader, customButtonSize);
   buttonObjects.push(buttonObject);
   const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
@@ -88,9 +88,11 @@ async function createCustomButton(config, firebrowser, parentObject, buttonObjec
   await textObject.SetParent(parentObject, false);
   buttonObjects.push(textObject);
 
-  buttonObject.On('click', () => { console.log(`CLICKED: ${name}`);
-    firebrowser.url = url; material.color = new BS.Vector4(0.3,0.3,0.3,1);
+  buttonObject.On('click', () => {
+    console.log(`CLICKED: ${name}`);
+    if (url) firebrowser.url = url; material.color = new BS.Vector4(0.3,0.3,0.3,1);
     setTimeout(() => { material.color = textPlaneColour; }, 100);
+    if (clickHandler) clickHandler();
   });
 };
 
@@ -566,10 +568,12 @@ async function sdk2tests(params) {
     }, 1000);
     setTimeout(() => { timenow = Date.now(); }, 1000);
   };
-  if (p_spacesync === 'true') {let syncedurl = await getSpaceStateStuff('fireurl'); firebrowser.url = syncedurl;
-    await createCustomButton("SpaceSyncButton", firebrowser, geometryObject, customButtonObjects, new BS.Vector3(RCButPos,0.35,0), "Synced Button", new BS.Vector3(RCTexPos,-0.139,-0.005), syncedurl, async () => {
-      firebrowser.url = await getSpaceStateStuff('fireurl');
-    });
+  if (p_spacesync === 'true') { const syncedurl = await getSpaceStateStuff('fireurl');
+    if (syncedurl) firebrowser.url = syncedurl;
+    await createCustomButton({ name: "SpaceSyncButton", text: "Synced Button",
+      position: new BS.Vector3(RCButPos, 0.35, 0), textposition: new BS.Vector3(RCTexPos, -0.139, -0.005),
+      clickHandler: async () => { const newUrl = await getSpaceStateStuff('fireurl'); if (newUrl) firebrowser.url = newUrl; }
+    }, firebrowser, geometryObject, customButtonObjects, p_thisBrowserNumber);
   };
  
   // --- New Event-Driven Volume Synchronization ---
