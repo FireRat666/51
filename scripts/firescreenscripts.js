@@ -383,27 +383,35 @@ async function sdk2tests(params) {
 
   const onOneShot = async e => { console.log(e.detail);
     const data = JSON.parse(e.detail.data); const isAdmin = e.detail.fromAdmin;
-    if (isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9") {console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
-      if (data.fireurl) firebrowser.url = data.fireurl;
-      if (data.firevolume) { const fireVolume = Number(parseFloat(data.firevolume).toFixed(2)); const firePercent = (fireVolume * 100).toFixed(0);
-        runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach(elem => elem.volume = ${fireVolume});
-          document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firePercent}) : null;`);};
-      if (data.browseraction) { runBrowserActions(firebrowser, data.browseraction); console.log(data.browseraction); };
-      if (data.spaceaction) { console.log(data.spaceaction); new Function(data.spaceaction)(); };
-      if (data.gohome) { console.log(data.gohome); firebrowser.url = firebrowser.homePage; dispatchButtonClickEvent("Home", `${firebrowser.homePage}`)};
-      if (data.sethome1) { console.log(data.sethome1);
-        let firebrowser1 = await BS.BanterScene.GetInstance().Find(`MyBrowser1`);
-        if (firebrowser1) {
-          let thebrowser1 = firebrowser1.GetComponent(BS.ComponentType.BanterBrowser);
-          thebrowser1.homePage = data.sethome1; thebrowser1.url = data.sethome1; dispatchButtonClickEvent("Home", `${firebrowser.homePage}`);
-        };
-      };
-      if (data.firevolumeup) { console.log(data.firevolumeup); adjustForAll("adjustVolume", 1); youtubePlayerControl(1); };
-      if (data.firevolumedown) { console.log(data.firevolumedown); adjustForAll("adjustVolume", -1); youtubePlayerControl(0); };
-      if (data.firemutetoggle) { console.log(data.firemutetoggle); adjustForAll("toggleMute"); youtubePlayerControl(null, "mute"); };
-    } else { console.log("Current Shot From Admin Is False");
-      console.log(e.detail.fromId);
+    const isAuthorized = isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9";
+    if (!isAuthorized) {
+      console.log("Current Shot From Admin Is False", e.detail.fromId);
+      return;
+    }
+    // If a target is specified and it's not this browser, ignore the command.
+    // This allows for both broadcast commands (no target) and specific commands.
+    if (data.target !== undefined && data.target != p_thisBrowserNumber) {
+      return; // This command is for a different browser, so this instance will ignore it.
+    }
+    console.log(isAdmin ? "Current Shot is from Admin" : "Current Shot is from Target ID");
+    const oneShotCommands = {
+      fireurl: (value) => (firebrowser.url = value),
+      firevolume: (value) => {
+        const fireVolume = Number(parseFloat(value).toFixed(2));
+        const firePercent = (fireVolume * 100).toFixed(0);
+        runBrowserActions(firebrowser, `document.querySelectorAll('video, audio').forEach(elem => elem.volume = ${fireVolume}); document.querySelector('.html5-video-player') ? document.querySelector('.html5-video-player').setVolume(${firePercent}) : null;`);
+      },
+      browseraction: (value) => { runBrowserActions(firebrowser, value); console.log(value); },
+      spaceaction: (value) => { console.log(value); new Function(value)(); },
+      gohome: (value) => { console.log(value); firebrowser.url = firebrowser.homePage; dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
+      sethome: (value) => { console.log(value); firebrowser.homePage = value; firebrowser.url = value; dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
+      firevolumeup: (value) => { console.log(value); adjustForAll("adjustVolume", 1); youtubePlayerControl(1); },
+      firevolumedown: (value) => { console.log(value); adjustForAll("adjustVolume", -1); youtubePlayerControl(0); },
+      firemutetoggle: (value) => { console.log(value); adjustForAll("toggleMute"); youtubePlayerControl(null, "mute"); },
     };
+    for (const command in oneShotCommands) {
+      if (data[command] !== undefined) { oneShotCommands[command](data[command]); }
+    }
   };
   firescenev2.On("one-shot", onOneShot);
   instanceObjects.listeners.push({ target: firescenev2, event: 'one-shot', handler: onOneShot });
@@ -749,32 +757,22 @@ function spaceStateStuff(argument) {
   // Initial call to start the process for this script instance.
   attemptSetup();
 })();
+
 // setProtectedSpaceProp('fireurl', "https://firer.at/");
 // await BS.BanterScene.GetInstance().OneShot(JSON.stringify({firevolume: "0.5"}));
-// await firescenev2.OneShot(JSON.stringify({fireurl: "https://firer.at/"}));
-
-// oneShot({fireurl: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_5MB.mp4"});
+// await BS.BanterScene.GetInstance().OneShot(JSON.stringify({fireurl: "https://firer.at/"}));
+// oneShot({fireurl: "https://firer.at/"});
 // oneShot({firevolume: "0.5"});
-// oneShot({firevolume: "0"});
-
 // oneShot({browseraction: "action"});
 // oneShot({browseraction: `window.bantermessage(window.alert('test'));`});
-
-// adjustForAll("browserAction", `window.bantermessage(window.alert('test'));`)
-
-// runBrowserActions((await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser), `window.bantermessage(window.alert('test'))`)
 
 // (await BS.BanterScene.GetInstance().Find(`MyBrowser1`)).GetComponent(BS.ComponentType.BanterBrowser).RunActions(JSON.stringify({"actions": [{ "actionType": "runscript","strparam1": 
 //   `window.bantermessage(window.alert('test'))` 
 // }]}));
 
-// `window.scrollBy(0,1000);`  `window.scrollBy(0,-1000);`
-
 // scene.SetPublicSpaceProps({'testing': 'test'});
 // let thebrowserpart = (await BS.BanterScene.GetInstance().Find(`MyBrowser${1}`)).GetComponent(BS.ComponentType.BanterBrowser);
 // thebrowserpart.RunActions(JSON.stringify({"actions": [{ "actionType": "click2d","numParam1": 0.5, "numParam2": 0.5 }]}));
-// window.videoPlayerCore.sendMessage({path: Commands.CLEAR_PLAYLIST});
-// window.videoPlayerCore.sendMessage({path: Commands.REMOVE_PLAYLIST_ITEM, data: 0 });
 // v = {}; v.id = "ApXoWvfEYVU"; v.link = "https://www.youtube.com/watch?v=ApXoWvfEYVU"; v.title = "This is Not the Right Title for This Video"; v.thumbnail = "https://daily.jstor.org/wp-content/uploads/2015/08/Fire.jpg"; 
 // window.videoPlayerCore.sendMessage({path: Commands.ADD_TO_PLAYLIST, data: v });
 
@@ -783,3 +781,4 @@ function spaceStateStuff(argument) {
 // componenttest.WatchProperties([BS.PropertyName.url])
 // componenttest.url
 // cleanupFireScreenV2(1)
+// await BS.BanterScene.GetInstance().OneShot(JSON.stringify({ sethome: "https://google.com", target: 2 }));
