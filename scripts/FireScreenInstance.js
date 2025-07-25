@@ -298,7 +298,7 @@ export class FireScreen {
         newVolume = Math.max(0, Math.min(newVolume, 1)).toFixed(2);
         this.browserComponent.volumeLevel = newVolume;
 
-        console.log(`FIRESCREEN_INSTANCE Setting volume to: ${newVolume}`);
+        console.log(`FIRESCREEN_INSTANCE[${this.id}]: Setting volume to: ${newVolume}`);
         const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ volume: ${newVolume} });`;
         this._runBrowserActions(scriptToRun);
     }
@@ -346,7 +346,7 @@ export class FireScreen {
                 this.browserComponent.volumeSyncInterval = null;
                 return;
             }
-            console.log(`FIRESCREEN_INSTANCE Triggering volume sync #${syncCount + 1} for browser ${this.browserComponent.gameObject.name}`);
+            console.log(`FIRESCREEN_INSTANCE[${this.id}]: Triggering volume sync #${syncCount + 1} for browser ${this.browserComponent.gameObject.name}`);
             this._adjustVolume(0);
             syncCount++;
         }, syncIntervalTime);
