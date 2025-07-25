@@ -1,21 +1,65 @@
-// SDK2 Based FireScreen, V0.9 Beta 1.0.0 -- Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
-// FireScreen Tablet for Screen Casts / live streams with volume controls or a portable browser for any website.
-function checkForMatchingFireScripts() {
-  const scripts = Array.from(document.getElementsByTagName('script'));
-  const matchingScriptFound = scripts.some(script => script.src.startsWith('https://best-v-player.glitch.me/') || script.src.startsWith('https://fire-v-player.glitch.me/') || script.src.startsWith('https://vidya.sdq.st/') );
-  return matchingScriptFound;
-}
+// This script is the main entry point for initializing FireScreens.
+// It sets up a manager to handle all screen instances.
 
-async function loadAndExecuteFireScript(src) {
-  try {
-    const response = await fetch(src);
-    const scriptContent = await response.text();
-    const delay = checkForMatchingFireScripts() ? 10000 : 500;
-    setTimeout(() => { eval(scriptContent); }, delay);
-    console.log(`FireScreen Script executed successfully! YT Detected:${checkForMatchingFireScripts()}`);
-  } catch (error) { console.error("Failed to load or execute the FireScreen script:", error); }
-}
+if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
+  window.fireScreenV2Initialized = true;
+  console.log("FIRESCREEN_V2: Initializing FireScreen system...");
 
-if(window.isBanter) { 
-  loadAndExecuteFireScript(`https://51.firer.at/scripts/firescreenscripts.js`);
+  // Function to check for conflicting scripts to ensure compatibility.
+  function checkForMatchingFireScripts() {
+    const scripts = Array.from(document.getElementsByTagName('script'));
+    const matchingScriptFound = scripts.some(script =>
+      script.src.startsWith('https://best-v-player.glitch.me/') ||
+      script.src.startsWith('https://fire-v-player.glitch.me/') ||
+      script.src.startsWith('https://vidya.sdq.st/')
+    );
+    return matchingScriptFound;
+  }
+
+  // This function contains the core logic for setting up the FireScreen manager.
+  function initializeManager() {
+    // Dynamically import the manager to start the process.
+    // The '.js' extension is important for ES modules in the browser.
+    import('./FireScreenManager.js').then(({ FireScreenManager }) => {
+
+      // Ensure there is only one manager instance.
+      if (typeof window.fireScreenManager === 'undefined') {
+        window.fireScreenManager = new FireScreenManager();
+        console.log("FIRESCREEN_V2: Manager created.");
+      }
+
+      // Initial setup for any screens that might already be in the DOM.
+      window.fireScreenManager.setupScreens();
+
+      // Use a MutationObserver to detect when new scripts are added to the page.
+      // This is more efficient and reliable than polling with setInterval.
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            // Check if any added nodes are firescreen scripts
+            const hasFireScreenScript = Array.from(mutation.addedNodes).some(node =>
+              node.tagName === 'SCRIPT' && node.src && node.src.startsWith(window.fireScreenManager.fireScriptName)
+            );
+
+            if (hasFireScreenScript) {
+              console.log("FIRESCREEN_V2: New screen script detected, running setup...");
+              window.fireScreenManager.setupScreens();
+            }
+          }
+        }
+      });
+
+      // Start observing the document body for added/removed nodes.
+      observer.observe(document.body, { childList: true, subtree: true });
+      console.log("FIRESCREEN_V2: MutationObserver is now watching for new screens.");
+
+    }).catch(error => {
+      console.error("FIRESCREEN_V2: Failed to load the FireScreenManager module.", error);
+    });
+  }
+
+  // Calculate delay and start initialization.
+  const delay = checkForMatchingFireScripts() ? 10000 : 500;
+  console.log(`FIRESCREEN_V2: Delaying initialization by ${delay}ms for compatibility.`);
+  setTimeout(initializeManager, delay);
 }
