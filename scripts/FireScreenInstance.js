@@ -119,6 +119,37 @@ export class FireScreen {
         setTimeout(() => this._triggerVolumeSync(), 3000);
     }
 
+    handleCommand(data) {
+        const commands = {
+            // Commands for THIS instance, called by the manager
+            fireurl: (value) => this._setBrowserUrl(value),
+            firevolume: (value) => {
+                const fireVolume = Number(parseFloat(value).toFixed(2));
+                this.browserComponent.volumeLevel = fireVolume;
+                const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ volume: ${fireVolume} });`;
+                this._runBrowserActions(scriptToRun);
+            },
+            browseraction: (value) => this._runBrowserActions(value),
+            gohome: () => this._setBrowserUrl(this.browserComponent.homePage),
+            sethome: (value) => {
+                this.browserComponent.homePage = value;
+                this._setBrowserUrl(value);
+            },
+            adjustVolume: (change) => this._adjustVolume(change),
+            toggleMute: () => {
+                this.browserComponent.muteState = !this.browserComponent.muteState;
+                const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ mute: ${this.browserComponent.muteState} });`;
+                this._runBrowserActions(scriptToRun);
+            }
+        };
+
+        for (const command in commands) {
+            if (data[command] !== undefined) {
+                commands[command](data[command]);
+            }
+        }
+    }
+
     async _createAllUI() {
         const p = this.params;
         let TButPos = 0.38, LButPos = -0.6, RButPos = 0.6;
@@ -204,10 +235,6 @@ export class FireScreen {
         this.firerigidBody.gameObject.On('drop', onDrop);
         this.listeners.push({ target: this.firerigidBody.gameObject, event: 'grab', handler: onGrab });
         this.listeners.push({ target: this.firerigidBody.gameObject, event: 'drop', handler: onDrop });
-
-        const onOneShot = e => this._handleOneShot(e);
-        this.scene.On("one-shot", onOneShot);
-        this.listeners.push({ target: this.scene, event: 'one-shot', handler: onOneShot });
     }
 
     // --- Helper Methods (previously global functions) ---
@@ -353,38 +380,6 @@ export class FireScreen {
 
         this.browserComponent.volumeSyncInterval = intervalId;
         this.intervals.push(intervalId);
-    }
-
-    async _handleOneShot(e) {
-        const data = JSON.parse(e.detail.data);
-        const isAdmin = e.detail.fromAdmin;
-        const isAuthorized = isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9";
-
-        if (!isAuthorized) return;
-        if (data.target !== undefined && data.target != this.id) return;
-
-        const oneShotCommands = {
-            fireurl: (value) => this._setBrowserUrl(value),
-            firevolume: (value) => {
-                const fireVolume = Number(parseFloat(value).toFixed(2));
-                this.browserComponent.volumeLevel = fireVolume;
-                const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ volume: ${fireVolume} });`;
-                this._runBrowserActions(scriptToRun);
-            },
-            browseraction: (value) => this._runBrowserActions(value),
-            spaceaction: (value) => new Function(value)(),
-            gohome: () => this._setBrowserUrl(this.browserComponent.homePage),
-            sethome: (value) => { this.browserComponent.homePage = value; this._setBrowserUrl(value); },
-            firevolumeup: () => this._adjustForAll("adjustVolume", 1),
-            firevolumedown: () => this._adjustForAll("adjustVolume", -1),
-            firemutetoggle: () => this._adjustForAll("toggleMute"),
-        };
-
-        for (const command in oneShotCommands) {
-            if (data[command] !== undefined) {
-                oneShotCommands[command](data[command]);
-            }
-        }
     }
 
     async _setupHandControls(userId) {
