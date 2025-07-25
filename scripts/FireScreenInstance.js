@@ -32,10 +32,11 @@ const mediaControlScript = `
 `;
 
 export class FireScreen {
-    constructor(params) {
+    constructor(params, manager) {
         this.params = params;
         this.id = params.thisBrowserNumber;
         this.scene = BS.BanterScene.GetInstance();
+        this.manager = manager;
 
         // Constants
         this.customButShader = 'Unlit/Diffuse';
@@ -176,6 +177,19 @@ export class FireScreen {
             this._toggleButtonVisibility(Object.values(this.uiButtons), this.customButtonObjects, false, alwaysVisibleButtons);
             this.uiButtons.hideShow.SetActive(false);
         }
+
+        if (p['space-sync'] === 'true') {
+            const syncedurl = await this._getSpaceStateStuff('fireurl');
+            if (syncedurl) this._setBrowserUrl(syncedurl);
+
+            await this._createCustomButton({
+                name: "SpaceSyncButton",
+                text: "Synced Button",
+                position: new BS.Vector3(RCButPos, 0.35, 0),
+                textposition: new BS.Vector3(RCTexPos, -0.139, -0.005),
+                clickHandler: async () => { const newUrl = await this._getSpaceStateStuff('fireurl'); if (newUrl) this._setBrowserUrl(newUrl); }
+            });
+        }
     }
 
     _setupEventListeners() {
@@ -235,7 +249,7 @@ export class FireScreen {
     }
 
     async _createCustomButton(config) {
-        const { name, url, text, position, textposition } = config;
+        const { name, url, text, position, textposition, clickHandler } = config;
         const buttonObject = await this._createUIButton(name, null, position, this.textPlaneColour, this.geometryObject, null, null, 0.2, 0.04, this.customButShader);
         this.customButtonObjects.push(buttonObject);
         const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
@@ -248,9 +262,13 @@ export class FireScreen {
         this.customButtonObjects.push(textObject);
 
         this._createButtonAction(buttonObject, () => {
-            if (url) this._setBrowserUrl(url);
             material.color = new BS.Vector4(0.3, 0.3, 0.3, 1);
             setTimeout(() => { material.color = this.textPlaneColour; }, 100);
+            if (clickHandler) {
+                clickHandler();
+            } else if (url) {
+                this._setBrowserUrl(url);
+            }
         });
     }
 
@@ -444,12 +462,47 @@ export class FireScreen {
     }
 
     async _getSpaceStateStuff(argument) {
+        // Wait until the localUser is available before trying to access space state.
         while (!this.scene.localUser || this.scene.localUser.uid === undefined) {
             await new Promise(resolve => setTimeout(resolve, 200));
         }
+
         const spaceState = this.scene.spaceState;
-        if (spaceState.protected && spaceState.protected[argument]) return spaceState.protected[argument];
-        if (spaceState.public && spaceState.public[argument]) return spaceState.public[argument];
+
+        // Safely log all properties, but only do it once per session.
+        if (!this.manager.spaceStateLogged) {
+            console.log("--- Logging All Space State Properties (once per session) ---");
+            if (spaceState && spaceState.public) {
+                console.log("--- Public Space State ---");
+                // Using Object.entries as it's proven to be safe with the spaceState object
+                for (const [key, value] of Object.entries(spaceState.public)) {
+                    console.log(`  ${key}:`, value);
+                }
+            }
+            if (spaceState && spaceState.protected) {
+                console.log("--- Protected Space State ---");
+                for (const [key, value] of Object.entries(spaceState.protected)) {
+                    console.log(`  ${key}:`, value);
+                }
+            }
+            this.manager.spaceStateLogged = true;
+        }
+
+        // Find and return the requested value using the safe iteration method.
+        // Prioritize protected properties.
+        if (spaceState && spaceState.protected) {
+            for (const [key, value] of Object.entries(spaceState.protected)) {
+                if (key === argument) return value;
+            }
+        }
+        // Fallback to public properties.
+        if (spaceState && spaceState.public) {
+            for (const [key, value] of Object.entries(spaceState.public)) {
+                if (key === argument) return value;
+            }
+        }
+
+        console.log(`Could not find space state key: '${argument}', returning null.`);
         return null;
     }
 

@@ -14,6 +14,8 @@ export class FireScreenManager {
     this.fireScriptName = `https://51.firer.at/scripts/firescreenv2.js`; // Centralize config
     this.scene = BS.BanterScene.GetInstance();
     this.globalSetupComplete = false;
+    this.spaceStateLogged = false;
+    this.announcerScriptLoaded = false;
 
     // Global state variables that were previously on the window object
     this.firstRunHandControls = true;
@@ -148,10 +150,15 @@ export class FireScreenManager {
       const id = this._getNextId();
       const params = this._parseParams(script, id);
 
-      // Create and initialize a new FireScreen instance using our class
-      const instance = new FireScreen(params);
+      // Create and initialize a new FireScreen instance, passing the manager to it
+      const instance = new FireScreen(params, this);
       await instance.initialize();
       this.instances[id] = instance;
+
+      // Check if we need to load the announcer script
+      if ((params.announce === 'true' || params['announce-events'] === 'true' || params['announce-420'] === 'true') && this.announcerScriptLoaded === false) {
+        this._loadAnnouncerScript(params);
+      }
     }
 
     this.setupRunning = false;
@@ -174,6 +181,26 @@ export class FireScreenManager {
         instance._setupHandControls(userId);
       }
     }
+  }
+
+  _loadAnnouncerScript(params) {
+    this.announcerScriptLoaded = true; // Set flag to prevent multiple loads
+    const announcerScriptUrl = `https://51.firer.at/scripts/announcer.js`;
+
+    // Check if a script with this source already exists
+    if (document.querySelector(`script[src^='${announcerScriptUrl}']`)) {
+        console.log("FIRESCREEN_MANAGER: Announcer script already present, not loading again.");
+        return;
+    }
+
+    console.log("FIRESCREEN_MANAGER: Announcer requested, loading script...");
+    const script = document.createElement("script");
+    script.id = "fires-announcer";
+    script.setAttribute("src", announcerScriptUrl);
+    script.setAttribute("announce", params.announce);
+    script.setAttribute("announce-420", params['announce-420']);
+    script.setAttribute("announce-events", params['announce-events'] === "undefined" ? (params.announce === "true" ? "true" : "false") : params['announce-events']);
+    document.body.appendChild(script);
   }
 
   async cleanup(instanceId) {
