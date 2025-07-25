@@ -10,7 +10,6 @@ export class FireScreenManager {
     }
 
     this.instances = {};
-    this.setupRunning = false;
     this.fireScriptName = `https://51.firer.at/scripts/firescreenv2.js`; // Centralize config
     this.scene = BS.BanterScene.GetInstance();
     this.globalSetupComplete = false;
@@ -137,9 +136,6 @@ export class FireScreenManager {
   }
 
   async setupScreens() {
-    if (this.setupRunning) return;
-    this.setupRunning = true;
-
     console.log("FIRESCREEN_MANAGER: Starting setup...");
     const scripts = document.querySelectorAll(`script[src^='${this.fireScriptName}']`);
 
@@ -167,7 +163,6 @@ export class FireScreenManager {
       }
     }
 
-    this.setupRunning = false;
     console.log("FIRESCREEN_MANAGER: Setup finished.");
   }
 

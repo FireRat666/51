@@ -1,9 +1,68 @@
 // This script is the main entry point for initializing FireScreens.
-// It sets up a manager to handle all screen instances.
+// It sets up a manager to handle all screen instances and uses a locking
+// mechanism to prevent race conditions when multiple scripts are added at once.
 
 if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
   window.fireScreenV2Initialized = true;
-  console.log("FIRESCREEN_V2: Initializing FireScreen system...");
+  console.log("FIRESCREEN_V2: Core system initialized.");
+
+  // This flag is the lock to prevent multiple setup runs at the same time.
+  window.fireScreenSetupRunning = false;
+
+  // This function will be called by the loader logic below.
+  // It ensures the manager exists and then tells it to process screens.
+  window.setupFireScreenV2AndRun = async function() {
+    // Dynamically import the manager to start the process.
+    // The '.js' extension is important for ES modules in the browser.
+    if (typeof window.fireScreenManager === 'undefined') {
+      const { FireScreenManager } = await import('./FireScreenManager.js');
+      try {
+        window.fireScreenManager = new FireScreenManager();
+        console.log("FIRESCREEN_V2: Manager created.");
+        // Add the cleanup function to the window for backward compatibility
+        window.cleanupFireScreenV2 = async function(instanceId) {
+            console.log(`FIRESCREEN_V2: Global cleanup called for instance ${instanceId}.`);
+            if (window.fireScreenManager) {
+                await window.fireScreenManager.cleanup(instanceId);
+            } else {
+                console.error("FireScreenManager not found.");
+            }
+        };
+      } catch (error) {
+        console.error("FIRESCREEN_V2: Failed to load the FireScreenManager module.", error);
+        throw error; // re-throw to stop the setup process
+      }
+    }
+
+    // Tell the manager to set up any unprocessed screens.
+    await window.fireScreenManager.setupScreens();
+  };
+}
+// This IIFE runs for every <script> tag. It uses a locking mechanism
+// to ensure that setup only runs once at a time, even if multiple
+// scripts are injected simultaneously.
+(async () => {
+  if (!window.isBanter) return;
+  // This function will attempt to acquire a lock and run the setup.
+  // If the lock is already taken, it will wait and retry.
+  async function attemptSetup() {
+    if (window.fireScreenSetupRunning) {
+      console.log("FIRESCREEN_V2: Setup in progress. Waiting to retry...");
+      setTimeout(attemptSetup, 500); // Wait 500ms and try again
+      return;
+    }
+    // Acquire lock
+    window.fireScreenSetupRunning = true;
+    console.log("FIRESCREEN_V2: Lock acquired, starting setup...");
+
+    try {
+      // This function is now async and processes all unprocessed scripts sequentially.
+      await window.setupFireScreenV2AndRun();
+    } finally {
+      console.log("FIRESCREEN_V2: Setup finished, releasing lock.");
+      window.fireScreenSetupRunning = false;
+    }
+  }
 
   // Function to check for conflicting scripts to ensure compatibility.
   function checkForMatchingFireScripts() {
@@ -16,60 +75,9 @@ if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
     return matchingScriptFound;
   }
 
-  // This function contains the core logic for setting up the FireScreen manager.
-  function initializeManager() {
-    // Dynamically import the manager to start the process.
-    // The '.js' extension is important for ES modules in the browser.
-    import('./FireScreenManager.js').then(({ FireScreenManager }) => {
-
-      // Ensure there is only one manager instance.
-      if (typeof window.fireScreenManager === 'undefined') {
-        window.fireScreenManager = new FireScreenManager();
-        console.log("FIRESCREEN_V2: Manager created.");
-
-        // Add the cleanup function to the window
-        window.cleanupFireScreenV2 = async function(instanceId) {
-            console.log(`FIRESCREEN_V2: Global cleanup called for instance ${instanceId}.`);
-            if (window.fireScreenManager) {
-                await window.fireScreenManager.cleanup(instanceId);
-            } else {
-                console.error("FireScreenManager not found.");
-            }
-        };
-      }
-
-      // Initial setup for any screens that might already be in the DOM.
-      window.fireScreenManager.setupScreens();
-
-      // Use a MutationObserver to detect when new scripts are added to the page.
-      // This is more efficient and reliable than polling with setInterval.
-      const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            // Check if any added nodes are firescreen scripts
-            const hasFireScreenScript = Array.from(mutation.addedNodes).some(node =>
-              node.tagName === 'SCRIPT' && node.src && node.src.startsWith(window.fireScreenManager.fireScriptName)
-            );
-
-            if (hasFireScreenScript) {
-              console.log("FIRESCREEN_V2: New screen script detected, running setup...");
-              window.fireScreenManager.setupScreens();
-            }
-          }
-        }
-      });
-
-      // Start observing the document body for added/removed nodes.
-      observer.observe(document.body, { childList: true, subtree: true });
-      console.log("FIRESCREEN_V2: MutationObserver is now watching for new screens.");
-
-    }).catch(error => {
-      console.error("FIRESCREEN_V2: Failed to load the FireScreenManager module.", error);
-    });
-  }
-
   // Calculate delay and start initialization.
   const delay = checkForMatchingFireScripts() ? 10000 : 500;
-  console.log(`FIRESCREEN_V2: Delaying initialization by ${delay}ms for compatibility.`);
-  setTimeout(initializeManager, delay);
-}
+  console.log(`FIRESCREEN_V2: Delaying setup attempt by ${delay}ms for compatibility.`);
+  setTimeout(attemptSetup, delay);
+
+})();
