@@ -66,6 +66,8 @@ export class FireScreenManager {
         if (e.detail.isLocal) {
             console.log("FIRESCREEN_MANAGER: Local user left, resetting hand controls flag.");
             this.firstRunHandControls = true;
+            // Clean up existing hand controls so they can be re-created on rejoin
+            this._cleanupHandControlsForAllInstances();
         }
     };
 
@@ -154,6 +156,15 @@ export class FireScreenManager {
 
     this.setupRunning = false;
     console.log("FIRESCREEN_MANAGER: Setup finished.");
+  }
+
+  _cleanupHandControlsForAllInstances() {
+    for (const instanceId in this.instances) {
+      const instance = this.instances[instanceId];
+      if (instance.params['hand-controls'] === "true") {
+        instance._cleanupHandControls();
+      }
+    }
   }
 
   _setupHandControlsForAllInstances(userId) {

@@ -47,6 +47,7 @@ export class FireScreen {
         // Instance State
         this.gameObjects = [];
         this.listeners = [];
+        this.handControlGameObjects = [];
         this.intervals = [];
         this.handControls = null;
         this.browserComponent = null;
@@ -400,7 +401,23 @@ export class FireScreen {
             handButtons[config.name] = button;
         }
 
-        this.gameObjects.push(...Object.values(handButtons));
+        // Track all created hand control objects so they can be cleaned up properly.
+        this.handControlGameObjects = [this.handControls, ...Object.values(handButtons)];
+        this.gameObjects.push(...this.handControlGameObjects);
+    }
+
+    async _cleanupHandControls() {
+        if (this.handControls && !this.handControls.destroyed) {
+            console.log(`FIRESCREEN_INSTANCE[${this.id}]: Cleaning up hand controls...`);
+            await this.handControls.Destroy(); // This will destroy the container and all children
+        }
+
+        // Filter out the (now destroyed) hand control game objects from the main list
+        this.gameObjects = this.gameObjects.filter(go => !this.handControlGameObjects.includes(go));
+
+        // Reset state to allow for re-creation
+        this.handControls = null;
+        this.handControlGameObjects = [];
     }
 
     _youtubePlayerControl(value, action = null) {
