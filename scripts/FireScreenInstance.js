@@ -404,7 +404,14 @@ export class FireScreen {
         const handButtonConfigs = [
             { name: 'hVolumeUpButton', icon: p['icon-volup-url'], pos: new BS.Vector3(0.4, 0.4, 0.3), color: p['volup-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", 1); this._youtubePlayerControl(1); this._updateButtonColor(btn, p['volup-color']); } },
             { name: 'hVolumeDownButton', icon: p['icon-voldown-url'], pos: new BS.Vector3(0.0, 0.4, 0.3), color: p['voldown-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", -1); this._youtubePlayerControl(0); this._updateButtonColor(btn, p['voldown-color']); } },
-            { name: 'hMuteButton', icon: p['icon-mute-url'], pos: new BS.Vector3(-0.4, 0.4, 0.3), color: p['mute-color'], clickHandler: (btn) => { this._adjustForAll("toggleMute"); this._youtubePlayerControl(null, "mute"); const firstBrowser = window.fireScreenManager.instances[1]?.browserComponent; if (firstBrowser) { btn.GetComponent(BS.ComponentType.BanterMaterial).color = firstBrowser.muteState ? new BS.Vector4(1, 0, 0, 1) : p['mute-color']; } } },
+            { name: 'hMuteButton', icon: p['icon-mute-url'], pos: new BS.Vector3(-0.4, 0.4, 0.3), color: p['mute-color'], clickHandler: (btn) => {
+                this._adjustForAll("toggleMute");
+                this._youtubePlayerControl(null, "mute");
+                // The broadcast command will toggle our own mute state.
+                // We can now use it to set the button color, making it self-contained
+                // and not reliant on other instances.
+                btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.browserComponent.muteState ? new BS.Vector4(1, 0, 0, 1) : (p['mute-color'] || p['button-color']);
+            } },
             { name: 'hLockButton', icon: 'https://firer.at/files/lock.png', pos: new BS.Vector3(0, -0.1, 0.3), color: new BS.Vector4(1, 1, 1, 0.7), clickHandler: (btn) => { this.playerislockedv2 = !this.playerislockedv2; this.playerislockedv2 ? this.scene.LegacyLockPlayer() : this.scene.LegacyUnlockPlayer(); btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.playerislockedv2 ? new BS.Vector4(1, 0, 0, 1) : new BS.Vector4(1, 1, 1, 0.7); } },
             { name: 'hHomeButton', icon: 'https://firer.at/files/Home.png', pos: new BS.Vector3(0.4, -0.1, 0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome"); this._youtubePlayerControl(null, "openPlaylist"); this._updateButtonColor(btn, p['button-color']); } }
         ];
@@ -442,18 +449,10 @@ export class FireScreen {
     }
 
     _adjustForAll(action, change) {
-        for (const instanceId in window.fireScreenManager.instances) {
-            const instance = window.fireScreenManager.instances[instanceId];
-            if (instance && instance.browserComponent) {
-                switch (action) {
-                    case "adjustVolume": instance._adjustVolume(change); break;
-                    case "goHome": instance._setBrowserUrl(instance.browserComponent.homePage); instance._dispatchButtonClickEvent("Home", `${instance.browserComponent.homePage}`); break;
-                    case "goURL": instance._setBrowserUrl(change); break;
-                    case "toggleMute": instance.browserComponent.muteState = !instance.browserComponent.muteState; instance._runBrowserActions(`${mediaControlScript} window.fireScreenMediaControl({ mute: ${instance.browserComponent.muteState} });`); break;
-                    case "browserAction": instance._runBrowserActions(`${change}`); break;
-                }
-            }
-        }
+        // This instance requests the manager to broadcast a command to all instances.
+        // The command object is dynamically created, e.g., { adjustVolume: 1 }
+        const commandData = { [action]: change };
+        this.manager.broadcastCommand(commandData);
     }
 
     async _getSpaceStateStuff(argument) {

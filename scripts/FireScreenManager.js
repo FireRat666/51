@@ -214,50 +214,28 @@ export class FireScreenManager {
     if (!isAuthorized) return;
 
     if (data.target !== undefined) {
-      // Command is for a specific instance
+      // Command is for a specific instance.
       const instance = this.instances[data.target];
       if (instance) {
         instance.handleCommand(data);
       }
     } else {
-      // Command is for all instances (broadcast)
-      this._handleBroadcastCommand(data);
+      // Command is for all instances. Broadcast it.
+      this.broadcastCommand(data);
     }
   }
 
-  _handleBroadcastCommand(data) {
-    const broadcastCommands = {
-      firevolumeup: () => this._adjustAllInstances("adjustVolume", 1),
-      firevolumedown: () => this._adjustAllInstances("adjustVolume", -1),
-      firemutetoggle: () => this._adjustAllInstances("toggleMute")
-    };
-
-    for (const command in broadcastCommands) {
-      if (data[command] !== undefined) {
-        broadcastCommands[command](data[command]);
-      }
-    }
-  }
-
-  // This method is called directly by local UI, like hand controls.
-  // It is NOT for networked 'one-shot' events.
-  handleLocalCommand(action, change) {
-    const localCommands = {
-      adjustVolume: () => this._adjustAllInstances("adjustVolume", change),
-      toggleMute: () => this._adjustAllInstances("toggleMute"),
-      goHome: () => this._adjustAllInstances("gohome")
-    };
-
-    if (localCommands[action]) {
-      localCommands[action]();
-    }
-  }
-
-  _adjustAllInstances(action, change) {
+  /**
+   * Broadcasts a command to all managed FireScreen instances.
+   * This is the central method for any action that should affect all screens,
+   * whether triggered by a network event or a local UI interaction.
+   * @param {object} commandData - The command object to be sent to each instance's handleCommand method.
+   */
+  broadcastCommand(commandData) {
     for (const instanceId in this.instances) {
       const instance = this.instances[instanceId];
       if (instance) {
-        instance.handleCommand({ [action]: change });
+        instance.handleCommand(commandData);
       }
     }
   }
