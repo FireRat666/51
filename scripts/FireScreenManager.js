@@ -2,17 +2,76 @@
 
 import { FireScreen } from './FireScreenInstance.js';
 
-class FireScreenManager {
+export class FireScreenManager {
   constructor() {
-    if (window.fireScreenManagerInstance) {
-      return window.fireScreenManagerInstance;
+    // Robust singleton pattern
+    if (FireScreenManager.instance) {
+      return FireScreenManager.instance;
     }
 
     this.instances = {};
     this.setupRunning = false;
     this.fireScriptName = `https://51.firer.at/scripts/firescreenv2.js`; // Centralize config
+    this.scene = BS.BanterScene.GetInstance();
+    this.globalSetupComplete = false;
 
-    window.fireScreenManagerInstance = this;
+    // Global state variables that were previously on the window object
+    this.firstRunHandControls = true;
+    this.notAlreadyJoined = true;
+    this.playersUserId = null;
+
+    this._initializeGlobalListeners();
+
+    FireScreenManager.instance = this;
+  }
+
+  _initializeGlobalListeners() {
+    if (this.globalSetupComplete) return;
+    this.globalSetupComplete = true;
+
+    console.log("FIRESCREEN_MANAGER: Initializing global listeners...");
+
+    // This is a clever workaround for an SDK bug where 'user-joined' doesn't fire for the local user on world load.
+    const originalWarn = console.warn;
+    console.warn = (...args) => {
+        if (typeof args[0] === "string" && args[0].includes("got user-joined event for user that already joined")) {
+            this.scene.dispatchEvent(new CustomEvent("user-already-joined", { detail: args[1] }));
+        }
+        originalWarn.apply(console, args);
+    };
+
+    const onUserJoined = e => {
+        if (e.detail.isLocal && this.firstRunHandControls) {
+            console.log("FIRESCREEN_MANAGER: Local user joined, enabling hand controls for instances.");
+            this.firstRunHandControls = false;
+            this.playersUserId = e.detail.uid;
+            this._setupHandControlsForAllInstances(this.playersUserId);
+        }
+    };
+
+    const onUserAlreadyJoined = e => {
+        if (e.detail.isLocal && this.notAlreadyJoined) {
+            console.log("FIRESCREEN_MANAGER: Local user already-joined, enabling hand controls for instances.");
+            this.notAlreadyJoined = false;
+            this.firstRunHandControls = false;
+            this.playersUserId = e.detail.uid;
+            setTimeout(() => {
+                this._setupHandControlsForAllInstances(this.playersUserId);
+                this.notAlreadyJoined = true;
+            }, 3000);
+        }
+    };
+
+    const onUserLeft = e => {
+        if (e.detail.isLocal) {
+            console.log("FIRESCREEN_MANAGER: Local user left, resetting hand controls flag.");
+            this.firstRunHandControls = true;
+        }
+    };
+
+    this.scene.On("user-joined", onUserJoined);
+    this.scene.On("user-left", onUserLeft);
+    this.scene.addEventListener("user-already-joined", onUserAlreadyJoined);
   }
 
   _getNextId() {
@@ -97,6 +156,15 @@ class FireScreenManager {
     console.log("FIRESCREEN_MANAGER: Setup finished.");
   }
 
+  _setupHandControlsForAllInstances(userId) {
+    for (const instanceId in this.instances) {
+      const instance = this.instances[instanceId];
+      if (instance.params['hand-controls'] === "true") {
+        instance._setupHandControls(userId);
+      }
+    }
+  }
+
   cleanup(instanceId) {
     const instance = this.instances[instanceId];
     if (instance) {
@@ -106,10 +174,3 @@ class FireScreenManager {
     }
   }
 }
-
-// Initialize the manager once.
-if (typeof window.fireScreenManager === 'undefined') {
-    window.fireScreenManager = new FireScreenManager();
-}
-
-// This would be called by your main script loader.

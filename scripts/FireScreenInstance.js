@@ -193,53 +193,6 @@ export class FireScreen {
         const onOneShot = e => this._handleOneShot(e);
         this.scene.On("one-shot", onOneShot);
         this.listeners.push({ target: this.scene, event: 'one-shot', handler: onOneShot });
-
-        // Hand controls and user join/leave logic
-        if (this.params['hand-controls'] === "true") {
-            const onUserJoined = e => {
-                if (e.detail.isLocal && window.firstrunhandcontrols) {
-                    window.firstrunhandcontrols = false;
-                    window.playersuseridv2 = e.detail.uid;
-                    console.log("FIRESCREEN_INSTANCE: Enabling Hand Controls on user-joined");
-                    this._setupHandControls();
-                }
-            };
-            this.scene.On("user-joined", onUserJoined);
-            this.listeners.push({ target: this.scene, event: 'user-joined', handler: onUserJoined });
-
-            const onUserLeft = e => {
-                if (e.detail.isLocal) {
-                    window.firstrunhandcontrols = true;
-                    console.log("FIRESCREEN_INSTANCE: Local User Left, Resetting firstrunhandcontrols variable");
-                }
-            };
-            this.scene.On("user-left", onUserLeft);
-            this.listeners.push({ target: this.scene, event: 'user-left', handler: onUserLeft });
-
-            // This is a clever workaround for an SDK bug where 'user-joined' doesn't fire for the local user on world load.
-            if (typeof window.fireScreenWarnOverride === 'undefined') {
-                window.fireScreenWarnOverride = true;
-                const originalWarn = console.warn;
-                console.warn = (...args) => {
-                    if (typeof args[0] === "string" && args[0].includes("got user-joined event for user that already joined")) {
-                        this.scene.dispatchEvent(new CustomEvent("user-already-joined", { detail: args[1] }));
-                    }
-                    originalWarn.apply(console, args);
-                };
-            }
-
-            const onUserAlreadyJoined = e => {
-                if (e.detail.isLocal && window.notalreadyjoined) {
-                    window.notalreadyjoined = false;
-                    window.firstrunhandcontrols = false;
-                    window.playersuseridv2 = e.detail.uid;
-                    console.log("FIRESCREEN_INSTANCE: Local User-already-joined, Enabling Hand Controls");
-                    setTimeout(() => { this._setupHandControls(); window.notalreadyjoined = true; }, 3000);
-                }
-            };
-            this.scene.addEventListener("user-already-joined", onUserAlreadyJoined);
-            this.listeners.push({ target: this.scene, event: 'user-already-joined', handler: onUserAlreadyJoined, useRemoveListener: true });
-        }
     }
 
     // --- Helper Methods (previously global functions) ---
@@ -413,7 +366,7 @@ export class FireScreen {
         }
     }
 
-    async _setupHandControls() {
+    async _setupHandControls(userId) {
         if (this.handControls) return; // Already setup
 
         const p = this.params;
@@ -429,7 +382,7 @@ export class FireScreen {
         handTransform.localScale = new BS.Vector3(0.1, 0.1, 0.1);
         handTransform.rotation = new BS.Vector4(0.25, 0, 0.8, 1);
 
-        setTimeout(async () => { await this.scene.LegacyAttachObject(this.handControls, window.playersuseridv2, BS.LegacyAttachmentPosition.LEFT_HAND); }, 1000);
+        setTimeout(async () => { await this.scene.LegacyAttachObject(this.handControls, userId, BS.LegacyAttachmentPosition.LEFT_HAND); }, 1000);
 
         const handButtons = {};
         const handButtonConfigs = [
