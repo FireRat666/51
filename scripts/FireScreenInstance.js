@@ -327,6 +327,7 @@ export class FireScreen {
                 this.browserComponent.volumeSyncInterval = null;
                 return;
             }
+            console.log(`FIRESCREEN_INSTANCE Triggering volume sync #${syncCount + 1} for browser ${this.browserComponent.gameObject.name}`);
             this._adjustVolume(0);
             syncCount++;
         }, syncIntervalTime);
