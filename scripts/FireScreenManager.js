@@ -155,6 +155,12 @@ export class FireScreenManager {
       await instance.initialize();
       this.instances[id] = instance;
 
+      // If the user is already present when this screen is created, set up its hand controls immediately.
+      if (this.playersUserId && params['hand-controls'] === 'true') {
+        console.log(`FIRESCREEN_MANAGER: User already present, setting up hand controls for new instance ${id}.`);
+        instance._setupHandControls(this.playersUserId);
+      }
+
       // Check if we need to load the announcer script
       if ((params.announce === 'true' || params['announce-events'] === 'true' || params['announce-420'] === 'true') && this.announcerScriptLoaded === false) {
         this._loadAnnouncerScript(params);

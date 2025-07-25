@@ -443,7 +443,7 @@ export class FireScreen {
         if (!core) return;
         const methodName = (action === "mute" || action === "openPlaylist") ? action : "volume";
         if (typeof core[methodName] !== "function") return;
-        return methodName === "volume" ? coremethodName : coremethodName;
+        return methodName === "volume" ? core[methodName](value) : core[methodName]();
     }
 
     _adjustForAll(action, change) {
