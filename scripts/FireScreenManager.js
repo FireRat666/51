@@ -231,6 +231,17 @@ export class FireScreenManager {
     }
   }
 
+  _youtubePlayerControl(value, action = null) {
+    // This method is now centralized in the manager to control external players.
+    const core = window.videoPlayerCore;
+    if (!core) return;
+
+    const methodName = (action === "mute" || action === "openPlaylist") ? action : "volume";
+    if (typeof core[methodName] !== "function") return;
+
+    return methodName === "volume" ? core[methodName](value) : core[methodName]();
+  }
+
   /**
    * Broadcasts a command to all managed FireScreen instances.
    * This is the central method for any action that should affect all screens,
@@ -238,6 +249,19 @@ export class FireScreenManager {
    * @param {object} commandData - The command object to be sent to each instance's handleCommand method.
    */
   broadcastCommand(commandData) {
+    // Centralized side-effects for global commands.
+    // If a command that affects all screens is issued, the manager can also
+    // trigger other global actions, like controlling a separate YouTube player.
+    if (commandData.adjustVolume !== undefined) {
+      // The youtube player core seems to expect 1 for up and 0 for down.
+      this._youtubePlayerControl(commandData.adjustVolume > 0 ? 1 : 0);
+    }
+    if (commandData.toggleMute !== undefined) {
+      this._youtubePlayerControl(null, "mute");
+    }
+    if (commandData.goHome !== undefined) {
+      this._youtubePlayerControl(null, "openPlaylist");
+    }
     for (const instanceId in this.instances) {
       const instance = this.instances[instanceId];
       if (instance) {
