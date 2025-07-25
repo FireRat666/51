@@ -15,6 +15,7 @@ export class FireScreenManager {
     this.globalSetupComplete = false;
     this.spaceStateLogged = false;
     this.announcerScriptLoaded = false;
+    this.authorizedUserIds = ["f67ed8a5ca07764685a64c7fef073ab9"]; // Default authorized user
 
     // Global state variables that were previously on the window object
     this.firstRunHandControls = true;
@@ -32,7 +33,12 @@ export class FireScreenManager {
 
     console.log("FIRESCREEN_MANAGER: Initializing global listeners...");
 
-    // This is a clever workaround for an SDK bug where 'user-joined' doesn't fire for the local user on world load.
+    // --- SDK Workaround for user-joined event ---
+    // The Banter SDK has a known issue where the 'user-joined' event for the local user
+    // Does not fire if they are already in the world when they disconnect and reconnect or change avatar.
+    // This workaround intercepts a specific console warning that indicates this scenario
+    // ("got user-joined event for user that already joined") and dispatches a custom
+    // 'user-already-joined' event, allowing us to reliably trigger logic for the local user.
     const originalWarn = console.warn;
     console.warn = (...args) => {
         if (typeof args[0] === "string" && args[0].includes("got user-joined event for user that already joined")) {
@@ -86,18 +92,20 @@ export class FireScreenManager {
     return id;
   }
 
-  _getV3FromStr(strVector3) {
+  static _getV3FromStr(strVector3) {
     const [x, y, z] = strVector3.split(" ").map(Number);
     return new BS.Vector3(x, y, z);
   }
 
-  _getV4FromStr(strVector4) {
+  static _getV4FromStr(strVector4) {
     if (strVector4 === "false") return false;
     const [x, y, z, w] = strVector4.split(" ").map(Number);
     return new BS.Vector4(x, y, z, w);
   }
 
   _parseParams(script, id) {
+    const { _getV3FromStr, _getV4FromStr } = FireScreenManager;
+
     const defaultParams = {
       position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", castmode: "false", "lock-position": "false",
       "screen-position": "0 0 -0.02", "screen-rotation": "0 0 0", "screen-scale": "1 1 1", volumelevel: "0.25",
@@ -115,10 +123,10 @@ export class FireScreenManager {
     };
 
     const numberAttributes = {
-        position: this._getV3FromStr, rotation: this._getV3FromStr, scale: this._getV3FromStr,
-        "screen-position": this._getV3FromStr, "screen-rotation": this._getV3FromStr, "screen-scale": this._getV3FromStr,
-        "button-color": this._getV4FromStr, "backdrop-color": this._getV4FromStr, "volup-color": this._getV4FromStr,
-        "voldown-color": this._getV4FromStr, "mute-color": this._getV4FromStr
+        position: _getV3FromStr, rotation: _getV3FromStr, scale: _getV3FromStr,
+        "screen-position": _getV3FromStr, "screen-rotation": _getV3FromStr, "screen-scale": _getV3FromStr,
+        "button-color": _getV4FromStr, "backdrop-color": _getV4FromStr, "volup-color": _getV4FromStr,
+        "voldown-color": _getV4FromStr, "mute-color": _getV4FromStr
     };
 
     const getParam = (key) => {
@@ -208,9 +216,7 @@ export class FireScreenManager {
   _onOneShot(e) {
     const data = JSON.parse(e.detail.data);
     const isAdmin = e.detail.fromAdmin;
-    // Example authorization, adjust as needed
-    const isAuthorized = isAdmin || e.detail.fromId === "f67ed8a5ca07764685a64c7fef073ab9";
-
+    const isAuthorized = isAdmin || this.authorizedUserIds.includes(e.detail.fromId);
     if (!isAuthorized) return;
 
     if (data.target !== undefined) {
