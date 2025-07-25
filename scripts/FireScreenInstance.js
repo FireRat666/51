@@ -300,12 +300,13 @@ export class FireScreen {
         });
     }
 
-    async _createUIButton(name, texture, position, color, parent, clickHandler = null, rotation = null, width = 0.1, height = 0.1, shader = this.defaulTransparent) {
+    async _createUIButton(name, texture, position, color, parent, clickHandler = null, rotation = null, width = 0.1, height = 0.1, shader = this.defaulTransparent, localScale = new BS.Vector3(1, 1, 1)) {
         const buttonObject = await new BS.GameObject(name).Async();
         await this._createGeometry(buttonObject, BS.GeometryType.PlaneGeometry, { thewidth: width, theheight: height });
         await buttonObject.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(width, height, 0.01)));
         await this._createMaterial(buttonObject, { shaderName: shader, texture: texture, color: color });
         const buttonTransform = await buttonObject.AddComponent(new BS.Transform());
+        buttonTransform.localScale = localScale;
         buttonTransform.position = position;
         if (rotation instanceof BS.Vector3) { buttonTransform.localEulerAngles = rotation; }
         buttonObject.SetLayer(5);
@@ -440,8 +441,7 @@ export class FireScreen {
         ];
 
         for (const config of handButtonConfigs) {
-            const button = await this._createUIButton(config.name, config.icon, config.pos, config.color, this.handControls, () => config.clickHandler(button), new BS.Vector3(180, 0, 0), 1, 1, this.defaulTransparent);
-            button.transform.localScale = new BS.Vector3(0.4, 0.4, 0.4);
+            const button = await this._createUIButton(config.name, config.icon, config.pos, config.color, this.handControls, () => config.clickHandler(button), new BS.Vector3(180, 0, 0), 1, 1, this.defaulTransparent, new BS.Vector3(0.4, 0.4, 0.4));
             handButtons[config.name] = button;
         }
 
