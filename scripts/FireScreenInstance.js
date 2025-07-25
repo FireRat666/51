@@ -279,6 +279,7 @@ export class FireScreen {
         newVolume = Math.max(0, Math.min(newVolume, 1)).toFixed(2);
         this.browserComponent.volumeLevel = newVolume;
 
+        console.log(`FIRESCREEN_INSTANCE Setting volume to: ${newVolume}`);
         const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ volume: ${newVolume} });`;
         this._runBrowserActions(scriptToRun);
     }
