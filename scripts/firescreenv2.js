@@ -26,6 +26,16 @@ if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
       if (typeof window.fireScreenManager === 'undefined') {
         window.fireScreenManager = new FireScreenManager();
         console.log("FIRESCREEN_V2: Manager created.");
+
+        // Add the cleanup function to the window
+        window.cleanupFireScreenV2 = async function(instanceId) {
+            console.log(`FIRESCREEN_V2: Global cleanup called for instance ${instanceId}.`);
+            if (window.fireScreenManager) {
+                await window.fireScreenManager.cleanup(instanceId);
+            } else {
+                console.error("FireScreenManager not found.");
+            }
+        };
       }
 
       // Initial setup for any screens that might already be in the DOM.

@@ -176,11 +176,11 @@ export class FireScreenManager {
     }
   }
 
-  cleanup(instanceId) {
+  async cleanup(instanceId) {
     const instance = this.instances[instanceId];
     if (instance) {
       // Call the destroy method on the instance to clean up its resources
-      instance.destroy();
+      await instance.destroy();
       delete this.instances[instanceId];
     }
   }
