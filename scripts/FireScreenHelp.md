@@ -36,18 +36,19 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `lock-position` | `false` | If `true`, the screen cannot be grabbed and moved by users. |
 | `volumelevel` | `0.25` | The initial volume level (0.0 to 1.0). |
 | `backdrop` | `true` | If `true`, shows a dark backdrop behind the screen. |
-| `backdrop-color` | `0 0 0 0.9` | The color and alpha of the backdrop (R G B A). |
-| `button-color` | `0 1 0 1` | The default color for UI buttons (R G B A). |
-| `custom-button01-url` | `false` | URL for custom button 1. Set to a URL to enable. |
-| `custom-button01-text`| `Custom Button 01` | Text for custom button 1. |
-| `...` | `...` | Custom buttons 2 through 5 follow the same pattern. |
+| `backdrop-color` | `0 0 0 0.9` | The color and alpha of the backdrop (R G B A, 0-1). |
+| `button-color` | `0 1 0 1` | The default color for UI buttons (R G B A, 0-1). |
+| `custom-button01-url` | `false` | URL for custom button 1. Set to a URL to enable. This button navigates to the URL and does not fire an event. |
+| `custom-button01-text`| `Custom Button 01` | Text label for custom button 1. |
+| `...` | `...` | Custom buttons 2 through 5 follow the same pattern (`custom-button02-url`, etc.). |
 
 ## 3. Advanced Usage
 
 ### Listening for Events
 
-You can create custom logic that responds to button clicks on any FireScreen. When a UI button is clicked, a `CustomButtonClick` event is dispatched.
+You can create custom logic that responds to button clicks on any FireScreen. When a UI or Hand Control button is clicked, a `CustomButtonClick` event is dispatched.
 
+**Note:** This event system does not apply to the custom URL buttons, as they only navigate.
 **Recommended Method (using the FireScreenManager):**
 
 This is the safest and most robust way to listen for events. It avoids conflicts with other scripts in the space.
@@ -85,6 +86,17 @@ document.addEventListener('CustomButtonClick', (event) => {
     console.log('Current URL:', event.detail.message);
 });
 ```
+### Hand Controls
+
+Setting `hand-controls="true"` attaches a control panel to your left hand for easy access to common functions. These controls are designed to affect **all FireScreens** in the space simultaneously.
+
+| Button | Icon | Action | Event Dispatched |
+| :--- | :--- | :--- | :--- |
+| **Volume Up** | Volume High | Increases the volume on all FireScreens. | Yes (`VolumeUp`) |
+| **Volume Down** | Volume Low | Decreases the volume on all FireScreens. | Yes (`VolumeDown`) |
+| **Mute** | Volume Mute | Toggles the mute state on all FireScreens. | Yes (`Mute`) |
+| **Home** | Home | Navigates all FireScreens to their home page. | Yes (`Home`) |
+| **Lock Player** | Lock | Toggles the Banter "LegacyLockPlayer" state, which prevents you from moving. | No |
 
 ### Remote Control (One-Shot Commands)
 
