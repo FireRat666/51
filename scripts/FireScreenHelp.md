@@ -2,6 +2,33 @@
 
 Welcome! This guide explains how to install, configure, and interact with FireScreen V2 in your Banter space.
 
+## Table of Contents
+1. [Installation](#1-installation)
+2. [Configuration Parameters](#2-configuration-parameters)
+3. [Advanced Usage](#3-advanced-usage)
+    - [Listening for Events](#listening-for-events)
+    - [Hand Controls](#hand-controls)
+    - [Remote Control (One-Shot Commands)](#remote-control-one-shot-commands)
+    - [Space State Synchronization](#space-state-synchronization)
+    - [Announcer Integration](#announcer-integration)
+4. [Performance & Troubleshooting](#4-performance--troubleshooting)
+5. [Community & Support](#5-community--support)
+
+## Quick Start
+
+1.  **Add the script tag** to your `index.html`:
+    ```html
+    <script src="https://51.firer.at/scripts/firescreenv2.js"></script>
+    ```
+2.  **Set the URL** you want to display:
+    ```html
+    <script src="https://51.firer.at/scripts/firescreenv2.js" website="https://google.com"></script>
+    ```
+3.  **Position the screen** in your world:
+    ```html
+    <script src="https://51.firer.at/scripts/firescreenv2.js" website="https://google.com" position="0 2 -5"></script>
+    ```
+
 ## 1. Installation
 
 To add a FireScreen to your space, simply add a `<script>` tag to your `index.html` file.
@@ -14,11 +41,27 @@ To add a FireScreen to your space, simply add a `<script>` tag to your `index.ht
         scale="2.5 2.5 1"
         hand-controls="true">
 </script>
+
+<!-- Advanced Example with Custom Buttons and Colors -->
+<script src="https://51.firer.at/scripts/firescreenv2.js"
+        position="0 2 -5"
+        rotation="0 20 0"
+        width="1280"
+        height="720"
+        pixelsperunit="1400"
+        button-color="0.1 0.8 0.1 1"
+        custom-button01-url="https://google.com"
+        custom-button01-text="Google"
+        custom-button02-url="https://youtube.com"
+        custom-button02-text="YouTube">
+</script>
 ```
 
 ## 2. Configuration Parameters
 
 You can customize each FireScreen instance using attributes on the `<script>` tag.
+
+> **Note on Screen IDs:** The ID for each FireScreen (used for events and remote control) is determined by its order in the `index.html` file, starting from 1. The first FireScreen is ID 1, the second is ID 2, and so on.
 
 #### Core Attributes
 | Attribute | Default Value | Description |
@@ -33,7 +76,7 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | :--- | :--- | :--- |
 | `width` | `1024` | The pixel width of the browser surface. |
 | `height` | `576` | The pixel height of the browser surface. |
-| `pixelsperunit` | `1200` | The resolution of the browser surface in pixels per world unit. |
+| `pixelsperunit` | `1200` | The resolution of the web surface. In Banter's Unity-based world, 1 world unit is equivalent to 1 meter, so this value is effectively pixels-per-meter. Higher values result in sharper text and images but can impact performance. |
 | `mipmaps` | `1` | The number of mipmaps for the browser texture. |
 | `backdrop` | `true` | If `true`, shows a dark backdrop behind the screen. |
 | `backdrop-color` | `0 0 0 0.9` | The color and alpha of the backdrop (R G B A, 0-1). |
@@ -62,16 +105,18 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `icon-volup-url` | `(url)` | URL for the volume up icon. |
 | `icon-voldown-url` | `(url)` | URL for the volume down icon. |
 | `icon-direction-url` | `(url)` | URL for the back/forward arrow icon. |
-| `custom-button01-url` | `false` | URL for custom button 1. Set to a URL to enable. This button navigates to the URL and does not fire an event. |
-| `custom-button01-text`| `Custom Button 01` | Text label for custom button 1. |
-| `...` | `...` | Custom buttons 2 through 5 follow the same pattern (`custom-button02-url`, etc.). |
+| `custom-button01-url` | `false` | Provide a URL to enable custom button 1. This button navigates to the specified URL and does not fire an event. |
+| `custom-button01-text`| `Custom Button 1` | Text label for custom button 1. |
+| `custom-button02-url` | `false` | URL for custom button 2. |
+| `custom-button02-text`| `Custom Button 2` | Text label for custom button 2. |
+| `...` | `...` | Custom buttons 3 through 5 follow the same pattern. |
 
 #### Advanced Features
 | Attribute | Default Value | Description |
 | :--- | :--- | :--- |
 | `space-sync` | `false` | If `true`, the screen will attempt to sync its URL from a space state property named `fireurl`. |
 | `announce` | `false` | If `true`, enables spoken announcements when users join the space. |
-| `announce-events` | `undefined` | If `true`, enables spoken announcements for upcoming SideQuest events. |
+| `announce-events` | `false` | If `true`, enables spoken announcements for upcoming SideQuest events. |
 | `announce-420` | `false` | If `true`, enables special 4:20-themed spoken announcements. |
 
 ## 3. Advanced Usage
@@ -157,7 +202,7 @@ BS.BanterScene.GetInstance().OneShot(JSON.stringify({
 | :--- | :--- | :--- |
 | `fireurl` | `string` | Sets the browser URL. |
 | `firevolume` | `number` | Sets the volume directly (0.0 to 1.0). |
-| `browseraction`| `string` | Executes a JavaScript string inside the browser (e.g., `document.body.style.backgroundColor='red'`). |
+| `browseraction`| `string` | Executes a JavaScript string inside the browser (e.g., `document.body.style.backgroundColor='red'`). **Security Note:** Use with caution, as this can execute any JavaScript. Sanitize any user-provided input. |
 | `gohome` | `boolean` | Navigates the browser to its configured home page. |
 | `sethome` | `string` | Sets a new home page URL for the browser. |
 | `firevolumeup` | `boolean` | Increases the volume for all screens. |
@@ -186,6 +231,29 @@ You can enable different types of announcements:
 -   **`announce="true"`**: Enables welcome messages when users join the space. This is the primary announcer flag.
 -   **`announce-events="true"`**: Enables announcements for upcoming events listed on SideQuest.
 -   **`announce-420="true"`**: Enables special, 4:20-themed announcements for upcoming blaze times.
+
+## 4. Performance & Troubleshooting
+
+### Performance Considerations
+
+- **Resolution**: The `width`, `height`, and `pixelsperunit` attributes determine the resolution of the web surface. Higher values create a sharper image but require more memory and processing power, which can impact performance, especially on mobile VR headsets.
+- **Multiple Screens**: Each FireScreen instance creates a new browser context. Using many screens in a single space can significantly affect performance.
+
+### Common Issues
+
+- **Screen is not visible**:
+    - Check that the `position` and `scale` attributes are set to reasonable values for your space.
+    - Ensure the URL in the `website` attribute is correct and accessible.
+- **Cannot click on the screen**:
+    - Make sure `disable-interaction` is not set to `true`.
+- **Custom buttons or icons not appearing**:
+    - Double-check that the URLs provided in the `custom-buttonXX-url` or `icon-XX-url` attributes are correct and publicly accessible.
+
+## 5. Community & Support
+
+Encountered a bug or have a feature request? Please open an issue on the official GitHub repository. Your feedback is valuable!
+
+- **GitHub Repository**: https://github.com/FireRat666/51
 
 ---
 This documentation is for FireScreen V2. For any issues or suggestions, please refer to the source repository.
