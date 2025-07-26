@@ -5,18 +5,22 @@ function checkForMatchingAnnouncerScripts() {
   return matchingScriptFound;
 }
 
-async function loadAndExecuteAnnouncerScript(src) {
-  try { var delay;
-    const response = await fetch(src);
-    const scriptContent = await response.text();
-    if (window.FireScriptLoaded) { delay = 0 } else { delay = checkForMatchingAnnouncerScripts() ? 10000 : 0; };
-    setTimeout(() => { eval(scriptContent); }, delay);
-    console.log(`Announcer Script executed successfully! YT Detected:${checkForMatchingAnnouncerScripts()}`);
-  } catch (error) { console.error("Failed to load or execute the Announcer script:", error); }
+function loadAnnouncerScript(src) {
+  // Using dynamic script injection is safer and more standard than fetch + eval.
+  // The browser handles loading and execution in a secure context.
+  const delay = window.FireScriptLoaded ? 0 : (checkForMatchingAnnouncerScripts() ? 10000 : 0);
+
+  setTimeout(() => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => console.log(`Announcer Script executed successfully! YT Detected:${checkForMatchingAnnouncerScripts()}`);
+    script.onerror = (error) => console.error("Failed to load the Announcer script:", error);
+    document.body.appendChild(script);
+  }, delay);
 }
 
 if (!window.AnnouncerScriptInitialized && window.isBanter) {
   window.AnnouncerScriptInitialized = true;
-  loadAndExecuteAnnouncerScript(`https://51.firer.at/scripts/announcerscripts.js`);
+  loadAnnouncerScript(`https://51.firer.at/scripts/announcerscripts.js`);
   console.log(`Announcer Script FIRST Call, Should be Loading!!`);
 } else { console.log(`Announcer Script Already Called, Should be Loading!!`); }
