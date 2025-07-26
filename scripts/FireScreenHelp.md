@@ -22,26 +22,33 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 
 | Attribute | Default Value | Description |
 | :--- | :--- | :--- |
+
+#### Core Attributes
 | `website` | `https://firer.at/pages/games.html` | The initial URL the browser will load. |
 | `position` | `0 2 0` | The world position of the screen (X Y Z). |
 | `rotation` | `0 0 0` | The world rotation of the screen (X Y Z). |
 | `scale` | `1 1 1` | The world scale of the screen (X Y Z). |
+
+#### Display & Appearance
+| `width` | `1024` | The pixel width of the browser surface. |
+| `height` | `576` | The pixel height of the browser surface. |
+| `pixelsperunit` | `1200` | The resolution of the browser surface in pixels per world unit. |
+| `mipmaps` | `1` | The number of mipmaps for the browser texture. |
+| `backdrop` | `true` | If `true`, shows a dark backdrop behind the screen. |
+| `backdrop-color` | `0 0 0 0.9` | The color and alpha of the backdrop (R G B A, 0-1). |
 | `screen-position` | `0 0 -0.02` | The local position of the browser surface relative to the backdrop. |
 | `screen-rotation` | `0 0 0` | The local rotation of the browser surface. |
 | `screen-scale` | `1 1 1` | The local scale of the browser surface. |
-| `width` | `1024` | The pixel width of the browser surface. |
-| `height` | `576` | The pixel height of the browser surface. |
-| `mipmaps` | `1` | The number of mipmaps for the browser texture. |
-| `pixelsperunit` | `1200` | The resolution of the browser surface in pixels per world unit. |
+
+#### Interaction & Controls
 | `hand-controls` | `false` | If `true`, attaches volume and home controls to the user's left hand. |
-| `castmode` | `false` | If `true`, simplifies the UI for casting/streaming use cases. Hides most buttons. |
-| `space-sync` | `false` | If `true`, the screen will attempt to sync its URL from a space state property named `fireurl`. |
 | `disable-interaction` | `false` | If `true`, users cannot click or interact with the browser surface. |
 | `disable-rotation` | `false` | If `true`, the screen will not billboard (face) the user. |
 | `lock-position` | `false` | If `true`, the screen cannot be grabbed and moved by users. |
 | `volumelevel` | `0.25` | The initial volume level (0.0 to 1.0). |
-| `backdrop` | `true` | If `true`, shows a dark backdrop behind the screen. |
-| `backdrop-color` | `0 0 0 0.9` | The color and alpha of the backdrop (R G B A, 0-1). |
+| `castmode` | `false` | If `true`, simplifies the UI for casting/streaming use cases. Hides most buttons. |
+
+#### UI Customization
 | `button-color` | `0 1 0 1` | The default color for UI buttons (R G B A, 0-1). |
 | `volup-color` | `0 1 0 1` | The color for the volume up button. |
 | `voldown-color` | `1 1 0 1` | The color for the volume down button. |
@@ -52,10 +59,13 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `icon-direction-url` | `(url)` | URL for the back/forward arrow icon. |
 | `custom-button01-url` | `false` | URL for custom button 1. Set to a URL to enable. This button navigates to the URL and does not fire an event. |
 | `custom-button01-text`| `Custom Button 01` | Text label for custom button 1. |
-| `announce` | `false` | If `true`, loads the `announcer.js` script for in-world announcements. |
-| `announce-420` | `false` | If `true`, enables 420-themed announcements via `announcer.js`. |
-| `announce-events` | `undefined` | If `true`, enables event-based announcements via `announcer.js`. |
 | `...` | `...` | Custom buttons 2 through 5 follow the same pattern (`custom-button02-url`, etc.). |
+
+#### Advanced Features
+| `space-sync` | `false` | If `true`, the screen will attempt to sync its URL from a space state property named `fireurl`. |
+| `announce` | `false` | If `true`, enables spoken announcements when users join the space. |
+| `announce-events` | `undefined` | If `true`, enables spoken announcements for upcoming SideQuest events. |
+| `announce-420` | `false` | If `true`, enables special 4:20-themed spoken announcements. |
 
 ## 3. Advanced Usage
 
@@ -140,7 +150,7 @@ BS.BanterScene.GetInstance().OneShot(JSON.stringify({
 | :--- | :--- | :--- |
 | `fireurl` | `string` | Sets the browser URL. |
 | `firevolume` | `number` | Sets the volume directly (0.0 to 1.0). |
-| `browseraction`| `string` | Executes a JavaScript string inside the browser. |
+| `browseraction`| `string` | Executes a JavaScript string inside the browser (e.g., `document.body.style.backgroundColor='red'`). |
 | `gohome` | `boolean` | Navigates the browser to its configured home page. |
 | `sethome` | `string` | Sets a new home page URL for the browser. |
 | `firevolumeup` | `boolean` | Increases the volume for all screens. |
@@ -162,12 +172,13 @@ This is great for having a primary screen in your world that always shows a spec
 
 ### Announcer Integration
 
-The FireScreen script can integrate with an external announcer.js script to provide in-world user announcements. This is an optional feature for space creators who want to broadcast events like users joining or leaving. 
+The FireScreen script can provide in-world, spoken announcements for various activities. This feature works by dynamically loading an `announcer.js` script into your space. It is loaded only once, even if multiple screens have announcer flags enabled.
 
--   **`announce="true"`**: The primary flag to enable this feature. It loads the `announcer.js` script.
--   **`announce-events="true"`**: Specifically enables announcements for user join/leave events. If `announce` is `true` and this is not set, it will default to `true`.
--   **`announce-420="true"`**: Enables special, themed announcements if supported by the `announcer.js` script.
+You can enable different types of announcements:
 
-This feature works by dynamically adding the announcer.js script to your space. The FireScreen script will only load it once, even if multiple screens have the announce flag enabled.
+-   **`announce="true"`**: Enables welcome messages when users join the space. This is the primary announcer flag.
+-   **`announce-events="true"`**: Enables announcements for upcoming events listed on SideQuest.
+-   **`announce-420="true"`**: Enables special, 4:20-themed announcements for upcoming blaze times.
+
 ---
 This documentation is for FireScreen V2. For any issues or suggestions, please refer to the source repository.
