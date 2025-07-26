@@ -1,5 +1,8 @@
 // This new file will manage all FireScreen instances.
 
+  const announcerScriptUrl = `https://51.firer.at/scripts/announcer.js`;
+  const fireScriptUrl = `https://51.firer.at/scripts/firescreenv2.js`;
+
 import { FireScreen } from './FireScreenInstance.js';
 
 /**
@@ -57,7 +60,6 @@ export class FireScreenManager {
     this._eventDispatcher = new EventDispatcher();
 
     this.instances = {};
-    this.fireScriptName = `https://51.firer.at/scripts/firescreenv2.js`; // Centralize config
     this.scene = BS.BanterScene.GetInstance();
     this.globalSetupComplete = false;
     this.spaceStateLogged = false;
@@ -186,8 +188,8 @@ export class FireScreenManager {
     return new BS.Vector4(x, y, z, w);
   }
 
-  _parseParams(script, id) {
-    const { _getV3FromStr, _getV4FromStr } = FireScreenManager;
+  static _parseParams(script, id) {
+    const { _getV3FromStr, _getV4FromStr } = this;
 
     const defaultParams = {
       position: "0 2 0", rotation: "0 0 0", scale: "1 1 1", castmode: "false", "lock-position": "false",
@@ -229,14 +231,14 @@ export class FireScreenManager {
 
   async setupScreens() {
     console.log("FIRESCREEN_MANAGER: Starting setup...");
-    const scripts = document.querySelectorAll(`script[src^='${this.fireScriptName}']`);
+    const scripts = document.querySelectorAll(`script[src^='${fireScriptUrl}']`);
 
     for (const script of scripts) {
       if (script.dataset.processed) continue;
       script.dataset.processed = 'true';
 
       const id = this._getNextId();
-      const params = this._parseParams(script, id);
+      const params = FireScreenManager._parseParams(script, id);
 
       // Create and initialize a new FireScreen instance, passing the manager to it
       const instance = new FireScreen(params, this);
@@ -278,7 +280,6 @@ export class FireScreenManager {
 
   _loadAnnouncerScript(params) {
     this.announcerScriptLoaded = true; // Set flag to prevent multiple loads
-    const announcerScriptUrl = `https://51.firer.at/scripts/announcer.js`;
 
     // Check if a script with this source already exists
     if (document.querySelector(`script[src^='${announcerScriptUrl}']`)) {
