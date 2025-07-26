@@ -2,12 +2,59 @@
 
 import { FireScreen } from './FireScreenInstance.js';
 
+/**
+ * A minimal, self-contained event dispatcher.
+ * This avoids using global DOM events or external libraries.
+ */
+class EventDispatcher {
+  constructor() {
+    this._listeners = {};
+  }
+
+  addEventListener(type, listener) {
+    const listeners = this._listeners;
+    if (listeners[type] === undefined) listeners[type] = [];
+    if (listeners[type].indexOf(listener) === -1) {
+      listeners[type].push(listener);
+    }
+  }
+
+  hasEventListener(type, listener) {
+    const listeners = this._listeners;
+    return listeners[type] !== undefined && listeners[type].indexOf(listener) !== -1;
+  }
+
+  removeEventListener(type, listener) {
+    const listeners = this._listeners;
+    const listenerArray = listeners[type];
+    if (listenerArray !== undefined) {
+      const index = listenerArray.indexOf(listener);
+      if (index !== -1) listenerArray.splice(index, 1);
+    }
+  }
+
+  dispatchEvent(event) {
+    const listeners = this._listeners;
+    const listenerArray = listeners[event.type];
+    if (listenerArray !== undefined) {
+      event.target = this;
+      const array = listenerArray.slice(0);
+      for (let i = 0, l = array.length; i < l; i++) {
+        array[i].call(this, event);
+      }
+      event.target = null;
+    }
+  }
+}
+
 export class FireScreenManager {
   constructor() {
     // Robust singleton pattern
     if (FireScreenManager.instance) {
       return FireScreenManager.instance;
     }
+
+    this._eventDispatcher = new EventDispatcher();
 
     this.instances = {};
     this.fireScriptName = `https://51.firer.at/scripts/firescreenv2.js`; // Centralize config
@@ -25,6 +72,24 @@ export class FireScreenManager {
     this._initializeGlobalListeners();
 
     FireScreenManager.instance = this;
+  }
+
+  // --- Public Event Interface ---
+  // We expose the EventDispatcher's methods on the manager itself.
+  addEventListener(type, listener) {
+    this._eventDispatcher.addEventListener(type, listener);
+  }
+
+  hasEventListener(type, listener) {
+    return this._eventDispatcher.hasEventListener(type, listener);
+  }
+
+  removeEventListener(type, listener) {
+    this._eventDispatcher.removeEventListener(type, listener);
+  }
+
+  dispatchEvent(event) {
+    this._eventDispatcher.dispatchEvent(event);
   }
 
   _initializeGlobalListeners() {

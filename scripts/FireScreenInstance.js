@@ -346,8 +346,16 @@ export class FireScreen {
 
     _dispatchButtonClickEvent(buttonName, message) {
         const eventDetails = { buttonName: buttonName, message: message, timestamp: new Date(), instanceId: this.id };
-        const buttonClickEvent = new CustomEvent('FireScreenButtonClick', { detail: eventDetails, bubbles: true, composed: true });
-        document.dispatchEvent(buttonClickEvent);
+        const eventName = 'CustomButtonClick'; // Standardized event name based on usage in index.html.
+
+        // New, preferred event system through the manager.
+        // This keeps events self-contained and makes the system more modular.
+        this.manager.dispatchEvent({ type: eventName, detail: eventDetails });
+
+        // --- Backward Compatibility ---
+        // Dispatch the old global DOM event for any legacy scripts that might be listening.
+        const legacyEvent = new CustomEvent(eventName, { detail: eventDetails, bubbles: true, composed: true });
+        document.dispatchEvent(legacyEvent);
     }
 
     _setBrowserUrl(url) {
