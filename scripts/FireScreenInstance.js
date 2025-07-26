@@ -410,17 +410,18 @@ export class FireScreen {
 
         const handButtons = {};
         const handButtonConfigs = [
-            { name: 'hVolumeUpButton', icon: p['icon-volup-url'], pos: new BS.Vector3(0.4, 0.4, 0.3), color: p['volup-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", 1); this._updateButtonColor(btn, p['volup-color']); } },
-            { name: 'hVolumeDownButton', icon: p['icon-voldown-url'], pos: new BS.Vector3(0.0, 0.4, 0.3), color: p['voldown-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", -1); this._updateButtonColor(btn, p['voldown-color']); } },
+            { name: 'hVolumeUpButton', icon: p['icon-volup-url'], pos: new BS.Vector3(0.4, 0.4, 0.3), color: p['volup-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", 1); this._updateButtonColor(btn, p['volup-color']); this._dispatchButtonClickEvent("VolumeUp", 'Hand Volume Up Clicked!'); } },
+            { name: 'hVolumeDownButton', icon: p['icon-voldown-url'], pos: new BS.Vector3(0.0, 0.4, 0.3), color: p['voldown-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", -1); this._updateButtonColor(btn, p['voldown-color']); this._dispatchButtonClickEvent("VolumeDown", 'Hand Volume Down Clicked!'); } },
             { name: 'hMuteButton', icon: p['icon-mute-url'], pos: new BS.Vector3(-0.4, 0.4, 0.3), color: p['mute-color'], clickHandler: (btn) => {
                 this._adjustForAll("toggleMute");
                 // The broadcast command will toggle our own mute state.
                 // We can now use it to set the button color, making it self-contained
                 // and not reliant on other instances.
                 btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.browserComponent.muteState ? new BS.Vector4(1, 0, 0, 1) : (p['mute-color'] || p['button-color']);
+                this._dispatchButtonClickEvent("Mute", 'Hand Mute Clicked!');
             } },
             { name: 'hLockButton', icon: 'https://firer.at/files/lock.png', pos: new BS.Vector3(0, -0.1, 0.3), color: new BS.Vector4(1, 1, 1, 0.7), clickHandler: (btn) => { this.playerislockedv2 = !this.playerislockedv2; this.playerislockedv2 ? this.scene.LegacyLockPlayer() : this.scene.LegacyUnlockPlayer(); btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.playerislockedv2 ? new BS.Vector4(1, 0, 0, 1) : new BS.Vector4(1, 1, 1, 0.7); } },
-            { name: 'hHomeButton', icon: 'https://firer.at/files/Home.png', pos: new BS.Vector3(0.4, -0.1, 0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome"); this._updateButtonColor(btn, p['button-color']); } }
+            { name: 'hHomeButton', icon: 'https://firer.at/files/Home.png', pos: new BS.Vector3(0.4, -0.1, 0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome"); this._updateButtonColor(btn, p['button-color']); this._dispatchButtonClickEvent("Home", 'Hand Home Clicked!'); } }
         ];
 
         for (const config of handButtonConfigs) {
