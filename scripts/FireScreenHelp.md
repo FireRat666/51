@@ -26,8 +26,13 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `position` | `0 2 0` | The world position of the screen (X Y Z). |
 | `rotation` | `0 0 0` | The world rotation of the screen (X Y Z). |
 | `scale` | `1 1 1` | The world scale of the screen (X Y Z). |
+| `screen-position` | `0 0 -0.02` | The local position of the browser surface relative to the backdrop. |
+| `screen-rotation` | `0 0 0` | The local rotation of the browser surface. |
+| `screen-scale` | `1 1 1` | The local scale of the browser surface. |
 | `width` | `1024` | The pixel width of the browser surface. |
 | `height` | `576` | The pixel height of the browser surface. |
+| `mipmaps` | `1` | The number of mipmaps for the browser texture. |
+| `pixelsperunit` | `1200` | The resolution of the browser surface in pixels per world unit. |
 | `hand-controls` | `false` | If `true`, attaches volume and home controls to the user's left hand. |
 | `castmode` | `false` | If `true`, simplifies the UI for casting/streaming use cases. Hides most buttons. |
 | `space-sync` | `false` | If `true`, the screen will attempt to sync its URL from a space state property named `fireurl`. |
@@ -38,8 +43,18 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `backdrop` | `true` | If `true`, shows a dark backdrop behind the screen. |
 | `backdrop-color` | `0 0 0 0.9` | The color and alpha of the backdrop (R G B A, 0-1). |
 | `button-color` | `0 1 0 1` | The default color for UI buttons (R G B A, 0-1). |
+| `volup-color` | `0 1 0 1` | The color for the volume up button. |
+| `voldown-color` | `1 1 0 1` | The color for the volume down button. |
+| `mute-color` | `1 1 1 1` | The color for the mute button. |
+| `icon-mute-url` | `(url)` | URL for the mute icon. |
+| `icon-volup-url` | `(url)` | URL for the volume up icon. |
+| `icon-voldown-url` | `(url)` | URL for the volume down icon. |
+| `icon-direction-url` | `(url)` | URL for the back/forward arrow icon. |
 | `custom-button01-url` | `false` | URL for custom button 1. Set to a URL to enable. This button navigates to the URL and does not fire an event. |
 | `custom-button01-text`| `Custom Button 01` | Text label for custom button 1. |
+| `announce` | `false` | If `true`, loads the `announcer.js` script for in-world announcements. |
+| `announce-420` | `false` | If `true`, enables 420-themed announcements via `announcer.js`. |
+| `announce-events` | `undefined` | If `true`, enables event-based announcements via `announcer.js`. |
 | `...` | `...` | Custom buttons 2 through 5 follow the same pattern (`custom-button02-url`, etc.). |
 
 ## 3. Advanced Usage
@@ -143,3 +158,16 @@ BS.BanterScene.GetInstance().SetPublicSpaceProps({'fireurl': 'https://bantervr.c
 ```
 
 This is great for having a primary screen in your world that always shows a specific, easily updatable page.
+
+
+### Announcer Integration
+
+The FireScreen script can integrate with an external announcer.js script to provide in-world user announcements. This is an optional feature for space creators who want to broadcast events like users joining or leaving. 
+
+-   **`announce="true"`**: The primary flag to enable this feature. It loads the `announcer.js` script.
+-   **`announce-events="true"`**: Specifically enables announcements for user join/leave events. If `announce` is `true` and this is not set, it will default to `true`.
+-   **`announce-420="true"`**: Enables special, themed announcements if supported by the `announcer.js` script.
+
+This feature works by dynamically adding the announcer.js script to your space. The FireScreen script will only load it once, even if multiple screens have the announce flag enabled.
+---
+This documentation is for FireScreen V2. For any issues or suggestions, please refer to the source repository.
