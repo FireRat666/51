@@ -20,16 +20,17 @@ To add a FireScreen to your space, simply add a `<script>` tag to your `index.ht
 
 You can customize each FireScreen instance using attributes on the `<script>` tag.
 
+#### Core Attributes
 | Attribute | Default Value | Description |
 | :--- | :--- | :--- |
-
-#### Core Attributes
 | `website` | `https://firer.at/pages/games.html` | The initial URL the browser will load. |
 | `position` | `0 2 0` | The world position of the screen (X Y Z). |
 | `rotation` | `0 0 0` | The world rotation of the screen (X Y Z). |
 | `scale` | `1 1 1` | The world scale of the screen (X Y Z). |
 
 #### Display & Appearance
+| Attribute | Default Value | Description |
+| :--- | :--- | :--- |
 | `width` | `1024` | The pixel width of the browser surface. |
 | `height` | `576` | The pixel height of the browser surface. |
 | `pixelsperunit` | `1200` | The resolution of the browser surface in pixels per world unit. |
@@ -41,6 +42,8 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `screen-scale` | `1 1 1` | The local scale of the browser surface. |
 
 #### Interaction & Controls
+| Attribute | Default Value | Description |
+| :--- | :--- | :--- |
 | `hand-controls` | `false` | If `true`, attaches volume and home controls to the user's left hand. |
 | `disable-interaction` | `false` | If `true`, users cannot click or interact with the browser surface. |
 | `disable-rotation` | `false` | If `true`, the screen will not billboard (face) the user. |
@@ -49,6 +52,8 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `castmode` | `false` | If `true`, simplifies the UI for casting/streaming use cases. Hides most buttons. |
 
 #### UI Customization
+| Attribute | Default Value | Description |
+| :--- | :--- | :--- |
 | `button-color` | `0 1 0 1` | The default color for UI buttons (R G B A, 0-1). |
 | `volup-color` | `0 1 0 1` | The color for the volume up button. |
 | `voldown-color` | `1 1 0 1` | The color for the volume down button. |
@@ -62,6 +67,8 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | `...` | `...` | Custom buttons 2 through 5 follow the same pattern (`custom-button02-url`, etc.). |
 
 #### Advanced Features
+| Attribute | Default Value | Description |
+| :--- | :--- | :--- |
 | `space-sync` | `false` | If `true`, the screen will attempt to sync its URL from a space state property named `fireurl`. |
 | `announce` | `false` | If `true`, enables spoken announcements when users join the space. |
 | `announce-events` | `undefined` | If `true`, enables spoken announcements for upcoming SideQuest events. |
