@@ -87,6 +87,7 @@ export class FireScreen {
         this.listeners = [];
         this.handControlGameObjects = [];
         this.intervals = [];
+        this.uiHandButtons = {};
         this.handControls = null;
         this.browserComponent = null;
         this.scriptElement = params.scriptElement;
@@ -174,9 +175,14 @@ export class FireScreen {
             },
             adjustVolume: (change) => this._adjustVolume(change),
             toggleMute: () => {
-                this.browserComponent.muteState = !this.browserComponent.muteState;
+                this.browserComponent.muteState = !this.browserComponent.muteState; // Toggle state
                 const scriptToRun = `${mediaControlScript} window.fireScreenMediaControl({ mute: ${this.browserComponent.muteState} });`;
-                this._runBrowserActions(scriptToRun);
+                this._runBrowserActions(scriptToRun); // Update the hand control button color if it exists on this instance.
+                if (this.uiHandButtons.hMuteButton) {
+                    const p = this.params;
+                    this.uiHandButtons.hMuteButton.GetComponent(BS.ComponentType.BanterMaterial).color =
+                        this.browserComponent.muteState ? CONSTANTS.COLORS.BUTTON_LOCKED : (p['mute-color'] || p['button-color']);
+                }
             }
         };
 
@@ -445,29 +451,25 @@ export class FireScreen {
 
         setTimeout(async () => { await this.scene.LegacyAttachObject(this.handControls, userId, BS.LegacyAttachmentPosition.LEFT_HAND); }, 1000);
 
-        const handButtons = {};
+        this.uiHandButtons = {};
         const handButtonConfigs = [
             { name: 'hVolumeUpButton', icon: p['icon-volup-url'], pos: new BS.Vector3(0.4, 0.4, 0.3), color: p['volup-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", 1); this._updateButtonColor(btn, p['volup-color']); this._dispatchButtonClickEvent("VolumeUp", 'Hand Volume Up Clicked!'); } },
             { name: 'hVolumeDownButton', icon: p['icon-voldown-url'], pos: new BS.Vector3(0.0, 0.4, 0.3), color: p['voldown-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", -1); this._updateButtonColor(btn, p['voldown-color']); this._dispatchButtonClickEvent("VolumeDown", 'Hand Volume Down Clicked!'); } },
-            { name: 'hMuteButton', icon: p['icon-mute-url'], pos: new BS.Vector3(-0.4, 0.4, 0.3), color: p['mute-color'], clickHandler: (btn) => {
-                this._adjustForAll("toggleMute");
-                // The broadcast command will toggle our own mute state.
-                // We can now use it to set the button color, making it self-contained
-                // and not reliant on other instances.
-                btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.browserComponent.muteState ? new BS.Vector4(1, 0, 0, 1) : (p['mute-color'] || p['button-color']);
+            { name: 'hMuteButton', icon: p['icon-mute-url'], pos: new BS.Vector3(-0.4, 0.4, 0.3), color: p['mute-color'], clickHandler: () => {
+                this._adjustForAll("toggleMute", true); // Pass true to ensure the command is recognized
                 this._dispatchButtonClickEvent("Mute", 'Hand Mute Clicked!');
-            } },
+            }},
             { name: 'hLockButton', icon: CONSTANTS.ICONS.LOCK, pos: new BS.Vector3(0, -0.1, 0.3), color: CONSTANTS.COLORS.BUTTON_UNLOCKED, clickHandler: (btn) => { this.playerislockedv2 = !this.playerislockedv2; this.playerislockedv2 ? this.scene.LegacyLockPlayer() : this.scene.LegacyUnlockPlayer(); btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.playerislockedv2 ? CONSTANTS.COLORS.BUTTON_LOCKED : CONSTANTS.COLORS.BUTTON_UNLOCKED; } },
-            { name: 'hHomeButton', icon: CONSTANTS.ICONS.HOME, pos: new BS.Vector3(0.4, -0.1, 0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome"); this._updateButtonColor(btn, p['button-color']); this._dispatchButtonClickEvent("Home", 'Hand Home Clicked!'); } }
+            { name: 'hHomeButton', icon: CONSTANTS.ICONS.HOME, pos: new BS.Vector3(0.4, -0.1, 0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome", true); this._updateButtonColor(btn, p['button-color']); this._dispatchButtonClickEvent("Home", 'Hand Home Clicked!'); } }
         ];
 
         for (const config of handButtonConfigs) {
             const button = await this._createUIButton(config.name, config.icon, config.pos, config.color, this.handControls, () => config.clickHandler(button), CONSTANTS.LAYOUT.HAND_CONTROLS.BUTTON_ROT, 1, 1, CONSTANTS.SHADERS.DEFAULT_TRANSPARENT, CONSTANTS.LAYOUT.HAND_CONTROLS.BUTTON_SCALE);
-            handButtons[config.name] = button;
+            this.uiHandButtons[config.name] = button;
         }
 
         // Track all created hand control objects so they can be cleaned up properly.
-        this.handControlGameObjects = [this.handControls, ...Object.values(handButtons)];
+        this.handControlGameObjects = [this.handControls, ...Object.values(this.uiHandButtons)];
         this.gameObjects.push(...this.handControlGameObjects);
     }
 
