@@ -5,291 +5,253 @@
   <link rel="stylesheet" href="https://firer.at/pages/style.css" />
   <script src="https://firer.at/scripts/RandomBG.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FireScreen Docs (WIP)</title>
+  <title>FireScreen V2 Docs</title>
   <style>
-    body {font-size: 15px; font-family: Arial, sans-serif; line-height: 1.2; margin: 0; padding: 10px; }
-    .container { max-width: 1500px; margin: auto; padding: 10px; border-radius: 20px; border: .1em solid rgb(0, 255, 0); }
-    .parameter-table { line-height: 1.6; width: 100%; border-collapse: collapse; margin: 20px 0; }
-    .parameter-table th, .parameter-table td { border: 1px solid #909090a4; padding: 8px; }
-    .parameter-table th { text-align: left; }
-    .code { padding: 5px 10px; border-radius: 5px; font-family: "Courier New", Courier, monospace; }
+    body { font-size: 16px; font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 10px; }
+    .container { max-width: 1200px; margin: auto; padding: 20px; border-radius: 20px; border: .1em solid rgb(0, 255, 0); }
+    h1, h2, h3 { color: #00e613; }
+    h1 { text-align: center; }
+    h2 { margin-top: 40px; border-bottom: 1px solid #555; padding-bottom: 10px; }
+    h3 { margin-top: 30px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { border: 1px solid #909090a4; padding: 12px; text-align: left; }
+    th { background-color: #000000b0; }
+    code { background-color: #2d2d2da8; color: #f8f8f2; padding: 2px 6px; border-radius: 4px; font-family: "Courier New", Courier, monospace; }
+	.codeborder {  background-color: #000000a8; border: .1em solid rgb(0, 255, 0); }
+	pre > code { display: block; padding: 15px; white-space: pre; overflow-x: auto; }
+    li { margin-bottom: 10px; }
+    a { color: #64b5f6; }
+    a:hover { color: #90caf9; }
   </style>
 </head>
 <body>
   <br>
   <div class="container">
-    <center>
-    <div span style="font-size: 30px;"><b>FireScreen Docs (WIP)</b></div>
-    <p>
-      This documentation provides details for all parameters that can be used with the FireScreen script.<br>
-      These parameters allow you to customize the behavior of the screen / browser, and UI elements. <br>
-      If a parameter is not provided, its default value will be used.
-    </p></center>
-    <table class="parameter-table">
-      <thead>
-        <tr>
-          <th>Parameter</th>
-          <th>Description</th>
-          <th>Default Value</th>
-          <th>Example Value</th>
-        </tr>
-      </thead>
+     <h1>FireScreen V2 Docs</h1>
+    <p style="text-align: center;">Welcome! This guide explains how to install, configure, and interact with FireScreen V2 in your Banter space.</p>
+
+    <h2>1. Installation</h2>
+    <p>To add a FireScreen to your space, simply add a <code>&lt;script&gt;</code> tag to your <code>index.html</code> file.</p>
+    <h3>Basic Example</h3>
+    <pre><code class="codeborder">&lt;script src="https://51.firer.at/scripts/firescreenv2.js"
+        website="https://firer.at/"
+        position="2 1.5 6"
+        scale="2.5 2.5 1"
+        hand-controls="true"&gt;
+&lt;/script&gt;</code></pre>
+    <h3>Advanced Example</h3>
+    <pre><code class="codeborder">&lt;script src="https://51.firer.at/scripts/firescreenv2.js"
+        position="0 2 -5"
+        rotation="0 20 0"
+        width="1280"
+        height="720"
+        pixelsperunit="1400"
+        button-color="0.1 0.8 0.1 1"
+        custom-button01-url="https://google.com"
+        custom-button01-text="Google"
+        custom-button02-url="https://youtube.com"
+        custom-button02-text="YouTube"&gt;
+&lt;/script&gt;</code></pre>
+
+    <h2>2. Configuration Parameters</h2>
+    <p>You can customize each FireScreen instance using attributes on the <code>&lt;script&gt;</code> tag. The ID for each FireScreen (used for events and remote control) is determined by its order in the <code>index.html</code> file, starting from 1.</p>
+
+    <h3>Core Attributes</h3>
+    <table>
+      <thead><tr><th>Attribute</th><th>Default Value</th><th>Description</th></tr></thead>
       <tbody>
-        <!-- POSITIONING AND TRANSFORMATION -->
-        <tr>
-          <td><code>position</code></td>
-          <td>Specifies the position of the screen in the space (x, y, z).</td>
-          <td><code>0 2 0</code></td>
-          <td><code>1 1 1</code></td>
-        </tr>
-        <tr>
-          <td><code>rotation</code></td>
-          <td>Specifies the rotation of the screen in degrees (x, y, z).</td>
-          <td><code>0 0 0</code></td>
-          <td><code>45 90 0</code></td>
-        </tr>
-        <tr>
-          <td><code>disable-rotation</code></td>
-          <td>Prevents the screen from rotating. Accepts <code>true</code> or <code>false</code>.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <tr>
-          <td><code>scale</code></td>
-          <td>Determines the scale of the screen (x, y, z).</td>
-          <td><code>1 1 1</code></td>
-          <td><code>1.5 1.5 1</code></td>
-        </tr>
-        <tr>
-          <td><code>castmode</code></td>
-          <td>Enables or disables cast mode. Accepts <code>true</code> or <code>false</code><br>CastMode will disable most buttons but leave the top row.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <tr>
-          <td><code>lock-position</code></td>
-          <td>Prevents the screen from being moved when set to <code>true</code>.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <!-- SCREEN & WEBSITE CONFIGURATION -->
-        <tr>
-          <td><code>website</code></td>
-          <td>Specifies the URL to load in the browser.</td>
-          <td><code>https://firer.at/pages/games.html</code></td>
-          <td><code>https://example.com</code></td>
-        </tr>
-        <tr>
-          <td><code>mipmaps</code></td>
-          <td>Enable or disable mipmaps for screen textures. Accepts <code>1</code> (enabled) or <code>0</code> (disabled).</td>
-          <td><code>1</code></td>
-          <td><code>0</code></td>
-        </tr>
-        <tr>
-          <td><code>pixelsperunit</code></td>
-          <td>Specifies the pixels per unit for rendering the screen.</td>
-          <td><code>1200</code></td>
-          <td><code>1400</code></td>
-        </tr>
-        <tr>
-          <td><code>width</code></td>
-          <td>Width of the screen in pixels.</td>
-          <td><code>1024</code></td>
-          <td><code>1920</code></td>
-        </tr>
-        <tr>
-          <td><code>height</code></td>
-          <td>Height of the screen in pixels.</td>
-          <td><code>576</code></td>
-          <td><code>1080</code></td>
-        </tr>
-        <tr>
-          <td><code>volumelevel</code></td>
-          <td>Initial volume level (range: 0.0 to 1.0).</td>
-          <td><code>0.25</code></td>
-          <td><code>0.7</code></td>
-        </tr>
-        <!-- SCREEN POSITIONING AND TRANSFORMATION -->
-        <tr>
-          <td><code>screen-position</code></td>
-          <td>Relative position of the browser screen (x, y, z).</td>
-          <td><code>0 0 -0.02</code></td>
-          <td><code>0 1 -0.5</code></td>
-        </tr>
-        <tr>
-          <td><code>screen-rotation</code></td>
-          <td>Rotation of the browser screen (x, y, z).</td>
-          <td><code>0 0 0</code></td>
-          <td><code>15 30 0</code></td>
-        </tr>
-        <tr>
-          <td><code>screen-scale</code></td>
-          <td>Scale of the browser screen (x, y, z).</td>
-          <td><code>1 1 1</code></td>
-          <td><code>1.2 1.2 1</code></td>
-        </tr>
-        <!-- VISUAL AND UI SETTINGS -->
-        <tr>
-          <td><code>backdrop</code></td>
-          <td>Enables or disables the screen's backdrop. Accepts <code>true</code> or <code>false</code>.</td>
-          <td><code>true</code></td>
-          <td><code>false</code></td>
-        </tr>
-        <tr>
-          <td><code>backdrop-color</code></td>
-          <td>RGBA color of the backdrop.</td>
-          <td><code>0 0 0 0.9</code></td>
-          <td><code>1 1 1 0.5</code></td>
-        </tr>
-        <tr>
-          <td><code>button-color</code></td>
-          <td>RGBA color for UI buttons.</td>
-          <td><code>0 1 0 1</code></td>
-          <td><code>1 0 0 1</code></td>
-        </tr>
-        <tr>
-          <td><code>volup-color</code></td>
-          <td>RGBA color for the volume up button.</td>
-          <td><code>0 1 0 1</code></td>
-          <td><code>1 0.5 0 1</code></td>
-        </tr>
-        <tr>
-          <td><code>voldown-color</code></td>
-          <td>RGBA color for the volume down button.</td>
-          <td><code>1 1 0 1</code></td>
-          <td><code>0 0.5 0.5 1</code></td>
-        </tr>
-        <tr>
-          <td><code>mute-color</code></td>
-          <td>RGBA color for the mute button.</td>
-          <td><code>1 1 1 1</code></td>
-          <td><code>0.5 0.5 0.5 1</code></td>
-        </tr>
-        <!-- ANNOUNCER STUFF -->
-        <tr>
-          <td><code>announce</code></td>
-          <td>Enables general announcements. Accepts <code>true</code> or <code>false</code>.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <tr>
-          <td><code>announce-420</code></td>
-          <td>Enables 4:20 announcements. Accepts <code>true</code> or <code>false</code>.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <tr>
-          <td><code>announce-events</code></td>
-          <td>Enables event-based announcements. Accepts <code>true</code> or <code>false</code>.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <!-- BUTTON ICONS -->
-        <tr>
-          <td><code>icon-mute-url</code></td>
-          <td>URL for the mute button icon.</td>
-          <td><code>https://firer.at/files/VolumeMute.png</code></td>
-          <td><code>https://example.com/mute.png</code></td>
-        </tr>
-        <tr>
-          <td><code>icon-volup-url</code></td>
-          <td>URL for the volume up button icon.</td>
-          <td><code>https://firer.at/files/VolumeHigh.png</code></td>
-          <td><code>https://example.com/volup.png</code></td>
-        </tr>
-        <tr>
-          <td><code>icon-voldown-url</code></td>
-          <td>URL for the volume down button icon.</td>
-          <td><code>https://firer.at/files/VolumeLow.png</code></td>
-          <td><code>https://example.com/voldown.png</code></td>
-        </tr>
-        <tr>
-          <td><code>icon-direction-url</code></td>
-          <td>URL for the back and forward navigation button icon.</td>
-          <td><code>https://firer.at/files/Arrow.png</code></td>
-          <td><code>https://example.com/arrow.png</code></td>
-        </tr>
-        <!-- CUSTOM BUTTONS -->
-        <tr>
-          <td><code>custom-button01-url</code></td>
-          <td>URL loaded when the first custom button is clicked.</td>
-          <td><code>false</code></td>
-          <td><code>https://example.com</code></td>
-        </tr>
-        <tr>
-          <td><code>custom-button01-text</code></td>
-          <td>Text label for the first custom button.</td>
-          <td><code>Custom Button 01</code></td>
-          <td><code>My Website</code></td>
-        </tr>
-        <tr>
-          <td><code>custom-button02-url</code></td>
-          <td>URL loaded when the second custom button is clicked.</td>
-          <td><code>false</code></td>
-          <td><code>https://example2.com/</code></td>
-        </tr>
-        <tr>
-          <td><code>custom-button02-text</code></td>
-          <td>Text label for the second custom button.</td>
-          <td><code>Custom Button 02</code></td>
-          <td><code>Website #2</code></td>
-        </tr>
-        <tr>
-          <td><code>custom-button03-url</code></td>
-          <td>URL loaded when the third custom button is clicked.</td>
-          <td><code>false</code></td>
-          <td><code>https://example3.com/</code></td>
-        </tr>
-        <tr>
-          <td><code>custom-button03-text</code></td>
-          <td>Text label for the third custom button.</td>
-          <td><code>Custom Button 03</code></td>
-          <td><code>Another Website</code></td>
-        </tr>
-        <tr>
-          <td><code>custom-button04-url</code></td>
-          <td>URL loaded when the fourth custom button is clicked.</td>
-          <td><code>false</code></td>
-          <td><code>https://example4.com/</code></td>
-        </tr>
-        <tr>
-          <td><code>custom-button04-text</code></td>
-          <td>Text label for the fourth custom button.</td>
-          <td><code>Custom Button 04</code></td>
-          <td><code>A Website</code></td>
-        </tr>
-        <!-- ADDITIONAL PARAMETERS -->
-        <tr>
-          <td><code>hand-controls</code></td>
-          <td>Enable or disable hand controls for interacting with the screen. Accepts <code>true</code> or <code>false</code>.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <tr>
-          <td><code>disable-interaction</code></td>
-          <td>Disables interaction with the screen if set to <code>true</code>.</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
-        <tr>
-          <td><code>space-sync</code></td>
-          <td>Enable or disable synchronization with the space using Space State Properties. Accepts <code>true</code> or <code>false</code>.<br>
-          Looks for the Protected Space State called 'fireurl' and will use it's value for the default page loaded</td>
-          <td><code>false</code></td>
-          <td><code>true</code></td>
-        </tr>
+        <tr><td><code>website</code></td><td><code>https://firer.at/pages/games.html</code></td><td>The initial URL the browser will load.</td></tr>
+        <tr><td><code>position</code></td><td><code>0 2 0</code></td><td>The world position of the screen (X Y Z).</td></tr>
+        <tr><td><code>rotation</code></td><td><code>0 0 0</code></td><td>The world rotation of the screen (X Y Z).</td></tr>
+        <tr><td><code>scale</code></td><td><code>1 1 1</code></td><td>The world scale of the screen (X Y Z).</td></tr>
       </tbody>
     </table>
-    <h2>Example Usage</h2>
-    <pre class="code">
-&lt;script src="https://firer.at/scripts/firescreenv2.js"
-  website="https://example.com"
-  position="1 1 1"
-  rotation="0 45 0"
-  volumelevel="0.5"
-  button-color="1 0 0 1"
-  announce="true" &gt;&lt;/script&gt;
-    </pre>
+
+    <h3>Display & Appearance</h3>
+    <table>
+      <thead><tr><th>Attribute</th><th>Default Value</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>width</code></td><td><code>1024</code></td><td>The pixel width of the browser surface.</td></tr>
+        <tr><td><code>height</code></td><td><code>576</code></td><td>The pixel height of the browser surface.</td></tr>
+        <tr><td><code>pixelsperunit</code></td><td><code>1200</code></td><td>The resolution of the web surface (pixels-per-meter). Higher values are sharper but cost more performance.</td></tr>
+        <tr><td><code>mipmaps</code></td><td><code>1</code></td><td>The number of mipmaps for the browser texture.</td></tr>
+        <tr><td><code>backdrop</code></td><td><code>true</code></td><td>If <code>true</code>, shows a dark backdrop behind the screen.</td></tr>
+        <tr><td><code>backdrop-color</code></td><td><code>0 0 0 0.9</code></td><td>The color and alpha of the backdrop (R G B A, 0-1).</td></tr>
+        <tr><td><code>screen-position</code></td><td><code>0 0 -0.02</code></td><td>The local position of the browser surface relative to the backdrop.</td></tr>
+        <tr><td><code>screen-rotation</code></td><td><code>0 0 0</code></td><td>The local rotation of the browser surface.</td></tr>
+        <tr><td><code>screen-scale</code></td><td><code>1 1 1</code></td><td>The local scale of the browser surface.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Interaction & Controls</h3>
+    <table>
+      <thead><tr><th>Attribute</th><th>Default Value</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>hand-controls</code></td><td><code>false</code></td><td>If <code>true</code>, attaches volume and home controls to the user's left hand.</td></tr>
+        <tr><td><code>disable-interaction</code></td><td><code>false</code></td><td>If <code>true</code>, users cannot click or interact with the browser surface.</td></tr>
+        <tr><td><code>disable-rotation</code></td><td><code>false</code></td><td>If <code>true</code>, the screen will not billboard (face) the user.</td></tr>
+        <tr><td><code>lock-position</code></td><td><code>false</code></td><td>If <code>true</code>, the screen cannot be grabbed and moved by users.</td></tr>
+        <tr><td><code>volumelevel</code></td><td><code>0.25</code></td><td>The initial volume level (0.0 to 1.0).</td></tr>
+        <tr><td><code>castmode</code></td><td><code>false</code></td><td>If <code>true</code>, simplifies the UI for casting/streaming use cases. Hides most buttons.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>UI Customization</h3>
+    <table>
+      <thead><tr><th>Attribute</th><th>Default Value</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>button-color</code></td><td><code>0 1 0 1</code></td><td>The default color for UI buttons (R G B A, 0-1).</td></tr>
+        <tr><td><code>volup-color</code></td><td><code>0 1 0 1</code></td><td>The color for the volume up button.</td></tr>
+        <tr><td><code>voldown-color</code></td><td><code>1 1 0 1</code></td><td>The color for the volume down button.</td></tr>
+        <tr><td><code>mute-color</code></td><td><code>1 1 1 1</code></td><td>The color for the mute button.</td></tr>
+        <tr><td><code>icon-mute-url</code></td><td>(default url)</td><td>URL for the mute icon.</td></tr>
+        <tr><td><code>icon-volup-url</code></td><td>(default url)</td><td>URL for the volume up icon.</td></tr>
+        <tr><td><code>icon-voldown-url</code></td><td>(default url)</td><td>URL for the volume down icon.</td></tr>
+        <tr><td><code>icon-direction-url</code></td><td>(default url)</td><td>URL for the back/forward arrow icon.</td></tr>
+        <tr><td><code>custom-button01-url</code></td><td><code>false</code></td><td>Provide a URL to enable custom button 1.</td></tr>
+        <tr><td><code>custom-button01-text</code></td><td><code>Custom Button 1</code></td><td>Text label for custom button 1.</td></tr>
+        <tr><td colspan="3" style="text-align:center;">... (custom buttons 2 through 5 follow the same pattern) ...</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Advanced Features</h3>
+    <table>
+      <thead><tr><th>Attribute</th><th>Default Value</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>space-sync</code></td><td><code>false</code></td><td>If <code>true</code>, the screen will sync its URL from a space state property named <code>fireurl</code>.</td></tr>
+        <tr><td><code>announce</code></td><td><code>false</code></td><td>If <code>true</code>, enables spoken welcome messages.</td></tr>
+        <tr><td><code>announce-events</code></td><td><code>false</code></td><td>If <code>true</code>, enables spoken announcements for upcoming SideQuest events.</td></tr>
+        <tr><td><code>announce-420</code></td><td><code>false</code></td><td>If <code>true</code>, enables special 4:20-themed spoken announcements.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Advanced Usage</h2>
+
+    <h3>Listening for Events</h3>
+    <p>You can create custom logic that responds to button clicks on any FireScreen. When a UI or Hand Control button is clicked, a <code>CustomButtonClick</code> event is dispatched. This is the safest way to listen for events.</p>
+    <pre><code class="codeborder">// Wait for the manager to be available
+const interval = setInterval(() => {
+    if (window.fireScreenManager) {
+        clearInterval(interval);
+
+        // Add the event listener
+        window.fireScreenManager.addEventListener('CustomButtonClick', (event) => {
+            console.log('Button clicked on instance:', event.detail.instanceId);
+            console.log('Button name:', event.detail.buttonName);
+            console.log('Current URL:', event.detail.message);
+
+            if (event.detail.buttonName === 'Home') {
+                // Custom action for the home button
+                console.log('The Home button was clicked!');
+            }
+        });
+    }
+}, 100);</code></pre>
+
+    <h3>Hand Controls</h3>
+    <p>Setting <code>hand-controls="true"</code> attaches a control panel to your left hand for easy access to common functions. These controls are designed to affect <strong>all FireScreens</strong> in the space simultaneously.</p>
+    <table>
+      <thead><tr><th>Button</th><th>Action</th><th>Event Dispatched</th></tr></thead>
+      <tbody>
+        <tr><td>Volume Up</td><td>Increases the volume on all FireScreens.</td><td>Yes (<code>VolumeUp</code>)</td></tr>
+        <tr><td>Volume Down</td><td>Decreases the volume on all FireScreens.</td><td>Yes (<code>VolumeDown</code>)</td></tr>
+        <tr><td>Mute</td><td>Toggles the mute state on all FireScreens.</td><td>Yes (<code>Mute</code>)</td></tr>
+        <tr><td>Home</td><td>Navigates all FireScreens to their home page.</td><td>Yes (<code>Home</code>)</td></tr>
+        <tr><td>Lock Player</td><td>Toggles the Banter "LegacyLockPlayer" state, which prevents you from moving.</td><td>No</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Remote Control (One-Shot Commands)</h3>
+    <p>Space admins can control FireScreens using Banter's <code>one-shot</code> system. To control a specific screen, include a <code>target</code> property with the screen's ID. Omit it to control all screens.</p>
+    <pre><code class="codeborder">// Change URL of screen #2
+BS.BanterScene.GetInstance().OneShot(JSON.stringify({
+    target: 2,
+    fireurl: "https://google.com"
+}));
+
+// Send all screens home
+BS.BanterScene.GetInstance().OneShot(JSON.stringify({
+    gohome: true
+}));</code></pre>
+    <table>
+      <thead><tr><th>Command</th><th>Value Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>fireurl</code></td><td>string</td><td>Sets the browser URL.</td></tr>
+        <tr><td><code>firevolume</code></td><td>number</td><td>Sets the volume directly (0.0 to 1.0).</td></tr>
+        <tr><td><code>browseraction</code></td><td>string</td><td>Executes a JavaScript string inside the browser (e.g., <code>document.body.style.backgroundColor='red'</code>). <br><b>Security Note:</b> Use with caution, as this can execute any JavaScript. Sanitize any user-provided input.</td></tr>
+        <tr><td><code>gohome</code></td><td>boolean</td><td>Navigates the browser to its configured home page.</td></tr>
+        <tr><td><code>sethome</code></td><td>string</td><td>Sets a new home page URL for the browser.</td></tr>
+        <tr><td><code>firevolumeup</code></td><td>boolean</td><td>Increases the volume for all screens.</td></tr>
+        <tr><td><code>firevolumedown</code></td><td>boolean</td><td>Decreases the volume for all screens.</td></tr>
+        <tr><td><code>firemutetoggle</code></td><td>boolean</td><td>Toggles mute for all screens.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Space State Synchronization</h3>
+    <p>If you set <code>space-sync="true"</code> on a FireScreen, it will automatically try to load its URL from a <strong>public space state property</strong> named <code>fireurl</code>.</p>
+    <p>You can set this property in your space settings or via a script:</p>
+    <pre><code class="codeborder">// Example of setting the synced URL
+BS.BanterScene.GetInstance().SetPublicSpaceProps({'fireurl': 'https://bantervr.com/'});</code></pre>
+    <p>This is great for having a primary screen in your world that always shows a specific, easily updatable page.</p>
+
+    <h3>Announcer Integration</h3>
+    <p>The FireScreen script can provide in-world, spoken announcements for various activities. This feature works by dynamically loading an <code>announcer.js</code> script into your space. It is loaded only once, even if multiple screens have announcer flags enabled.</p>
+    <p>You can enable different types of announcements:</p>
+    <ul>
+        <li><b><code>announce="true"</code></b>: Enables welcome messages when users join the space. This is the primary announcer flag.</li>
+        <li><b><code>announce-events="true"</code></b>: Enables announcements for upcoming events listed on SideQuest.</li>
+        <li><b><code>announce-420="true"</code></b>: Enables special, 4:20-themed announcements for upcoming blaze times.</li>
+    </ul>
+
+    <h3>Dynamic URL and Home Page Changes</h3>
+    <p>You can programmatically change the URL or set a new home page for FireScreens at runtime from your own scripts. This is done by interacting with the global <code>fireScreenManager</code> object.</p>
+    <h4>Changing the Current URL</h4>
+    <pre><code class="codeborder">// Example: Change the URL for the first FireScreen instance (ID 1)
+if (typeof fireScreenManager !== 'undefined' && fireScreenManager.instances[1]) {
+    fireScreenManager.instances[1].handleCommand({
+        fireurl: "https://threejs.org"
+    });
+}
+
+// Example: Change the URL for ALL FireScreens in the space
+if (typeof fireScreenManager !== 'undefined') {
+    fireScreenManager.broadcastCommand({
+        fireurl: "https://bantervr.com"
+    });
+}</code></pre>
+    <h4>Setting a New Home Page</h4>
+    <pre><code class="codeborder">// Example: Set a new home page for the first FireScreen instance (ID 1)
+if (typeof fireScreenManager !== 'undefined' && fireScreenManager.instances[1]) {
+    fireScreenManager.instances[1].handleCommand({
+        sethome: "https://sidequestvr.com"
+    });
+}</code></pre>
+
+    <h3>Cleanup and Disposal</h3>
+    <p>When a FireScreen is no longer needed at runtime, it's important to clean it up properly to free up resources. For compatibility with other scripts, a global <code>cleanupFireScreenV2</code> function is available. Since it's a global function, you can call it directly without the <code>window.</code> prefix.</p>
+    <pre><code class="codeborder">// Example: Clean up the first FireScreen instance
+if (typeof cleanupFireScreenV2 === 'function') {
+    // The cleanup function takes the instanceId of the screen to remove.
+    cleanupFireScreenV2(1);
+}</code></pre>
+    <p>Calling this function will trigger the manager to safely remove the screen's 3D objects, dispose of its resources, and clean up event listeners to prevent memory leaks.</p>
+
+    <h2>4. Performance & Troubleshooting</h2>
+    <h3>Performance Considerations</h3>
+    <ul>
+        <li><b>Resolution</b>: The <code>width</code>, <code>height</code>, and <code>pixelsperunit</code> attributes determine the resolution of the web surface. Higher values create a sharper image but require more memory and processing power, which can impact performance, especially on mobile VR headsets.</li>
+        <li><b>Multiple Screens</b>: Each FireScreen instance creates a new browser context. Using many screens in a single space can significantly affect performance.</li>
+    </ul>
+    <h3>Common Issues</h3>
+    <ul>
+        <li><b>Screen is not visible</b>: Check that the <code>position</code> and <code>scale</code> attributes are set to reasonable values. Ensure the <code>website</code> URL is correct and accessible.</li>
+        <li><b>Cannot click on the screen</b>: Make sure <code>disable-interaction</code> is not set to <code>true</code>.</li>
+        <li><b>Custom buttons or icons not appearing</b>: Double-check that the URLs provided are correct and publicly accessible.</li>
+    </ul>
+
+    <h2>5. Community & Support</h2>
+    <p>Encountered a bug or have a feature request? Please open an issue on the official GitHub repository. Your feedback is valuable!</p>
+    <p><b>GitHub Repository</b>: <a href="https://github.com/FireRat666/51" target="_blank">https://github.com/FireRat666/51</a></p>
   </div>
   <br>
   <br>
