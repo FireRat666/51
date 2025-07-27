@@ -1,5 +1,5 @@
-  // SDK2 Based FireScreen, V0.99 Beta 1.0 -- Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
-  // FireScreen Tablet for Screen Casts / live streams with volume controls or a portable browser for any website.
+// SDK2 Based FireScreen, V0.99 Beta 1.0 -- Thank you Everyone who helped make this possible, HBR, Vanquish3r, DedZed, Sebek, Skizot, Shane and FireRat, And thank you to everyone who helped test it
+// FireScreen Tablet for Screen Casts / live streams with volume controls or a portable browser for any website.
 // This script is the main entry point for initializing FireScreens.
 // It sets up a manager to handle all screen instances and uses a locking
 // mechanism to prevent race conditions when multiple scripts are added at once.
