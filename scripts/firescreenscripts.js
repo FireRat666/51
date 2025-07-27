@@ -475,7 +475,7 @@ async function sdk2tests(params) {
       },
       browseraction: (value) => { runBrowserActions(firebrowser, value); console.log(value); },
       spaceaction: (value) => { console.log(value); new Function(value)(); },
-      gohome: (value) => { console.log(value); setBrowserUrl(firebrowser, firebrowser.homePage); dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
+      goHome: (value) => { console.log(value); setBrowserUrl(firebrowser, firebrowser.homePage); dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
       sethome: (value) => { console.log(value); firebrowser.homePage = value; setBrowserUrl(firebrowser, value); dispatchButtonClickEvent("Home", `${firebrowser.homePage}`); },
       firevolumeup: (value) => { console.log(value); adjustForAll("adjustVolume", 1); youtubePlayerControl(1); },
       firevolumedown: (value) => { console.log(value); adjustForAll("adjustVolume", -1); youtubePlayerControl(0); },
