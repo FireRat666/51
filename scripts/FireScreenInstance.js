@@ -79,7 +79,7 @@ export class FireScreen {
     constructor(params, manager) {
         this.params = params;
         this.id = params.thisBrowserNumber;
-        this.scene = BS.BanterScene.GetInstance();
+        this.banterscene = BS.BanterScene.GetInstance();
         this.manager = manager;
 
         // Instance State
@@ -449,8 +449,10 @@ export class FireScreen {
         handTransform.localScale = CONSTANTS.LAYOUT.HAND_CONTROLS.CONTAINER_SCALE;
         handTransform.rotation = CONSTANTS.LAYOUT.HAND_CONTROLS.CONTAINER_ROT;
 
-        await this.scene.LegacyAttachObject(this.handControls, userId, BS.LegacyAttachmentPosition.LEFT_HAND);
-
+        setTimeout(async () => {
+            await this.banterscene.LegacyAttachObject(this.handControls, userId, BS.LegacyAttachmentPosition.LEFT_HAND);
+        }, 1000);
+		
         this.uiHandButtons = {};
         const handButtonConfigs = [
             { name: 'hVolumeUpButton', icon: p['icon-volup-url'], pos: new BS.Vector3(0.4, 0.4, 0.3), color: p['volup-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", 1); this._updateButtonColor(btn, p['volup-color']); this._dispatchButtonClickEvent("VolumeUp", 'Hand Volume Up Clicked!'); } },
@@ -459,7 +461,7 @@ export class FireScreen {
                 this._adjustForAll("toggleMute", true); // Pass true to ensure the command is recognized
                 this._dispatchButtonClickEvent("Mute", 'Hand Mute Clicked!');
             }},
-            { name: 'hLockButton', icon: CONSTANTS.ICONS.LOCK, pos: new BS.Vector3(0, -0.1, 0.3), color: CONSTANTS.COLORS.BUTTON_UNLOCKED, clickHandler: (btn) => { this.playerislockedv2 = !this.playerislockedv2; this.playerislockedv2 ? this.scene.LegacyLockPlayer() : this.scene.LegacyUnlockPlayer(); btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.playerislockedv2 ? CONSTANTS.COLORS.BUTTON_LOCKED : CONSTANTS.COLORS.BUTTON_UNLOCKED; } },
+            { name: 'hLockButton', icon: CONSTANTS.ICONS.LOCK, pos: new BS.Vector3(0, -0.1, 0.3), color: CONSTANTS.COLORS.BUTTON_UNLOCKED, clickHandler: (btn) => { this.playerislockedv2 = !this.playerislockedv2; this.playerislockedv2 ? this.banterscene.LegacyLockPlayer() : this.banterscene.LegacyUnlockPlayer(); btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.playerislockedv2 ? CONSTANTS.COLORS.BUTTON_LOCKED : CONSTANTS.COLORS.BUTTON_UNLOCKED; } },
             { name: 'hHomeButton', icon: CONSTANTS.ICONS.HOME, pos: new BS.Vector3(0.4, -0.1, 0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome", true); this._updateButtonColor(btn, p['button-color']); this._dispatchButtonClickEvent("Home", 'Hand Home Clicked!'); } }
         ];
 
@@ -496,11 +498,11 @@ export class FireScreen {
 
     async _getSpaceStateStuff(argument) {
         // Wait until the localUser is available before trying to access space state.
-        while (!this.scene.localUser || this.scene.localUser.uid === undefined) {
+        while (!this.banterscene.localUser || this.banterscene.localUser.uid === undefined) {
             await new Promise(resolve => setTimeout(resolve, 200));
         }
 
-        const spaceState = this.scene.spaceState;
+        const spaceState = this.banterscene.spaceState;
 
         // Safely log all properties, but only do it once per session.
         if (!this.manager.spaceStateLogged) {
