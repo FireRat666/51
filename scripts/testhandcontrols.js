@@ -45,7 +45,7 @@
         LAYOUT: {
             DEFAULT_BUTTON_COLLIDER_DEPTH: 0.01,
             HAND_CONTROLS: {
-                CONTAINER_POS: new BS.Vector3(0, 0.046, 0.030),
+                CONTAINER_POS: new BS.Vector3(0.03, 0.06, 0.04),
                 CONTAINER_SCALE: new BS.Vector3(0.1, 0.1, 0.1),
                 CONTAINER_ROT: new BS.Vector4(0.25, 0, 0.8, 1),
                 BUTTON_SCALE: new BS.Vector3(0.4, 0.4, 0.4),
