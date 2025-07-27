@@ -11,6 +11,8 @@ Welcome! This guide explains how to install, configure, and interact with FireSc
     - [Remote Control (One-Shot Commands)](#remote-control-one-shot-commands)
     - [Space State Synchronization](#space-state-synchronization)
     - [Announcer Integration](#announcer-integration)
+    - [Dynamic URL and Home Page Changes](#dynamic-url-and-home-page-changes)
+    - [Cleanup and Disposal](#cleanup-and-disposal)
 4. [Performance & Troubleshooting](#4-performance--troubleshooting)
 5. [Community & Support](#5-community--support)
 
@@ -231,6 +233,61 @@ You can enable different types of announcements:
 -   **`announce="true"`**: Enables welcome messages when users join the space. This is the primary announcer flag.
 -   **`announce-events="true"`**: Enables announcements for upcoming events listed on SideQuest.
 -   **`announce-420="true"`**: Enables special, 4:20-themed announcements for upcoming blaze times.
+
+### Dynamic URL and Home Page Changes
+
+You can programmatically change the URL or set a new home page for FireScreens at runtime from your own scripts. This is done by interacting with the global `fireScreenManager` object.
+
+#### Changing the Current URL
+
+You can target a specific screen by its ID or change all screens at once.
+
+```javascript
+// Example: Change the URL for the first FireScreen instance (ID 1)
+if (typeof fireScreenManager !== 'undefined' && fireScreenManager.instances[1]) {
+    fireScreenManager.instances[1].handleCommand({
+        fireurl: "https://threejs.org"
+    });
+}
+
+// Example: Change the URL for ALL FireScreens in the space
+if (typeof fireScreenManager !== 'undefined') {
+    fireScreenManager.broadcastCommand({
+        fireurl: "https://bantervr.com"
+    });
+}
+```
+
+#### Setting a New Home Page
+
+This updates the URL that the "Home" button navigates to.
+
+```javascript
+// Example: Set a new home page for the first FireScreen instance (ID 1)
+if (typeof fireScreenManager !== 'undefined' && fireScreenManager.instances[1]) {
+    fireScreenManager.instances[1].handleCommand({
+        sethome: "https://sidequestvr.com"
+    });
+}
+```
+
+### Cleanup and Disposal
+
+When a FireScreen is no longer needed at runtime, it's important to clean it up properly to free up resources and prevent potential performance issues. For compatibility with other scripts and systems, a global `cleanupFireScreenV2` function is available.
+
+**Cleaning up a FireScreen**
+
+This is the recommended way to remove a FireScreen instance. Since `cleanupFireScreenV2` is a global function, you can call it directly without the `window.` prefix.
+
+```javascript
+// Example: Clean up the first FireScreen instance
+if (typeof cleanupFireScreenV2 === 'function') {
+    // The cleanup function takes the instanceId of the screen to remove.
+    cleanupFireScreenV2(1);
+}
+```
+
+Calling this function will trigger the fireScreenManager to safely remove the screen's 3D objects from the scene, dispose of its geometries, materials, and textures to free GPU memory, and clean up any event listeners to prevent memory leaks.
 
 ## 4. Performance & Troubleshooting
 
