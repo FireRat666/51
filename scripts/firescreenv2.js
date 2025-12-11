@@ -8,6 +8,12 @@ if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
   window.fireScreenV2Initialized = true;
   console.log("FIRESCREEN_V2: Core system initialized.");
 
+  // Get the base URL from the current script's src.
+  // This will be something like 'https://51.firer.at/scripts/'
+  const scriptSrc = document.currentScript.src;
+  const baseUrl = scriptSrc.substring(0, scriptSrc.lastIndexOf('/') + 1);
+  window.fireScreenV2BaseUrl = baseUrl;
+
   // This flag is the lock to prevent multiple setup runs at the same time.
   window.fireScreenSetupRunning = false;
 
@@ -17,7 +23,8 @@ if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
     // Dynamically import the manager to start the process.
     // The '.js' extension is important for ES modules in the browser.
     if (typeof window.fireScreenManager === 'undefined') {
-      const { FireScreenManager } = await import('./FireScreenManager.js');
+      const managerUrl = window.fireScreenV2BaseUrl + 'FireScreenManager.js';
+      const { FireScreenManager } = await import(managerUrl);
       try {
         window.fireScreenManager = new FireScreenManager();
         console.log("FIRESCREEN_V2: Manager created.");
