@@ -4,7 +4,7 @@
 // It sets up a manager to handle all screen instances and uses a locking
 // mechanism to prevent race conditions when multiple scripts are added at once.
 
-if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
+if (typeof window.fireScreenV2Initialized === 'undefined') {
   window.fireScreenV2Initialized = true;
   console.log("FIRESCREEN_V2: Core system initialized.");
 
@@ -51,7 +51,7 @@ if (typeof window.fireScreenV2Initialized === 'undefined' && window.isBanter) {
 // to ensure that setup only runs once at a time, even if multiple
 // scripts are injected simultaneously.
 (async () => {
-  if (!window.isBanter) return;
+  // if (!window.isBanter) return;
   // This function will attempt to acquire a lock and run the setup.
   // If the lock is already taken, it will wait and retry.
   async function attemptSetup() {
