@@ -632,6 +632,7 @@ async function sdk2tests(params) {
         announcerscript.setAttribute("announce", p_announce);
         announcerscript.setAttribute("announce-420", p_announce420);
         announcerscript.setAttribute("announce-events", p_announceevents === "undefined" ? (p_announce === "true" ? "true" : "false") : p_announceevents );
+        announcerscript.setAttribute("audio.crossOrigin", "anonymous");
         document.querySelector("body").appendChild(announcerscript);
       } else { console.log('FIRESCREEN2: matchingAnnouncerScriptFound or AnnouncerScriptInitialized, Moving on'); };
     }, 1000);
@@ -863,4 +864,4 @@ function spaceStateStuff(argument) {
 // componenttest.WatchProperties([BS.PropertyName.url])
 // componenttest.url
 // cleanupFireScreenV2(1)
-// await BS.BanterScene.GetInstance().OneShot(JSON.stringify({ sethome: "https://google.com", target: 200 }));
+// await BS.BanterScene.GetInstance().OneShot(JSON.stringify({ sethome: "https://google.com", target: 2 }));
