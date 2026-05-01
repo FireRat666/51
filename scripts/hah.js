@@ -39,7 +39,7 @@
             };
         }
 
-        wrapText(text, maxChars = 20) {
+        wrapText(text, maxChars = 19) {
             if (!text) return "";
             // Strip any existing newlines and replace with spaces, then collapse extra whitespace
             const words = text.replace(/\n/g, ' ').split(/\s+/).filter(word => word.length > 0);
@@ -198,6 +198,11 @@
             statusText.text = "";
             statusText.SetStyles({ color: '#ffcc00', fontSize: '32px' });
 
+            const timerText = sPanel.CreateLabel(undefined, sRoot);
+            await timerText.Async();
+            timerText.text = "";
+            timerText.SetStyles({ color: '#ff3333', fontSize: '32px', fontWeight: 'bold' });
+
             // 2. Hand UI (Only visible to local user, floating/tilted)
             const handObj = await new BS.GameObject({ 
                 name: "HandUI", 
@@ -316,7 +321,7 @@
             return {
                 root: sliceRoot,
                 wedgeMat: matNormal,
-                statusObj, sRoot, nameText, statusText,
+                statusObj, sRoot, nameText, statusText, timerText,
                 handObj, hRoot, actionsRow, submitBtn, resetBtn, dumpBtn, cardsGrid, cardUIs
             };
         }
@@ -383,6 +388,12 @@
             this.ui.dealBtn = await createBtn(buttonsRow, "START ROUND", "#4CAF50", () => this.send("start-game"));
             this.ui.leaveBtn = await createBtn(buttonsRow, "LEAVE GAME", "#F44336", () => this.confirm("Leave game?", () => this.send("leave-game")));
 
+            const creditLabel = panel.CreateLabel(undefined, rootEl);
+            await creditLabel.Async();
+            creditLabel.text = "Cards Against Humanity LLC\nLicensed under CC BY-NC-SA\ncardsagainsthumanity.com\nAdapted for AltspaceVR by:\nDerogatory, falkrons, schmidtec\nOriginally Ported to Banter by Shane\nPorted to the New Banter SDK By FireRat";
+            creditLabel.SetStyles({ color: '#aaaaaa', fontSize: '25px', marginTop: '20px', textAlign: 'center' });
+            this.ui.creditLabel = creditLabel;
+
             // Black Card Area
             const blackCardContainer = panel.CreateVisualElement(rootEl);
             await blackCardContainer.Async();
@@ -413,6 +424,12 @@
             });
 
             this.ui.blackCard = { container: blackCardContainer, label: blackCardLabel };
+            
+            this.ui.blackCard.container.OnClick(() => {
+                if (this.gameState?.czar === scene.localUser.uid && !this.gameState?.showBlack) {
+                    this.send("show-black");
+                }
+            });
 
             // Winner Announcement Label
             const winnerLabel = panel.CreateLabel(undefined, rootEl);
@@ -605,7 +622,7 @@
             if (cardsToShow && cardsToShow.length > 0) {
                 this.ui.confirmCardSlots.forEach((slot, idx) => {
                     if (idx < cardsToShow.length) {
-                        slot.label.text = this.wrapText(cardsToShow[idx].text, 20);
+                        slot.label.text = this.wrapText(cardsToShow[idx].text, 19);
                         slot.container.SetStyles({ display: 'flex' });
                     } else {
                         slot.container.SetStyles({ display: 'none' });
@@ -689,6 +706,7 @@
             // Update Central Hub
             this.ui.joinBtn.SetStyles({ display: isPlaying ? 'none' : 'flex' });
             this.ui.leaveBtn.SetStyles({ display: isPlaying ? 'flex' : 'none' });
+            this.ui.creditLabel.SetStyles({ display: isPlaying ? 'none' : 'flex' });
 
             const numPlayers = Object.keys(players).length;
             const minPlayers = 3;
@@ -708,8 +726,18 @@
             }
 
             if (this.gameState.isStarted && this.gameState.currentBlackCard) {
-                this.ui.blackCard.label.text = this.wrapText(this.gameState.currentBlackCard.text, 30);
-                this.ui.blackCard.container.SetStyles({ display: 'flex' });
+                const canSeeBlack = isCzar || this.gameState.showBlack;
+                if (canSeeBlack) {
+                    let cardText = this.gameState.currentBlackCard.text;
+                    if (isCzar && !this.gameState.showBlack) {
+                        cardText += "\n\n(CLICK TO REVEAL)";
+                    }
+                    this.ui.blackCard.label.text = this.wrapText(cardText, 30);
+                    this.ui.blackCard.container.SetStyles({ display: 'flex' });
+                } else {
+                    this.ui.blackCard.label.text = "WAITING FOR CZAR\nTO REVEAL CARD...";
+                    this.ui.blackCard.container.SetStyles({ display: 'flex' });
+                }
             } else {
                 this.ui.blackCard.container.SetStyles({ display: 'none' });
             }
@@ -731,7 +759,7 @@
 
                 this.ui.czarResponseCards.forEach((slot, idx) => {
                     if (idx < numReq) {
-                        slot.label.text = this.wrapText(winnerPlayer?.selected?.[idx]?.text || "", 20);
+                        slot.label.text = this.wrapText(winnerPlayer?.selected?.[idx]?.text || "", 19);
                         slot.container.SetStyles({ display: 'flex' });
                     } else {
                         slot.container.SetStyles({ display: 'none' });
@@ -757,7 +785,7 @@
 
                 this.ui.czarResponseCards.forEach((slot, idx) => {
                     if (idx < numReq) {
-                        slot.label.text = this.wrapText(activeResponse?.selected?.[idx]?.text || "", 20);
+                        slot.label.text = this.wrapText(activeResponse?.selected?.[idx]?.text || "", 19);
                         slot.container.SetStyles({ display: 'flex' });
                     } else {
                         slot.container.SetStyles({ display: 'none' });
@@ -776,15 +804,29 @@
                 const playerAtPos = Object.values(players).find(p => p.position === i);
 
                 if (!playerAtPos) {
+                    slice.nameText.text = "Empty Seat";
+                    slice.statusText.text = "";
+                    slice.timerText.text = "";
                     slice.sRoot.SetStyles({ display: 'none' });
                     slice.hRoot.SetStyles({ display: 'none' });
-                    slice.wedgeMat.color = new BS.Vector4(0.05, 0.05, 0.05, 1);
                     continue;
                 }
 
                 slice.sRoot.SetStyles({ display: 'flex', backgroundColor: 'rgba(20, 20, 20, 0.93)' });
                 slice.nameText.text = playerAtPos.name + ` (${playerAtPos.trophies || 0}🏆)`;
                 
+                // Inactivity Timer Display
+                const kickTime = playerAtPos.inactivityKickTime || 0;
+                let timerStr = "";
+                if (kickTime > 0) {
+                    const now = new Date().getTime();
+                    const secondsLeft = Math.max(0, Math.floor((kickTime - now) / 1000));
+                    if (secondsLeft > 0 && secondsLeft < 90) { // Only show if under 90s left
+                        timerStr = `⏱️ ${secondsLeft}s`;
+                    }
+                }
+                slice.timerText.text = timerStr;
+
                 const sliceIsCzar = this.gameState.czar === playerAtPos._id;
                 const isLocalUser = playerAtPos._id === localUid;
                 
@@ -807,7 +849,7 @@
                             const cardUI = slice.cardUIs[idx];
                             if (cardUI && card) {
                                 const isSelected = this.selectedCardIds.includes(card._id);
-                                cardUI.label.text = this.wrapText(card.text, 20);
+                                cardUI.label.text = this.wrapText(card.text, 19);
                                 cardUI.container.SetStyles({ 
                                     display: 'flex',
                                     borderColor: isSelected ? '#4CAF50' : '#aaaaaa',
@@ -835,21 +877,7 @@
 
         tickTimers() {
             if (!this.gameState || !this.ui.centralPanel) return;
-            const now = Date.now();
-            let msg = "Holograms Against Humanity";
-
-            if (this.gameState.idleTimeout) {
-                const left = Math.ceil((this.gameState.idleTimeout - now) / 1000);
-                if (left > 0 && left <= 60) {
-                    msg += ` - Hurry! ${left}s`;
-                }
-            } else if (this.gameState.disconnectTimeout) {
-                const left = Math.ceil((this.gameState.disconnectTimeout - now) / 1000);
-                if (left > 0) {
-                    msg += ` - Disconnect in ${left}s`;
-                }
-            }
-            if (this.ui.titleLabel) this.ui.titleLabel.text = msg;
+            this.updateUI();
         }
     }
 
