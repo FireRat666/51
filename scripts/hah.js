@@ -325,7 +325,7 @@
             const centralObj = await new BS.GameObject({ name: "CentralUI", parent: this.root, localPosition: new BS.Vector3(0, 2.0, 0), localScale: new BS.Vector3(0.15, 0.15, 0.15) }).Async();
             await centralObj.AddComponent(new BS.BanterBillboard({ enableXAxis: true, enableYAxis: true }));
             
-            const panel = await centralObj.AddComponent(new BS.BanterUI(new BS.Vector2(900, 800), false));
+            const panel = await centralObj.AddComponent(new BS.BanterUI(new BS.Vector2(900, 1000), false));
             const rootEl = panel.CreateVisualElement();
             await rootEl.Async();
 
@@ -335,12 +335,12 @@
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '30px',
+                padding: '20px',
                 borderRadius: '25px',
                 borderWidth: '4px',
                 borderColor: '#4a4e69',
                 width: '900px',
-                height: '800px',
+                height: '920px',
                 position: 'absolute',
                 top: '0',
                 left: '0',
@@ -352,8 +352,14 @@
             const title = panel.CreateLabel(undefined, rootEl);
             await title.Async();
             title.text = "Holograms Against Humanity";
-            title.SetStyles({ color: 'white', fontSize: '42px', fontWeight: 'bold', marginBottom: '30px' });
+            title.SetStyles({ color: 'white', fontSize: '42px', fontWeight: 'bold', marginBottom: '15px' });
             this.ui.titleLabel = title;
+
+            const statusLabel = panel.CreateLabel(undefined, rootEl);
+            await statusLabel.Async();
+            statusLabel.text = "";
+            statusLabel.SetStyles({ color: '#ffcc00', fontSize: '24px', marginBottom: '15px', display: 'none' });
+            this.ui.statusLabel = statusLabel;
 
             const buttonsRow = panel.CreateVisualElement(rootEl);
             await buttonsRow.Async();
@@ -391,7 +397,8 @@
                 borderColor: 'white',
                 marginBottom: '20px',
                 flexDirection: 'column',
-                alignItems: 'flex-start'
+                alignItems: 'flex-start',
+                backgroundImage: 'none'
             });
 
             const blackCardLabel = panel.CreateLabel(undefined, blackCardContainer);
@@ -400,7 +407,7 @@
                 width: '100%',
                 height: '100%',
                 color: 'white',
-                fontSize: '25px',
+                fontSize: '22px',
                 fontWeight: 'bold',
                 textAlign: 'upper-left'
             });
@@ -422,14 +429,15 @@
                 paddingBottom: '10px',
                 paddingLeft: '30px',
                 paddingRight: '30px',
-                borderRadius: '50px'
+                borderRadius: '50px',
+                backgroundImage: 'none'
             });
             this.ui.winnerLabel = winnerLabel;
 
             // Czar Responses Area
             const czarResponsesRow = panel.CreateVisualElement(rootEl);
             await czarResponsesRow.Async();
-            czarResponsesRow.SetStyles({ display: 'none', flexDirection: 'row', gap: '15px', marginBottom: '20px' });
+            czarResponsesRow.SetStyles({ display: 'none', flexDirection: 'row', gap: '15px', marginBottom: '20px', backgroundColor: 'rgba(0,0,0,0)', backgroundImage: 'none' });
             this.ui.czarResponsesRow = czarResponsesRow;
 
             this.ui.czarResponseCards = [];
@@ -438,7 +446,7 @@
                 await cardContainer.Async();
                 cardContainer.SetStyles({
                     display: 'none',
-                    width: '240px',
+                    width: '260px',
                     height: '320px',
                     backgroundColor: 'white',
                     padding: '20px',
@@ -446,7 +454,9 @@
                     borderWidth: '4px',
                     borderColor: '#aaaaaa',
                     flexDirection: 'column',
-                    alignItems: 'flex-start'
+                    alignItems: 'flex-start',
+                    margin: '8px',
+                    backgroundImage: 'none'
                 });
 
                 const cardLabel = panel.CreateLabel(undefined, cardContainer);
@@ -455,7 +465,7 @@
                     width: '100%',
                     height: '100%',
                     color: 'black',
-                    fontSize: '20px',
+                    fontSize: '18px',
                     fontWeight: 'bold',
                     textAlign: 'upper-left'
                 });
@@ -466,7 +476,7 @@
             // Czar Controls
             const czarControlsRow = panel.CreateVisualElement(rootEl);
             await czarControlsRow.Async();
-            czarControlsRow.SetStyles({ display: 'none', flexDirection: 'row', gap: '15px' });
+            czarControlsRow.SetStyles({ display: 'none', flexDirection: 'row', gap: '15px', backgroundColor: 'rgba(0,0,0,0)', backgroundImage: 'none' });
             this.ui.czarControlsRow = czarControlsRow;
 
             this.ui.czarPrevBtn = await createBtn(czarControlsRow, "PREV", "#555", () => {
@@ -595,7 +605,7 @@
             if (cardsToShow && cardsToShow.length > 0) {
                 this.ui.confirmCardSlots.forEach((slot, idx) => {
                     if (idx < cardsToShow.length) {
-                        slot.label.text = this.wrapText(cardsToShow[idx].text, 22);
+                        slot.label.text = this.wrapText(cardsToShow[idx].text, 20);
                         slot.container.SetStyles({ display: 'flex' });
                     } else {
                         slot.container.SetStyles({ display: 'none' });
@@ -678,8 +688,24 @@
 
             // Update Central Hub
             this.ui.joinBtn.SetStyles({ display: isPlaying ? 'none' : 'flex' });
-            this.ui.dealBtn.SetStyles({ display: (isPlaying && !this.gameState.isStarted) ? 'flex' : 'none' });
             this.ui.leaveBtn.SetStyles({ display: isPlaying ? 'flex' : 'none' });
+
+            const numPlayers = Object.keys(players).length;
+            const minPlayers = 3;
+            
+            if (!this.gameState.isStarted) {
+                if (numPlayers < minPlayers) {
+                    this.ui.statusLabel.text = `Waiting for players... (${numPlayers}/${minPlayers} joined)`;
+                    this.ui.statusLabel.SetStyles({ display: 'flex' });
+                    this.ui.dealBtn.SetStyles({ display: 'none' });
+                } else {
+                    this.ui.statusLabel.SetStyles({ display: 'none' });
+                    this.ui.dealBtn.SetStyles({ display: isPlaying ? 'flex' : 'none' });
+                }
+            } else {
+                this.ui.statusLabel.SetStyles({ display: 'none' });
+                this.ui.dealBtn.SetStyles({ display: 'none' });
+            }
 
             if (this.gameState.isStarted && this.gameState.currentBlackCard) {
                 this.ui.blackCard.label.text = this.wrapText(this.gameState.currentBlackCard.text, 30);
@@ -705,7 +731,7 @@
 
                 this.ui.czarResponseCards.forEach((slot, idx) => {
                     if (idx < numReq) {
-                        slot.label.text = this.wrapText(winnerPlayer?.selected?.[idx]?.text || "", 22);
+                        slot.label.text = this.wrapText(winnerPlayer?.selected?.[idx]?.text || "", 20);
                         slot.container.SetStyles({ display: 'flex' });
                     } else {
                         slot.container.SetStyles({ display: 'none' });
@@ -723,9 +749,15 @@
                 const currentIdx = this.gameState.currentPreviewResponse || 0;
                 const activeResponse = responses[currentIdx];
 
+                // Highlight Prev/Next buttons if there's more to scroll
+                if (isCzar) {
+                    this.ui.czarPrevBtn.SetStyles({ backgroundColor: currentIdx > 0 ? "#4CAF50" : "#555" });
+                    this.ui.czarNextBtn.SetStyles({ backgroundColor: currentIdx < (responses.length - 1) ? "#4CAF50" : "#555" });
+                }
+
                 this.ui.czarResponseCards.forEach((slot, idx) => {
                     if (idx < numReq) {
-                        slot.label.text = this.wrapText(activeResponse?.selected?.[idx]?.text || "", 22);
+                        slot.label.text = this.wrapText(activeResponse?.selected?.[idx]?.text || "", 20);
                         slot.container.SetStyles({ display: 'flex' });
                     } else {
                         slot.container.SetStyles({ display: 'none' });
@@ -775,7 +807,7 @@
                             const cardUI = slice.cardUIs[idx];
                             if (cardUI && card) {
                                 const isSelected = this.selectedCardIds.includes(card._id);
-                                cardUI.label.text = this.wrapText(card.text, 18);
+                                cardUI.label.text = this.wrapText(card.text, 20);
                                 cardUI.container.SetStyles({ 
                                     display: 'flex',
                                     borderColor: isSelected ? '#4CAF50' : '#aaaaaa',
