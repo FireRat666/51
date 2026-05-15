@@ -1082,8 +1082,8 @@
                         cardEl.SetStyles({
                             width: '130px',
                             height: '175px',
-                            backgroundColor: '#ffffffd4',
-                            color: isRed ? '#a40303ff' : '#1a1a2e',
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                            color: isRed ? 'rgba(143, 0, 0, 1)' : 'rgba(0, 0, 0, 1)',
                             fontSize: '54px',
                             // fontWeight: 'bold',
                             textAlign: 'center',
