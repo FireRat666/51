@@ -1091,7 +1091,7 @@
                             marginRight: '10px',
                             paddingTop: '15px',
                             borderWidth: '3px',
-                            borderColor: isRed ? 'rgba(198, 40, 40, 0.3)' : 'rgba(26, 26, 46, 0.25)'
+                            borderColor: isRed ? 'rgba(198, 40, 40, 0.8)' : 'rgba(26, 26, 46, 0.8)'
                         });
                     }
                 });
