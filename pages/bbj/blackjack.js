@@ -6,7 +6,7 @@
     const MIN_PLAYERS = 1;
     const TURN_DURATION = 60 * 1000;
     const DISCONNECT_TIMEOUT_MS = 45000;
-    const DOMAIN = "https://51.firer.at/";
+    const DOMAIN = "https://blackjack.firer.at/";
 
     class BlackjackGame {
         constructor() {
@@ -55,14 +55,23 @@
             return new BS.Vector3(parts[0] || 0, parts[1] || 0, parts[2] || 0);
         }
 
-        getSuitSymbol(suit) {
-            switch (suit) {
-                case 'hearts': return '♡'; // ♥
-                case 'diamonds': return '♢'; // ♦
-                case 'clubs': return '♧'; // ♣
-                case 'spades': return '♤'; // ♠
-                default: return suit; // Fallback
-            }
+        getCardSymbol(rank, suit) {
+            // Unicode playing card block (U+1F0A0 to U+1F0DE)
+            // Each suit starts at a base, ranks are sequential offsets.
+            // IMPORTANT: Knight (Cavalier) card sits at offset 0xC, so Queen=0xD, King=0xE
+            const suitBase = { spades: 0x00, hearts: 0x10, diamonds: 0x20, clubs: 0x30 };
+            const rankOffset = {
+                'A': 0x1, '2': 0x2, '3': 0x3, '4': 0x4,
+                '5': 0x5, '6': 0x6, '7': 0x7, '8': 0x8,
+                '9': 0x9, '10': 0xA, 'J': 0xB, 'Q': 0xD, 'K': 0xE
+            };
+            const base = suitBase[suit];
+            const offset = rankOffset[rank];
+            if (base === undefined || offset === undefined) return `${rank}`;
+            return String.fromCodePoint(0x1F0A0 + base + offset);
+        }
+        getCardBack() {
+            return String.fromCodePoint(0x1F0A0); // 🂠
         }
 
         async init() {
@@ -1039,7 +1048,7 @@
         }
 
         renderHand(container, hand, showAll) {
-            // Simple label-based card rendering for now
+            // Unicode card glyph rendering — each glyph encodes suit + rank
             if (container.children) {
                 while (container.children.length > 0) {
                     container.RemoveChild(container.children[0]);
@@ -1049,19 +1058,22 @@
                 const isHidden = !showAll && idx === 1;
                 const cardEl = container.panel.CreateLabel(undefined, container);
                 cardEl.Async().then(() => {
-                    cardEl.text = isHidden ? "??" : `${card.rank}\n${this.getSuitSymbol(card.suit)}`;
+                    cardEl.text = isHidden
+                        ? this.getCardBack()
+                        : this.getCardSymbol(card.rank, card.suit);
                     cardEl.SetStyles({
-                        width: '170px',
+                        width: '150px',
                         height: '180px',
-                        backgroundColor: isHidden ? '#333' : 'white',
-                        color: isHidden ? 'white' : (['hearts', 'diamonds'].includes(card.suit) ? 'red' : 'black'),
-                        fontSize: '28px',
-                        fontWeight: 'bold',
+                        backgroundColor: 'rgba(0,0,0,0)',
+                        color: isHidden ? '#aaaacc' : (['hearts', 'diamonds'].includes(card.suit) ? '#e53935' : '#1a1a2e'),
+                        fontSize: '140px',
+                        lineHeight: '180px',
+                        fontWeight: 'normal',
                         textAlign: 'center',
                         borderRadius: '10px',
-                        marginRight: '10px',
-                        paddingTop: '15px',
-                        paddingBottom: '30px'
+                        marginRight: '8px',
+                        paddingTop: '0px',
+                        paddingBottom: '0px'
                     });
                 });
             });
