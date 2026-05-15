@@ -55,48 +55,22 @@
             return new BS.Vector3(parts[0] || 0, parts[1] || 0, parts[2] || 0);
         }
 
-        getCardSymbol(rank,suit) { // ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-            if (rank === '2') {
-                switch (suit) {
-                    case 'hearts': return '🂲';
-                    case 'diamonds': return '🃂';
-                    case 'clubs': return '🃒';
-                    case 'spades': return '🂢';
-                };
-            };
-            if (rank === '3') {
-                switch (suit) {
-                    case 'hearts': return '🂳';
-                    case 'diamonds': return '🃃';
-                    case 'clubs': return '🃓';
-                    case 'spades': return '🂣';
-                };
-            };
-            if (rank === '4') {
-                switch (suit) {
-                    case 'hearts': return '🂴';
-                    case 'diamonds': return '🃄';
-                    case 'clubs': return '🃔';
-                    case 'spades': return '🂤';
-                };
-            };
-
-            // Unicode playing card block (U+1F0A0 to U+1F0DE)
-            // Each suit starts at a base, ranks are sequential offsets.
-            // IMPORTANT: Knight (Cavalier) card sits at offset 0xC, so Queen=0xD, King=0xE
-            const suitBase = { spades: 0x00, hearts: 0x10, diamonds: 0x20, clubs: 0x30 };
-            const rankOffset = {
-                'A': 0x1, '2': 0x2, '3': 0x3, '4': 0x4,
-                '5': 0x5, '6': 0x6, '7': 0x7, '8': 0x8,
-                '9': 0x9, '10': 0xA, 'J': 0xB, 'Q': 0xD, 'K': 0xE
-            };
-            const base = suitBase[suit];
-            const offset = rankOffset[rank];
-            if (base === undefined || offset === undefined) return `${rank}`;
-            return String.fromCodePoint(0x1F0A0 + base + offset);
+        // Returns the outline suit symbol — BMP characters, confirmed to render in Banter SDK
+        getSuitSymbol(suit) {
+            switch (suit) {
+                case 'hearts':   return '\u2661'; // ♡
+                case 'diamonds': return '\u2662'; // ♢
+                case 'clubs':    return '\u2667'; // ♧
+                case 'spades':   return '\u2664'; // ♤
+                default: return '?';
+            }
         }
-        getCardBack() {
-            return String.fromCodePoint(0x1F0A0); // 🂠
+
+        // Returns the rank display string — chess glyphs for K and Q
+        getRankDisplay(rank) {
+            if (rank === 'K') return '\u2654'; // ♔
+            if (rank === 'Q') return '\u2655'; // ♕
+            return rank;
         }
 
         async init() {
@@ -1073,7 +1047,6 @@
         }
 
         renderHand(container, hand, showAll) {
-            // Unicode card glyph rendering — each glyph encodes suit + rank
             if (container.children) {
                 while (container.children.length > 0) {
                     container.RemoveChild(container.children[0]);
@@ -1081,25 +1054,46 @@
             }
             hand.forEach((card, idx) => {
                 const isHidden = !showAll && idx === 1;
+                const isRed = ['hearts', 'diamonds'].includes(card.suit);
                 const cardEl = container.panel.CreateLabel(undefined, container);
                 cardEl.Async().then(() => {
-                    cardEl.text = isHidden
-                        ? this.getCardBack()
-                        : this.getCardSymbol(card.rank, card.suit);
-                    cardEl.SetStyles({
-                        width: '150px',
-                        height: '180px',
-                        backgroundColor: 'rgba(0,0,0,0)',
-                        color: isHidden ? '#aaaacc' : (['hearts', 'diamonds'].includes(card.suit) ? '#e53935' : '#1a1a2e'),
-                        fontSize: '140px',
-                        lineHeight: '180px',
-                        fontWeight: 'normal',
-                        textAlign: 'center',
-                        borderRadius: '10px',
-                        marginRight: '8px',
-                        paddingTop: '0px',
-                        paddingBottom: '0px'
-                    });
+                    if (isHidden) {
+                        // Card back — filled suit grid pattern on navy
+                        cardEl.text = '\u2665\u2666\n\u2663\u2660'; // ♥♦ / ♣♠
+                        cardEl.SetStyles({
+                            width: '130px',
+                            height: '175px',
+                            backgroundColor: '#1a237e',
+                            color: 'rgba(255, 220, 100, 0.75)',
+                            fontSize: '36px',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            borderRadius: '12px',
+                            marginRight: '10px',
+                            paddingTop: '38px',
+                            borderWidth: '3px',
+                            borderColor: 'rgba(255, 220, 100, 0.4)'
+                        });
+                    } else {
+                        // Card face — rank on top line, outline suit symbol on bottom
+                        const rank = this.getRankDisplay(card.rank);
+                        const suit = this.getSuitSymbol(card.suit);
+                        cardEl.text = rank + '\n' + suit;
+                        cardEl.SetStyles({
+                            width: '130px',
+                            height: '175px',
+                            backgroundColor: '#ffffff',
+                            color: isRed ? '#c62828' : '#1a1a2e',
+                            fontSize: '48px',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            borderRadius: '12px',
+                            marginRight: '10px',
+                            paddingTop: '18px',
+                            borderWidth: '3px',
+                            borderColor: isRed ? 'rgba(198, 40, 40, 0.3)' : 'rgba(26, 26, 46, 0.25)'
+                        });
+                    }
                 });
             });
         }
