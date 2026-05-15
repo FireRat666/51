@@ -1059,7 +1059,7 @@
                 cardEl.Async().then(() => {
                     if (isHidden) {
                         // Card back — filled suit grid pattern on navy
-                        cardEl.text = '\u2664\u2662\n\u2667\u2661'; // ♤♢ / ♧♡
+                        cardEl.text = '\u2664\u25C7\n\u2667\u2661'; // ♤◇ / ♧♡
                         cardEl.SetStyles({
                             width: '130px',
                             height: '175px',
