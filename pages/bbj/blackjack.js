@@ -1063,7 +1063,7 @@
                         cardEl.SetStyles({
                             width: '130px',
                             height: '175px',
-                            backgroundColor: '#0b1156ff',
+                            backgroundColor: 'rgba(8, 13, 67, 1)',
                             color: 'rgba(252, 202, 38, 0.91)',
                             fontSize: '46px',
                             fontWeight: 'bold',
@@ -1091,7 +1091,7 @@
                             marginRight: '10px',
                             paddingTop: '15px',
                             borderWidth: '3px',
-                            borderColor: isRed ? 'rgba(198, 40, 40, 0.8)' : 'rgba(26, 26, 46, 0.8)'
+                            borderColor: isRed ? 'rgba(143, 0, 0, 1)' : 'rgb(0, 0, 0, 1)'
                         });
                     }
                 });
