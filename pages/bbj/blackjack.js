@@ -59,7 +59,7 @@
         getSuitSymbol(suit) {
             switch (suit) {
                 case 'hearts':   return '\u2661'; // ♡
-                case 'diamonds': return '\u2662'; // ♢
+                case 'diamonds': return '\u25C7'; // ◇
                 case 'clubs':    return '\u2667'; // ♧
                 case 'spades':   return '\u2664'; // ♤
                 default: return '?';
@@ -1082,14 +1082,14 @@
                         cardEl.SetStyles({
                             width: '130px',
                             height: '175px',
-                            backgroundColor: '#ffffff',
-                            color: isRed ? '#c62828' : '#1a1a2e',
-                            fontSize: '52px',
+                            backgroundColor: '#ffffffd4',
+                            color: isRed ? '#a40303ff' : '#1a1a2e',
+                            fontSize: '54px',
                             // fontWeight: 'bold',
                             textAlign: 'center',
                             borderRadius: '12px',
                             marginRight: '10px',
-                            paddingTop: '18px',
+                            paddingTop: '15px',
                             borderWidth: '3px',
                             borderColor: isRed ? 'rgba(198, 40, 40, 0.3)' : 'rgba(26, 26, 46, 0.25)'
                         });
