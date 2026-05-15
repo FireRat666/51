@@ -1065,12 +1065,12 @@
                             height: '175px',
                             backgroundColor: '#0b1156ff',
                             color: 'rgba(252, 202, 38, 0.91)',
-                            fontSize: '40px',
+                            fontSize: '42px',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             borderRadius: '12px',
                             marginRight: '10px',
-                            paddingTop: '32px',
+                            paddingTop: '22px',
                             borderWidth: '3px',
                             borderColor: 'rgba(255, 220, 100, 0.4)'
                         });
