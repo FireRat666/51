@@ -55,7 +55,32 @@
             return new BS.Vector3(parts[0] || 0, parts[1] || 0, parts[2] || 0);
         }
 
-        getCardSymbol(rank, suit) {
+        getCardSymbol(rank,suit) { // ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+            if (rank === '2') {
+                switch (suit) {
+                    case 'hearts': return '🂲';
+                    case 'diamonds': return '🃂';
+                    case 'clubs': return '🃒';
+                    case 'spades': return '🂢';
+                };
+            };
+            if (rank === '3') {
+                switch (suit) {
+                    case 'hearts': return '🂳';
+                    case 'diamonds': return '🃃';
+                    case 'clubs': return '🃓';
+                    case 'spades': return '🂣';
+                };
+            };
+            if (rank === '4') {
+                switch (suit) {
+                    case 'hearts': return '🂴';
+                    case 'diamonds': return '🃄';
+                    case 'clubs': return '🃔';
+                    case 'spades': return '🂤';
+                };
+            };
+
             // Unicode playing card block (U+1F0A0 to U+1F0DE)
             // Each suit starts at a base, ranks are sequential offsets.
             // IMPORTANT: Knight (Cavalier) card sits at offset 0xC, so Queen=0xD, King=0xE
