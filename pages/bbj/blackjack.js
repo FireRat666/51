@@ -1059,18 +1059,18 @@
                 cardEl.Async().then(() => {
                     if (isHidden) {
                         // Card back — filled suit grid pattern on navy
-                        cardEl.text = '\u2665\u2666\n\u2663\u2660'; // ♥♦ / ♣♠
+                        cardEl.text = '\u2660\u2666\n\u2663\u2665'; // ♠♦ / ♣♥
                         cardEl.SetStyles({
                             width: '130px',
                             height: '175px',
                             backgroundColor: '#0b1156ff',
                             color: 'rgba(252, 202, 38, 0.91)',
-                            fontSize: '42px',
+                            fontSize: '44px',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             borderRadius: '12px',
                             marginRight: '10px',
-                            paddingTop: '22px',
+                            paddingTop: '14px',
                             borderWidth: '3px',
                             borderColor: 'rgba(255, 220, 100, 0.4)'
                         });
