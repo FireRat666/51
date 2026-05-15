@@ -1063,14 +1063,14 @@
                         cardEl.SetStyles({
                             width: '130px',
                             height: '175px',
-                            backgroundColor: '#1a237e',
-                            color: 'rgba(255, 220, 100, 0.75)',
-                            fontSize: '36px',
+                            backgroundColor: '#0b1156ff',
+                            color: 'rgba(252, 202, 38, 0.91)',
+                            fontSize: '40px',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             borderRadius: '12px',
                             marginRight: '10px',
-                            paddingTop: '38px',
+                            paddingTop: '32px',
                             borderWidth: '3px',
                             borderColor: 'rgba(255, 220, 100, 0.4)'
                         });
@@ -1084,7 +1084,7 @@
                             height: '175px',
                             backgroundColor: '#ffffff',
                             color: isRed ? '#c62828' : '#1a1a2e',
-                            fontSize: '48px',
+                            fontSize: '52px',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             borderRadius: '12px',
