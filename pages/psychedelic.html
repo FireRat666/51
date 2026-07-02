@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🌀 Psychedelic Experience</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; background: #000; touch-action: none; }
+        canvas { display: block; width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+    <script>
+    const c = document.getElementById('c');
+    const ctx = c.getContext('2d');
+    let W, H;
+
+    function resize() {
+        W = c.width = window.innerWidth * devicePixelRatio;
+        H = c.height = window.innerHeight * devicePixelRatio;
+        c.style.width = '100vw';
+        c.style.height = '100vh';
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Interactive points (fingers / mouse)
+    const pts = [];
+    function addPt(x, y) {
+        if (!pts.length) pts.push({x: x * devicePixelRatio, y: y * devicePixelRatio});
+        else pts[0] = {x: x * devicePixelRatio, y: y * devicePixelRatio};
+    }
+    window.addEventListener('touchstart', e => { e.preventDefault(); addPt(e.touches[0].clientX, e.touches[0].clientY); }, {passive:false});
+    window.addEventListener('touchmove', e => { e.preventDefault(); addPt(e.touches[0].clientX, e.touches[0].clientY); }, {passive:false});
+    window.addEventListener('mousedown', e => addPt(e.clientX, e.clientY));
+    window.addEventListener('mousemove', e => addPt(e.clientX, e.clientY));
+
+    let t = 0;
+    function draw() {
+        t += 0.015;
+        // Fade trail
+        ctx.fillStyle = `rgba(0,0,0,${0.06 + Math.sin(t*0.3)*0.02})`;
+        ctx.fillRect(0, 0, W, H);
+
+        const cx = pts.length ? (pts[0].x / 2 + (W * 0.5) / 2) : W/2;
+        const cy = pts.length ? (pts[0].y / 2 + (H * 0.5) / 2) : H/2;
+
+        // Kaleidoscope-like concentric rings
+        for (let i = 0; i < 300; i++) {
+            const angle = (Math.PI * 2 / 18) * (i % 18);
+            const radius = ((i * 4 + t * 200) % Math.max(W, H)) * 0.6;
+            const hue = (t * 80 + i * 3) % 360;
+            ctx.save();
+            ctx.translate(W/2, H/2);
+            ctx.rotate(angle);
+            for (let r = 0; r < 6; r++) {
+                const rot = r * Math.PI / 3 + t * 0.5 + i * 0.1;
+                const px = Math.cos(rot) * radius;
+                const py = Math.sin(rot) * radius;
+                ctx.beginPath();
+                ctx.arc(px, py, 4 + Math.sin(t * 2 + i) * 3, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${hue}, 100%, ${50 + Math.sin(t + i*0.5)*30}%, ${0.5 + Math.sin(t*3+i)*0.3})`;
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        // Flowing sine curves
+        for (let j = 0; j < 8; j++) {
+            const hue = (t * 120 + j * 45) % 360;
+            ctx.beginPath();
+            ctx.strokeStyle = `hsla(${hue}, 100%, 60%, ${0.3 + Math.sin(t+j)*0.2})`;
+            ctx.lineWidth = 2 + Math.sin(t*2 + j) * 1.5;
+            for (let x = 0; x < W; x += 2) {
+                const y = H/2 
+                    + Math.sin(x * 0.003 + t * (1.5 + j*0.2) + j) * H * 0.25
+                    + Math.cos(x * 0.006 + t * 0.8 + j * 1.5) * H * 0.15
+                    + Math.sin( x * 0.01 - t * 2 + j * 0.5) * 30
+                    + (j - 4) * 20;
+                j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        }
+
+        // Spiraling mandala from interaction point
+        if (pts.length) {
+            const hueBase = (t * 150) % 360;
+            for (let i = 0; i < 80; i++) {
+                const a = (Math.PI * 2 / 12) * i + t * (2 + Math.sin(t*0.5));
+                const r = i * 3.5 + Math.sin(t * 1.5 + i * 0.2) * 20;
+                const hue = (hueBase + i * 4.5) % 360;
+                ctx.beginPath();
+                ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 3 + Math.sin(t*3+i)*2, 0, Math.PI*2);
+                ctx.fillStyle = `hsla(${hue},100%,${60+Math.sin(t+i)*20}%,0.7)`;
+                ctx.fill();
+            }
+        }
+
+        // Central pulsing vortex
+        const pulseR = 80 + Math.sin(t * 2) * 40 + (pts.length ? 30 : 0);
+        for (let i = 15; i > 0; i--) {
+            const hue = (t * 200 + i * 24) % 360;
+            ctx.beginPath();
+            ctx.arc(W/2 + Math.sin(t+i)*30, H/2 + Math.cos(t*1.3+i)*30, pulseR - i*4, 0, Math.PI*2);
+            ctx.strokeStyle = `hsla(${hue},100%,65%,${i*0.03})`;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+    </script>
+</body>
+</html>
