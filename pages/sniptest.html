@@ -1,0 +1,40 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Space</title>
+</head>
+<body>
+<!-- Fire-V-Player uses the SDK's legacy A-Frame bridge. snippet.js adds this if it's missing. -->
+<a-scene></a-scene>
+
+<!-- Previous embed, kept for rollback (A-Frame axes: Z is flipped compared to the snippet):
+<script
+  src="https://vidya.firer.at/playlist.js"
+  instance="my-private-room"
+  playlist="PLZWiw-xxQ4SPDmADhvme7-pU2bx3s7nKX"
+  volume="10"
+  hand-controls="true"
+  position="0 1.5 -2"
+  rotation="0 0 0"
+  scale="2 2 2"
+></script>
+-->
+
+<!-- snippet section -->
+<bs-snippet name="fire-v-player" title="Fire-V-Player" single="true"
+  description="Synced YouTube player with a shared playlist and an in-world playlist panel."
+  script="https://testya.firer.at/snippet.js"
+  room="my-private-room"
+  playlist="PLZWiw-xxQ4SPDmADhvme7-pU2bx3s7nKX"
+  volume="10"
+  hand-controls="true"
+  position="0 1.5 2"
+  rotation="0 0 0"
+  scale="2"
+  playlist-ui="auto">
+  <bs-gizmo type="position" attribute="position"/>
+  <bs-gizmo type="plane" attribute="position" size="2 1.125" rotation="0 180 0"/>
+</bs-snippet>
+<!-- end snippet section -->
+</body>
+</html>
