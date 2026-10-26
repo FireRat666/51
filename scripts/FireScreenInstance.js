@@ -159,8 +159,11 @@ export class FireScreen {
         this.gameObjects.push(this.screenObject);
 
         console.log(`FIRESCREEN_INSTANCE[${this.id}]: Initializing with Width:${p.width}, Height:${p.height}, URL:${p.website}`);
-        // The last argument is the startup actions as JSON text; null made the client log a parse error.
-        this.browserComponent = await this.screenObject.AddComponent(new BS.BanterBrowser(p.website, p.mipmaps, p.pixelsperunit, p.width, p.height, JSON.stringify({ actions: [] })));
+        // As the Fire-V-Player does: the page is drawn at SDK_PIXELS_PER_M (clients on the SDK ignore
+        // pixelsPerUnit and use that anyway; older ones honour it) and the screen object is scaled to
+        // the size it should be in the world (see _computeLayout). The last argument is the startup
+        // actions as JSON text; null made the client log a parse error.
+        this.browserComponent = await this.screenObject.AddComponent(new BS.BanterBrowser(p.website, p.mipmaps, SDK_PIXELS_PER_M, p.width, p.height, JSON.stringify({ actions: [] })));
         this.browserComponent.homePage = p.website;
         this.browserComponent.volumeLevel = p.volumelevel;
         this.browserComponent.muteState = false;
@@ -186,23 +189,19 @@ export class FireScreen {
         this.geometrytransform.eulerAngles = p.rotation;
         this.geometrytransform.localScale = p.scale;
 
-        // The screen moves only by its handle: a pill just under it. The pill's collider is the only
-        // one on the screen's own object, which carries the Rigidbody and the grab, so the rest of
-        // the screen can't be grabbed. The Rigidbody stays kinematic unless held, so hands can't push it.
+        // The screen moves only by its handle, a pill just under it, made as the Fire-V-Player's
+        // playlist panel makes its pill (see _addScreenHandle).
         this.grabbable = p['lock-position'] !== "true";
-        const handleLength = 0.3, handleThick = 0.05;
-        if (this.grabbable) {
-            await this.geometryObject.AddComponent(new BS.BoxCollider(false, new BS.Vector3(0, L.handleY, 0), new BS.Vector3(handleLength + handleThick * 2, handleThick * 2 + 0.02, handleThick * 2 + 0.02)));
-        }
-        await this.geometryObject.SetLayer(20);
-        // Upright: physics may only turn it around the vertical (the billboard still turns it to face you).
-        this.firerigidBody = await this.geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0, 0, 0), 0, false, false, false, true, false, true, new BS.Vector3(0, 0, 0), new BS.Vector3(0, 0, 0)));
         if (this.grabbable) {
             try {
-                this.gameObjects.push(await this._addScreenHandle(L.handleY, handleLength, handleThick, p['handle-color']));
+                this.gameObjects.push(await this._addScreenHandle(L.handleY, p['handle-color']));
             } catch (e) {
                 console.warn(`FIRESCREEN_INSTANCE[${this.id}]: Could not make the screen's handle grabbable:`, e);
             }
+        }
+        if (!this.firerigidBody) {
+            // Locked in place (or the handle failed): a still Rigidbody, as before.
+            this.firerigidBody = await this.geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0, 0, 0), 0, false, false, false, false, false, false, new BS.Vector3(0, 0, 0), new BS.Vector3(0, 0, 0)));
         }
 
         const backdropColor = p.backdrop !== "true" ? new BS.Vector4(0, 0, 0, 0) : p['backdrop-color'];
@@ -211,7 +210,7 @@ export class FireScreen {
         const browsertransform = await this.screenObject.AddComponent(new BS.Transform());
         browsertransform.position = p['screen-position'];
         const s = p['screen-scale'];
-        browsertransform.localScale = new BS.Vector3(s.x * L.ppuFix, s.y * L.ppuFix, s.z);
+        browsertransform.localScale = new BS.Vector3(s.x * L.pageScale, s.y * L.pageScale, s.z);
         browsertransform.eulerAngles = p['screen-rotation'];
         await this.screenObject.SetParent(this.geometryObject, false);
 
@@ -332,39 +331,38 @@ export class FireScreen {
     }
 
     _setupEventListeners() {
+        // Free to move only while held (see _addScreenHandle); let go, it stops and stays put.
         const onGrab = () => {
-            if (this.grabbable) {
-                this.firerigidBody.isKinematic = false;
-            }
+            if (this.grabbable) this._holdStill(false);
         };
         const onDrop = () => {
-            try {
-                this.firerigidBody.velocity = new BS.Vector3(0, 0, 0);
-                this.firerigidBody.angularVelocity = new BS.Vector3(0, 0, 0);
-            } catch (e) { /* not on this client */ }
-            this.firerigidBody.isKinematic = true;
+            if (this.grabbable) this._holdStill(true);
         };
 
-        this.firerigidBody.gameObject.On('grab', onGrab);
-        this.firerigidBody.gameObject.On('drop', onDrop);
-        this.listeners.push({ target: this.firerigidBody.gameObject, event: 'grab', handler: onGrab });
-        this.listeners.push({ target: this.firerigidBody.gameObject, event: 'drop', handler: onDrop });
+        this.geometryObject.On('grab', onGrab);
+        this.geometryObject.On('drop', onDrop);
+        this.listeners.push({ target: this.geometryObject, event: 'grab', handler: onGrab });
+        this.listeners.push({ target: this.geometryObject, event: 'drop', handler: onDrop });
     }
 
-    // Sizes the backdrop to the page and places the buttons around it. The page is
-    // width / pixelsperunit metres wide (times screen-scale). Clients on the current SDK draw it at
-    // SDK_PIXELS_PER_M whatever pixelsperunit says, so ppuFix scales it back to that size. With the
-    // defaults (1024 x 576 at 1200) this gives the old 1.09 x 0.64 backdrop and button places.
+    // Sizes the screen, the backdrop and the button places. As in the Fire-V-Player, width and height
+    // are the page's resolution and only make it sharper: the screen stays the same size in the
+    // world. pixelsperunit sets that size, as wide as a 1024-pixel page at that many pixels per
+    // metre (the default 1200 gives the old 0.85 m screen, 1.09 x 0.64 backdrop and button places;
+    // 1000 gives 1.02 m). The height follows the page's shape.
     _computeLayout() {
         const p = this.params;
         const ppu = Number(p.pixelsperunit) > 0 ? Number(p.pixelsperunit) : 1200;
-        const ppuIgnored = !!BS.Scene && typeof BS.Browser === 'function';
+        const pagePxWide = Number(p.width) > 0 ? Number(p.width) : 1024;
+        const pagePxHigh = Number(p.height) > 0 ? Number(p.height) : 576;
         const s = p['screen-scale'];
-        const pageWidth = (Number(p.width) || 1024) / ppu * s.x;
-        const pageHeight = (Number(p.height) || 576) / ppu * s.y;
+        const screenWidthM = 1024 / ppu;
+        const pageWidth = screenWidthM * s.x;
+        const pageHeight = screenWidthM * pagePxHigh / pagePxWide * s.y;
         const backdropWidth = pageWidth + 0.24, backdropHeight = pageHeight + 0.16;
         return {
-            ppuFix: ppuIgnored ? SDK_PIXELS_PER_M / ppu : 1,
+            // The page is drawn at SDK_PIXELS_PER_M; this scales it to screenWidthM.
+            pageScale: screenWidthM * SDK_PIXELS_PER_M / pagePxWide,
             backdropWidth, backdropHeight,
             top: backdropHeight / 2 + 0.06,          // the top row of buttons
             left: -(backdropWidth / 2 + 0.055),      // the left column
@@ -374,39 +372,72 @@ export class FireScreen {
         };
     }
 
-    // Puts a pill under the screen and makes the screen grabbable, set up as in the SDK docs and as
-    // the Fire-V-Player's playlist panel does it: the screen's object already has a collider (sized
-    // to the pill) and a Rigidbody, then Grababble (which adds the grab handle and puts it on the
-    // Grabbable layer). Without Grababble, newer clients no longer let players pick the screen up.
-    async _addScreenHandle(handleY, length, thick, colour) {
-        // A capsule stands along its Y axis, so the pill is a child turned on its side.
-        const pill = await new BS.GameObject(`FireScreenHandle${this.id}`).Async();
-        if (typeof BS.Capsule === 'function') {
-            await pill.AddComponent(new BS.Capsule({ radius: thick, height: length, radialSegments: 24, heightSegments: 8 }));
-        } else {
-            await this._createGeometry(pill, BS.GeometryType.BoxGeometry, { thewidth: thick * 2, theheight: length, depth: thick * 2 });
+    // The pill under the screen, copied from the Fire-V-Player's playlist panel (playlist-panel.js,
+    // addGrabHandle): a capsule on its side, a collider, a Rigidbody, then Grababble (which adds the
+    // grab handle, a WorldObject and HeldEvents, and puts it on the Grabbable layer), all on the
+    // screen's own object so the whole screen comes along. The collider sits around the pill, below
+    // the backdrop, so only the pill can be grabbed. One difference: the panel's Rigidbody is always
+    // free to move, so a hand could nudge it; this one is held still (_holdStill) except while held.
+    async _addScreenHandle(handleY, colour) {
+        if (!BS.Rigidbody || !(BS.Grababble || BS.GrabHandle) || !BS.BoxCollider) {
+            console.log(`FIRESCREEN_INSTANCE[${this.id}]: This client has no Rigidbody / Grababble, so the screen has no handle.`);
+            return null;
         }
-        await this._createMaterial(pill, { shaderName: CONSTANTS.SHADERS.CUSTOM_BUTTON, color: colour || new BS.Vector4(0.85, 0.87, 0.9, 1) });
-        const pillTransform = await pill.AddComponent(new BS.Transform());
-        pillTransform.localPosition = new BS.Vector3(0, handleY, 0);
-        pillTransform.localEulerAngles = new BS.Vector3(0, 0, 90);
-        await pill.SetParent(this.geometryObject, false);
-
-        // Each player moves their own screen, so the network id is their own too: no one else's matches it.
+        const handle = this.geometryObject;
+        // Looks like the pill under the playlist panel. A capsule stands along its Y axis, so it's
+        // on a child turned on its side; the collider stays on the handle itself, sized to the pill.
+        const length = 0.3, thick = 0.05;
+        const pill = await new BS.GameObject({
+            name: `FireScreenHandlePill${this.id}`,
+            parent: handle,
+            localPosition: new BS.Vector3(0, handleY, 0),
+            localEulerAngles: new BS.Vector3(0, 0, 90)
+        }).Async();
+        if (BS.Capsule) await pill.AddComponent(new BS.Capsule({ radius: thick, height: length, radialSegments: 24, heightSegments: 8 }));
+        else if (BS.Box) await pill.AddComponent(new BS.Box({ width: thick, height: length, depth: thick }));
+        if (BS.Material) await pill.AddComponent(new BS.Material({ shaderName: 'Unlit/Diffuse', color: colour || new BS.Vector4(0.85, 0.87, 0.9, 1) }));
+        await handle.AddComponent(new BS.BoxCollider({ isTrigger: false, center: new BS.Vector3(0, handleY, 0), size: new BS.Vector3(length, thick + 0.02, thick + 0.02) }));
+        // No gravity, and it only turns around the vertical, so the screen stays upright. Starts
+        // held still (all frozen) until someone grabs it.
+        this.firerigidBody = await handle.AddComponent(new BS.Rigidbody({
+            mass: 1, drag: 2, angularDrag: 10, useGravity: false, isKinematic: false,
+            freezePositionX: true, freezePositionY: true, freezePositionZ: true,
+            freezeRotationX: true, freezeRotationY: true, freezeRotationZ: true
+        }));
+        // Each player's screen is their own, so its network id is too: no one else's handle matches it.
         const user = this.banterscene.localUser;
-        const uid = (user && user.uid) || Math.random().toString(36).slice(2);
-        if (typeof this.geometryObject.SetNetworkId === 'function') {
-            try { await this.geometryObject.SetNetworkId(`FireScreen_${this.id}_${uid}`); } catch (e) { /* not on this client */ }
+        const uid = (user && user.uid) || (window.user && window.user.id) || Math.random().toString(36).slice(2);
+        if (typeof handle.SetNetworkId === 'function') {
+            try { await handle.SetNetworkId(`FireScreen_Handle${this.id}_${uid}`); } catch (e) { /* not on this client */ }
         }
         const soft = BS.BSGrabType && BS.BSGrabType.Soft !== undefined ? BS.BSGrabType.Soft : 3;
-        if (typeof BS.Grababble === 'function') {
-            await this.geometryObject.AddComponent(new BS.Grababble({ grabType: soft, grabRadius: 0.01 }));
-        } else if (typeof BS.GrabHandle === 'function') {
-            await this.geometryObject.AddComponent(new BS.GrabHandle({ grabType: soft, grabRadius: 0.01 }));
+        if (BS.Grababble) {
+            await handle.AddComponent(new BS.Grababble({ grabType: soft, grabRadius: 0.01 }));
         } else {
-            console.log(`FIRESCREEN_INSTANCE[${this.id}]: This client has no Grababble, so the handle uses the old grab.`);
+            if (typeof handle.SetLayer === 'function') await handle.SetLayer((BS.L && BS.L.Grabbable) || 20);
+            await handle.AddComponent(new BS.GrabHandle({ grabType: soft, grabRadius: 0.01 }));
         }
+        console.log(`FIRESCREEN_INSTANCE[${this.id}]: The pill under the screen can be grabbed to carry it.`);
         return pill;
+    }
+
+    // still: every position and rotation frozen, so hands and bodies can't push the screen.
+    // Not still (while held): free to move, but only turning around the vertical, as the panel.
+    _holdStill(still) {
+        const b = this.firerigidBody;
+        if (!b) return;
+        try {
+            if (still) {
+                b.velocity = new BS.Vector3(0, 0, 0);
+                b.angularVelocity = new BS.Vector3(0, 0, 0);
+            }
+            b.freezePositionX = still;
+            b.freezePositionY = still;
+            b.freezePositionZ = still;
+            b.freezeRotationY = still;
+        } catch (e) {
+            console.warn(`FIRESCREEN_INSTANCE[${this.id}]: Could not change the screen's movement:`, e);
+        }
     }
 
     // --- Helper Methods (previously global functions) ---
@@ -454,10 +485,12 @@ export class FireScreen {
         const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
 
         const textObject = await new BS.GameObject(`${name}Text${this.id}`).Async();
-        // Alignment is a number (the SDK's enum), not the word "Center". Centred, the text sits
-        // on its button, just in front of it.
-        const hCenter = BS.HorizontalAlignment ? BS.HorizontalAlignment.Center : 1;
-        const vCenter = BS.VerticalAlignment ? BS.VerticalAlignment.Center : 1;
+        // The client reads each alignment as a whole number (the error it logged for the word
+        // "Center" said so). Use the SDK's own value when it is a number; 1 is the middle one
+        // (Left, Center, Right / Top, Center or Middle, Bottom). Centred, the text sits on its button.
+        const num = (...values) => values.find(v => typeof v === 'number');
+        const H = BS.HorizontalAlignment || {}, V = BS.VerticalAlignment || {};
+        const hCenter = num(H.Center, 1), vCenter = num(V.Center, V.Middle, 1);
         await textObject.AddComponent(new BS.BanterText(text, CONSTANTS.COLORS.WHITE, hCenter, vCenter, 0.20, true, true, new BS.Vector2(2, 1)));
         const textTransform = await textObject.AddComponent(new BS.Transform());
         textTransform.localPosition = new BS.Vector3(position.x, position.y, position.z - 0.005);
