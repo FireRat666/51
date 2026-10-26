@@ -100,11 +100,11 @@ const CONSTANTS = {
         CUSTOM_BUTTON_WIDTH: 0.2,
         CUSTOM_BUTTON_HEIGHT: 0.04,
         HAND_CONTROLS: {
-            CONTAINER_POS: new BS.Vector3(0, 0.046, 0.030),
+            // The Fire-V-Player's hand-controls position and rotation, in the hand's own axes.
+            WRAPPER_POS: new BS.Vector3(0, 0.046, 0.07),
+            WRAPPER_ROT: new BS.Vector3(0, 90, 180),
             CONTAINER_SCALE: new BS.Vector3(0.1, 0.1, 0.1),
-            CONTAINER_ROT: new BS.Vector4(0.25, 0, 0.8, 1),
-            BUTTON_SCALE: new BS.Vector3(0.4, 0.4, 0.4),
-            BUTTON_ROT: new BS.Vector3(180, 0, 0)
+            BUTTON_SCALE: new BS.Vector3(0.4, 0.4, 0.4)
         }
     },
     ICONS: {
@@ -608,14 +608,15 @@ export class FireScreen {
         this.handControls = await new BS.GameObject(`handContainer${this.id}`).Async();
         this.gameObjects.push(this.handControls);
 
-        await this._createGeometry(this.handControls, BS.GeometryType.PlaneGeometry);
-        await this.handControls.AddComponent(new BS.BoxCollider(true, new BS.Vector3(0, 0, 0), new BS.Vector3(1, 1, 1)));
-        await this._createMaterial(this.handControls, { color: new BS.Vector4(0, 0, 0, 0), side: 1 });
-
-        const handTransform = await this.handControls.AddComponent(new BS.Transform());
-        handTransform.localPosition = CONSTANTS.LAYOUT.HAND_CONTROLS.CONTAINER_POS;
-        handTransform.localScale = CONSTANTS.LAYOUT.HAND_CONTROLS.CONTAINER_SCALE;
-        handTransform.rotation = CONSTANTS.LAYOUT.HAND_CONTROLS.CONTAINER_ROT;
+        // Laid out as the Fire-V-Player's hand controls (core.js, setupHandControls): a bare root
+        // attached to the hand, and under it a holder that lays the buttons flat on the back of the
+        // wrist, facing out of it, so they face you when you look at your wrist.
+        const handWrapper = await new BS.GameObject(`handWrapper${this.id}`).Async();
+        const wrapperTransform = await handWrapper.AddComponent(new BS.Transform());
+        wrapperTransform.localPosition = CONSTANTS.LAYOUT.HAND_CONTROLS.WRAPPER_POS;
+        wrapperTransform.localEulerAngles = CONSTANTS.LAYOUT.HAND_CONTROLS.WRAPPER_ROT;
+        wrapperTransform.localScale = CONSTANTS.LAYOUT.HAND_CONTROLS.CONTAINER_SCALE;
+        await handWrapper.SetParent(this.handControls, false);
 
         setTimeout(async () => {
             await this.banterscene.LegacyAttachObject(this.handControls, userId, BS.LegacyAttachmentPosition.LEFT_HAND);
@@ -623,23 +624,23 @@ export class FireScreen {
 		
         this.uiHandButtons = {};
         const handButtonConfigs = [
-            { name: 'hVolumeUpButton', icon: p['icon-volup-url'], pos: new BS.Vector3(0.4, 0.4, 0.3), color: p['volup-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", 1); this._updateButtonColor(btn, p['volup-color']); this._dispatchButtonClickEvent("VolumeUp", 'Hand Volume Up Clicked!'); } },
-            { name: 'hVolumeDownButton', icon: p['icon-voldown-url'], pos: new BS.Vector3(0.0, 0.4, 0.3), color: p['voldown-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", -1); this._updateButtonColor(btn, p['voldown-color']); this._dispatchButtonClickEvent("VolumeDown", 'Hand Volume Down Clicked!'); } },
-            { name: 'hMuteButton', icon: p['icon-mute-url'], pos: new BS.Vector3(-0.4, 0.4, 0.3), color: p['mute-color'], clickHandler: () => {
+            { name: 'hVolumeUpButton', icon: p['icon-volup-url'], pos: new BS.Vector3(0.4, 0.4, -0.3), color: p['volup-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", 1); this._updateButtonColor(btn, p['volup-color']); this._dispatchButtonClickEvent("VolumeUp", 'Hand Volume Up Clicked!'); } },
+            { name: 'hVolumeDownButton', icon: p['icon-voldown-url'], pos: new BS.Vector3(0.0, 0.4, -0.3), color: p['voldown-color'], clickHandler: (btn) => { this._adjustForAll("adjustVolume", -1); this._updateButtonColor(btn, p['voldown-color']); this._dispatchButtonClickEvent("VolumeDown", 'Hand Volume Down Clicked!'); } },
+            { name: 'hMuteButton', icon: p['icon-mute-url'], pos: new BS.Vector3(-0.4, 0.4, -0.3), color: p['mute-color'], clickHandler: () => {
                 this._adjustForAll("toggleMute", true); // Pass true to ensure the command is recognized
                 this._dispatchButtonClickEvent("Mute", 'Hand Mute Clicked!');
             }},
-            { name: 'hLockButton', icon: CONSTANTS.ICONS.LOCK, pos: new BS.Vector3(0, -0.1, 0.3), color: CONSTANTS.COLORS.BUTTON_UNLOCKED, clickHandler: (btn) => { this.playerislockedv2 = !this.playerislockedv2; this.playerislockedv2 ? this.banterscene.LegacyLockPlayer() : this.banterscene.LegacyUnlockPlayer(); btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.playerislockedv2 ? CONSTANTS.COLORS.BUTTON_LOCKED : CONSTANTS.COLORS.BUTTON_UNLOCKED; } },
-            { name: 'hHomeButton', icon: CONSTANTS.ICONS.HOME, pos: new BS.Vector3(0.4, -0.1, 0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome", true); this._updateButtonColor(btn, p['button-color']); this._dispatchButtonClickEvent("Home", 'Hand Home Clicked!'); } }
+            { name: 'hLockButton', icon: CONSTANTS.ICONS.LOCK, pos: new BS.Vector3(0, -0.1, -0.3), color: CONSTANTS.COLORS.BUTTON_UNLOCKED, clickHandler: (btn) => { this.playerislockedv2 = !this.playerislockedv2; this.playerislockedv2 ? this.banterscene.LegacyLockPlayer() : this.banterscene.LegacyUnlockPlayer(); btn.GetComponent(BS.ComponentType.BanterMaterial).color = this.playerislockedv2 ? CONSTANTS.COLORS.BUTTON_LOCKED : CONSTANTS.COLORS.BUTTON_UNLOCKED; } },
+            { name: 'hHomeButton', icon: CONSTANTS.ICONS.HOME, pos: new BS.Vector3(0.4, -0.1, -0.3), color: p['button-color'], clickHandler: (btn) => { this._adjustForAll("goHome", true); this._updateButtonColor(btn, p['button-color']); this._dispatchButtonClickEvent("Home", 'Hand Home Clicked!'); } }
         ];
 
         for (const config of handButtonConfigs) {
-            const button = await this._createUIButton(config.name, config.icon, config.pos, config.color, this.handControls, () => config.clickHandler(button), CONSTANTS.LAYOUT.HAND_CONTROLS.BUTTON_ROT, 1, 1, CONSTANTS.SHADERS.DEFAULT_TRANSPARENT, CONSTANTS.LAYOUT.HAND_CONTROLS.BUTTON_SCALE);
+            const button = await this._createUIButton(config.name, config.icon, config.pos, config.color, handWrapper, () => config.clickHandler(button), null, 1, 1, CONSTANTS.SHADERS.DEFAULT_TRANSPARENT, CONSTANTS.LAYOUT.HAND_CONTROLS.BUTTON_SCALE);
             this.uiHandButtons[config.name] = button;
         }
 
         // Track all created hand control objects so they can be cleaned up properly.
-        this.handControlGameObjects = [this.handControls, ...Object.values(this.uiHandButtons)];
+        this.handControlGameObjects = [this.handControls, handWrapper, ...Object.values(this.uiHandButtons)];
         this.gameObjects.push(...this.handControlGameObjects);
     }
 
