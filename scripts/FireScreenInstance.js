@@ -31,6 +31,51 @@ const mediaControlScript = `
 })();
 `;
 
+// Makes the page fit the screen on Quest. There the browser is Android's WebView, which lays a
+// page out in CSS pixels several device pixels wide, so sites look zoomed in, need panning, and
+// clicks land away from the pointer. This sets the page's viewport to the screen's width at a
+// scale of 1 / devicePixelRatio, so it lays out as it does on PC. On PC the viewport tag is
+// ignored. It runs on every page the screen shows (sites can change their own tag, so it checks
+// each second); a second run on the same page does nothing. `debug` shows the numbers on the page.
+function pageFitScript(pageWidth, debug) {
+    return `
+(function() {
+  if (window.__fireScreenFit) return;
+  window.__fireScreenFit = true;
+  var W = ${Number(pageWidth) || 1024}, DEBUG = ${debug ? 'true' : 'false'}, info = null;
+  function fit() {
+    var head = document.head || document.documentElement;
+    if (!head) return;
+    var dpr = window.devicePixelRatio > 0 ? window.devicePixelRatio : 1;
+    var s = Math.round(1000 / dpr) / 1000;
+    var want = 'width=' + W + ', initial-scale=' + s + ', minimum-scale=' + s + ', maximum-scale=' + s + ', user-scalable=no';
+    var metas = document.querySelectorAll('meta[name="viewport"]');
+    for (var i = 1; i < metas.length; i++) metas[i].remove();
+    var m = metas[0];
+    if (!m) { m = document.createElement('meta'); m.name = 'viewport'; head.appendChild(m); }
+    if (m.getAttribute('content') !== want) m.setAttribute('content', want);
+    if (DEBUG && document.body) {
+      if (!info) {
+        info = document.createElement('div');
+        info.style.cssText = 'position:fixed;left:8px;bottom:8px;right:8px;z-index:2147483647;padding:6px 10px;white-space:pre-wrap;font:14px monospace;color:#fff;background:rgba(0,0,0,0.75);pointer-events:none';
+      }
+      if (!info.isConnected) document.body.appendChild(info);
+      var vv = window.visualViewport;
+      info.textContent = 'window ' + window.innerWidth + ' x ' + window.innerHeight + ', devicePixelRatio ' + dpr.toFixed(3) +
+        (vv ? ', zoom ' + vv.scale.toFixed(3) + ', showing ' + vv.width.toFixed(1) + ' x ' + vv.height.toFixed(1) : '') +
+        '\\npage ' + document.documentElement.scrollWidth + ' x ' + document.documentElement.scrollHeight + ', viewport tag: ' + want;
+    }
+  }
+  fit();
+  setInterval(fit, 1000);
+  window.addEventListener('resize', fit);
+})();
+`;
+}
+
+// Clients on the current SDK ignore pixelsperunit and draw every page at this many pixels per metre.
+const SDK_PIXELS_PER_M = 1300;
+
 const CONSTANTS = {
     SHADERS: {
         CUSTOM_BUTTON: 'Unlit/Diffuse',
@@ -114,7 +159,8 @@ export class FireScreen {
         this.gameObjects.push(this.screenObject);
 
         console.log(`FIRESCREEN_INSTANCE[${this.id}]: Initializing with Width:${p.width}, Height:${p.height}, URL:${p.website}`);
-        this.browserComponent = await this.screenObject.AddComponent(new BS.BanterBrowser(p.website, p.mipmaps, p.pixelsperunit, p.width, p.height, null));
+        // The last argument is the startup actions as JSON text; null made the client log a parse error.
+        this.browserComponent = await this.screenObject.AddComponent(new BS.BanterBrowser(p.website, p.mipmaps, p.pixelsperunit, p.width, p.height, JSON.stringify({ actions: [] })));
         this.browserComponent.homePage = p.website;
         this.browserComponent.volumeLevel = p.volumelevel;
         this.browserComponent.muteState = false;
@@ -123,26 +169,49 @@ export class FireScreen {
         if (p['disable-interaction'] === "false") {
             this.browserComponent.ToggleInteraction(true);
         }
+        if (p['fit-page'] !== "false") {
+            // Each page needs it once, but links clicked inside the page load new pages without
+            // telling the space, so check every couple of seconds (it does nothing on a page that has it).
+            const fitScript = pageFitScript(p.width, p['screen-debug'] === "true");
+            this.intervals.push(setInterval(() => this._runBrowserActions(fitScript), 2000));
+        }
 
+        const L = this.layout = this._computeLayout();
         this.geometryObject = await new BS.GameObject(`MainParentObject${this.id}`).Async();
         this.gameObjects.push(this.geometryObject);
-        await this._createGeometry(this.geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: CONSTANTS.LAYOUT.PLANE.WIDTH, theheight: CONSTANTS.LAYOUT.PLANE.HEIGHT });
+        await this._createGeometry(this.geometryObject, BS.GeometryType.PlaneGeometry, { thewidth: L.backdropWidth, theheight: L.backdropHeight });
 
         this.geometrytransform = await this.geometryObject.AddComponent(new BS.Transform());
         this.geometrytransform.position = p.position;
         this.geometrytransform.eulerAngles = p.rotation;
         this.geometrytransform.localScale = p.scale;
 
-        await this.geometryObject.AddComponent(new BS.BoxCollider(false, new BS.Vector3(0, 0, 0), new BS.Vector3(CONSTANTS.LAYOUT.PLANE.WIDTH, CONSTANTS.LAYOUT.PLANE.HEIGHT, CONSTANTS.LAYOUT.PLANE.COLLIDER_DEPTH)));
+        // The screen moves only by its handle: a pill just under it. The pill's collider is the only
+        // one on the screen's own object, which carries the Rigidbody and the grab, so the rest of
+        // the screen can't be grabbed. The Rigidbody stays kinematic unless held, so hands can't push it.
+        this.grabbable = p['lock-position'] !== "true";
+        const handleLength = 0.3, handleThick = 0.05;
+        if (this.grabbable) {
+            await this.geometryObject.AddComponent(new BS.BoxCollider(false, new BS.Vector3(0, L.handleY, 0), new BS.Vector3(handleLength + handleThick * 2, handleThick * 2 + 0.02, handleThick * 2 + 0.02)));
+        }
         await this.geometryObject.SetLayer(20);
-        this.firerigidBody = await this.geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0, 0, 0), 0, false, false, false, false, false, false, new BS.Vector3(0, 0, 0), new BS.Vector3(0, 0, 0)));
+        // Upright: physics may only turn it around the vertical (the billboard still turns it to face you).
+        this.firerigidBody = await this.geometryObject.AddComponent(new BS.BanterRigidbody(1, 10, 10, true, false, new BS.Vector3(0, 0, 0), 0, false, false, false, true, false, true, new BS.Vector3(0, 0, 0), new BS.Vector3(0, 0, 0)));
+        if (this.grabbable) {
+            try {
+                this.gameObjects.push(await this._addScreenHandle(L.handleY, handleLength, handleThick, p['handle-color']));
+            } catch (e) {
+                console.warn(`FIRESCREEN_INSTANCE[${this.id}]: Could not make the screen's handle grabbable:`, e);
+            }
+        }
 
         const backdropColor = p.backdrop !== "true" ? new BS.Vector4(0, 0, 0, 0) : p['backdrop-color'];
         await this._createMaterial(this.geometryObject, { color: backdropColor });
 
         const browsertransform = await this.screenObject.AddComponent(new BS.Transform());
         browsertransform.position = p['screen-position'];
-        browsertransform.localScale = p['screen-scale'];
+        const s = p['screen-scale'];
+        browsertransform.localScale = new BS.Vector3(s.x * L.ppuFix, s.y * L.ppuFix, s.z);
         browsertransform.eulerAngles = p['screen-rotation'];
         await this.screenObject.SetParent(this.geometryObject, false);
 
@@ -195,9 +264,8 @@ export class FireScreen {
 
     async _createAllUI() {
         const p = this.params;
-        let TButPos = 0.38, LButPos = -0.6, RButPos = 0.6;
-        if (Number(p.height) === 720) { TButPos += 0.07; LButPos -= 0.14; RButPos += 0.14; }
-        else if (Number(p.height) === 1080) { TButPos += 0.23; LButPos -= 0.45; RButPos += 0.45; }
+        // Around the backdrop, which is sized to the page (see _computeLayout).
+        const TButPos = this.layout.top, LButPos = this.layout.left, RButPos = this.layout.right;
 
         const BUTTON_CONFIGS = {
             home: { icon: CONSTANTS.ICONS.HOME, position: new BS.Vector3(-0.2, TButPos, 0), color: p['button-color'], clickHandler: () => { this._setBrowserUrl(this.browserComponent.homePage); this._updateButtonColor(this.uiButtons.home, p['button-color']); this._dispatchButtonClickEvent("Home", `${this.browserComponent.homePage}`); } },
@@ -226,16 +294,14 @@ export class FireScreen {
         });
         this.uiButtons.hideShow = hideShowObject;
 
-        let RCButPos = 0.68, RCTexPos = 1.59;
-        if (Number(p.height) === 720) { RCButPos += 0.14; RCTexPos += 0.14; }
-        else if (Number(p.height) === 1080) { RCButPos += 0.4; RCTexPos += 0.4; }
+        const RCButPos = this.layout.customX;
 
         const customButtonConfigs = [
-            { name: 'CustomButton01', url: p['custom-button01-url'], text: p['custom-button01-text'], position: new BS.Vector3(RCButPos, 0.30, 0), textposition: new BS.Vector3(RCTexPos, -0.188, -0.005) },
-            { name: 'CustomButton02', url: p['custom-button02-url'], text: p['custom-button02-text'], position: new BS.Vector3(RCButPos, 0.25, 0), textposition: new BS.Vector3(RCTexPos, -0.237, -0.005) },
-            { name: 'CustomButton03', url: p['custom-button03-url'], text: p['custom-button03-text'], position: new BS.Vector3(RCButPos, 0.20, 0), textposition: new BS.Vector3(RCTexPos, -0.287, -0.005) },
-            { name: 'CustomButton04', url: p['custom-button04-url'], text: p['custom-button04-text'], position: new BS.Vector3(RCButPos, 0.15, 0), textposition: new BS.Vector3(RCTexPos, -0.336, -0.005) },
-            { name: 'CustomButton05', url: p['custom-button05-url'], text: p['custom-button05-text'], position: new BS.Vector3(RCButPos, -0.15, 0), textposition: new BS.Vector3(RCTexPos, -0.635, -0.005) }
+            { name: 'CustomButton01', url: p['custom-button01-url'], text: p['custom-button01-text'], position: new BS.Vector3(RCButPos, 0.30, 0) },
+            { name: 'CustomButton02', url: p['custom-button02-url'], text: p['custom-button02-text'], position: new BS.Vector3(RCButPos, 0.25, 0) },
+            { name: 'CustomButton03', url: p['custom-button03-url'], text: p['custom-button03-text'], position: new BS.Vector3(RCButPos, 0.20, 0) },
+            { name: 'CustomButton04', url: p['custom-button04-url'], text: p['custom-button04-text'], position: new BS.Vector3(RCButPos, 0.15, 0) },
+            { name: 'CustomButton05', url: p['custom-button05-url'], text: p['custom-button05-text'], position: new BS.Vector3(RCButPos, -0.15, 0) }
         ];
 
         for (const config of customButtonConfigs) {
@@ -260,7 +326,6 @@ export class FireScreen {
                 name: "SpaceSyncButton",
                 text: "Synced Button",
                 position: new BS.Vector3(RCButPos, 0.35, 0),
-                textposition: new BS.Vector3(RCTexPos, -0.139, -0.005),
                 clickHandler: async () => { var newSyncUrl = await this._getSpaceStateStuff('fireurl'); if (newSyncUrl) this._setBrowserUrl(newSyncUrl); }
             });
         }
@@ -268,16 +333,80 @@ export class FireScreen {
 
     _setupEventListeners() {
         const onGrab = () => {
-            if (this.params['lock-position'] !== "true") {
+            if (this.grabbable) {
                 this.firerigidBody.isKinematic = false;
             }
         };
-        const onDrop = () => { this.firerigidBody.isKinematic = true; };
+        const onDrop = () => {
+            try {
+                this.firerigidBody.velocity = new BS.Vector3(0, 0, 0);
+                this.firerigidBody.angularVelocity = new BS.Vector3(0, 0, 0);
+            } catch (e) { /* not on this client */ }
+            this.firerigidBody.isKinematic = true;
+        };
 
         this.firerigidBody.gameObject.On('grab', onGrab);
         this.firerigidBody.gameObject.On('drop', onDrop);
         this.listeners.push({ target: this.firerigidBody.gameObject, event: 'grab', handler: onGrab });
         this.listeners.push({ target: this.firerigidBody.gameObject, event: 'drop', handler: onDrop });
+    }
+
+    // Sizes the backdrop to the page and places the buttons around it. The page is
+    // width / pixelsperunit metres wide (times screen-scale). Clients on the current SDK draw it at
+    // SDK_PIXELS_PER_M whatever pixelsperunit says, so ppuFix scales it back to that size. With the
+    // defaults (1024 x 576 at 1200) this gives the old 1.09 x 0.64 backdrop and button places.
+    _computeLayout() {
+        const p = this.params;
+        const ppu = Number(p.pixelsperunit) > 0 ? Number(p.pixelsperunit) : 1200;
+        const ppuIgnored = !!BS.Scene && typeof BS.Browser === 'function';
+        const s = p['screen-scale'];
+        const pageWidth = (Number(p.width) || 1024) / ppu * s.x;
+        const pageHeight = (Number(p.height) || 576) / ppu * s.y;
+        const backdropWidth = pageWidth + 0.24, backdropHeight = pageHeight + 0.16;
+        return {
+            ppuFix: ppuIgnored ? SDK_PIXELS_PER_M / ppu : 1,
+            backdropWidth, backdropHeight,
+            top: backdropHeight / 2 + 0.06,          // the top row of buttons
+            left: -(backdropWidth / 2 + 0.055),      // the left column
+            right: backdropWidth / 2 + 0.055,        // grow / shrink
+            customX: backdropWidth / 2 + 0.135,      // the custom buttons
+            handleY: -(backdropHeight / 2 + 0.06)    // the grab handle, just under the backdrop
+        };
+    }
+
+    // Puts a pill under the screen and makes the screen grabbable, set up as in the SDK docs and as
+    // the Fire-V-Player's playlist panel does it: the screen's object already has a collider (sized
+    // to the pill) and a Rigidbody, then Grababble (which adds the grab handle and puts it on the
+    // Grabbable layer). Without Grababble, newer clients no longer let players pick the screen up.
+    async _addScreenHandle(handleY, length, thick, colour) {
+        // A capsule stands along its Y axis, so the pill is a child turned on its side.
+        const pill = await new BS.GameObject(`FireScreenHandle${this.id}`).Async();
+        if (typeof BS.Capsule === 'function') {
+            await pill.AddComponent(new BS.Capsule({ radius: thick, height: length, radialSegments: 24, heightSegments: 8 }));
+        } else {
+            await this._createGeometry(pill, BS.GeometryType.BoxGeometry, { thewidth: thick * 2, theheight: length, depth: thick * 2 });
+        }
+        await this._createMaterial(pill, { shaderName: CONSTANTS.SHADERS.CUSTOM_BUTTON, color: colour || new BS.Vector4(0.85, 0.87, 0.9, 1) });
+        const pillTransform = await pill.AddComponent(new BS.Transform());
+        pillTransform.localPosition = new BS.Vector3(0, handleY, 0);
+        pillTransform.localEulerAngles = new BS.Vector3(0, 0, 90);
+        await pill.SetParent(this.geometryObject, false);
+
+        // Each player moves their own screen, so the network id is their own too: no one else's matches it.
+        const user = this.banterscene.localUser;
+        const uid = (user && user.uid) || Math.random().toString(36).slice(2);
+        if (typeof this.geometryObject.SetNetworkId === 'function') {
+            try { await this.geometryObject.SetNetworkId(`FireScreen_${this.id}_${uid}`); } catch (e) { /* not on this client */ }
+        }
+        const soft = BS.BSGrabType && BS.BSGrabType.Soft !== undefined ? BS.BSGrabType.Soft : 3;
+        if (typeof BS.Grababble === 'function') {
+            await this.geometryObject.AddComponent(new BS.Grababble({ grabType: soft, grabRadius: 0.01 }));
+        } else if (typeof BS.GrabHandle === 'function') {
+            await this.geometryObject.AddComponent(new BS.GrabHandle({ grabType: soft, grabRadius: 0.01 }));
+        } else {
+            console.log(`FIRESCREEN_INSTANCE[${this.id}]: This client has no Grababble, so the handle uses the old grab.`);
+        }
+        return pill;
     }
 
     // --- Helper Methods (previously global functions) ---
@@ -319,15 +448,19 @@ export class FireScreen {
     }
 
     async _createCustomButton(config) {
-        const { name, url, text, position, textposition, clickHandler } = config;
+        const { name, url, text, position, clickHandler } = config;
         const buttonObject = await this._createUIButton(name, null, position, CONSTANTS.COLORS.TEXT_PLANE, this.geometryObject, null, null, CONSTANTS.LAYOUT.CUSTOM_BUTTON_WIDTH, CONSTANTS.LAYOUT.CUSTOM_BUTTON_HEIGHT, CONSTANTS.SHADERS.CUSTOM_BUTTON);
         this.customButtonObjects.push(buttonObject);
         const material = buttonObject.GetComponent(BS.ComponentType.BanterMaterial);
 
         const textObject = await new BS.GameObject(`${name}Text${this.id}`).Async();
-        await textObject.AddComponent(new BS.BanterText(text, CONSTANTS.COLORS.WHITE, "Center", "Center", 0.20, true, true, new BS.Vector2(2, 1)));
+        // Alignment is a number (the SDK's enum), not the word "Center". Centred, the text sits
+        // on its button, just in front of it.
+        const hCenter = BS.HorizontalAlignment ? BS.HorizontalAlignment.Center : 1;
+        const vCenter = BS.VerticalAlignment ? BS.VerticalAlignment.Center : 1;
+        await textObject.AddComponent(new BS.BanterText(text, CONSTANTS.COLORS.WHITE, hCenter, vCenter, 0.20, true, true, new BS.Vector2(2, 1)));
         const textTransform = await textObject.AddComponent(new BS.Transform());
-        textTransform.localPosition = textposition;
+        textTransform.localPosition = new BS.Vector3(position.x, position.y, position.z - 0.005);
         await textObject.SetParent(this.geometryObject, false);
         this.customButtonObjects.push(textObject);
 
