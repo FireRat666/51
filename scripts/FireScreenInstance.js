@@ -352,14 +352,16 @@ export class FireScreen {
     // 1000 gives 1.02 m). The height follows the page's shape.
     _computeLayout() {
         const p = this.params;
-        const ppu = Number(p.pixelsperunit) > 0 ? Number(p.pixelsperunit) : 1200;
         const pagePxWide = Number(p.width) > 0 ? Number(p.width) : 1024;
         const pagePxHigh = Number(p.height) > 0 ? Number(p.height) : 576;
         const s = p['screen-scale'];
-        const screenWidthM = 1024 / ppu;
+        // The page is screen-width metres wide (1 by default, as the Fire-V-Player's screen) at any
+        // resolution; pixelsperunit no longer sets the size, as the SDK ignores it.
+        const screenWidthM = Number(p['screen-width']) > 0 ? Number(p['screen-width']) : 1;
         const pageWidth = screenWidthM * s.x;
         const pageHeight = screenWidthM * pagePxHigh / pagePxWide * s.y;
-        const backdropWidth = pageWidth + 0.24, backdropHeight = pageHeight + 0.16;
+        // A thin frame around the page.
+        const backdropWidth = pageWidth + 0.06, backdropHeight = pageHeight + 0.06;
         return {
             // The page is drawn at SDK_PIXELS_PER_M; this scales it to screenWidthM.
             pageScale: screenWidthM * SDK_PIXELS_PER_M / pagePxWide,

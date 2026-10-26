@@ -207,7 +207,7 @@ export class FireScreenManager {
       "custom-button03-url": "false", "custom-button03-text": "Custom Button 03",
       "custom-button04-url": "false", "custom-button04-text": "Custom Button 04",
       "custom-button05-url": "false", "custom-button05-text": "Custom Button 05",
-      "fit-page": "true", "screen-debug": "false", "handle-color": "0.85 0.87 0.9 1"
+      "screen-width": "1", "fit-page": "true", "screen-debug": "false", "handle-color": "0.85 0.87 0.9 1"
     };
 
     const numberAttributes = {
