@@ -455,7 +455,13 @@ async function sdk2tests(params) {
   const material = await createMaterial(geometryObject, { color: p_backdrop === "true" ? p_backdropcolor : new BS.Vector4(0,0,0,0) });
   // firebrowser Transform Stuff
   const browsertransform = await screenObject.AddComponent(new BS.Transform());
-  browsertransform.position = p_screenposition; browsertransform.localScale = p_screenscale; browsertransform.eulerAngles = p_screenrotation;
+  // Clients on the current SDK ignore pixelsperunit and always draw pages at 1300 pixels per metre,
+  // which left the page smaller than the backdrop and buttons. Scale it to the size pixelsperunit
+  // asks for, as older clients (which honour it) draw it.
+  const ppuIgnored = !!BS.Scene && typeof BS.Browser === 'function';
+  const ppuFix = ppuIgnored && Number(p_pixelsperunit) > 0 ? 1300 / Number(p_pixelsperunit) : 1;
+  browsertransform.position = p_screenposition; browsertransform.eulerAngles = p_screenrotation;
+  browsertransform.localScale = new BS.Vector3(p_screenscale.x * ppuFix, p_screenscale.y * ppuFix, p_screenscale.z);
   await screenObject.SetParent(geometryObject, false); // Make the screen a child of the Main Geometry Object
   const dynamicFriction = 100; const staticFriction = 100;  // ADD FRICTION
   const physicMaterial = await geometryObject.AddComponent(new BS.BanterPhysicMaterial(dynamicFriction, staticFriction));

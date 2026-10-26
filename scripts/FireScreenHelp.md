@@ -37,7 +37,7 @@ To add a FireScreen to your space, simply add a `<script>` tag to your `index.ht
 
 ```html
 <!-- Basic Example -->
-<script src="https://51.firer.at/scripts/firescreenv2.js"
+<script src="https://firer.at/scripts/firescreenv2.js"
         website="https://firer.at/"
         position="2 1.5 6"
         scale="2.5 2.5 1"
@@ -45,7 +45,7 @@ To add a FireScreen to your space, simply add a `<script>` tag to your `index.ht
 </script>
 
 <!-- Advanced Example with Custom Buttons and Colors -->
-<script src="https://51.firer.at/scripts/firescreenv2.js"
+<script src="https://firer.at/scripts/firescreenv2.js"
         position="0 2 -5"
         rotation="0 20 0"
         width="1280"
@@ -78,7 +78,7 @@ You can customize each FireScreen instance using attributes on the `<script>` ta
 | :--- | :--- | :--- |
 | `width` | `1024` | The pixel width of the browser surface. |
 | `height` | `576` | The pixel height of the browser surface. |
-| `pixelsperunit` | `1200` | The resolution of the web surface. In Banter's Unity-based world, 1 world unit is equivalent to 1 meter, so this value is effectively pixels-per-meter. Higher values result in sharper text and images but can impact performance. |
+| `pixelsperunit` | `1200` | The resolution of the web surface. In Banter's Unity-based world, 1 world unit is equivalent to 1 meter, so this value is effectively pixels-per-meter: the page is `width` / `pixelsperunit` metres wide (1024 / 1200 is about 0.85 m). Clients on the current SDK always draw pages at 1300 pixels per metre, so FireScreen scales the screen to keep this size. To make the page sharper, raise `width` and `height` with `pixelsperunit` in proportion. |
 | `mipmaps` | `1` | The number of mipmaps for the browser texture. |
 | `backdrop` | `true` | If `true`, shows a dark backdrop behind the screen. |
 | `backdrop-color` | `0 0 0 0.9` | The color and alpha of the backdrop (R G B A, 0-1). |
